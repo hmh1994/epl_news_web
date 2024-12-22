@@ -1,6 +1,6 @@
 export default function RankingTable() {
   return (
-    <div className='w-full p-4 h-full'>
+    <div className='w-full p-4 h-full bg-zinc-100'>
       <div className='flex justify-between items-center mb-4'>
         <h2 className='text-lg font-medium'>순위</h2>
         <span className='text-gray-600'>프리미어리그</span>

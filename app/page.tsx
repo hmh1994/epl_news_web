@@ -8,16 +8,16 @@ export default function Home() {
   return (
     <>
       <Header />
-      <div className='2xl:px-24 xl:px-12 bg-zinc-800'>
+      <div className='2xl:px-24 xl:px-12 bg-zinc-100'>
         <MainContainer>
           <div className='grid grid-cols-3 gap-6 w-full px-4 pt-10'>
-            <div className={"bg-white rounded-lg col-span-2 row-span-2 p-2"}>
+            <div className={"bg-epl-main rounded-lg col-span-2 row-span-2 p-2"}>
               <GameSchedule />
             </div>
-            <div className={"bg-white h-[425px] rounded-lg row-span-2 p-2"}>
+            <div className={"bg-epl-main h-[425px] rounded-lg row-span-2 p-2"}>
               <RankingTable />
             </div>
-            <div className={"h-[200px] bg-red-300 rounded-lg"}>03</div>
+            <div className={"h-[200px] bg-epl-main rounded-lg"}>03</div>
           </div>
         </MainContainer>
       </div>
