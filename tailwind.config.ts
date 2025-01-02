@@ -15,10 +15,15 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         "epl-main": "#38003c",
-        "epl-sub": "#e90052",
+        "k_league-main": "#1c1c1c",
       },
     },
   },
   plugins: [],
+  safelist: [
+    {
+      pattern: /bg-(epl|k_league)-main/,
+    },
+  ],
 };
 export default config;

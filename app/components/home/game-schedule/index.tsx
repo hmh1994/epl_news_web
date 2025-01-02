@@ -100,7 +100,7 @@ const matches: Match[] = [
 
 export default function GameSchedule() {
   return (
-    <div className='rounded-lg w-full mx-auto bg-gray-50 p-4'>
+    <div className='rounded-lg w-full h-full mx-auto bg-gray-50 p-4'>
       <div className='border-b'>
         <div className='flex items-center justify-between p-4'>
           <div className='text-sm'>경기 · 경기일(16/38)</div>

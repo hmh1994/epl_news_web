@@ -1,19 +1,26 @@
+"use client";
+import { useLeague } from "@/app/context/LeagueContext";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Menu() {
+  const { league } = useLeague();
   return (
-    <nav className='w-full flex items-center justify-between h-[90px] bg-epl-main'>
+    <nav
+      className={`w-full flex items-center justify-between h-[90px] bg-${league}-main`}
+    >
       <div className='container mx-auto flex items-center justify-between'>
         <div className='flex items-center space-x-6'>
           <Link href='#' className='flex items-center space-x-2'>
             <Image
-              src='/resource/epl_logo.png'
-              alt='EPL Logo'
+              src={`/resource/${league}_logo.svg`}
+              alt={`${league} Logo`}
               width={70}
               height={70}
             />
-            <span className='text-white text-2xl font-extrabold'>EPL News</span>
+            <span className='text-white text-2xl font-extrabold'>
+              {league.toUpperCase().replaceAll("_", " ")} News 
+            </span>
           </Link>
           <div className='flex items-center space-x-4'>
             <Link

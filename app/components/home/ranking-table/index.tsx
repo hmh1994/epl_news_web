@@ -116,6 +116,14 @@ export default function RankingTable() {
           <div className='text-right text-sm font-medium'>28</div>
         </div>
       </div>
+      <div className='p-4 pt-10'>
+        <button
+          type='button'
+          className='text-violet-900 hover:text-white border border-violet-700 hover:bg-violet-900  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-violet-900 dark:text-violet-900 dark:hover:text-white dark:hover:bg-violet-800 '
+        >
+          전체 순위
+        </button>
+      </div>
     </div>
   );
 }
