@@ -4,7 +4,7 @@ export default function MainContainer({
   children: React.ReactNode;
 }) {
   return (
-    <main className='container mx-auto min-h-[100vh] flex flex-col  bg-zinc-50'>
+    <main className='container mx-auto min-h-[100vh] flex flex-col'>
       {children}
     </main>
   );

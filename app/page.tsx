@@ -3,32 +3,33 @@ import Footer from "./components/footer";
 import Header from "./components/header";
 import GameSchedule from "./components/home/game-schedule";
 import NewsSection from "./components/home/news-section";
-import RankingTable from "./components/home/ranking-table";
 import RecordTable from "./components/home/record-table";
+import TeamRankingSection from "./components/home/team-ranking-section";
+// import RecordTable from "./components/home/record-table";
 import MainContainer from "./components/main-container";
-import { useLeague } from "./context/LeagueContext";
 
 export default function Home() {
-  const { league } = useLeague();
   return (
     <>
       <Header />
-      <div className='2xl:px-24 xl:px-12 bg-zinc-100'>
+      <div className='2xl:px-24 xl:px-12 bg-neutral-700 mt-[150px]'>
         <MainContainer>
-          <div className='grid grid-cols-3 gap-6 w-full px-4 pt-10'>
-            <div
-              className={`bg-${league}-main rounded-lg col-span-2  row-span-2 p-2`}
-            >
-              <GameSchedule />
+          <div className='bg-neutral-700 grid md:grid-cols-3 xs:grid-cols-1 gap-6 w-full px-4 pt-10 mb-10'>
+            <div className={"md:col-span-2 xs:col-span-1"}>
+              <div className={`bg-neutral-800 rounded-lg p-2 h-content mb-3`}>
+                <GameSchedule />
+              </div>
             </div>
-            <div className={`bg-${league}-main rounded-lg row-span-4 p-2`}>
-              <NewsSection />
-            </div>
-            <div className={`bg-${league}-main  rounded-lg row-span-2 p-2`}>
-              <RankingTable />
-            </div>
-            <div className={`bg-${league}-main rounded-lg row-span-2 p-2`}>
-              <RecordTable />
+            <div className={"col-span-1"}>
+              <div className={`bg-neutral-800 rounded-lg p-2  mb-3`}>
+                <NewsSection />
+              </div>
+              <div className={`bg-neutral-800 rounded-lg p-2  mb-3`}>
+                <TeamRankingSection />
+              </div>
+              <div className={`bg-neutral-800 rounded-lg p-2  mb-3`}>
+                <RecordTable />
+              </div>
             </div>
           </div>
         </MainContainer>
