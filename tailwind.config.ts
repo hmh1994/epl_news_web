@@ -20,10 +20,5 @@ const config: Config = {
     },
   },
   plugins: [],
-  safelist: [
-    {
-      pattern: /bg-(epl|k_league)-main/,
-    },
-  ],
 };
 export default config;
