@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 const tabs = [
   { _id: "goal", label: "골" },
@@ -55,21 +56,20 @@ export default function RecordTable() {
         >
           Player Ranking
         </div>
-        <div
-          className={
-            "flex center-align justify-left my-1 mx-3 text-neutral-200"
-          }
-        >
+        <div className='flex center-align justify-between my-1 mx-3 text-neutral-200'>
           {tabs.map((tab) => (
             <button
               key={tab._id}
-              className={` my-1 mx-2 cursor-pointer ${
-                curTab._id === tab._id &&
-                "border-b border-green-400 text-green-400"
-              }`}
+              className='relative my-1 mx-2 cursor-pointer'
               onClick={() => setCurTab(tab)}
             >
               {tab.label}
+              {curTab._id === tab._id && (
+                <motion.div
+                  layoutId='underline'
+                  className='border-b border-green-400 text-green-400'
+                />
+              )}
             </button>
           ))}
         </div>

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { LeagueProvider } from "./context/LeagueContext";
+import Header from "./components/header";
+import MainContainer from "./components/main-container";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,7 +31,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <LeagueProvider>{children}</LeagueProvider>
+        <LeagueProvider>
+          <Header />
+          <div className='2xl:px-24 xl:px-12 bg-neutral-700 mt-[150px]'>
+            <MainContainer>{children}</MainContainer>
+          </div>
+        </LeagueProvider>
       </body>
     </html>
   );

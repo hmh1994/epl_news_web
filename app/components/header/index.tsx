@@ -1,3 +1,4 @@
+"use client";
 import { SOCCER_LEAGUE, useLeague } from "@/app/context/LeagueContext";
 import Menu from "./Menu";
 
