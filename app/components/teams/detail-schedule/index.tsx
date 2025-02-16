@@ -1,12 +1,10 @@
 "use client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Calendar from "react-calendar";
 
 export default function DetailSchedule() {
   return (
     <div className={"grid h-full"}>
       <div className={"rounded-lg w-full mx-auto bg-neutral-900"}>
-        <Calendar className={"text-white"} />
         <div
           className={
             "bg-neutral-700 w-full rounded-t-lg p-2 flex justify-center center-align text-white font-black"

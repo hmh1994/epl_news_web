@@ -1,3 +1,5 @@
+"use client";
+
 import { useLeague } from "@/app/context/LeagueContext";
 
 export default function NewsSection() {
