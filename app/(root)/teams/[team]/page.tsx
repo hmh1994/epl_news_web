@@ -27,9 +27,7 @@ export default async function TeamDetail({
         <Breadcrumb breadcrumbPath={breadcrumbPath} />
         <Divider />
         <div className={"my-3 px-2"}>
-          <div
-            className={"grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4"}
-          >
+          <div className={"grid grid-cols-1  md:grid-cols-4 gap-4"}>
             <div className={"flex flex-col items-center my-auto"}>
               <div>
                 <Image
@@ -129,7 +127,7 @@ export default async function TeamDetail({
           </div>
         </div>
         <Divider />
-        <div className={"grid grid-cols-3 gap-4 h-content"}>
+        <div className={"grid md:grid-cols-3 grid-cols-1 gap-4 h-content"}>
           <div className={"col-span-2"}>
             <div className={"grid h-content"}>
               <div className='rounded-lg w-full mx-auto bg-neutral-900 mt-10 pb-4'>
