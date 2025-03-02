@@ -42,7 +42,7 @@ export default async function RootLayout({
       >
         <LeagueProvider>
           <Header />
-          <div className='2xl:px-24 xl:px-12 bg-neutral-700 mt-[150px]'>
+          <div className='2xl:px-24 xl:px-12 bg-neutral-700 mt-[120px] pt-[10px]'>
             <MainContainer>{children}</MainContainer>
           </div>
         </LeagueProvider>
