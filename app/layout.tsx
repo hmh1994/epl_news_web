@@ -26,15 +26,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const getSample = async () => {
-    const result = await fetch(
-      "https://uy3w0u3hqb.execute-api.ap-northeast-2.amazonaws.com/dev/teams"
-    );
-    const aa = await result.json();
-    console.log(aa);
-  };
-  await getSample();
-
   return (
     <html lang='en'>
       <body
