@@ -1,4 +1,3 @@
-"use client";
 import GameSchedule from "./components/home/game-schedule";
 import NewsSection from "./components/home/news-section";
 import RecordTable from "./components/home/record-table";

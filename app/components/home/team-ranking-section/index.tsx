@@ -1,3 +1,5 @@
+import { getTeamRank } from "@/app/apis/teams/getTeamRank";
+
 const mockItem = [
   {
     ranking: 1,
@@ -41,7 +43,9 @@ const mockItem = [
   },
 ];
 
-export default function TeamRankingSection() {
+export default async function TeamRankingSection() {
+  const result = await getTeamRank();
+  console.log(result.overall_teamrank);
   return (
     <div className={"grid h-full"}>
       <div className={"rounded-lg w-full mx-auto bg-neutral-900"}>

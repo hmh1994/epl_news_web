@@ -1,8 +1,6 @@
 import Breadcrumb from "@/app/components/common/breadcrumb";
 import Divider from "@/app/components/common/divider";
 import PlayerDetailView from "@/app/components/player-detail/player-detail-view";
-import Stats from "@/app/components/player-detail/stats";
-import PlayerDetailTabs from "@/app/components/player-detail/tabs";
 
 export default async function PlayerDetail({
   params,
