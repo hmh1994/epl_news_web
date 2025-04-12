@@ -1,4 +1,8 @@
-import { getTeamRank } from "@/app/apis/teams/getTeamRank";
+import {
+  GetTeamRankResultType,
+  getTeamRank,
+} from "@/src/features/team/api/team-rank";
+import { apiClient } from "@/src/shared/api-client";
 
 const mockItem = [
   {
@@ -44,7 +48,7 @@ const mockItem = [
 ];
 
 export default async function TeamRankingSection() {
-  const result = await getTeamRank();
+  const result = await apiClient.get<GetTeamRankResultType>(getTeamRank());
   console.log(result.overall_teamrank);
   return (
     <div className={"grid h-full"}>
