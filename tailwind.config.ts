@@ -1,23 +1,29 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./app/**/*.{js,ts,jsx,tsx,mdx}", "./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  darkMode: "media",
   theme: {
     container: {
       center: true,
     },
-    extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        "epl-main": "#38003c",
-        "k_league-main": "#1c1c1c",
-      },
+    screens: {
+      // 전체 너비가 480px 이하
+      xs: { max: "480px" },
+      // 481px 이상 767px 이하
+      sm: { min: "481px", max: "767px" },
+      // 768px 이상 1023px 이하
+      md: { min: "768px", max: "1023px" },
+      // 1024px 이상
+      lg: { min: "1024px", max: "1279px" },
+      xl: { min: "1280px", max: "1535px" },
+      "2xl": { min: "1536px" },
     },
+    colors: {
+      background: "var(--background)",
+      foreground: "var(--foreground)",
+    },
+    extend: {},
   },
   plugins: [],
 };

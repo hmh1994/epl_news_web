@@ -1,7 +1,7 @@
-import GameSchedule from "./components/home/game-schedule";
-import NewsSection from "./components/home/news-section";
-import RecordTable from "./components/home/record-table";
-import TeamRankingSection from "./components/home/team-ranking-section";
+import GameSchedule from "../components/home/game-schedule";
+import NewsSection from "../components/home/news-section";
+import RecordTable from "../components/home/record-table";
+import TeamRankingSection from "../components/home/team-ranking-section";
 
 export default function Home() {
   return (

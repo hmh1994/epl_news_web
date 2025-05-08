@@ -1,7 +1,7 @@
 import {
   GetTeamRankResultType,
   getTeamRank,
-} from "@/src/features/team/api/team-rank";
+} from "@/src/entities/team/api/team-rank";
 import { apiClient } from "@/src/shared/api-client";
 
 const mockItem = [
