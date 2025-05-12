@@ -9,6 +9,13 @@ const nextConfig = {
         pathname: "/**",
         search: "",
       },
+      {
+        protocol: "https",
+        hostname: "thumbnews.nateimg.co.kr",
+        port: "",
+        pathname: "/**",
+        search: "",
+      },
     ],
   },
 };

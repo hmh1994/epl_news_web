@@ -1,63 +1,81 @@
-"use client";
+import { Search, Filter, ArrowUpDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { LeagueComparison, LeagueRankingTable } from "@/components/teams";
 
-import Breadcrumb from "@/app/components/common/breadcrumb";
-import Divider from "@/app/components/common/divider";
-import TeamsTable from "@/app/components/teams/teams-table";
-import { SyntheticEvent, useState } from "react";
-
-export default function Teams() {
-  const [show, setShow] = useState<boolean>(false);
-
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    setShow(true);
-  };
-
-  const breadcrumbPath = [
-    {
-      pathName: "TEAMS",
-    },
-  ];
-
+export default function RankingsPage() {
   return (
-    <div className='bg-neutral-700 grid  gap-6 w-full px-4 pt-10 mb-10'>
-      <div className={`bg-neutral-800 rounded-lg p-2 h-content mb-3`}>
-        <Breadcrumb breadcrumbPath={breadcrumbPath} />
-        <Divider />
-        <form className='mx-auto flex justify-left p-1' onSubmit={handleSubmit}>
-          <select
-            id='league'
-            className='bg-neutral-700 border border-neutral-300 text-neutral-200 text-sm rounded-lg block w-50 max-sm:w-12 p-2.5 max-sm:p-1 max-sm:sm mx-5'
-          >
-            <option value='europa'>유로파 컨퍼런스리그</option>
-            <option value='premier'>프리미어리그</option>
-          </select>
-          <select
-            id='season'
-            className='bg-neutral-700 border border-neutral-300 text-neutral-200 text-sm rounded-lg block w-50 max-sm:w-12 p-2.5 max-sm:p-1 max-sm:sm mx-5'
-          >
-            <option value='2024-25'>2024-25</option>
-            <option value='2023-24'>2023-24</option>
-            <option value='2022-23'>2022-23</option>
-            <option value='2021-22'>2021-22</option>
-            <option value='2020-21'>2020-21</option>
-          </select>
-          <div className={"grow"} />
-          <button
-            className={
-              "mx-3 bg-neutral-700 rounded-xl px-3 text-neutral-300 hover:bg-neutral-600 hover:bg-neutral-100"
-            }
-            type='submit'
-          >
-            SELECT
-          </button>
-        </form>
-      </div>
-      {show && (
-        <div className={`bg-neutral-800 rounded-lg p-2 h-content mb-3`}>
-          <TeamsTable />
+    <div className='min-h-screen bg-background'>
+      <div className='bg-gradient-to-b from-muted/50 to-background pt-8 pb-16'>
+        <div className='container'>
+          <div className='flex flex-col gap-2'>
+            <h1 className='text-4xl font-bold'>Team Rankings</h1>
+            <p className='text-muted-foreground'>
+              Comprehensive league tables and team standings from top football
+              leagues around the world.
+            </p>
+          </div>
         </div>
-      )}
+      </div>
+
+      <div className='container py-8'>
+        <div className='flex flex-col md:flex-row justify-between gap-4 mb-6'>
+          <div className='flex flex-col sm:flex-row gap-4'>
+            <div className='relative w-full sm:w-80'>
+              <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
+              <Input placeholder='Search teams...' className='pl-10' />
+            </div>
+            <Select defaultValue='all'>
+              <SelectTrigger className='w-full sm:w-40'>
+                <SelectValue placeholder='Season' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='all'>2023/24</SelectItem>
+                <SelectItem value='2022-23'>2022/23</SelectItem>
+                <SelectItem value='2021-22'>2021/22</SelectItem>
+                <SelectItem value='2020-21'>2020/21</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className='flex items-center gap-2'>
+            <Button
+              variant='outline'
+              size='sm'
+              className='flex items-center gap-1'
+            >
+              <Filter className='h-4 w-4' />
+              <span>Filters</span>
+            </Button>
+            <Button
+              variant='outline'
+              size='sm'
+              className='flex items-center gap-1'
+            >
+              <ArrowUpDown className='h-4 w-4' />
+              <span>Sort</span>
+            </Button>
+          </div>
+        </div>
+
+        <LeagueRankingTable />
+
+        <LeagueComparison />
+      </div>
     </div>
   );
 }
