@@ -13,7 +13,7 @@ import {
 export default async function PlayerPage({
   params,
 }: {
-  params: { playerId: string };
+  params: Promise<{ playerId: string }>;
 }) {
   const playerId = (await params).playerId;
   const player = playersData["erling-haaland"];

@@ -16,10 +16,10 @@ import { MatchSummary } from "@/components/match-detail/match-summary";
 export default async function MatchPage({
   params,
 }: {
-  params: { matchId: string };
+  params: Promise<{ matchId: string }>;
 }) {
   const matchId = (await params).matchId;
-  const match = matchesData[matchId as keyof typeof matchesData];
+  const match = matchesData["match-1"];
 
   if (!match) {
     notFound();

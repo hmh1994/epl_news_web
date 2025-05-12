@@ -15,7 +15,7 @@ import { CustomTabTrigger } from "@/components/common";
 export default async function TeamPage({
   params,
 }: {
-  params: { teamId: string };
+  params: Promise<{ teamId: string }>;
 }) {
   const teamId = (await params).teamId;
   const team = teamsData["liverpool"];
