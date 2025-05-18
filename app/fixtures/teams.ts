@@ -466,7 +466,7 @@ export const teamStat1 = [
   {
     team: "Manchester City",
     league: "Premier League",
-    goals: 94,
+    stat: 94,
   },
   { team: "Bayern Munich", league: "Bundesliga", stat: 94 },
   { team: "Inter Milan", league: "Serie A", stat: 89 },

@@ -1,10 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { useState } from "react";
+import { MobileSidebar } from "./mobile-sidebar";
 
 export function Header() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
-    <header className='sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+    <header className='sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <div className='container flex h-16 items-center justify-between'>
         <Link href='/'>
           <div className='flex items-center gap-2'>
@@ -63,7 +68,12 @@ export function Header() {
             >
               Join Community
             </Button> */}
-          <Button variant='ghost' size='icon' className='md:hidden'>
+          <Button
+            variant='ghost'
+            size='icon'
+            className='md:hidden'
+            onClick={() => setSidebarOpen(true)}
+          >
             <svg
               xmlns='http://www.w3.org/2000/svg'
               width='24'
@@ -82,6 +92,10 @@ export function Header() {
             </svg>
             <span className='sr-only'>Toggle menu</span>
           </Button>
+          <MobileSidebar
+            isOpen={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+          />
         </div>
       </div>
     </header>

@@ -6,6 +6,8 @@
     @apply mx-auto;
     width: 100%;
     max-width: 1400px;
+    padding-right: 10px !important;
+    padding-left: 10px !important;
   }
 
   @screen sm {
