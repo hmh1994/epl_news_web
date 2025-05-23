@@ -22,9 +22,14 @@ export function LatestNews() {
             Stay updated with the latest football news and updates.
           </p>
         </div>
-        <Button variant='outline' className='flex items-center gap-1'>
-          View All News <ChevronRight className='h-4 w-4' />
-        </Button>
+        <Link href={"/news"}>
+          <Button
+            variant='outline'
+            className='flex items-center gap-1 cursor-pointer'
+          >
+            View All News <ChevronRight className='h-4 w-4' />
+          </Button>
+        </Link>
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
