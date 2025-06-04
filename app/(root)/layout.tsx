@@ -3,8 +3,15 @@ import "../globals.css";
 import { Footer, Header } from "@/components/common";
 
 export const metadata: Metadata = {
-  title: "InFootball",
-  description: "EPL 소식을 한 곳에서",
+  title: "Infootball - 최신 축구 매치·뉴스·선수 정보",
+  description:
+    "인풋풋볼에서 국내외 축구 매치 일정, 선수 정보, 팀 소식 등을 빠르게 확인하세요.",
+  openGraph: {
+    title: "인풋풋볼",
+    description: "축구 매치·뉴스·선수 정보 플랫폼",
+    url: "https://infootball.kr",
+    siteName: "인풋풋볼",
+  },
 };
 
 export default async function RootLayout({

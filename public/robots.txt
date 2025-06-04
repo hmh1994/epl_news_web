@@ -1,3 +1,3 @@
 User-agent: *
-Disallow: /forbidden/
+Allow: /
 Sitemap: https://infootball.kr/sitemap.xml
