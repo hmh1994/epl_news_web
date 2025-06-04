@@ -3,9 +3,11 @@ import { Tabs, TabsContent, TabsList } from "../ui/tabs";
 import Image from "next/image";
 import Link from "next/link";
 import { CustomTabTrigger, FullTableBtn } from "../common";
-import { goalScorerData, assistsData } from "@/app/fixtures/home";
+// import { goalScorerData, assistsData } from "@/app/fixtures/home";
+import { getPlayerRank } from "@/src/entities/players/apis/get-player-rank";
 
-export function PlayerRanking() {
+export async function PlayerRanking() {
+  const { goalRanks, assistRanks } = await getPlayerRank();
   return (
     <section className='container py-12 space-y-6'>
       <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>
@@ -37,7 +39,7 @@ export function PlayerRanking() {
                   </tr>
                 </thead>
                 <tbody>
-                  {goalScorerData.map((player, index) => (
+                  {goalRanks.map((player, index) => (
                     <tr
                       key={index}
                       className={
@@ -50,14 +52,14 @@ export function PlayerRanking() {
                           <div className='flex items-center gap-2'>
                             <Avatar className='h-8 w-8'>
                               <AvatarImage
-                                src={player.avatar || "/placeholder.svg"}
-                                alt={player.player}
+                                src={player.photoUrl || "/placeholder.svg"}
+                                alt={player.playerId}
                               />
                               <AvatarFallback>
-                                {player.player.substring(0, 2)}
+                                {player.playerName.substring(0, 2)}
                               </AvatarFallback>
                             </Avatar>
-                            <span>{player.player}</span>
+                            <span>{player.playerName}</span>
                           </div>
                         </Link>
                       </td>
@@ -65,18 +67,18 @@ export function PlayerRanking() {
                         <Link href={`/teams/${player.teamId}`}>
                           <div className='flex items-center gap-2'>
                             <Image
-                              src={player.teamLogo || "/placeholder.svg"}
-                              alt={player.team}
+                              src={player.iconUrl || "/placeholder.svg"}
+                              alt={player.teamId}
                               width={20}
                               height={20}
                               className='rounded-full'
                             />
-                            <span>{player.team}</span>
+                            <span>{player.teamName}</span>
                           </div>
                         </Link>
                       </td>
                       <td className='p-3 text-sm font-bold text-center'>
-                        {player.goals}
+                        {player.statValue}
                       </td>
                     </tr>
                   ))}
@@ -100,7 +102,7 @@ export function PlayerRanking() {
                   </tr>
                 </thead>
                 <tbody>
-                  {assistsData.map((player, index) => (
+                  {assistRanks.map((player, index) => (
                     <tr
                       key={index}
                       className={
@@ -112,30 +114,30 @@ export function PlayerRanking() {
                         <div className='flex items-center gap-2'>
                           <Avatar className='h-8 w-8'>
                             <AvatarImage
-                              src={player.avatar || "/placeholder.svg"}
-                              alt={player.player}
+                              src={player.photoUrl || "/placeholder.svg"}
+                              alt={player.playerId}
                             />
                             <AvatarFallback>
-                              {player.player.substring(0, 2)}
+                              {player.playerName.substring(0, 2)}
                             </AvatarFallback>
                           </Avatar>
-                          <span>{player.player}</span>
+                          <span>{player.playerName}</span>
                         </div>
                       </td>
                       <td className='p-3 text-sm'>
                         <div className='flex items-center gap-2'>
                           <Image
-                            src={player.teamLogo || "/placeholder.svg"}
-                            alt={player.team}
+                            src={player.iconUrl || "/placeholder.svg"}
+                            alt={player.teamId}
                             width={20}
                             height={20}
                             className='rounded-full'
                           />
-                          <span>{player.team}</span>
+                          <span>{player.teamName}</span>
                         </div>
                       </td>
                       <td className='p-3 text-sm font-bold text-center'>
-                        {player.assists}
+                        {player.statValue}
                       </td>
                     </tr>
                   ))}

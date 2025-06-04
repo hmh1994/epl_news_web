@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+>
+  <!-- 1. 기본 루트 경로 -->
+  <url>
+    <loc>https://infootball.kr/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- 2. 전체 경기 목록 페이지 -->
+  <url>
+    <loc>https://infootball.kr/matches</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+
+  <!-- 4. 뉴스 목록 페이지 -->
+  <url>
+    <loc>https://infootball.kr/news</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 5. 전체 선수 목록 페이지 -->
+  <url>
+    <loc>https://infootball.kr/players</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 7. 전체 팀 목록 페이지 -->
+  <url>
+    <loc>https://infootball.kr/teams</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

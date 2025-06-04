@@ -10,9 +10,10 @@ import {
 } from "../ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { newsData } from "@/app/fixtures/home";
+import { getNewsList } from "@/src/entities/news/apis";
 
-export function LatestNews() {
+export async function LatestNews() {
+  const { newsList } = await getNewsList();
   return (
     <section className='container py-12 space-y-6'>
       <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>
@@ -33,29 +34,31 @@ export function LatestNews() {
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-        {newsData.map((news, index) => (
+        {newsList.slice(0, 3).map((news, index) => (
           <Card key={index} className='overflow-hidden'>
-            <Link href='/'>
+            <Link href={news.newsLink}>
               <div className='relative h-48'>
                 <Image
-                  src={news.image || "/placeholder.svg"}
-                  alt={news.title}
+                  src={news.newsImg || "/placeholder.svg"}
+                  alt={news.titleKo}
                   fill
                   className='object-cover'
                 />
                 <Badge className='absolute top-2 left-2 bg-green-600'>
-                  {news.category}
+                  {news.source}
                 </Badge>
               </div>
             </Link>
             <Link href='/'>
               <CardHeader>
-                <CardTitle>{news.title}</CardTitle>
-                <CardDescription>{news.description}</CardDescription>
+                <CardTitle>{news.titleKo}</CardTitle>
+                <CardDescription>{news.contentKo}</CardDescription>
               </CardHeader>
             </Link>
             <CardFooter className='flex justify-between'>
-              <span className='text-sm text-muted-foreground'>{news.date}</span>
+              <span className='text-sm text-muted-foreground'>
+                {news.publishDate}
+              </span>
               <div className='flex items-center gap-2'>
                 <Button variant='ghost' size='icon'>
                   <Heart className='h-4 w-4' />
