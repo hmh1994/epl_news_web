@@ -20,6 +20,10 @@ export default async function RootLayout({
           name='naver-site-verification'
           content='863d7c1d2c7d639babdb233ee9873f67efa7f74c'
         />
+        <meta
+          name='google-site-verification'
+          content='nC4JTzhNvKulZbpjuDwJRX84rdXmcBRqFTZUa7Y6c4g'
+        />
       </head>
       <body>
         <Header />
