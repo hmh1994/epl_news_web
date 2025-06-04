@@ -12,6 +12,10 @@ export const metadata: Metadata = {
     url: "https://infootball.kr",
     siteName: "인풋풋볼",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default async function RootLayout({
