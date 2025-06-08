@@ -13,9 +13,7 @@ export function UpcomingMatches() {
       <div className='container py-12 space-y-6'>
         <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>
           <div>
-            <h2 className='text-3xl font-bold tracking-tight'>
-              Upcoming Matches
-            </h2>
+            <h2 className='text-3xl font-bold tracking-tight'>일정</h2>
           </div>
           <FullTableBtn link={"/matches"} />
         </div>
@@ -76,7 +74,7 @@ export function UpcomingMatches() {
                         size='sm'
                         className={"hover:bg-secondary hover:text-white"}
                       >
-                        Match Details
+                        경기 정보
                       </Button>
                     </Link>
                   </div>
@@ -87,10 +85,10 @@ export function UpcomingMatches() {
           <TabsContent value='tomorrow' className='space-y-4'>
             <Card>
               <CardContent className='p-4 text-center py-10'>
-                <p>Matches for tomorrow will appear here.</p>
+                <p>예정된 경기가 없습니다.</p>
                 <Link href={"/matches"}>
                   <Button variant='outline' className='mt-4'>
-                    View All Matches
+                    일정 살펴보기
                   </Button>
                 </Link>
               </CardContent>
@@ -99,10 +97,10 @@ export function UpcomingMatches() {
           <TabsContent value='upcoming' className='space-y-4'>
             <Card>
               <CardContent className='p-4 text-center py-10'>
-                <p>Upcoming matches will appear here.</p>
+                <p>예정된 경기가 없습니다.</p>
                 <Link href={"/matches"}>
                   <Button variant='outline' className='mt-4'>
-                    View All Matches
+                    일정 살펴보기
                   </Button>
                 </Link>
               </CardContent>

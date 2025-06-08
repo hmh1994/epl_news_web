@@ -18,9 +18,9 @@ export async function LatestNews() {
     <section className='container py-12 space-y-6'>
       <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>
         <div>
-          <h2 className='text-3xl font-bold tracking-tight'>Latest News</h2>
+          <h2 className='text-2xl font-bold tracking-tight'>최신 뉴스</h2>
           <p className='text-muted-foreground'>
-            Stay updated with the latest football news and updates.
+            축구계의 최신 뉴스와 정보를 빠르게 만나보세요.
           </p>
         </div>
         <Link href={"/news"}>
@@ -28,7 +28,7 @@ export async function LatestNews() {
             variant='outline'
             className='flex items-center gap-1 cursor-pointer'
           >
-            View All News <ChevronRight className='h-4 w-4' />
+            모든 뉴스 보기 <ChevronRight className='h-4 w-4' />
           </Button>
         </Link>
       </div>

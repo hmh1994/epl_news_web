@@ -37,7 +37,17 @@ const config: Config = {
       background: "var(--background)",
       foreground: "var(--foreground)",
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: [
+          "var(--font-nanum-square)",
+          "system-ui",
+          "-apple-system",
+          "sans-serif",
+        ],
+        "nanum-square": ["var(--font-nanum-square)", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };

@@ -9,7 +9,7 @@ export function FullTableBtn({ link }: { link: string }) {
         variant='outline'
         className='flex items-center gap-1 cursor-pointer hover:bg-secondary hover:text-white'
       >
-        Full Table <ChevronRight className='h-4 w-4' />
+        전체 보기 <ChevronRight className='h-4 w-4' />
       </Button>
     </Link>
   );

@@ -12,17 +12,15 @@ export async function PlayerRanking() {
     <section className='container py-12 space-y-6'>
       <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>
         <div>
-          <h2 className='text-3xl font-bold tracking-tight'>
-            Player Statistics
-          </h2>
+          <h2 className='text-3xl font-bold tracking-tight'>선수 통계</h2>
         </div>
         <FullTableBtn link={"/players"} />
       </div>
 
       <Tabs defaultValue='goals' className='w-full'>
         <TabsList className='grid w-full grid-cols-2 mb-6'>
-          <CustomTabTrigger value={"goals"}>Top Goal Scorers</CustomTabTrigger>
-          <CustomTabTrigger value='assists'>Top Assists</CustomTabTrigger>
+          <CustomTabTrigger value={"goals"}>골 순위</CustomTabTrigger>
+          <CustomTabTrigger value='assists'>어시스트 순위</CustomTabTrigger>
         </TabsList>
         <TabsContent value='goals' className='space-y-4'>
           <div className='rounded-lg border shadow-sm overflow-hidden'>
@@ -30,12 +28,10 @@ export async function PlayerRanking() {
               <table className='w-full'>
                 <thead className='bg-muted/50'>
                   <tr className='text-left'>
-                    <th className='p-3 text-sm font-medium'>Rank</th>
-                    <th className='p-3 text-sm font-medium'>Player</th>
-                    <th className='p-3 text-sm font-medium'>Team</th>
-                    <th className='p-3 text-sm font-medium text-center'>
-                      Goals
-                    </th>
+                    <th className='p-3 text-sm font-medium'>순위</th>
+                    <th className='p-3 text-sm font-medium'>선수</th>
+                    <th className='p-3 text-sm font-medium'>팀</th>
+                    <th className='p-3 text-sm font-medium text-center'>골</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -93,11 +89,11 @@ export async function PlayerRanking() {
               <table className='w-full'>
                 <thead className='bg-muted/50'>
                   <tr className='text-left'>
-                    <th className='p-3 text-sm font-medium'>Rank</th>
-                    <th className='p-3 text-sm font-medium'>Player</th>
-                    <th className='p-3 text-sm font-medium'>Team</th>
+                    <th className='p-3 text-sm font-medium'>순위</th>
+                    <th className='p-3 text-sm font-medium'>선수</th>
+                    <th className='p-3 text-sm font-medium'>팀</th>
                     <th className='p-3 text-sm font-medium text-center'>
-                      Assists
+                      어시스트
                     </th>
                   </tr>
                 </thead>

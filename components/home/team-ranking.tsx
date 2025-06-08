@@ -9,10 +9,8 @@ export function TeamRanking() {
       <div className='container'>
         <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>
           <div>
-            <h2 className='text-3xl font-bold tracking-tight'>Team Rankings</h2>
-            <p className='text-muted-foreground'>
-              Current standings in the league.
-            </p>
+            <h2 className='text-3xl font-bold tracking-tight'>팀 순위</h2>
+            <p className='text-muted-foreground my-1'>현재 리그 순위</p>
           </div>
           <FullTableBtn link={"/teams"} />
         </div>
@@ -22,14 +20,18 @@ export function TeamRanking() {
             <table className='w-full'>
               <thead className='bg-muted/50'>
                 <tr className='text-left'>
-                  <th className='p-3 text-sm font-medium'>Pos</th>
-                  <th className='p-3 text-sm font-medium'>Team</th>
-                  <th className='p-3 text-sm font-medium text-center'>P</th>
-                  <th className='p-3 text-sm font-medium text-center'>W</th>
-                  <th className='p-3 text-sm font-medium text-center'>D</th>
-                  <th className='p-3 text-sm font-medium text-center'>L</th>
-                  <th className='p-3 text-sm font-medium text-center'>GD</th>
-                  <th className='p-3 text-sm font-medium text-center'>Pts</th>
+                  <th className='p-3 text-sm font-medium'>순위</th>
+                  <th className='p-3 text-sm font-medium'>팀</th>
+                  <th className='p-3 text-sm font-medium text-center'>
+                    경기수
+                  </th>
+                  <th className='p-3 text-sm font-medium text-center'>승</th>
+                  <th className='p-3 text-sm font-medium text-center'>무</th>
+                  <th className='p-3 text-sm font-medium text-center'>패</th>
+                  <th className='p-3 text-sm font-medium text-center'>
+                    골득실
+                  </th>
+                  <th className='p-3 text-sm font-medium text-center'>점수</th>
                 </tr>
               </thead>
               <tbody>
