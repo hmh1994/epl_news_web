@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { getNewsList } from "@/src/entities/news/apis";
-
+export const dynamic = "force-dynamic";
 export async function LatestNews() {
   const { newsList } = await getNewsList();
   return (

@@ -4,10 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { CustomTabTrigger, FullTableBtn } from "../common";
 // import { goalScorerData, assistsData } from "@/app/fixtures/home";
-import { getPlayerRank } from "@/src/entities/players/apis/get-player-rank";
+// import { getPlayerRank } from "@/src/entities/players/apis/get-player-rank";
 
 export async function PlayerRanking() {
-  const { goalRanks, assistRanks } = await getPlayerRank();
+  // const { goalRanks, assistRanks } = await getPlayerRank();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const goalRanks: any[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const assistRanks: any[] = [];
   return (
     <section className='container py-12 space-y-6'>
       <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>

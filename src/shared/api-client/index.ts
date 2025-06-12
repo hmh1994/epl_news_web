@@ -1,10 +1,12 @@
-// /lib/apiClient.ts
-
 const basePath = "https://infootball.kr";
 
 export const apiClient = {
   async get<T>(url: string, options?: RequestInit): Promise<T> {
-    const response = await fetch(basePath + url, { ...options, method: "GET" });
+    const response = await fetch(basePath + url, {
+      cache: "no-store",
+      ...options,
+      method: "GET",
+    });
     if (!response.ok) {
       throw new Error(`HTTP 에러 발생: ${response.status}`);
     }
@@ -13,6 +15,7 @@ export const apiClient = {
 
   async post<T, P>(url: string, data: P, options?: RequestInit): Promise<T> {
     const response = await fetch(basePath + url, {
+      cache: "no-store",
       ...options,
       method: "POST",
       headers: {
@@ -29,6 +32,7 @@ export const apiClient = {
 
   async put<T, P>(url: string, data: P, options?: RequestInit): Promise<T> {
     const response = await fetch(basePath + url, {
+      cache: "no-store",
       ...options,
       method: "PUT",
       headers: {
@@ -45,6 +49,7 @@ export const apiClient = {
 
   async delete<T>(url: string, options?: RequestInit): Promise<T> {
     const response = await fetch(basePath + url, {
+      cache: "no-store",
       ...options,
       method: "DELETE",
     });
