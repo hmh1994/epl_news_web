@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/src/i18n/routing";
 import { ChevronRight } from "lucide-react";
 import { Button } from "../ui/button";
 

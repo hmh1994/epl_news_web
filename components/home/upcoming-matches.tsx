@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
+import { Link } from "@/src/i18n/routing";
 import { CustomTabTrigger, FullTableBtn } from "../common";
 import { matchesData } from "@/app/fixtures/home";
 

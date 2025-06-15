@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
-import "../globals.css";
+import "../../globals.css";
 import { Footer, Header } from "@/components/common";
-import { nanumSquare } from "../fonts";
+import { nanumSquare } from "../../fonts";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { routing } from "@/src/i18n/routing";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -26,12 +30,22 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const locale = (await params).locale;
+  console.log(locale);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  if (!routing.locales.includes(locale)) {
+    notFound();
+  }
+  const messages = await getMessages();
   return (
     <html
-      lang='en'
+      lang='locale'
       className={`${nanumSquare.variable} font-(family-name:--font-nanum-square) `}
     >
       <head>
@@ -46,9 +60,11 @@ export default async function RootLayout({
         />
       </head>
       <body>
-        <Header />
-        {children}
-        <Footer />
+        <NextIntlClientProvider messages={messages}>
+          <Header />
+          {children}
+          <Footer />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

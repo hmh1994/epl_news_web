@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/src/i18n/routing";
 import { formatMatchTime } from "@/lib/date-utils";
 import { Badge } from "../ui/badge";
 import { Card, CardContent } from "../ui/card";

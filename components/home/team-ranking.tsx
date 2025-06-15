@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/src/i18n/routing";
 import { FullTableBtn } from "../common";
 import { teamData } from "@/app/fixtures/home";
 

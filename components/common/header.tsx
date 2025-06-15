@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/src/i18n/routing";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { MobileSidebar } from "./mobile-sidebar";

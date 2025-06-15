@@ -1,16 +1,20 @@
 import { apiClient } from "@/src/shared/api-client";
 
 export interface NewsType {
-  newsId: string;
-  titleEn: string;
-  titleKo: string;
+  publishdate: string;
+  authorKr: string[];
   contentEn: string;
-  contentKo: string;
-  newsImg: string;
+  contentKr: string;
+  url: string;
   source: string;
+  teams: string[];
+  thumbnailUrl: string;
+  titleEn: string;
+  titleKr: string;
   type: string;
-  publishDate: string;
-  newsLink: string;
+  id: string;
+  authorEn: string[];
+  sourceId: string;
 }
 
 export interface NewsListType {
@@ -19,7 +23,7 @@ export interface NewsListType {
 
 export const getNewsList = async (): Promise<NewsListType> => {
   try {
-    const result = await apiClient.get<NewsListType>("/api/v1/news/list");
+    const result = await apiClient.get<NewsListType>("/api/v1/news/news");
     return result;
   } catch (e) {
     console.error(e);

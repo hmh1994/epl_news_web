@@ -2,13 +2,24 @@ import { apiClient } from "@/src/shared/api-client";
 
 export interface PlayerRankType {
   rank: number;
-  playerName: string;
+  number: number;
   playerId: string;
-  teamName: string;
+  playerNameEn: string;
+  playerNameKr: string;
+  playerFullName: string;
+  playerImg: string;
+  countryEn: string;
+  countryKr: string;
   teamId: string;
-  statValue: number;
-  photoUrl: string;
-  iconUrl: string;
+  teamNameEn: string;
+  teamNameKr: string;
+  steamNameEn: string;
+  steamNameKr: string;
+  teamIcon: string;
+  appearances: number;
+  goals: number;
+  assists: number;
+  age: number;
   category: string;
 }
 

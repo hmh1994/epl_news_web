@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/src/i18n/routing";
 import Image from "next/image";
 import { Clock, MapPin, Calendar, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
