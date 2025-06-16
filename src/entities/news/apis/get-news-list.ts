@@ -23,7 +23,7 @@ export interface NewsListType {
 
 export const getNewsList = async (): Promise<NewsListType> => {
   try {
-    const result = await apiClient.get<NewsListType>("/api/v1/news/news");
+    const result = await apiClient.get<NewsListType>("/api/v1/news/list");
     return result;
   } catch (e) {
     console.error(e);
