@@ -133,7 +133,7 @@ export async function PlayerRanking() {
                         </div>
                       </td>
                       <td className='p-3 text-sm font-bold text-center'>
-                        {player.assists}
+                        {player.goals}
                       </td>
                     </tr>
                   ))}

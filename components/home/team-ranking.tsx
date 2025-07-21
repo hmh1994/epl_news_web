@@ -2,8 +2,10 @@ import Image from "next/image";
 import { Link } from "@/src/i18n/routing";
 import { FullTableBtn } from "../common";
 import { teamData } from "@/app/fixtures/home";
+import { getTeamRank } from "@/src/entities/teams/apis/get-team-rank";
 
-export function TeamRanking() {
+export async function TeamRanking() {
+  const { TeamRank } = await getTeamRank();
   return (
     <section className='bg-muted py-12 space-y-6'>
       <div className='container'>
@@ -35,29 +37,29 @@ export function TeamRanking() {
                 </tr>
               </thead>
               <tbody>
-                {teamData.map((team, index) => (
+                {TeamRank.slice(0, 5).map((team, index) => (
                   <tr
                     key={index}
                     className={
                       index % 2 === 0 ? "bg-background" : "bg-muted/20"
                     }
                   >
-                    <td className='p-3 text-sm'>{team.pos}</td>
+                    <td className='p-3 text-sm'>{index + 1}</td>
                     <td className='p-3 text-sm'>
                       <Link href={`/teams/${team.teamId}`}>
                         <div className='flex items-center gap-2'>
                           <Image
-                            src={team.logo || "/placeholder.svg"}
-                            alt={team.team}
+                            src={team.teamLogo || "/placeholder.svg"}
+                            alt={team.shortNameEn}
                             width={20}
                             height={20}
                             className='rounded-full'
                           />
-                          <span>{team.team}</span>
+                          <span>{team.shortNameKr}</span>
                         </div>
                       </Link>
                     </td>
-                    <td className='p-3 text-sm text-center'>{team.played}</td>
+                    <td className='p-3 text-sm text-center'>{team.matches}</td>
                     <td className='p-3 text-sm text-center'>{team.won}</td>
                     <td className='p-3 text-sm text-center'>{team.drawn}</td>
                     <td className='p-3 text-sm text-center'>{team.lost}</td>

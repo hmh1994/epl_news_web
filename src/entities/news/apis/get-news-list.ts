@@ -1,20 +1,18 @@
 import { apiClient } from "@/src/shared/api-client";
 
 export interface NewsType {
-  publishdate: string;
-  authorKr: string[];
-  contentEn: string;
-  contentKr: string;
-  url: string;
-  source: string;
-  teams: string[];
-  thumbnailUrl: string;
+  newsId: string;
   titleEn: string;
   titleKr: string;
-  type: string;
-  id: string;
+  contentEn: string;
+  contentKr: string;
+  newsImg: string;
+  newsUrl: string;
+  authorKr: string[];
   authorEn: string[];
-  sourceId: string;
+  team: string | null;
+  type: string;
+  publishdate: string;
 }
 
 export interface NewsListType {

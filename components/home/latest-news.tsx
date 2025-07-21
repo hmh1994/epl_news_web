@@ -1,6 +1,9 @@
-import { ChevronRight, Heart, Share2 } from "lucide-react";
+import {
+  ChevronRight,
+  // , Heart, Share2
+} from "lucide-react";
 import { Button } from "../ui/button";
-import { Badge } from "..//ui/badge";
+// import { Badge } from "..//ui/badge";
 import {
   Card,
   CardDescription,
@@ -39,17 +42,17 @@ export async function LatestNews() {
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
         {newsList.slice(0, 3).map((news, index) => (
           <Card key={index} className='overflow-hidden'>
-            <Link href={news.url}>
+            <Link href={news.newsUrl}>
               <div className='relative h-48'>
                 <Image
-                  src={news.thumbnailUrl || "/placeholder.svg"}
+                  src={news.newsImg || "/placeholder.svg"}
                   alt={news.titleKr}
                   fill
                   className='object-cover'
                 />
-                <Badge className='absolute top-2 left-2 bg-green-600'>
+                {/* <Badge className='absolute top-2 left-2 bg-green-600'>
                   {news.source}
-                </Badge>
+                </Badge> */}
               </div>
             </Link>
             <Link href='/'>
@@ -62,7 +65,7 @@ export async function LatestNews() {
               <span className='text-sm text-muted-foreground'>
                 {news.publishdate}
               </span>
-              <div className='flex items-center gap-2'>
+              {/* <div className='flex items-center gap-2'>
                 <Button variant='ghost' size='icon'>
                   <Heart className='h-4 w-4' />
                   <span className='sr-only'>Like</span>
@@ -71,7 +74,7 @@ export async function LatestNews() {
                   <Share2 className='h-4 w-4' />
                   <span className='sr-only'>Share</span>
                 </Button>
-              </div>
+              </div> */}
             </CardFooter>
           </Card>
         ))}
