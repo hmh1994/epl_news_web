@@ -1,6 +1,7 @@
 import { getNewsList } from "@/src/entities/news/apis";
 import NewsList from "@/components/news/news-list";
 
+export const dynamic = "force-dynamic";
 export default async function NewsPage() {
   const { newsList } = await getNewsList({ count: 48 });
 

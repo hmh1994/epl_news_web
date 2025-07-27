@@ -1,7 +1,7 @@
 // Mock data for team rankings
 export const premierLeagueTeams = [
   {
-    pos: 1,
+    rank: 1,
     team: "Manchester City",
     teamId: "manchester-city",
     played: 38,

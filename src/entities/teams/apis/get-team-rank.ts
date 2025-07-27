@@ -3,7 +3,7 @@ import { apiClient } from "@/src/shared/api-client";
 export interface TeamRankType {
   rank: number;
   nameEn: string;
-  nakeKr: string;
+  nameKr: string;
   shortNameEn: string;
   shortNameKr: string;
   teamId: string;

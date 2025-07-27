@@ -1,24 +1,26 @@
-import { Search, Filter, ArrowUpDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// import { Search, Filter, ArrowUpDown } from "lucide-react";
+// import { Button } from "@/components/ui/button";
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardHeader,
+//   CardTitle,
+// } from "@/components/ui/card";
+// import { Input } from "@/components/ui/input";
+// import { Badge } from "@/components/ui/badge";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 import { LeagueComparison, LeagueRankingTable } from "@/components/teams";
+import { getTeamRankDetail } from "@/src/entities/teams/apis/get-team-rank-detail";
 
-export default function RankingsPage() {
+export default async function RankingsPage() {
+  const { teamRankDetail } = await getTeamRankDetail();
   return (
     <div className='min-h-screen bg-background'>
       <div className='bg-gradient-to-b from-muted/50 to-background pt-8 pb-16'>
@@ -36,11 +38,11 @@ export default function RankingsPage() {
       <div className='container py-8'>
         <div className='flex flex-col md:flex-row justify-between gap-4 mb-6'>
           <div className='flex flex-col sm:flex-row gap-4'>
-            <div className='relative w-full sm:w-80'>
+            {/* <div className='relative w-full sm:w-80'>
               <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
               <Input placeholder='Search teams...' className='pl-10' />
-            </div>
-            <Select defaultValue='all'>
+            </div> */}
+            {/* <Select defaultValue='all'>
               <SelectTrigger className='w-full sm:w-40'>
                 <SelectValue placeholder='Season' />
               </SelectTrigger>
@@ -50,9 +52,9 @@ export default function RankingsPage() {
                 <SelectItem value='2021-22'>2021/22</SelectItem>
                 <SelectItem value='2020-21'>2020/21</SelectItem>
               </SelectContent>
-            </Select>
+            </Select> */}
           </div>
-          <div className='flex items-center gap-2'>
+          {/* <div className='flex items-center gap-2'>
             <Button
               variant='outline'
               size='sm'
@@ -69,12 +71,12 @@ export default function RankingsPage() {
               <ArrowUpDown className='h-4 w-4' />
               <span>Sort</span>
             </Button>
-          </div>
+          </div> */}
         </div>
 
-        <LeagueRankingTable />
+        <LeagueRankingTable teamRankDetail={teamRankDetail} />
 
-        <LeagueComparison />
+        {/* <LeagueComparison /> */}
       </div>
     </div>
   );
