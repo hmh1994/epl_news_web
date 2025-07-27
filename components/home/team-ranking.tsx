@@ -1,11 +1,10 @@
 import Image from "next/image";
 import { Link } from "@/src/i18n/routing";
 import { FullTableBtn } from "../common";
-import { teamData } from "@/app/fixtures/home";
 import { getTeamRank } from "@/src/entities/teams/apis/get-team-rank";
 
 export async function TeamRanking() {
-  const { TeamRank } = await getTeamRank();
+  const { teamRank } = await getTeamRank();
   return (
     <section className='bg-muted py-12 space-y-6'>
       <div className='container'>
@@ -37,7 +36,7 @@ export async function TeamRanking() {
                 </tr>
               </thead>
               <tbody>
-                {TeamRank.slice(0, 5).map((team, index) => (
+                {teamRank.slice(0, 5).map((team, index) => (
                   <tr
                     key={index}
                     className={

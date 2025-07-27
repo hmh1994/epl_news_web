@@ -18,7 +18,7 @@ import { getNewsList } from "@/src/entities/news/apis";
 export const dynamic = "force-dynamic";
 export async function LatestNews() {
   // const t = await getTranslations("home");
-  const { newsList } = await getNewsList();
+  const { newsList } = await getNewsList({ count: 10 });
   return (
     <section className='container py-12 space-y-6'>
       <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>

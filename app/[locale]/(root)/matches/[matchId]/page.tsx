@@ -18,8 +18,8 @@ export default async function MatchPage({
 }: {
   params: Promise<{ matchId: string }>;
 }) {
-  const matchId = (await params).matchId;
-  const match = matchesData["match-1"];
+  const matchId = (await params).matchId as "match-1" | "match-2";
+  const match = matchesData[matchId];
 
   if (!match) {
     notFound();

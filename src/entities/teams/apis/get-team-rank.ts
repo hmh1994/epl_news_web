@@ -17,7 +17,7 @@ export interface TeamRankType {
 }
 
 export interface TeamRanksType {
-  TeamRank: Array<TeamRankType>;
+  teamRank: Array<TeamRankType>;
 }
 
 export const getTeamRank = async () => {
@@ -27,7 +27,7 @@ export const getTeamRank = async () => {
   } catch (e) {
     console.error(e);
     return {
-      TeamRank: [],
+      teamRank: [],
     };
   }
 };
