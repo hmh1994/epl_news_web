@@ -1,5 +1,5 @@
 import {
-  PlayerCondition,
+  // PlayerCondition,
   PlayerHighlights,
   PlayerRankingTable,
   PlayerTitle,
@@ -10,7 +10,7 @@ export default function PlayerRankingsPage() {
     <div className='min-h-screen bg-background'>
       <PlayerTitle />
       <div className='container py-8'>
-        <PlayerCondition />
+        {/* <PlayerCondition /> */}
         <PlayerRankingTable />
         <PlayerHighlights />
       </div>
