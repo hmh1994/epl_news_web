@@ -14,10 +14,10 @@ import {
 import Image from "next/image";
 import { Link } from "@/src/i18n/routing";
 import { getNewsList } from "@/src/entities/news/apis";
-// import { getTranslations } from "next-intl/server";
+import { Badge } from "../ui/badge";
 export const dynamic = "force-dynamic";
+
 export async function LatestNews() {
-  // const t = await getTranslations("home");
   const { newsList } = await getNewsList({ count: 10 });
   return (
     <section className='container py-12 space-y-6'>
@@ -58,12 +58,27 @@ export async function LatestNews() {
             <Link href='/'>
               <CardHeader>
                 <CardTitle>{news.titleKr}</CardTitle>
-                <CardDescription>{news.contentKr}</CardDescription>
+                <div className='flex items-center gap-3'>
+                  {news.team
+                    .filter((el) => !!el)
+                    .map((teamName: string) => (
+                      <Button variant='ghost' key={teamName} className={"p-0"}>
+                        <Badge variant='outline' className='text-xs'>
+                          #{teamName}
+                        </Badge>
+                      </Button>
+                    ))}
+                </div>
+                <CardDescription
+                  className={"text-sm text-muted-foreground mb-3 line-clamp-2"}
+                >
+                  {news.contentKr}
+                </CardDescription>
               </CardHeader>
             </Link>
             <CardFooter className='flex justify-between'>
               <span className='text-sm text-muted-foreground'>
-                {news.publishdate}
+                {news.publishDate}
               </span>
               {/* <div className='flex items-center gap-2'>
                 <Button variant='ghost' size='icon'>

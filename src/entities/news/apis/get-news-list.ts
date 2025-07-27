@@ -10,9 +10,9 @@ export interface NewsType {
   newsUrl: string;
   authorKr: string[];
   authorEn: string[];
-  team: string | null;
+  team: string[];
   type: string;
-  publishdate: string;
+  publishDate: string;
 }
 
 export interface NewsListType {

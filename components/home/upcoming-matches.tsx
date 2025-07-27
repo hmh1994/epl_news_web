@@ -6,8 +6,24 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "@/src/i18n/routing";
 import { CustomTabTrigger, FullTableBtn } from "../common";
 import { matchesData } from "@/app/fixtures/home";
+import { toUnixTimestamp } from "@/src/shared/utils/time-utils";
+import { getMatchByRange } from "@/src/entities/match/apis/get-match-by-range";
 
-export function UpcomingMatches() {
+export async function UpcomingMatches() {
+  const today = new Date();
+  const tomorrow = new Date(today); // today를 복사
+  tomorrow.setDate(today.getDate() + 1);
+
+  const todayUnixTime = toUnixTimestamp(today);
+  const tomorrowUnixTime = toUnixTimestamp(tomorrow);
+
+  const matches = await getMatchByRange({
+    startDate: todayUnixTime.toString(),
+    endDate: tomorrowUnixTime.toString(),
+  });
+
+  console.log(matches);
+
   return (
     <section className='bg-muted'>
       <div className='container py-12 space-y-6'>
@@ -19,10 +35,9 @@ export function UpcomingMatches() {
         </div>
 
         <Tabs defaultValue='today' className='w-full'>
-          <TabsList className='grid w-full grid-cols-3 mb-6 bg-white'>
+          <TabsList className='grid w-full grid-cols-2 mb-6 bg-white'>
             <CustomTabTrigger value='today'>Today</CustomTabTrigger>
             <CustomTabTrigger value='tomorrow'>Tomorrow</CustomTabTrigger>
-            <CustomTabTrigger value='upcoming'>Upcoming</CustomTabTrigger>
           </TabsList>
           <TabsContent value='today' className='space-y-4'>
             {matchesData.map((match, index) => (
@@ -83,18 +98,6 @@ export function UpcomingMatches() {
             ))}
           </TabsContent>
           <TabsContent value='tomorrow' className='space-y-4'>
-            <Card>
-              <CardContent className='p-4 text-center py-10'>
-                <p>예정된 경기가 없습니다.</p>
-                <Link href={"/matches"}>
-                  <Button variant='outline' className='mt-4'>
-                    일정 살펴보기
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value='upcoming' className='space-y-4'>
             <Card>
               <CardContent className='p-4 text-center py-10'>
                 <p>예정된 경기가 없습니다.</p>

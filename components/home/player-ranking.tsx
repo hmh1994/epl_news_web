@@ -74,7 +74,7 @@ export async function PlayerRanking() {
                         </Link>
                       </td>
                       <td className='p-3 text-sm font-bold text-center'>
-                        {player.goals}
+                        {player.stat}
                       </td>
                     </tr>
                   ))}
@@ -133,7 +133,7 @@ export async function PlayerRanking() {
                         </div>
                       </td>
                       <td className='p-3 text-sm font-bold text-center'>
-                        {player.goals}
+                        {player.stat}
                       </td>
                     </tr>
                   ))}

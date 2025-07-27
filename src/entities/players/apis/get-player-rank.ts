@@ -10,7 +10,7 @@ export interface PlayerRankType {
   teamNameEn: string;
   teamNameKr: string;
   teamIcon: string;
-  goals: number;
+  stat: number;
   category: string;
 }
 
