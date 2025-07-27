@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+// import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlayerGoalTable } from "./player-goal-table";
@@ -29,7 +29,7 @@ export function PlayerRankingTable() {
                 Players with the most goals scored this season
               </CardDescription>
             </div>
-            <Badge className='bg-green-600'>2023/24 Season</Badge>
+            {/* <Badge className='bg-green-600'>2023/24 Season</Badge> */}
           </div>
         </CardHeader>
         <CardContent>
