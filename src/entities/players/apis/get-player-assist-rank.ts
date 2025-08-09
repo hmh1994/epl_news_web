@@ -9,12 +9,14 @@ export interface PlayerAssistRankType {
   playerImg: string;
   countryEn: string;
   countryKr: string;
+  age: number;
   teamId: string;
   teamNameEn: string;
   teamNameKr: string;
   teamIcon: string;
   appearances: number;
   assists: number;
+  goals: number;
 }
 
 export interface PlayerAssistRanksType {

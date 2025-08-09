@@ -1,12 +1,12 @@
-import { MatchType } from "@/src/entities/teams/apis/get-team";
+import { TeamMatchType } from "@/src/entities/teams/apis/get-team";
 import { Card, CardContent } from "../ui/card";
 
 export function RecentMatches({
   recentMatches,
   upcomingMatches,
 }: {
-  recentMatches: MatchType[];
-  upcomingMatches: MatchType[];
+  recentMatches: TeamMatchType[];
+  upcomingMatches: TeamMatchType[];
 }) {
   return (
     <>

@@ -13,7 +13,7 @@ export interface PlayerType {
   photoUrl: string;
 }
 
-export interface MatchType {
+export interface TeamMatchType {
   id: string;
   kickoffTime: string;
   homeTeamId: string;
@@ -34,16 +34,23 @@ export interface TeamDetailType {
   shortNameEn: string;
   shortNameKr: string;
   teamLogo: string;
-  played: number;
-  won: number;
-  drawn: number;
-  lost: number;
-  gd: number;
-  points: number;
+  cityNameEn: string;
+  cityNameKr: string;
+  groundNameEn: string;
+  groundNameKr: string;
+  groundCapacity: number;
   championshipSeasons: string[] | null;
   squad: PlayerType[];
-  recentMatches: MatchType[];
-  upcomingMatches: MatchType[] | null;
+  recentMatches: TeamMatchType[];
+  upcomingMatches: TeamMatchType[] | null;
+  seasonStat: {
+    played: number;
+    won: number;
+    drawn: number;
+    lost: number;
+    gd: number;
+    points: number;
+  };
 }
 
 export const getTeam = async ({ teamId }: { teamId: string }) => {

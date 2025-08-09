@@ -5,6 +5,9 @@ import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import {
   RecentMatches,
   SquadList,
+  TeamInfo,
+  TeamSeasonStat,
+  // TeamTrophy,
   // TeamInfo,
   // TeamSeasonStat,
   // TeamTrophy,
@@ -46,10 +49,7 @@ export default async function TeamPage({
               <div className='flex flex-wrap justify-center md:justify-start gap-4 mt-6'>
                 <div className='flex items-center gap-2'>
                   <MapPin className='h-4 w-4 text-muted-foreground' />
-                  <span>
-                    아직 안됐음
-                    {/* {team.stadium} */}
-                  </span>
+                  <span>{team.groundNameKr}</span>
                 </div>
                 <div className='flex items-center gap-2'>
                   <Calendar className='h-4 w-4 text-muted-foreground' />
@@ -80,12 +80,12 @@ export default async function TeamPage({
 
       <div className='container py-8'>
         <Tabs defaultValue='squad' className='w-full'>
-          <TabsList className='grid w-full grid-cols-2 mb-8'>
+          <TabsList className='grid w-full grid-cols-3 mb-8'>
             <CustomTabTrigger value='squad'>Squad</CustomTabTrigger>
             <CustomTabTrigger value='fixtures'>
               Fixtures & Results
             </CustomTabTrigger>
-            {/* <CustomTabTrigger value='stats'>Team Stats</CustomTabTrigger> */}
+            <CustomTabTrigger value='stats'>Team Stats</CustomTabTrigger>
           </TabsList>
 
           <TabsContent value='squad' className='space-y-6'>
@@ -99,13 +99,13 @@ export default async function TeamPage({
             />
           </TabsContent>
 
-          {/* <TabsContent value='stats' className='space-y-8'>
+          <TabsContent value='stats' className='space-y-8'>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
               <TeamSeasonStat team={team} />
-              <TeamTrophy trophies={[]} />
+              {/* <TeamTrophy trophies={[]} /> */}
+              <TeamInfo team={team} />
             </div>
-            <TeamInfo team={team} />
-          </TabsContent> */}
+          </TabsContent>
         </Tabs>
       </div>
     </div>
