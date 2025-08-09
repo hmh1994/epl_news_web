@@ -5,9 +5,26 @@ import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "@/src/i18n/routing";
 import { CustomTabTrigger, FullTableBtn } from "../common";
-import { matchesData } from "@/app/fixtures/home";
 import { toUnixTimestamp } from "@/src/shared/utils/time-utils";
-import { getMatchByRange } from "@/src/entities/match/apis/get-match-by-range";
+import {
+  getMatchByRange,
+  MatchType,
+} from "@/src/entities/match/apis/get-match-by-range";
+
+function NoMatch() {
+  return (
+    <Card>
+      <CardContent className='p-4 text-center py-10'>
+        <p>예정된 경기가 없습니다.</p>
+        <Link href={"/matches"}>
+          <Button variant='outline' className='mt-4'>
+            일정 살펴보기
+          </Button>
+        </Link>
+      </CardContent>
+    </Card>
+  );
+}
 
 export async function UpcomingMatches() {
   const today = new Date();
@@ -22,7 +39,7 @@ export async function UpcomingMatches() {
     endDate: tomorrowUnixTime.toString(),
   });
 
-  console.log(matches);
+  const dates = Object.keys(matches);
 
   return (
     <section className='bg-muted'>
@@ -40,38 +57,45 @@ export async function UpcomingMatches() {
             <CustomTabTrigger value='tomorrow'>Tomorrow</CustomTabTrigger>
           </TabsList>
           <TabsContent value='today' className='space-y-4'>
-            {matchesData.map((match, index) => (
-              <Card key={index + match.matchId}>
+            {matches[dates[0]].length === 0 && <NoMatch />}
+            {matches[dates[0]].map((match: MatchType, index: number) => (
+              <Card key={index + match.id}>
                 <CardContent className='p-4'>
                   <div className='flex items-center justify-between'>
                     <Badge
                       variant='outline'
                       className='bg-secondary text-white'
                     >
-                      {match.league}
+                      premier league
                     </Badge>
-                    <span className='text-sm font-medium'>{match.time}</span>
+                    <span className='text-sm font-medium'>
+                      {match.kickoffTime}
+                    </span>
                   </div>
                   <div className='flex items-center justify-between mt-4'>
-                    <Link href={`/teams/${match.homeTeamId}`}>
+                    <Link href={`/teams/${match.homeTeam.id}`}>
                       <div className='flex items-center gap-2'>
                         <Image
-                          src={match.homeFlag || "/placeholder.svg"}
-                          alt={match.homeTeam}
+                          src={match.homeTeam.iconUrl || "/placeholder.svg"}
+                          alt={match.homeTeam.id}
                           width={30}
                           height={30}
                           className='rounded-full'
                         />
-                        <span className='font-medium'>{match.homeTeam}</span>
+                        <span className='font-medium'>
+                          {match.homeTeam.nameKr}
+                        </span>
                       </div>
                     </Link>
                     <span className='text-sm font-bold'>vs</span>
-                    <Link href={`/teams/${match.awayTeamId}`}>
+                    <Link href={`/teams/${match.awayTeam.id}`}>
                       <div className='flex items-center gap-2'>
-                        <span className='font-medium'>{match.awayTeam}</span>
+                        <span className='font-medium'>
+                          {match.awayTeam.nameKr}
+                        </span>
                         <Image
-                          src={match.awayFlag || "/placeholder.svg"}
-                          alt={match.awayTeam}
+                          src={match.awayTeam.iconUrl || "/placeholder.svg"}
+                          alt={match.awayTeam.id}
                           width={30}
                           height={30}
                           className='rounded-full'
@@ -80,10 +104,7 @@ export async function UpcomingMatches() {
                     </Link>
                   </div>
                   <div className='mt-4 flex justify-end'>
-                    <Link
-                      href={`/matches/${match.matchId}`}
-                      key={match.matchId + index}
-                    >
+                    <Link href={`/matches/${match.id}`} key={match.id + index}>
                       <Button
                         variant='outline'
                         size='sm'
@@ -98,19 +119,71 @@ export async function UpcomingMatches() {
             ))}
           </TabsContent>
           <TabsContent value='tomorrow' className='space-y-4'>
-            <Card>
-              <CardContent className='p-4 text-center py-10'>
-                <p>예정된 경기가 없습니다.</p>
-                <Link href={"/matches"}>
-                  <Button variant='outline' className='mt-4'>
-                    일정 살펴보기
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+            {matches[dates[1]].length === 0 && <NoMatch />}
+            {matches[dates[1]].map((match: MatchType, index: number) => (
+              <Card key={index + match.id}>
+                <CardContent className='p-4'>
+                  <div className='flex items-center justify-between'>
+                    <Badge
+                      variant='outline'
+                      className='bg-secondary text-white'
+                    >
+                      premier league
+                    </Badge>
+                    <span className='text-sm font-medium'>
+                      {match.kickoffTime}
+                    </span>
+                  </div>
+                  <div className='flex items-center justify-between mt-4'>
+                    <Link href={`/teams/${match.homeTeam.id}`}>
+                      <div className='flex items-center gap-2'>
+                        <Image
+                          src={match.homeTeam.iconUrl || "/placeholder.svg"}
+                          alt={match.homeTeam.id}
+                          width={30}
+                          height={30}
+                          className='rounded-full'
+                        />
+                        <span className='font-medium'>
+                          {match.homeTeam.nameKr}
+                        </span>
+                      </div>
+                    </Link>
+                    <span className='text-sm font-bold'>vs</span>
+                    <Link href={`/teams/${match.awayTeam.id}`}>
+                      <div className='flex items-center gap-2'>
+                        <span className='font-medium'>
+                          {match.awayTeam.nameKr}
+                        </span>
+                        <Image
+                          src={match.awayTeam.iconUrl || "/placeholder.svg"}
+                          alt={match.awayTeam.id}
+                          width={30}
+                          height={30}
+                          className='rounded-full'
+                        />
+                      </div>
+                    </Link>
+                  </div>
+                  <div className='mt-4 flex justify-end'>
+                    <Link href={`/matches/${match.id}`} key={match.id + index}>
+                      <Button
+                        variant='outline'
+                        size='sm'
+                        className={"hover:bg-secondary hover:text-white"}
+                      >
+                        경기 정보
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </TabsContent>
         </Tabs>
       </div>
     </section>
   );
 }
+// 1748217600000
+// 1748390400000

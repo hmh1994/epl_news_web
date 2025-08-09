@@ -1,22 +1,22 @@
 import { apiClient } from "@/src/shared/api-client";
 
+export interface MatchTeamType {
+  id: string;
+  nameEn: string;
+  nameKr: string;
+  shortNameEn: string;
+  shortNameKr: string;
+  iconUrl: string;
+  score: number;
+}
+
 export interface MatchType {
   id: string;
   kickoffTime: string;
-  homeTeamId: string;
-  homeTeamEn: string;
-  homeTeamKr: string;
-  shortHomeTeamEn: string;
-  shortHomeTeamKr: string;
-  homeTeamImg: string;
-  homeTeamScore: number;
-  awayTeamId: string;
-  awayTeamEn: string;
-  awayTeamKr: string;
-  shortAwayTeamEn: string;
-  shortAwayTeamKr: string;
-  awayTeamImg: string;
-  awayTeamScore: number;
+  groundEn: string;
+  groundKr: string;
+  homeTeam: MatchTeamType;
+  awayTeam: MatchTeamType;
 }
 
 export interface MatchsScheduleType {

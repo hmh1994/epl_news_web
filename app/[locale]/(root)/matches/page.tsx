@@ -1,52 +1,48 @@
-"use client";
+// "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
-import { upcomingFixtures, pastResults } from "@/app/fixtures/matches";
 import { formatMatchDate } from "@/lib/date-utils";
 import {
-  FeaturedMatches,
-  MatchCondition,
   MatchTitle,
   PastGameCard,
   UpcomingGameCard,
 } from "@/components/matches";
 import { CustomTabTrigger } from "@/components/common";
-import { Separator } from "@/components/ui/separator";
+import { toUnixTimestamp } from "@/src/shared/utils/time-utils";
+import { getMatchByRange } from "@/src/entities/match/apis/get-match-by-range";
+import { Card, CardContent } from "@/components/ui/card";
 
-// Helper function to group fixtures by date
-function groupFixturesByDate(fixtures: any[]) {
-  const grouped: Record<string, any[]> = {};
+export default async function FixturesPage() {
+  const upcomingStart = new Date();
+  const upcomingEnd = new Date(upcomingStart);
+  upcomingEnd.setDate(upcomingStart.getDate() + 7);
 
-  fixtures.forEach((fixture) => {
-    const date = fixture.date.split("T")[0];
-    if (!grouped[date]) {
-      grouped[date] = [];
-    }
-    grouped[date].push(fixture);
+  const pastStart = new Date(upcomingStart);
+  pastStart.setDate(upcomingStart.getDate() - 7);
+  const pastEnd = new Date(upcomingStart);
+  pastEnd.setDate(upcomingStart.getDate() - 1);
+
+  const upcomingMatches = await getMatchByRange({
+    startDate: toUnixTimestamp(upcomingStart).toString(),
+    endDate: toUnixTimestamp(upcomingEnd).toString(),
   });
 
-  return Object.entries(grouped)
-    .sort(([dateA], [dateB]) => dateA.localeCompare(dateB))
-    .map(([date, fixtures]) => ({
-      date,
-      fixtures: fixtures.sort((a, b) => a.date.localeCompare(b.date)),
-    }));
-}
+  const pastMatches = await getMatchByRange({
+    startDate: toUnixTimestamp(pastStart).toString(),
+    endDate: toUnixTimestamp(pastEnd).toString(),
+  });
 
-export default function FixturesPage() {
-  const upcomingFixturesByDate = groupFixturesByDate(upcomingFixtures);
-  const pastResultsByDate = groupFixturesByDate(pastResults);
+  const upcomingDates = Object.keys(upcomingMatches);
+  const pastDates = Object.keys(pastMatches);
 
   return (
     <div className='min-h-screen bg-background'>
       <MatchTitle />
 
       <div className='container pb-8'>
-        <FeaturedMatches upcomingFixtures={upcomingFixtures} />
+        {/* <FeaturedMatches upcomingFixtures={upcomingFixtures} />
         <Separator className={"mb-8"} />
-        <MatchCondition />
+        <MatchCondition /> */}
 
         <Tabs defaultValue='upcoming' className='w-full'>
           <TabsList className='grid w-full grid-cols-2 mb-6'>
@@ -59,23 +55,30 @@ export default function FixturesPage() {
           <TabsContent value='upcoming' className='space-y-8'>
             <div className='flex justify-between items-center'>
               <h2 className='text-xl font-bold'>Upcoming Matches</h2>
-              <div className='flex gap-2'>
+              {/* <div className='flex gap-2'>
                 <Button variant='outline' size='sm'>
                   <ChevronLeft className='h-4 w-4' />
                 </Button>
                 <Button variant='outline' size='sm'>
                   <ChevronRight className='h-4 w-4' />
                 </Button>
-              </div>
+              </div> */}
             </div>
 
-            {upcomingFixturesByDate.map((group) => (
-              <div key={group.date} className='space-y-4'>
+            {upcomingDates.map((date) => (
+              <div key={date} className='space-y-4'>
                 <h3 className='text-lg font-semibold'>
-                  {formatMatchDate(group.date)}
+                  {formatMatchDate(date)}
                 </h3>
+                {upcomingMatches[date].length === 0 && (
+                  <Card className='w-full px-4'>
+                    <CardContent className='p-2 text-center '>
+                      <p>예정된 경기가 없습니다.</p>
+                    </CardContent>
+                  </Card>
+                )}
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                  {group.fixtures.map((fixture, index) => (
+                  {upcomingMatches[date].map((fixture, index) => (
                     <UpcomingGameCard
                       fixture={fixture}
                       key={"upcoming" + index}
@@ -89,23 +92,30 @@ export default function FixturesPage() {
           <TabsContent value='results' className='space-y-8'>
             <div className='flex justify-between items-center'>
               <h2 className='text-xl font-bold'>Recent Results</h2>
-              <div className='flex gap-2'>
+              {/* <div className='flex gap-2'>
                 <Button variant='outline' size='sm'>
                   <ChevronLeft className='h-4 w-4' />
                 </Button>
                 <Button variant='outline' size='sm'>
                   <ChevronRight className='h-4 w-4' />
                 </Button>
-              </div>
+              </div> */}
             </div>
 
-            {pastResultsByDate.map((group) => (
-              <div key={group.date} className='space-y-4'>
+            {pastDates.map((date) => (
+              <div key={date} className='space-y-4'>
                 <h3 className='text-lg font-semibold'>
-                  {formatMatchDate(group.date)}
+                  {formatMatchDate(date)}
                 </h3>
+                {pastMatches[date].length === 0 && (
+                  <Card className='w-full px-4'>
+                    <CardContent className='p-2 text-center '>
+                      <p>경기가 없습니다.</p>
+                    </CardContent>
+                  </Card>
+                )}
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                  {group.fixtures.map((fixture, index) => (
+                  {pastMatches[date].map((fixture, index) => (
                     <PastGameCard fixture={fixture} key={"past" + index} />
                   ))}
                 </div>
