@@ -25,6 +25,7 @@ export interface TeamMatchType {
   homeTeamScore: number;
   awayTeamScore: number;
   side: string;
+  result: string;
 }
 
 export interface TeamDetailType {

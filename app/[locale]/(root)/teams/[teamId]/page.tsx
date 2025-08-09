@@ -95,7 +95,7 @@ export default async function TeamPage({
           <TabsContent value='fixtures' className='space-y-8'>
             <RecentMatches
               recentMatches={team.recentMatches}
-              upcomingMatches={[]}
+              upcomingMatches={team.upcomingMatches}
             />
           </TabsContent>
 
