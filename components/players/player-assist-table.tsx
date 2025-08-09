@@ -109,11 +109,11 @@ export async function PlayerAssistTable() {
                       Premier League
                     </Badge>
                   </td>
-                  <td className='py-3 px-2 text-center'>AGE가 없음</td>
+                  <td className='py-3 px-2 text-center'>{player.age}</td>
                   <td className='py-3 px-2 text-center font-bold'>
                     {player.assists}
                   </td>
-                  <td className='py-3 px-2 text-center'>GOAL이 없음</td>
+                  <td className='py-3 px-2 text-center'>{player.goals}</td>
                   <td className='py-3 px-2 text-center'>
                     {player.appearances}
                   </td>

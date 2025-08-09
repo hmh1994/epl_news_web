@@ -110,11 +110,11 @@ export async function PlayerGoalTable() {
                       Premier League
                     </Badge>
                   </td>
-                  <td className='py-3 px-2 text-center'>AGE가 없음</td>
+                  <td className='py-3 px-2 text-center'>{player.age}</td>
                   <td className='py-3 px-2 text-center font-bold'>
                     {player.goals}
                   </td>
-                  <td className='py-3 px-2 text-center'>ASSIST가 없음</td>
+                  <td className='py-3 px-2 text-center'>{player.assists}</td>
                   <td className='py-3 px-2 text-center'>
                     {player.appearances}
                   </td>

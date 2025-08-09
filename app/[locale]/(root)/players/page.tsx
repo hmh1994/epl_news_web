@@ -1,6 +1,6 @@
 import {
   // PlayerCondition,
-  PlayerHighlights,
+  // PlayerHighlights,
   PlayerRankingTable,
   PlayerTitle,
 } from "@/components/players";
@@ -12,7 +12,7 @@ export default function PlayerRankingsPage() {
       <div className='container py-8'>
         {/* <PlayerCondition /> */}
         <PlayerRankingTable />
-        <PlayerHighlights />
+        {/* <PlayerHighlights /> */}
       </div>
     </div>
   );
