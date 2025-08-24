@@ -10,7 +10,6 @@ export function MatchTitleBanner({
   match: any;
   isCompleted: boolean;
 }) {
-  console.log(match);
   return (
     <div
       className='bg-gradient-to-b pt-8 pb-16'

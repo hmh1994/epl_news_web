@@ -60,9 +60,6 @@ export function MatchLineup({ match }: { match: MatchDetailType }) {
   const { lineup: awayLineup, substitutes: awaySubstitutes } =
     matchInfo.awayTeamInfo;
 
-  console.log(
-    homeLineup.filter((player: MatchDetailPlayerType) => player.row === 1)
-  );
   return (
     <TabsContent value='lineups' className='space-y-6'>
       <Card>

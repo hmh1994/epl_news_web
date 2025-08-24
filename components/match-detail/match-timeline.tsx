@@ -56,7 +56,6 @@ export function MatchTimeline({ match }: { match: MatchDetailType }) {
     return event1.clock - event2.clock;
   });
 
-  console.log("ASD", timelineEvent);
   return (
     <Card>
       <CardHeader>
