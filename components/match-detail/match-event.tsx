@@ -1,11 +1,11 @@
+import { CardType } from "@/src/entities/match/apis/get-match-detail";
+
 export function MatchEvent({ event }: { event: any }) {
   switch (event.type) {
-    case "goal":
+    case "GOAL":
       return (
         <div className='flex items-center gap-2 py-2'>
-          <div className='w-12 text-right font-medium'>
-            {event.minute}&apos;
-          </div>
+          <div className='w-12 text-right font-medium'>{event.clock}&apos;</div>
           <div className='w-6 flex justify-center'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -25,45 +25,45 @@ export function MatchEvent({ event }: { event: any }) {
             </svg>
           </div>
           <div className='flex-1'>
-            <div className='font-medium'>{event.player}</div>
-            {event.assistedBy && (
+            <div className='font-medium'>{event.playerDisplayNameEn}</div>
+            <div className='text-xs text-muted-foreground'>
+              {event.teamSide.toUpperCase()} Goal
+            </div>
+            {/* {event.assistedBy && (
               <div className='text-xs text-muted-foreground'>
                 Assist: {event.assistedBy}
               </div>
-            )}
+            )} */}
           </div>
-          <div className='w-20 text-right'>
-            {event.team === "home" ? "1-0" : "0-1"}
-          </div>
+          {/* <div className='w-20 text-right'>
+            {event.teamSide === "home" ? "1-0" : "0-1"}
+          </div> */}
         </div>
       );
-    case "yellowCard":
+    case CardType.F_YELLOW:
       return (
         <div className='flex items-center gap-2 py-2'>
-          <div className='w-12 text-right font-medium'>
-            {event.minute}&apos;
-          </div>
+          <div className='w-12 text-right font-medium'>{event.clock}&apos;</div>
           <div className='w-6 flex justify-center'>
             <div className='w-3 h-4 bg-yellow-400'></div>
           </div>
           <div className='flex-1'>
-            <div className='font-medium'>{event.player}</div>
+            <div className='font-medium'>{event.playerDisplayNameEn}</div>
             <div className='text-xs text-muted-foreground'>Yellow Card</div>
           </div>
           <div className='w-20'></div>
         </div>
       );
-    case "redCard":
+    case CardType.RED:
+    case CardType.S_YELLOW:
       return (
         <div className='flex items-center gap-2 py-2'>
-          <div className='w-12 text-right font-medium'>
-            {event.minute}&apos;
-          </div>
+          <div className='w-12 text-right font-medium'>{event.clock}&apos;</div>
           <div className='w-6 flex justify-center'>
             <div className='w-3 h-4 bg-red-600'></div>
           </div>
           <div className='flex-1'>
-            <div className='font-medium'>{event.player}</div>
+            <div className='font-medium'>{event.playerDisplayNameEn}</div>
             <div className='text-xs text-muted-foreground'>Red Card</div>
           </div>
           <div className='w-20'></div>
@@ -72,9 +72,7 @@ export function MatchEvent({ event }: { event: any }) {
     case "substitution":
       return (
         <div className='flex items-center gap-2 py-2'>
-          <div className='w-12 text-right font-medium'>
-            {event.minute}&apos;
-          </div>
+          <div className='w-12 text-right font-medium'>{event.clock}&apos;</div>
           <div className='w-6 flex justify-center'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -95,11 +93,17 @@ export function MatchEvent({ event }: { event: any }) {
           </div>
           <div className='flex-1'>
             <div className='font-medium'>
-              <span className='text-green-600'>↑ {event.playerIn}</span>
+              <span className='text-green-600'>
+                ↑ {event.inPlayerDisplayNameEn}
+              </span>
               <span className='mx-1'>|</span>
-              <span className='text-red-600'>↓ {event.playerOut}</span>
+              <span className='text-red-600'>
+                ↓ {event.outPlayerDisplayNameEn}
+              </span>
             </div>
-            <div className='text-xs text-muted-foreground'>Substitution</div>
+            <div className='text-xs text-muted-foreground'>
+              {event.teamSide.toUpperCase()} Substitution
+            </div>
           </div>
           <div className='w-20'></div>
         </div>

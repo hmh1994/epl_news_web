@@ -6,12 +6,13 @@ import {
   MatchHistory,
   MatchLineup,
   MatchPreview,
-  MatchStat,
+  // MatchStat,
   MatchTimeline,
   MatchTitleBanner,
-  RelatedMatches,
+  // RelatedMatches,
 } from "@/components/match-detail";
 import { MatchSummary } from "@/components/match-detail/match-summary";
+import { getMatchDetail } from "@/src/entities/match/apis/get-match-detail";
 
 export default async function MatchPage({
   params,
@@ -19,17 +20,18 @@ export default async function MatchPage({
   params: Promise<{ matchId: string }>;
 }) {
   const matchId = (await params).matchId as "match-1" | "match-2";
+  const result = await getMatchDetail({ fixtureId: matchId });
   const match = matchesData[matchId];
 
-  if (!match) {
+  if (!result) {
     notFound();
   }
 
-  const isCompleted = match.status === "completed";
+  const isCompleted = result.gameStat !== null;
 
   return (
     <div className='min-h-screen bg-background'>
-      <MatchTitleBanner match={match} />
+      <MatchTitleBanner match={result} isCompleted={isCompleted} />
 
       <div className='container py-8'>
         <Tabs
@@ -38,16 +40,16 @@ export default async function MatchPage({
         >
           <TabsList
             className={`grid w-full grid-cols-2 md:${
-              isCompleted ? "grid-cols-4" : "grid-cols-3"
+              isCompleted ? "grid-cols-3" : "grid-cols-3"
             } mb-6`}
           >
             <CustomTabTrigger value={isCompleted ? "summary" : "preview"}>
               {isCompleted ? "Summary" : "Preview"}
             </CustomTabTrigger>
             <CustomTabTrigger value='lineups'>Lineups</CustomTabTrigger>
-            <CustomTabTrigger value='stats'>
+            {/* <CustomTabTrigger value='stats'>
               {isCompleted ? "Statistics" : "Head to Head"}
-            </CustomTabTrigger>
+            </CustomTabTrigger> */}
             {isCompleted && (
               <CustomTabTrigger value={"timeline"}>Timeline</CustomTabTrigger>
             )}
@@ -57,16 +59,16 @@ export default async function MatchPage({
             // Content for completed matches
             <>
               <TabsContent value='summary' className='space-y-6'>
-                <MatchSummary match={match} />
+                <MatchSummary match={result} />
               </TabsContent>
 
               <TabsContent value='timeline' className='space-y-6'>
-                <MatchTimeline match={match} />
+                <MatchTimeline match={result} />
               </TabsContent>
 
-              <TabsContent value='stats' className='space-y-6'>
+              {/* <TabsContent value='stats' className='space-y-6'>
                 <MatchStat match={match} />
-              </TabsContent>
+              </TabsContent> */}
             </>
           ) : (
             // Content for upcoming matches
@@ -82,11 +84,11 @@ export default async function MatchPage({
           )}
 
           <TabsContent value='lineups' className='space-y-6'>
-            <MatchLineup match={match} />
+            <MatchLineup match={result} />
           </TabsContent>
         </Tabs>
 
-        <RelatedMatches match={match} />
+        {/* <RelatedMatches match={match} /> */}
       </div>
     </div>
   );

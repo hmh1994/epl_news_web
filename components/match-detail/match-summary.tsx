@@ -7,8 +7,50 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
+import {
+  CardType,
+  MatchDetailCardType,
+  MatchDetailGoalType,
+  MatchDetailType,
+} from "@/src/entities/match/apis/get-match-detail";
 
-export function MatchSummary({ match }: { match: any }) {
+export function MatchSummary({ match }: { match: MatchDetailType }) {
+  const { static: _stat, timeline } = match.gameStat;
+
+  const homePassAccurate = Number(
+    ((_stat.home.passesAccurate / _stat.home.passesTotal) * 100).toFixed(2)
+  );
+  const awayPassAccurate = Number(
+    ((_stat.away.passesAccurate / _stat.away.passesTotal) * 100).toFixed(2)
+  );
+
+  const { substitutions } = timeline;
+  const homeSubEvents = substitutions.home.map((event) => ({
+    teamSide: "home",
+    clock: event.clock,
+    inPlayerDisplayNameEn: event.inPlayerDisplayNameEn,
+    inPlayerDisplayNameKr: event.inPlayerDisplayNameKr,
+    outPlayerDisplayNameEn: event.outPlayerDisplayNameEn,
+    outPlayerDisplayNameKr: event.outPlayerDisplayNameKr,
+    type: "substitution",
+  }));
+
+  const awaySubEvents = substitutions.away.map((event) => ({
+    teamSide: "away",
+    clock: event.clock,
+    inPlayerDisplayNameEn: event.inPlayerDisplayNameEn,
+    inPlayerDisplayNameKr: event.inPlayerDisplayNameKr,
+    outPlayerDisplayNameEn: event.outPlayerDisplayNameEn,
+    outPlayerDisplayNameKr: event.outPlayerDisplayNameKr,
+    type: "substitution",
+  }));
+
+  const timelineEvent = [...homeSubEvents, ...awaySubEvents].sort(
+    (event1, event2) => {
+      return event1.clock - event2.clock;
+    }
+  );
+
   return (
     <Card>
       <CardHeader>
@@ -22,85 +64,98 @@ export function MatchSummary({ match }: { match: any }) {
           <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
             <div className='space-y-4'>
               <h3 className='font-semibold'>Goals</h3>
-              {match.events
-                .filter((event: any) => event.type === "goal")
-                .map((event: any, index: number) => (
+              {timeline.goals.map(
+                (event: MatchDetailGoalType, index: number) => (
                   <div key={index} className='flex items-center gap-2'>
                     <div className='w-8 text-right font-medium'>
-                      {event.minute}&apos;
+                      {event.clock}&apos;
                     </div>
                     <div className='flex-1'>
-                      <div className='font-medium'>{event.player}</div>
-                      {event.assistedBy && (
+                      <div className='font-medium'>
+                        {event.playerDisplayNameEn}
+                      </div>
+                      {/* {event.assistedBy && (
                         <div className='text-xs text-muted-foreground'>
                           Assist: {event.assistedBy}
                         </div>
-                      )}
+                      )} */}
                     </div>
                     <div className='w-6 text-right'>
-                      {event.team === "home"
-                        ? match.homeTeam.shortName
-                        : match.awayTeam.shortName}
+                      {event.teamSide === "home"
+                        ? match.homeTeamInfo.shortTeamNameEn
+                            .substring(0, 3)
+                            .toUpperCase()
+                        : match.awayTeamInfo.shortTeamNameEn
+                            .substring(0, 3)
+                            .toUpperCase()}
                     </div>
                   </div>
-                ))}
+                )
+              )}
             </div>
 
             <div className='space-y-4'>
               <h3 className='font-semibold'>Cards</h3>
-              {match.events
-                .filter(
-                  (event: any) =>
-                    event.type === "yellowCard" || event.type === "redCard"
-                )
-                .map((event: any, index: number) => (
+              {timeline.cards.map(
+                (event: MatchDetailCardType, index: number) => (
                   <div key={index} className='flex items-center gap-2'>
                     <div className='w-8 text-right font-medium'>
-                      {event.minute}&apos;
+                      {event.clock}&apos;
                     </div>
                     <div
                       className={`w-3 h-4 ${
-                        event.type === "yellowCard"
+                        event.cardType === CardType.F_YELLOW
                           ? "bg-yellow-400"
                           : "bg-red-600"
                       }`}
                     ></div>
                     <div className='flex-1'>
-                      <div className='font-medium'>{event.player}</div>
+                      <div className='font-medium'>
+                        {event.playerDisplayNameEn}
+                      </div>
                     </div>
                     <div className='w-6 text-right'>
-                      {event.team === "home"
-                        ? match.homeTeam.shortName
-                        : match.awayTeam.shortName}
+                      {event.teamSide === "home"
+                        ? match.homeTeamInfo.shortTeamNameEn
+                            .substring(0, 3)
+                            .toUpperCase()
+                        : match.awayTeamInfo.shortTeamNameEn
+                            .substring(0, 3)
+                            .toUpperCase()}
                     </div>
                   </div>
-                ))}
+                )
+              )}
             </div>
 
             <div className='space-y-4'>
               <h3 className='font-semibold'>Substitutions</h3>
-              {match.events
+              {timelineEvent
                 .filter((event: any) => event.type === "substitution")
                 .map((event: any, index: number) => (
                   <div key={index} className='flex items-center gap-2'>
                     <div className='w-8 text-right font-medium'>
-                      {event.minute}&apos;
+                      {event.clock}&apos;
                     </div>
                     <div className='flex-1'>
                       <div className='font-medium'>
                         <span className='text-green-600'>
-                          ↑ {event.playerIn}
+                          ↑ {event.inPlayerDisplayNameEn}
                         </span>
                         <span className='mx-1'>|</span>
                         <span className='text-red-600'>
-                          ↓ {event.playerOut}
+                          ↓ {event.outPlayerDisplayNameEn}
                         </span>
                       </div>
                     </div>
                     <div className='w-6 text-right'>
-                      {event.team === "home"
-                        ? match.homeTeam.shortName
-                        : match.awayTeam.shortName}
+                      {event.teamSide === "home"
+                        ? match.homeTeamInfo.shortTeamNameEn
+                            .substring(0, 3)
+                            .toUpperCase()
+                        : match.awayTeamInfo.shortTeamNameEn
+                            .substring(0, 3)
+                            .toUpperCase()}
                     </div>
                   </div>
                 ))}
@@ -115,21 +170,21 @@ export function MatchSummary({ match }: { match: any }) {
               <div className='space-y-4'>
                 <div className='space-y-2'>
                   <div className='flex justify-between text-sm'>
-                    <span>{match.stats.possession.home}%</span>
+                    <span>{_stat.home.possession}%</span>
                     <span>Possession</span>
-                    <span>{match.stats.possession.away}%</span>
+                    <span>{_stat.away.possession}%</span>
                   </div>
                   <div className='flex h-2 bg-muted rounded-full overflow-hidden'>
                     <div
                       className='bg-blue-600'
                       style={{
-                        width: `${match.stats.possession.home}%`,
+                        width: `${_stat.home.possession}%`,
                       }}
                     ></div>
                     <div
                       className='bg-red-600'
                       style={{
-                        width: `${match.stats.possession.away}%`,
+                        width: `${_stat.away.possession}%`,
                       }}
                     ></div>
                   </div>
@@ -137,17 +192,17 @@ export function MatchSummary({ match }: { match: any }) {
 
                 <div className='space-y-2'>
                   <div className='flex justify-between text-sm'>
-                    <span>{match.stats.shots.home}</span>
+                    <span>{_stat.home.shotsTotal}</span>
                     <span>Shots</span>
-                    <span>{match.stats.shots.away}</span>
+                    <span>{_stat.away.shotsTotal}</span>
                   </div>
                   <div className='flex h-2 bg-muted rounded-full overflow-hidden'>
                     <div
                       className='bg-blue-600'
                       style={{
                         width: `${
-                          (match.stats.shots.home /
-                            (match.stats.shots.home + match.stats.shots.away)) *
+                          (_stat.home.shotsTotal /
+                            (_stat.home.shotsTotal + _stat.away.shotsTotal)) *
                           100
                         }%`,
                       }}
@@ -156,8 +211,8 @@ export function MatchSummary({ match }: { match: any }) {
                       className='bg-red-600'
                       style={{
                         width: `${
-                          (match.stats.shots.away /
-                            (match.stats.shots.home + match.stats.shots.away)) *
+                          (_stat.away.shotsTotal /
+                            (_stat.away.shotsTotal + _stat.home.shotsTotal)) *
                           100
                         }%`,
                       }}
@@ -167,18 +222,18 @@ export function MatchSummary({ match }: { match: any }) {
 
                 <div className='space-y-2'>
                   <div className='flex justify-between text-sm'>
-                    <span>{match.stats.shotsOnTarget.home}</span>
+                    <span>{_stat.home.shotsOnTarget}</span>
                     <span>Shots on Target</span>
-                    <span>{match.stats.shotsOnTarget.away}</span>
+                    <span>{_stat.away.shotsOnTarget}</span>
                   </div>
                   <div className='flex h-2 bg-muted rounded-full overflow-hidden'>
                     <div
                       className='bg-blue-600'
                       style={{
                         width: `${
-                          (match.stats.shotsOnTarget.home /
-                            (match.stats.shotsOnTarget.home +
-                              match.stats.shotsOnTarget.away)) *
+                          (_stat.home.shotsOnTarget /
+                            (_stat.home.shotsOnTarget +
+                              _stat.away.shotsOnTarget)) *
                           100
                         }%`,
                       }}
@@ -187,9 +242,9 @@ export function MatchSummary({ match }: { match: any }) {
                       className='bg-red-600'
                       style={{
                         width: `${
-                          (match.stats.shotsOnTarget.away /
-                            (match.stats.shotsOnTarget.home +
-                              match.stats.shotsOnTarget.away)) *
+                          (_stat.away.shotsOnTarget /
+                            (_stat.home.shotsOnTarget +
+                              _stat.away.shotsOnTarget)) *
                           100
                         }%`,
                       }}
@@ -199,18 +254,18 @@ export function MatchSummary({ match }: { match: any }) {
 
                 <div className='space-y-2'>
                   <div className='flex justify-between text-sm'>
-                    <span>{match.stats.corners.home}</span>
-                    <span>Corners</span>
-                    <span>{match.stats.corners.away}</span>
+                    <span>{_stat.home.foulsCommitted}</span>
+                    <span>Fouls Committed</span>
+                    <span>{_stat.away.foulsCommitted}</span>
                   </div>
                   <div className='flex h-2 bg-muted rounded-full overflow-hidden'>
                     <div
                       className='bg-blue-600'
                       style={{
                         width: `${
-                          (match.stats.corners.home /
-                            (match.stats.corners.home +
-                              match.stats.corners.away)) *
+                          (_stat.home.foulsCommitted /
+                            (_stat.home.foulsCommitted +
+                              _stat.away.foulsCommitted)) *
                           100
                         }%`,
                       }}
@@ -219,9 +274,39 @@ export function MatchSummary({ match }: { match: any }) {
                       className='bg-red-600'
                       style={{
                         width: `${
-                          (match.stats.corners.away /
-                            (match.stats.corners.home +
-                              match.stats.corners.away)) *
+                          (_stat.away.foulsCommitted /
+                            (_stat.home.foulsCommitted +
+                              _stat.away.foulsCommitted)) *
+                          100
+                        }%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div className='space-y-2'>
+                  <div className='flex justify-between text-sm'>
+                    <span>{homePassAccurate}</span>
+                    <span>Pass Accuracy</span>
+                    <span>{awayPassAccurate}</span>
+                  </div>
+                  <div className='flex h-2 bg-muted rounded-full overflow-hidden'>
+                    <div
+                      className='bg-blue-600'
+                      style={{
+                        width: `${
+                          (homePassAccurate /
+                            (homePassAccurate + awayPassAccurate)) *
+                          100
+                        }%`,
+                      }}
+                    ></div>
+                    <div
+                      className='bg-red-600'
+                      style={{
+                        width: `${
+                          (awayPassAccurate /
+                            (homePassAccurate + awayPassAccurate)) *
                           100
                         }%`,
                       }}
@@ -236,32 +321,25 @@ export function MatchSummary({ match }: { match: any }) {
               <div className='space-y-3'>
                 <div className='flex justify-between'>
                   <span className='text-muted-foreground'>Referee</span>
-                  <span className='font-medium'>{match.referee}</span>
+                  <span className='font-medium'>{match.officialNameEn}</span>
                 </div>
                 <Separator />
-                <div className='flex justify-between'>
+                {/* <div className='flex justify-between'>
                   <span className='text-muted-foreground'>Attendance</span>
                   <span className='font-medium'>
                     {match.attendance.toLocaleString()}
                   </span>
-                </div>
-                <Separator />
+                </div> */}
                 <div className='flex justify-between'>
                   <span className='text-muted-foreground'>Stadium</span>
-                  <span className='font-medium'>{match.venue}</span>
-                </div>
-                <Separator />
-                <div className='flex justify-between'>
-                  <span className='text-muted-foreground'>Half-time Score</span>
-                  <span className='font-medium'>
-                    {match.score.halfTimeScore}
-                  </span>
+                  <span className='font-medium'>{match.groundNameEn}</span>
                 </div>
                 <Separator />
                 <div className='flex justify-between'>
                   <span className='text-muted-foreground'>Full-time Score</span>
                   <span className='font-medium'>
-                    {match.score.homeScore} - {match.score.awayScore}
+                    {match.homeTeamInfo.teamScore} -{" "}
+                    {match.awayTeamInfo.teamScore}
                   </span>
                 </div>
               </div>

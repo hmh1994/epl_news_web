@@ -9,50 +9,40 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { TabsContent } from "@/components/ui/tabs";
 import { LineupList } from "@/components/match-detail";
+import {
+  MatchDetailPlayerType,
+  MatchDetailSubPlayerType,
+  MatchDetailType,
+} from "@/src/entities/match/apis/get-match-detail";
 
-const LINEUP_POSITION = {
-  gk: ["GK"],
-  def: ["CB", "RB", "LB"],
-  mid: ["CDM", "DM", "CAM", "RM", "LM", "AM"],
-  fwd: ["RW", "LW", "ST", "CF"],
-};
-
-const renderLineups = (title: string, position: string, lineup: any) => {
-  // @ts-ignore
-  const lineupPosition = LINEUP_POSITION[position];
+const renderLineups = (title: string, lineup: MatchDetailPlayerType[]) => {
   return (
     <div>
       <h4 className='text-sm font-medium text-muted-foreground mb-2'>
         {title}
       </h4>
-      {lineupPosition.map((pos: string, index: number) => (
-        <LineupList
-          lineup={lineup}
-          position={pos}
-          key={JSON.stringify(position) + index + pos}
-        />
-      ))}
+      <LineupList lineup={lineup} />
     </div>
   );
 };
 
-const renderSubstitutes = (subs: any[]) => {
+const renderSubstitutes = (subs: MatchDetailSubPlayerType[]) => {
   return (
     <div className='mt-6'>
       <h4 className='text-sm font-medium text-muted-foreground mb-2'>
         Substitutes
       </h4>
       <div className='grid grid-cols-2 gap-2'>
-        {subs.map((player: any, index: number) => (
+        {subs.map((player: MatchDetailSubPlayerType, index: number) => (
           <div key={index} className='flex items-center gap-2 py-1'>
             <div className='w-6 h-6 rounded-full bg-muted flex items-center justify-center text-xs font-medium'>
-              {player.number}
+              {player.shirtNumber}
             </div>
             <div className='text-sm'>
-              <span className='font-medium'>{player.name}</span>
-              <span className='text-muted-foreground ml-1'>
+              <span className='font-medium'>{player.displayNameEn}</span>
+              {/* <span className='text-muted-foreground ml-1'>
                 ({player.position})
-              </span>
+              </span> */}
             </div>
           </div>
         ))}
@@ -61,8 +51,18 @@ const renderSubstitutes = (subs: any[]) => {
   );
 };
 
-export function MatchLineup({ match }: { match: any }) {
-  const isCompleted = match.status === "completed";
+export function MatchLineup({ match }: { match: MatchDetailType }) {
+  const matchInfo = match;
+  const isCompleted = matchInfo.gameStat !== null;
+  const { lineup: homeLineup, substitutes: homeSubstitutes } =
+    matchInfo.homeTeamInfo;
+
+  const { lineup: awayLineup, substitutes: awaySubstitutes } =
+    matchInfo.awayTeamInfo;
+
+  console.log(
+    homeLineup.filter((player: MatchDetailPlayerType) => player.row === 1)
+  );
   return (
     <TabsContent value='lineups' className='space-y-6'>
       <Card>
@@ -82,47 +82,97 @@ export function MatchLineup({ match }: { match: any }) {
               <div className='flex items-center gap-3 mb-4'>
                 <div className='relative w-8 h-8'>
                   <Image
-                    src={match.homeTeam.logo || "/placeholder.svg"}
-                    alt={match.homeTeam.name}
+                    src={
+                      "https://resources.premierleague.com/premierleague/badges/50/t43.png"
+                    }
+                    alt={matchInfo.homeTeamInfo.teamNameEn}
                     fill
                     className='object-contain'
                   />
                 </div>
-                <h3 className='font-semibold'>{match.homeTeam.name}</h3>
-                <Badge variant='outline'>{match.homeTeam.formation}</Badge>
+                <h3 className='font-semibold'>
+                  {matchInfo.homeTeamInfo.teamNameEn}
+                </h3>
+                <Badge variant='outline'>
+                  {matchInfo.homeTeamInfo.teamFormation.join("-")}
+                </Badge>
               </div>
 
               <div className='space-y-4'>
-                {renderLineups("Goalkeeper", "gk", match.homeLineup)}
-                {renderLineups("Defenders", "def", match.homeLineup)}
-                {renderLineups("Midfielders", "mid", match.homeLineup)}
-                {renderLineups("Forwards", "fwd", match.homeLineup)}
+                {renderLineups(
+                  "Goalkeeper",
+                  matchInfo.homeTeamInfo.lineup.filter(
+                    (player: MatchDetailPlayerType) => player.row === 0
+                  )
+                )}
+                {renderLineups(
+                  "Defenders",
+                  homeLineup.filter(
+                    (player: MatchDetailPlayerType) => player.row === 1
+                  )
+                )}
+                {renderLineups(
+                  "Midfielders",
+                  homeLineup.filter(
+                    (player: MatchDetailPlayerType) => player.row === 2
+                  )
+                )}
+                {renderLineups(
+                  "Forwards",
+                  homeLineup.filter(
+                    (player: MatchDetailPlayerType) => player.row > 2
+                  )
+                )}
               </div>
-              {renderSubstitutes(match.homeSubs)}
+              {renderSubstitutes(homeSubstitutes)}
             </div>
-
             <div>
               <div className='flex items-center gap-3 mb-4'>
                 <div className='relative w-8 h-8'>
                   <Image
-                    src={match.awayTeam.logo || "/placeholder.svg"}
-                    alt={match.awayTeam.name}
+                    src={
+                      "https://resources.premierleague.com/premierleague/badges/50/t43.png"
+                    }
+                    alt={matchInfo.awayTeamInfo.teamNameEn}
                     fill
                     className='object-contain'
                   />
                 </div>
-                <h3 className='font-semibold'>{match.awayTeam.name}</h3>
-                <Badge variant='outline'>{match.awayTeam.formation}</Badge>
+                <h3 className='font-semibold'>
+                  {matchInfo.awayTeamInfo.teamNameEn}
+                </h3>
+                <Badge variant='outline'>
+                  {matchInfo.awayTeamInfo.teamFormation.join("-")}
+                </Badge>
               </div>
 
               <div className='space-y-4'>
-                {renderLineups("Goalkeeper", "gk", match.awayLineup)}
-                {renderLineups("Defenders", "def", match.awayLineup)}
-                {renderLineups("Midfielders", "mid", match.awayLineup)}
-                {renderLineups("Forwards", "fwd", match.awayLineup)}
+                {renderLineups(
+                  "Goalkeeper",
+                  awayLineup.filter(
+                    (player: MatchDetailPlayerType) => player.row === 0
+                  )
+                )}
+                {renderLineups(
+                  "Defenders",
+                  awayLineup.filter(
+                    (player: MatchDetailPlayerType) => player.row === 1
+                  )
+                )}
+                {renderLineups(
+                  "Midfielders",
+                  awayLineup.filter(
+                    (player: MatchDetailPlayerType) => player.row === 2
+                  )
+                )}
+                {renderLineups(
+                  "Forwards",
+                  awayLineup.filter(
+                    (player: MatchDetailPlayerType) => player.row > 2
+                  )
+                )}
               </div>
-
-              {renderSubstitutes(match.awaySubs)}
+              {renderSubstitutes(awaySubstitutes)}
             </div>
           </div>
         </CardContent>
