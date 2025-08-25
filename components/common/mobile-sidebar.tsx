@@ -90,15 +90,23 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
             Home
           </Link>
           <Link
-            href='/rankings'
+            href='/news'
             className='text-lg font-medium py-3 px-4 rounded-md hover:bg-accent transition-colors flex items-center'
             onClick={onClose}
             style={{ color: "#000000" }}
           >
-            Rankings
+            News
           </Link>
           <Link
-            href='/player-rankings'
+            href='/teams'
+            className='text-lg font-medium py-3 px-4 rounded-md hover:bg-accent transition-colors flex items-center'
+            onClick={onClose}
+            style={{ color: "#000000" }}
+          >
+            Teams
+          </Link>
+          <Link
+            href='/players'
             className='text-lg font-medium py-3 px-4 rounded-md hover:bg-accent transition-colors flex items-center'
             onClick={onClose}
             style={{ color: "#000000" }}
@@ -106,20 +114,12 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
             Players
           </Link>
           <Link
-            href='/fixtures'
+            href='/matches'
             className='text-lg font-medium py-3 px-4 rounded-md hover:bg-accent transition-colors flex items-center'
             onClick={onClose}
             style={{ color: "#000000" }}
           >
-            Fixtures
-          </Link>
-          <Link
-            href='#'
-            className='text-lg font-medium py-3 px-4 rounded-md hover:bg-accent transition-colors flex items-center'
-            onClick={onClose}
-            style={{ color: "#000000" }}
-          >
-            Community
+            matches
           </Link>
         </nav>
 
@@ -127,7 +127,7 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
           className='p-6 border-t space-y-4'
           style={{ borderTopColor: "#e5e7eb", backgroundColor: "#FFFFFF" }}
         >
-          <Button
+          {/* <Button
             variant='outline'
             className='w-full py-6 text-lg'
             style={{
@@ -137,7 +137,7 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
             }}
           >
             Sign In
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>
