@@ -1,9 +1,0 @@
-export { LineupList } from "./line-up-list";
-export { MatchEvent } from "./match-event";
-export { MatchTitleBanner } from "./match-title-banner";
-export { MatchLineup } from "./match-lineup";
-export { MatchPreview } from "./match-preview";
-export { MatchHistory } from "./match-history";
-export { MatchStat } from "./match-stat";
-export { MatchTimeline } from "./match-timeline";
-export { RelatedMatches } from "./related-matches";

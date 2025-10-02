@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "../../globals.css";
-import { Footer, Header } from "@/components/common";
-import { nanumSquare } from "../../fonts";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
-import { routing } from "@/src/i18n/routing";
+// import { Footer, Header } from "@/components/common";
+// import { nanumSquare } from "../../fonts";
+// import { NextIntlClientProvider } from "next-intl";
+// import { getMessages } from "next-intl/server";
+import { routing } from "@/shared/config/i18n/routing";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -41,11 +41,11 @@ export default async function RootLayout({
   if (!routing.locales.includes(locale)) {
     notFound();
   }
-  const messages = await getMessages();
+  // const messages = await getMessages();
   return (
     <html
       lang='locale'
-      className={`${nanumSquare.variable} font-(family-name:--font-nanum-square) `}
+      // className={`${nanumSquare.variable} font-(family-name:--font-nanum-square) `}
     >
       <head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
@@ -59,11 +59,11 @@ export default async function RootLayout({
         />
       </head>
       <body>
-        <NextIntlClientProvider messages={messages}>
+        {children}
+        {/* <NextIntlClientProvider messages={messages}>
           <Header />
-          {children}
           <Footer />
-        </NextIntlClientProvider>
+        </NextIntlClientProvider> */}
       </body>
     </html>
   );
