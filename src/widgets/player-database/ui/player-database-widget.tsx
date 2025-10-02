@@ -14,7 +14,7 @@ import {
   BarChart3,
 } from "lucide-react";
 
-export const TestPlayerPage = () => {
+export const PlayerDatabaseWidget = () => {
   const [viewMode, setViewMode] = useState("grid"); // grid or list
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPosition, setSelectedPosition] = useState("all");

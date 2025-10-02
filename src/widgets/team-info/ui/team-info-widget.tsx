@@ -16,7 +16,7 @@ import {
   Activity,
 } from "lucide-react";
 
-export const TeamInfoPage = () => {
+export const TeamInfoWidget = () => {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [sortBy, setSortBy] = useState("number");
   const [filterPosition, setFilterPosition] = useState("all");

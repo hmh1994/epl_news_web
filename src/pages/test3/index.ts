@@ -1,1 +1,1 @@
-export { PremiumEPLTablePage } from "./ui/premium-epl-table";
+export { PremiumEPLTablePage } from "@/processes/premium-epl-table-page";

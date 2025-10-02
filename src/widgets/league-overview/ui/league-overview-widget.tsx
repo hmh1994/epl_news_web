@@ -13,7 +13,7 @@ import {
   Shield,
 } from "lucide-react";
 
-export const Test4Page = () => {
+export const LeagueOverviewWidget = () => {
   const [activeLeague, setActiveLeague] = useState("EPL");
   const [activeTab, setActiveTab] = useState("table");
   const [hoveredTeam, setHoveredTeam] = useState(null);

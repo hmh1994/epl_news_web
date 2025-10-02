@@ -1,1 +1,1 @@
-export { TestPlayerPage } from "./ui/test-player-page";
+export { PlayerDatabasePage as TestPlayerPage } from "@/processes/player-database-page";

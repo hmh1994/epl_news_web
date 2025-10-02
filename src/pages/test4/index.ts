@@ -1,1 +1,1 @@
-export { Test4Page } from "./ui/test4-page";
+export { LeagueOverviewPage as Test4Page } from "@/processes/league-overview-page";

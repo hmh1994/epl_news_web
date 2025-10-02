@@ -1,1 +1,1 @@
-export { EPLHubPage } from "./ui/epl-hub-page";
+export { EPLHubPage } from "@/processes/epl-hub-page";

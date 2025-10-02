@@ -16,7 +16,7 @@ import {
   Zap,
 } from "lucide-react";
 
-export const PremiumEPLTablePage = () => {
+export const PremiumEPLTableWidget = () => {
   const [sortBy, setSortBy] = useState("position");
   const [sortOrder, setSortOrder] = useState("asc");
   const [searchTerm, setSearchTerm] = useState("");

@@ -1,1 +1,1 @@
-export { TeamInfoPage } from "./ui/team-info-page";
+export { TeamInfoPage } from "@/processes/team-info-page";
