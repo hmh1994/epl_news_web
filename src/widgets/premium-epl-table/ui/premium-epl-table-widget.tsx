@@ -1,9 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import {
   Trophy,
-  TrendingUp,
-  TrendingDown,
   ChevronUp,
   ChevronDown,
   Search,
@@ -15,13 +13,18 @@ import {
   BarChart3,
   Zap,
 } from "lucide-react";
+import { LeagueTableTeam } from "@/entities/team/model/league-table-team";
+import { LeagueTableRow } from "@/entities/team/ui/league-table-row";
+import { PREMIER_LEAGUE_TABLE } from "@/shared/mocks/premium-epl-table";
+
+type SortColumn = "position" | "team" | "played" | "goalDifference" | "points";
 
 export const PremiumEPLTableWidget = () => {
-  const [sortBy, setSortBy] = useState("position");
-  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortBy, setSortBy] = useState<SortColumn>("position");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [searchTerm, setSearchTerm] = useState("");
   const [scrollY, setScrollY] = useState(0);
-  const [hoveredRow, setHoveredRow] = useState(null);
+  const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -29,495 +32,32 @@ export const PremiumEPLTableWidget = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // EPL 팀 데이터 (2023-24 시즌 기준) - 더욱 상세한 데이터
-  const [teams] = useState([
-    {
-      position: 1,
-      team: "Manchester City",
-      shortName: "MCI",
-      logo: "🏆",
-      played: 38,
-      won: 28,
-      drawn: 5,
-      lost: 5,
-      goalsFor: 96,
-      goalsAgainst: 34,
-      goalDifference: 62,
-      points: 89,
-      form: ["W", "W", "D", "W", "W"],
-      trend: 0,
-      xG: 84.3,
-      xGA: 31.2,
-      possession: 68.5,
-      passAccuracy: 91.2,
-      cleanSheets: 18,
-      bigChances: 127,
-      value: "€1.26B",
-    },
-    {
-      position: 2,
-      team: "Arsenal",
-      shortName: "ARS",
-      logo: "🔴",
-      played: 38,
-      won: 28,
-      drawn: 5,
-      lost: 5,
-      goalsFor: 91,
-      goalsAgainst: 29,
-      goalDifference: 62,
-      points: 89,
-      form: ["W", "L", "W", "W", "D"],
-      trend: 1,
-      xG: 82.7,
-      xGA: 33.8,
-      possession: 61.3,
-      passAccuracy: 88.7,
-      cleanSheets: 16,
-      bigChances: 119,
-      value: "€2.26B",
-    },
-    {
-      position: 3,
-      team: "Liverpool",
-      shortName: "LIV",
-      logo: "❤️",
-      played: 38,
-      won: 24,
-      drawn: 10,
-      lost: 4,
-      goalsFor: 86,
-      goalsAgainst: 41,
-      goalDifference: 45,
-      points: 82,
-      form: ["W", "D", "W", "W", "L"],
-      trend: 2,
-      xG: 79.4,
-      xGA: 38.9,
-      possession: 62.1,
-      passAccuracy: 87.9,
-      cleanSheets: 20,
-      bigChances: 108,
-      value: "€4.45B",
-    },
-    {
-      position: 4,
-      team: "Aston Villa",
-      shortName: "AVL",
-      logo: "🦁",
-      played: 38,
-      won: 20,
-      drawn: 8,
-      lost: 10,
-      goalsFor: 76,
-      goalsAgainst: 61,
-      goalDifference: 15,
-      points: 68,
-      form: ["W", "W", "L", "D", "W"],
-      trend: 3,
-      xG: 69.2,
-      xGA: 58.7,
-      possession: 54.8,
-      passAccuracy: 82.3,
-      cleanSheets: 11,
-      bigChances: 89,
-      value: "€1.15B",
-    },
-    {
-      position: 5,
-      team: "Tottenham Hotspur",
-      shortName: "TOT",
-      logo: "🐓",
-      played: 38,
-      won: 20,
-      drawn: 6,
-      lost: 12,
-      goalsFor: 74,
-      goalsAgainst: 61,
-      goalDifference: 13,
-      points: 66,
-      form: ["W", "W", "L", "D", "W"],
-      trend: -1,
-      xG: 71.8,
-      xGA: 55.4,
-      possession: 59.4,
-      passAccuracy: 86.1,
-      cleanSheets: 13,
-      bigChances: 92,
-      value: "€2.35B",
-    },
-    {
-      position: 6,
-      team: "Chelsea",
-      shortName: "CHE",
-      logo: "💙",
-      played: 38,
-      won: 18,
-      drawn: 9,
-      lost: 11,
-      goalsFor: 77,
-      goalsAgainst: 63,
-      goalDifference: 14,
-      points: 63,
-      form: ["W", "D", "W", "L", "W"],
-      trend: 2,
-      xG: 73.5,
-      xGA: 59.2,
-      possession: 55.7,
-      passAccuracy: 83.2,
-      cleanSheets: 9,
-      bigChances: 98,
-      value: "€3.10B",
-    },
-    {
-      position: 7,
-      team: "Newcastle United",
-      shortName: "NEW",
-      logo: "⚫",
-      played: 38,
-      won: 18,
-      drawn: 6,
-      lost: 14,
-      goalsFor: 85,
-      goalsAgainst: 62,
-      goalDifference: 23,
-      points: 60,
-      form: ["L", "W", "D", "W", "L"],
-      trend: -3,
-      xG: 67.3,
-      xGA: 52.8,
-      possession: 51.2,
-      passAccuracy: 81.4,
-      cleanSheets: 12,
-      bigChances: 78,
-      value: "€1.85B",
-    },
-    {
-      position: 8,
-      team: "Manchester United",
-      shortName: "MUN",
-      logo: "👹",
-      played: 38,
-      won: 18,
-      drawn: 6,
-      lost: 14,
-      goalsFor: 57,
-      goalsAgainst: 58,
-      goalDifference: -1,
-      points: 60,
-      form: ["D", "W", "L", "W", "W"],
-      trend: -2,
-      xG: 61.4,
-      xGA: 54.7,
-      possession: 58.9,
-      passAccuracy: 85.4,
-      cleanSheets: 17,
-      bigChances: 71,
-      value: "€6.55B",
-    },
-    {
-      position: 9,
-      team: "West Ham United",
-      shortName: "WHU",
-      logo: "⚒️",
-      played: 38,
-      won: 14,
-      drawn: 10,
-      lost: 14,
-      goalsFor: 60,
-      goalsAgainst: 74,
-      goalDifference: -14,
-      points: 52,
-      form: ["L", "D", "W", "L", "D"],
-      trend: 1,
-      xG: 58.9,
-      xGA: 69.3,
-      possession: 48.7,
-      passAccuracy: 79.8,
-      cleanSheets: 8,
-      bigChances: 65,
-      value: "€850M",
-    },
-    {
-      position: 10,
-      team: "Crystal Palace",
-      shortName: "CRY",
-      logo: "🦅",
-      played: 38,
-      won: 13,
-      drawn: 10,
-      lost: 15,
-      goalsFor: 57,
-      goalsAgainst: 58,
-      goalDifference: -1,
-      points: 49,
-      form: ["W", "L", "D", "W", "L"],
-      trend: 0,
-      xG: 52.7,
-      xGA: 55.1,
-      possession: 47.3,
-      passAccuracy: 78.4,
-      cleanSheets: 10,
-      bigChances: 59,
-      value: "€720M",
-    },
-    {
-      position: 11,
-      team: "Brighton & Hove Albion",
-      shortName: "BHA",
-      logo: "⚪",
-      played: 38,
-      won: 12,
-      drawn: 12,
-      lost: 14,
-      goalsFor: 55,
-      goalsAgainst: 62,
-      goalDifference: -7,
-      points: 48,
-      form: ["D", "W", "L", "D", "W"],
-      trend: -4,
-      xG: 58.3,
-      xGA: 57.9,
-      possession: 56.8,
-      passAccuracy: 84.1,
-      cleanSheets: 9,
-      bigChances: 72,
-      value: "€950M",
-    },
-    {
-      position: 12,
-      team: "Bournemouth",
-      shortName: "BOU",
-      logo: "🍒",
-      played: 38,
-      won: 13,
-      drawn: 9,
-      lost: 16,
-      goalsFor: 54,
-      goalsAgainst: 67,
-      goalDifference: -13,
-      points: 48,
-      form: ["L", "W", "W", "L", "D"],
-      trend: 1,
-      xG: 51.4,
-      xGA: 63.2,
-      possession: 45.9,
-      passAccuracy: 76.7,
-      cleanSheets: 7,
-      bigChances: 58,
-      value: "€520M",
-    },
-    {
-      position: 13,
-      team: "Fulham",
-      shortName: "FUL",
-      logo: "⚪",
-      played: 38,
-      won: 13,
-      drawn: 8,
-      lost: 17,
-      goalsFor: 55,
-      goalsAgainst: 61,
-      goalDifference: -6,
-      points: 47,
-      form: ["W", "D", "L", "W", "L"],
-      trend: -1,
-      xG: 49.8,
-      xGA: 58.6,
-      possession: 49.2,
-      passAccuracy: 80.3,
-      cleanSheets: 11,
-      bigChances: 62,
-      value: "€680M",
-    },
-    {
-      position: 14,
-      team: "Wolverhampton Wanderers",
-      shortName: "WOL",
-      logo: "🐺",
-      played: 38,
-      won: 13,
-      drawn: 7,
-      lost: 18,
-      goalsFor: 50,
-      goalsAgainst: 65,
-      goalDifference: -15,
-      points: 46,
-      form: ["L", "L", "W", "D", "L"],
-      trend: -2,
-      xG: 48.2,
-      xGA: 59.7,
-      possession: 46.8,
-      passAccuracy: 77.9,
-      cleanSheets: 8,
-      bigChances: 55,
-      value: "€590M",
-    },
-    {
-      position: 15,
-      team: "Everton",
-      shortName: "EVE",
-      logo: "🔵",
-      played: 38,
-      won: 13,
-      drawn: 9,
-      lost: 16,
-      goalsFor: 40,
-      goalsAgainst: 57,
-      goalDifference: -17,
-      points: 40,
-      form: ["D", "L", "W", "L", "D"],
-      trend: 0,
-      xG: 44.7,
-      xGA: 54.3,
-      possession: 44.1,
-      passAccuracy: 75.6,
-      cleanSheets: 13,
-      bigChances: 47,
-      value: "€750M",
-    },
-    {
-      position: 16,
-      team: "Brentford",
-      shortName: "BRE",
-      logo: "🐝",
-      played: 38,
-      won: 10,
-      drawn: 9,
-      lost: 19,
-      goalsFor: 56,
-      goalsAgainst: 65,
-      goalDifference: -9,
-      points: 39,
-      form: ["W", "L", "L", "D", "W"],
-      trend: 1,
-      xG: 50.1,
-      xGA: 61.8,
-      possession: 42.7,
-      passAccuracy: 74.2,
-      cleanSheets: 6,
-      bigChances: 61,
-      value: "€480M",
-    },
-    {
-      position: 17,
-      team: "Nottingham Forest",
-      shortName: "NFO",
-      logo: "🌳",
-      played: 38,
-      won: 9,
-      drawn: 9,
-      lost: 20,
-      goalsFor: 49,
-      goalsAgainst: 67,
-      goalDifference: -18,
-      points: 32,
-      form: ["L", "D", "W", "L", "L"],
-      trend: -1,
-      xG: 45.3,
-      xGA: 62.4,
-      possession: 41.9,
-      passAccuracy: 73.8,
-      cleanSheets: 7,
-      bigChances: 52,
-      value: "€420M",
-    },
-    {
-      position: 18,
-      team: "Luton Town",
-      shortName: "LUT",
-      logo: "🎩",
-      played: 38,
-      won: 6,
-      drawn: 8,
-      lost: 24,
-      goalsFor: 52,
-      goalsAgainst: 85,
-      goalDifference: -33,
-      points: 26,
-      form: ["L", "L", "D", "L", "W"],
-      trend: 0,
-      xG: 41.8,
-      xGA: 73.2,
-      possession: 38.4,
-      passAccuracy: 69.7,
-      cleanSheets: 4,
-      bigChances: 43,
-      value: "€180M",
-    },
-    {
-      position: 19,
-      team: "Burnley",
-      shortName: "BUR",
-      logo: "🔥",
-      played: 38,
-      won: 5,
-      drawn: 9,
-      lost: 24,
-      goalsFor: 41,
-      goalsAgainst: 78,
-      goalDifference: -37,
-      points: 24,
-      form: ["L", "L", "L", "D", "L"],
-      trend: -1,
-      xG: 39.4,
-      xGA: 69.8,
-      possession: 40.2,
-      passAccuracy: 71.3,
-      cleanSheets: 5,
-      bigChances: 38,
-      value: "€220M",
-    },
-    {
-      position: 20,
-      team: "Sheffield United",
-      shortName: "SHU",
-      logo: "⚔️",
-      played: 38,
-      won: 3,
-      drawn: 7,
-      lost: 28,
-      goalsFor: 35,
-      goalsAgainst: 104,
-      goalDifference: -69,
-      points: 16,
-      form: ["L", "L", "L", "L", "D"],
-      trend: 0,
-      xG: 34.7,
-      xGA: 82.9,
-      possession: 37.1,
-      passAccuracy: 68.2,
-      cleanSheets: 2,
-      bigChances: 29,
-      value: "€150M",
-    },
-  ]);
+  const teams: LeagueTableTeam[] = PREMIER_LEAGUE_TABLE;
 
   // 정렬된 팀 목록
-  const sortedTeams = [...teams]
-    .filter(
+  const sortedTeams = useMemo(() => {
+    const term = searchTerm.toLowerCase();
+    const filtered = teams.filter(
       (team) =>
-        team.team.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        team.shortName.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => {
-      const aValue = a[sortBy];
-      const bValue = b[sortBy];
+        team.team.toLowerCase().includes(term) ||
+        team.shortName.toLowerCase().includes(term)
+    );
 
+    return filtered.sort((a, b) => {
       if (sortBy === "team") {
         return sortOrder === "asc"
-          ? aValue.localeCompare(bValue)
-          : bValue.localeCompare(aValue);
+          ? a.team.localeCompare(b.team)
+          : b.team.localeCompare(a.team);
       }
 
-      if (sortOrder === "asc") {
-        return aValue - bValue;
-      } else {
-        return bValue - aValue;
-      }
+      const aValue = a[sortBy] as number;
+      const bValue = b[sortBy] as number;
+
+      return sortOrder === "asc" ? aValue - bValue : bValue - aValue;
     });
+  }, [teams, searchTerm, sortBy, sortOrder]);
 
-  const handleSort = (column) => {
+  const handleSort = (column: SortColumn) => {
     if (sortBy === column) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
@@ -526,7 +66,7 @@ export const PremiumEPLTableWidget = () => {
     }
   };
 
-  const getSortIcon = (column) => {
+  const getSortIcon = (column: SortColumn) => {
     if (sortBy !== column) {
       return (
         <ArrowUpDown className='w-4 h-4 opacity-40 group-hover:opacity-70 transition-opacity' />
@@ -537,54 +77,6 @@ export const PremiumEPLTableWidget = () => {
     ) : (
       <ChevronDown className='w-4 h-4 text-emerald-400' />
     );
-  };
-
-  const getTrendIcon = (trend) => {
-    if (trend > 0)
-      return (
-        <div className='flex items-center space-x-1'>
-          <TrendingUp className='w-4 h-4 text-green-400' />
-          <span className='text-xs font-medium text-green-400'>+{trend}</span>
-        </div>
-      );
-    if (trend < 0)
-      return (
-        <div className='flex items-center space-x-1'>
-          <TrendingDown className='w-4 h-4 text-red-400' />
-          <span className='text-xs font-medium text-red-400'>{trend}</span>
-        </div>
-      );
-    return (
-      <div className='flex items-center justify-center'>
-        <div className='w-4 h-0.5 bg-slate-500 rounded-full'></div>
-      </div>
-    );
-  };
-
-  const getPositionStyle = (position) => {
-    if (position <= 4)
-      return {
-        bg: "bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-green-400/40",
-        text: "text-green-400",
-        glow: "shadow-green-400/20",
-      };
-    if (position <= 6)
-      return {
-        bg: "bg-gradient-to-r from-[#169976]/20 to-teal-500/20 border-emerald-400/40",
-        text: "text-teal-400",
-        glow: "shadow-emerald-400/20",
-      };
-    if (position >= 18)
-      return {
-        bg: "bg-gradient-to-r from-red-500/20 to-pink-500/20 border-red-400/40",
-        text: "text-red-400",
-        glow: "shadow-red-400/20",
-      };
-    return {
-      bg: "bg-slate-700/30 border-slate-500/30",
-      text: "text-slate-400",
-      glow: "shadow-slate-400/10",
-    };
   };
 
   return (
@@ -810,6 +302,16 @@ export const PremiumEPLTableWidget = () => {
                     </div>
                   </th>
 
+                  <th className='text-center py-6 px-4 text-slate-300 font-bold text-sm uppercase tracking-wider'>
+                    W
+                  </th>
+                  <th className='text-center py-6 px-4 text-slate-300 font-bold text-sm uppercase tracking-wider'>
+                    D
+                  </th>
+                  <th className='text-center py-6 px-4 text-slate-300 font-bold text-sm uppercase tracking-wider'>
+                    L
+                  </th>
+
                   {/* Goal Difference */}
                   <th
                     className='text-center py-6 px-4 text-slate-300 font-bold text-sm uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
@@ -858,161 +360,23 @@ export const PremiumEPLTableWidget = () => {
               </thead>
 
               <tbody className='divide-y divide-white/5'>
-                {sortedTeams.map((team) => {
-                  const posStyle = getPositionStyle(team.position);
-                  const isHovered = hoveredRow === team.position;
-
-                  return (
-                    <tr
-                      key={team.position}
-                      className={`group transition-all duration-300 cursor-pointer ${
-                        isHovered
-                          ? "bg-white/10 scale-[1.01] shadow-2xl"
-                          : "hover:bg-white/5"
-                      }`}
-                      onMouseEnter={() => setHoveredRow(team.position)}
-                      onMouseLeave={() => setHoveredRow(null)}
-                    >
-                      {/* Position */}
-                      <td className='py-8 px-8'>
-                        <div className='flex items-center space-x-4'>
-                          <div
-                            className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg border-2 shadow-lg transition-all duration-300 ${
-                              posStyle.bg
-                            } ${posStyle.text} ${posStyle.glow} ${
-                              isHovered ? "scale-110 shadow-xl" : ""
-                            }`}
-                          >
-                            {team.position}
-                          </div>
-                          {team.position === 1 && (
-                            <div className='w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center'>
-                              <Trophy className='w-3 h-3 text-white' />
-                            </div>
-                          )}
-                        </div>
-                      </td>
-
-                      {/* Team */}
-                      <td className='py-8 px-8'>
-                        <div className='flex items-center space-x-5'>
-                          <div
-                            className={`w-16 h-16 bg-gradient-to-br from-[#169976] to-teal-500 rounded-3xl flex items-center justify-center text-2xl shadow-xl transition-all duration-300 ${
-                              isHovered ? "scale-110 rotate-3" : ""
-                            }`}
-                          >
-                            {team.logo}
-                          </div>
-                          <div>
-                            <div
-                              className={`text-xl font-bold transition-colors duration-300 ${
-                                isHovered ? "text-emerald-300" : "text-white"
-                              }`}
-                            >
-                              {team.team}
-                            </div>
-                            <div className='text-slate-400 text-sm font-medium'>
-                              {team.shortName}
-                            </div>
-                            <div className='text-slate-500 text-xs'>
-                              {team.value}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Played */}
-                      <td className='py-8 px-4 text-center'>
-                        <div className='bg-slate-700/30 rounded-xl px-3 py-2 inline-block'>
-                          <span className='text-slate-300 font-semibold'>
-                            {team.played}
-                          </span>
-                        </div>
-                      </td>
-
-                      {/* Goal Difference */}
-                      <td className='py-8 px-4 text-center'>
-                        <div
-                          className={`font-black text-xl px-3 py-2 rounded-xl inline-block ${
-                            team.goalDifference > 0
-                              ? "text-green-400 bg-green-400/10"
-                              : team.goalDifference < 0
-                              ? "text-red-400 bg-red-400/10"
-                              : "text-slate-400 bg-slate-400/10"
-                          }`}
-                        >
-                          {team.goalDifference > 0 ? "+" : ""}
-                          {team.goalDifference}
-                        </div>
-                      </td>
-
-                      {/* Points */}
-                      <td className='py-8 px-4 text-center'>
-                        <div
-                          className={`w-20 h-14 bg-gradient-to-r from-[#169976]/20 to-teal-500/20 border-2 border-emerald-400/40 rounded-2xl flex items-center justify-center shadow-lg transition-all duration-300 ${
-                            isHovered ? "scale-110 shadow-emerald-400/50" : ""
-                          }`}
-                        >
-                          <span className='text-white font-black text-xl'>
-                            {team.points}
-                          </span>
-                        </div>
-                      </td>
-
-                      {/* Form */}
-                      <td className='py-8 px-6'>
-                        <div className='flex justify-center space-x-2'>
-                          {team.form.map((result, i) => (
-                            <div
-                              key={i}
-                              className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold shadow-lg transition-all duration-300 hover:scale-110 ${
-                                result === "W"
-                                  ? "bg-green-500 text-white shadow-green-500/50"
-                                  : result === "D"
-                                  ? "bg-yellow-500 text-white shadow-yellow-500/50"
-                                  : "bg-red-500 text-white shadow-red-500/50"
-                              }`}
-                            >
-                              {result}
-                            </div>
-                          ))}
-                        </div>
-                      </td>
-
-                      {/* xG */}
-                      <td className='py-8 px-4 text-center'>
-                        <div className='space-y-1'>
-                          <div className='text-white font-bold'>{team.xG}</div>
-                          <div className='text-slate-400 text-xs'>
-                            Expected Goals
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Pass Accuracy */}
-                      <td className='py-8 px-4 text-center'>
-                        <div className='space-y-2'>
-                          <div className='text-white font-bold'>
-                            {team.passAccuracy}%
-                          </div>
-                          <div className='w-full bg-slate-600 rounded-full h-1.5'>
-                            <div
-                              className='bg-gradient-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-1000'
-                              style={{ width: `${team.passAccuracy}%` }}
-                            />
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Trend */}
-                      <td className='py-8 px-4 text-center'>
-                        <div className='flex justify-center'>
-                          {getTrendIcon(team.trend)}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                {sortedTeams.map((team, idx) => (
+                  <React.Fragment key={team.team}>
+                    <LeagueTableRow
+                      team={team}
+                      isHovered={hoveredRow === team.position}
+                      onHover={setHoveredRow}
+                      onHoverEnd={() => setHoveredRow(null)}
+                    />
+                    {idx === 4 && (
+                      <tr>
+                        <td colSpan={12} className='py-2 text-center'>
+                          <div className='text-slate-500 text-sm'>• • •</div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                ))}
               </tbody>
             </table>
           </div>

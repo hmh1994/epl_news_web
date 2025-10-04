@@ -15,397 +15,25 @@ import {
   Shield,
   Activity,
 } from "lucide-react";
+import { TeamProfile } from "@/entities/team/model/team-profile";
+import { PlayerProfile } from "@/entities/player/model/player-profile";
+import { TEAM_PROFILES, TEAM_PLAYERS } from "@/shared/mocks/team-info";
+
+type TeamTab = "overview" | "squad" | "stats";
+type SquadSortKey = "number" | "name" | "age" | "value" | "rating";
+type PositionFilter = "all" | "GK" | "DF" | "MF" | "FW";
 
 export const TeamInfoWidget = () => {
-  const [selectedTeam, setSelectedTeam] = useState(null);
-  const [sortBy, setSortBy] = useState("number");
-  const [filterPosition, setFilterPosition] = useState("all");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeTab, setActiveTab] = useState("overview");
-
-  // EPL 팀 데이터
-  const teams = [
-    {
-      id: 1,
-      name: "맨체스터 시티",
-      shortName: "MCI",
-      logo: "🏆",
-      founded: 1880,
-      stadium: "에티하드 스타디움",
-      capacity: 55000,
-      manager: "펩 과르디올라",
-      nationality: "🇪🇸 스페인",
-      colors: { primary: "#6CABDD", secondary: "#1C2C5B" },
-      rank: 1,
-      points: 89,
-      played: 38,
-      won: 28,
-      drawn: 5,
-      lost: 5,
-      goalsFor: 99,
-      goalsAgainst: 31,
-      form: ["W", "W", "D", "W", "W"],
-      value: "€1.26B",
-      avgAge: 28.2,
-      trophies: 10,
-      description:
-        "현재 프리미어리그 최강팀으로 펩 과르디올라의 혁신적인 전술과 세계 최고 수준의 선수들을 보유한 맨체스터의 자존심",
-      keyStats: {
-        possession: 68.5,
-        passAccuracy: 91.2,
-        shotsPerGame: 16.8,
-        cleanSheets: 18,
-      },
-    },
-    {
-      id: 2,
-      name: "아스날",
-      shortName: "ARS",
-      logo: "🔴",
-      founded: 1886,
-      stadium: "에미레이츠 스타디움",
-      capacity: 60260,
-      manager: "미켈 아르테타",
-      nationality: "🇪🇸 스페인",
-      colors: { primary: "#EF0107", secondary: "#023474" },
-      rank: 2,
-      points: 84,
-      played: 38,
-      won: 26,
-      drawn: 6,
-      lost: 6,
-      goalsFor: 88,
-      goalsAgainst: 43,
-      form: ["W", "L", "W", "W", "D"],
-      value: "€2.26B",
-      avgAge: 25.8,
-      trophies: 13,
-      description:
-        "런던 북부의 전통 강호로 젊은 재능들과 아르테타의 현대적 전술이 만나 새로운 황금기를 준비하는 거너스",
-      keyStats: {
-        possession: 61.3,
-        passAccuracy: 88.7,
-        shotsPerGame: 14.2,
-        cleanSheets: 14,
-      },
-    },
-    {
-      id: 3,
-      name: "맨체스터 유나이티드",
-      shortName: "MUN",
-      logo: "👹",
-      founded: 1878,
-      stadium: "올드 트래포드",
-      capacity: 74310,
-      manager: "에릭 텐 하흐",
-      nationality: "🇳🇱 네덜란드",
-      colors: { primary: "#DA020E", secondary: "#FBE122" },
-      rank: 3,
-      points: 75,
-      played: 38,
-      won: 23,
-      drawn: 6,
-      lost: 9,
-      goalsFor: 58,
-      goalsAgainst: 43,
-      form: ["D", "W", "L", "W", "W"],
-      value: "€6.55B",
-      avgAge: 26.9,
-      trophies: 20,
-      description:
-        "영국 축구의 전설적인 클럽으로 전 세계 6억 팬들의 사랑을 받으며 텐 하흐 감독과 함께 부활을 꿈꾸는 레드 데빌스",
-      keyStats: {
-        possession: 58.9,
-        passAccuracy: 85.4,
-        shotsPerGame: 13.1,
-        cleanSheets: 17,
-      },
-    },
-    {
-      id: 4,
-      name: "첼시",
-      shortName: "CHE",
-      logo: "💙",
-      founded: 1905,
-      stadium: "스탬포드 브리지",
-      capacity: 40834,
-      manager: "마우리시오 포체티노",
-      nationality: "🇦🇷 아르헨티나",
-      colors: { primary: "#034694", secondary: "#6CABDD" },
-      rank: 12,
-      points: 44,
-      played: 38,
-      won: 11,
-      drawn: 11,
-      lost: 16,
-      goalsFor: 38,
-      goalsAgainst: 47,
-      form: ["W", "D", "W", "L", "W"],
-      value: "€3.10B",
-      avgAge: 23.4,
-      trophies: 6,
-      description:
-        "런던 서부의 블루스로 젊은 선수단과 함께 새로운 도전을 시작하며 재건을 위해 노력하는 전통의 강호",
-      keyStats: {
-        possession: 55.7,
-        passAccuracy: 83.2,
-        shotsPerGame: 11.8,
-        cleanSheets: 9,
-      },
-    },
-    {
-      id: 5,
-      name: "리버풀",
-      shortName: "LIV",
-      logo: "❤️",
-      founded: 1892,
-      stadium: "안필드",
-      capacity: 53394,
-      manager: "위르겐 클롭",
-      nationality: "🇩🇪 독일",
-      colors: { primary: "#C8102E", secondary: "#F6EB61" },
-      rank: 5,
-      points: 67,
-      played: 38,
-      won: 19,
-      drawn: 10,
-      lost: 9,
-      goalsFor: 75,
-      goalsAgainst: 28,
-      form: ["L", "D", "W", "D", "L"],
-      value: "€4.45B",
-      avgAge: 28.7,
-      trophies: 19,
-      description:
-        "안필드의 열정과 YNWA 정신으로 유명한 머지사이드의 레즈로 클롭과 함께 황금기를 구가했던 전설적인 팀",
-      keyStats: {
-        possession: 62.1,
-        passAccuracy: 87.9,
-        shotsPerGame: 15.3,
-        cleanSheets: 20,
-      },
-    },
-    {
-      id: 6,
-      name: "토트넘 홋스퍼",
-      shortName: "TOT",
-      logo: "🐓",
-      founded: 1882,
-      stadium: "토트넘 홋스퍼 스타디움",
-      capacity: 62850,
-      manager: "안제 포스테코글루",
-      nationality: "🇦🇺 호주",
-      colors: { primary: "#132257", secondary: "#FFFFFF" },
-      rank: 8,
-      points: 60,
-      played: 38,
-      won: 18,
-      drawn: 6,
-      lost: 14,
-      goalsFor: 66,
-      goalsAgainst: 40,
-      form: ["W", "W", "L", "D", "W"],
-      value: "€2.35B",
-      avgAge: 26.1,
-      trophies: 2,
-      description:
-        "런던 북부 스퍼스로 공격적인 축구 철학과 아름다운 경기 운영으로 팬들을 매혹시키는 라일라화이트",
-      keyStats: {
-        possession: 59.4,
-        passAccuracy: 86.1,
-        shotsPerGame: 14.7,
-        cleanSheets: 13,
-      },
-    },
-  ];
-
-  // 선수 데이터
-  const players = useMemo(
-    () => [
-    // 맨시티 선수들
-    {
-      id: 1,
-      number: 9,
-      name: "얼링 홀란드",
-      position: "ST",
-      age: 23,
-      nationality: "🇳🇴",
-      nationalityName: "노르웨이",
-      teamId: 1,
-      value: "€180M",
-      rating: 9.2,
-      goals: 36,
-      assists: 8,
-      appearances: 35,
-      marketValue: 180,
-    },
-    {
-      id: 2,
-      number: 17,
-      name: "케빈 더 브라위너",
-      position: "CAM",
-      age: 32,
-      nationality: "🇧🇪",
-      nationalityName: "벨기에",
-      teamId: 1,
-      value: "€85M",
-      rating: 8.9,
-      goals: 7,
-      assists: 16,
-      appearances: 32,
-      marketValue: 85,
-    },
-    {
-      id: 3,
-      number: 3,
-      name: "루벤 디아스",
-      position: "CB",
-      age: 26,
-      nationality: "🇵🇹",
-      nationalityName: "포르투갈",
-      teamId: 1,
-      value: "€80M",
-      rating: 8.7,
-      goals: 2,
-      assists: 1,
-      appearances: 34,
-      marketValue: 80,
-    },
-    {
-      id: 4,
-      number: 31,
-      name: "에데르송",
-      position: "GK",
-      age: 29,
-      nationality: "🇧🇷",
-      nationalityName: "브라질",
-      teamId: 1,
-      value: "€40M",
-      rating: 8.5,
-      goals: 0,
-      assists: 0,
-      appearances: 30,
-      marketValue: 40,
-    },
-    {
-      id: 5,
-      number: 26,
-      name: "리야드 마흐레즈",
-      position: "RW",
-      age: 32,
-      nationality: "🇩🇿",
-      nationalityName: "알제리",
-      teamId: 1,
-      value: "€30M",
-      rating: 8.3,
-      goals: 15,
-      assists: 11,
-      appearances: 35,
-      marketValue: 30,
-    },
-    {
-      id: 6,
-      number: 10,
-      name: "잭 그릴리시",
-      position: "LW",
-      age: 28,
-      nationality: "🇬🇧",
-      nationalityName: "잉글랜드",
-      teamId: 1,
-      value: "€70M",
-      rating: 8.1,
-      goals: 8,
-      assists: 12,
-      appearances: 36,
-      marketValue: 70,
-    },
-
-    // 아스날 선수들
-    {
-      id: 7,
-      number: 8,
-      name: "마르틴 외데고르",
-      position: "CAM",
-      age: 24,
-      nationality: "🇳🇴",
-      nationalityName: "노르웨이",
-      teamId: 2,
-      value: "€110M",
-      rating: 8.8,
-      goals: 15,
-      assists: 7,
-      appearances: 37,
-      marketValue: 110,
-    },
-    {
-      id: 8,
-      number: 9,
-      name: "가브리엘 제수스",
-      position: "ST",
-      age: 26,
-      nationality: "🇧🇷",
-      nationalityName: "브라질",
-      teamId: 2,
-      value: "€65M",
-      rating: 8.2,
-      goals: 11,
-      assists: 7,
-      appearances: 26,
-      marketValue: 65,
-    },
-    {
-      id: 9,
-      number: 6,
-      name: "가브리엘",
-      position: "CB",
-      age: 25,
-      nationality: "🇧🇷",
-      nationalityName: "브라질",
-      teamId: 2,
-      value: "€50M",
-      rating: 8.4,
-      goals: 4,
-      assists: 1,
-      appearances: 35,
-      marketValue: 50,
-    },
-    {
-      id: 10,
-      number: 1,
-      name: "아론 램즈데일",
-      position: "GK",
-      age: 25,
-      nationality: "🇬🇧",
-      nationalityName: "잉글랜드",
-      teamId: 2,
-      value: "€30M",
-      rating: 8.0,
-      goals: 0,
-      assists: 0,
-      appearances: 28,
-      marketValue: 30,
-    },
-    {
-      id: 11,
-      number: 7,
-      name: "부카요 사카",
-      position: "RW",
-      age: 22,
-      nationality: "🇬🇧",
-      nationalityName: "잉글랜드",
-      teamId: 2,
-      value: "€120M",
-      rating: 8.6,
-      goals: 14,
-      assists: 11,
-      appearances: 38,
-      marketValue: 120,
-    },
-    ],
-    []
+  const [selectedTeam, setSelectedTeam] = useState<TeamProfile | null>(
+    TEAM_PROFILES[0] ?? null
   );
+  const [sortBy, setSortBy] = useState<SquadSortKey>("number");
+  const [filterPosition, setFilterPosition] = useState<PositionFilter>("all");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [activeTab, setActiveTab] = useState<TeamTab>("overview");
+  const teamProfiles = TEAM_PROFILES;
 
-  const filteredPlayers = useMemo(() => {
+  const filteredPlayers = useMemo((): PlayerProfile[] => {
     if (!selectedTeam) return [];
 
     const positionMap: Record<string, string[]> = {
@@ -415,7 +43,7 @@ export const TeamInfoWidget = () => {
       FW: ["ST", "CF", "LW", "RW"],
     };
 
-    const filteredByTeam = players.filter(
+    const filteredByTeam = TEAM_PLAYERS.filter(
       (player) => player.teamId === selectedTeam.id
     );
 
@@ -440,12 +68,14 @@ export const TeamInfoWidget = () => {
       if (sortBy === "rating") return b.rating - a.rating;
       return 0;
     });
-  }, [selectedTeam, sortBy, filterPosition, searchTerm, players]);
+  }, [selectedTeam, sortBy, filterPosition, searchTerm]);
 
   // 통계 계산 함수들
   const getTeamStats = () => {
     if (!selectedTeam) return null;
-    const teamPlayers = players.filter((p) => p.teamId === selectedTeam.id);
+    const teamPlayers = TEAM_PLAYERS.filter(
+      (p) => p.teamId === selectedTeam.id
+    );
     const avgAge =
       teamPlayers.length > 0
         ? (
@@ -482,7 +112,9 @@ export const TeamInfoWidget = () => {
 
   const getPositionDistribution = () => {
     if (!selectedTeam) return [];
-    const teamPlayers = players.filter((p) => p.teamId === selectedTeam.id);
+    const teamPlayers = TEAM_PLAYERS.filter(
+      (p) => p.teamId === selectedTeam.id
+    );
     const positions = {
       GK: { count: 0, color: "from-yellow-400 to-orange-500", label: "골키퍼" },
       DF: { count: 0, color: "from-teal-400 to-emerald-500", label: "수비수" },
@@ -624,13 +256,13 @@ export const TeamInfoWidget = () => {
         </div>
         <div className='flex items-center space-x-4'>
           <div className='text-sm text-slate-400 bg-slate-800/50 px-4 py-2 rounded-lg border border-white/10'>
-            {teams.length}개 팀
+            {teamProfiles.length}개 팀
           </div>
         </div>
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-        {teams.map((team) => (
+        {teamProfiles.map((team) => (
           <div
             key={team.id}
             className={`group relative bg-slate-900/60 backdrop-blur-2xl rounded-3xl p-8 border cursor-pointer transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 ${
@@ -1063,7 +695,9 @@ export const TeamInfoWidget = () => {
                 <select
                   className='bg-slate-800/50 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all'
                   value={filterPosition}
-                  onChange={(e) => setFilterPosition(e.target.value)}
+                  onChange={(e) =>
+                    setFilterPosition(e.target.value as PositionFilter)
+                  }
                 >
                   <option value='all'>모든 포지션</option>
                   <option value='GK'>골키퍼</option>
@@ -1075,7 +709,7 @@ export const TeamInfoWidget = () => {
                 <select
                   className='bg-slate-800/50 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all'
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
+                  onChange={(e) => setSortBy(e.target.value as SquadSortKey)}
                 >
                   <option value='number'>등번호순</option>
                   <option value='name'>이름순</option>
@@ -1092,7 +726,6 @@ export const TeamInfoWidget = () => {
                 <div
                   key={player.id}
                   className='group bg-slate-900/60 backdrop-blur-2xl rounded-3xl p-6 border border-white/10 shadow-2xl hover:shadow-emerald-500/20 hover:-translate-y-2 cursor-pointer transition-all duration-300'
-                  onClick={() => console.log(`${player.name} 프로필로 이동`)}
                 >
                   <div className='flex items-start justify-between mb-4'>
                     <div className='flex items-center space-x-3'>
