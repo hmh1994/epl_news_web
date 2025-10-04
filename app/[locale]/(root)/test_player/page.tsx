@@ -1,4 +1,4 @@
-import { TestPlayerPage as TestPlayerContent } from "@/pages/test-player";
+import { TestPlayerPage as TestPlayerContent } from "@/views/test-player";
 
 export default function TestPlayerPage() {
   return <TestPlayerContent />;
