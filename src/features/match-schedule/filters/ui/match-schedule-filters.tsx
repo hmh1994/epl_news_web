@@ -45,7 +45,7 @@ export const MatchScheduleFilters = ({
           </div>
           <div className='relative'>
             <div
-              className='flex items-center gap-2 overflow-x-auto pb-1 pl-2 pr-6 [scrollbar-width:thin] [scrollbar-color:#169976_transparent] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#169976] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:hover:bg-emerald-400'
+              className='scrollbar-slim flex items-center gap-2 overflow-x-auto pb-1 pl-2 pr-6'
             >
               {matchweeks.map((matchweek) => {
                 const isActive = matchweek === selectedMatchweek;

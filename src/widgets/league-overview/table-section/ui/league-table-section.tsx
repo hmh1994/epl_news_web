@@ -38,7 +38,7 @@ export const LeagueTableSection = ({
       </div>
     </div>
 
-    <div className='overflow-x-auto'>
+    <div className='scrollbar-slim overflow-x-auto'>
       <LeagueBriefTable
         rows={rows}
         hoveredTeam={hoveredTeam}

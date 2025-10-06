@@ -22,7 +22,7 @@ export const EplHubStandings = ({ teams }: EplHubStandingsProps) => {
           </button>
         </div>
 
-        <div className='overflow-x-auto'>
+        <div className='scrollbar-slim overflow-x-auto'>
           <table className='w-full'>
             <thead>
               <tr className='border-b border-white/10'>

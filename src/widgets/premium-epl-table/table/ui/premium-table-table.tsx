@@ -68,7 +68,7 @@ export const PremiumTableTable = ({
       </div>
     </div>
 
-    <div className='overflow-x-auto'>
+    <div className='scrollbar-slim overflow-x-auto'>
       <table className='w-full'>
         <thead className='bg-slate-800/30'>
           <tr>
