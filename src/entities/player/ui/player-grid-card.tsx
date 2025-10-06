@@ -1,5 +1,5 @@
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
-import { StatAccent, getStatStyles } from "@/entities/player/lib/stat-palette";
+// import { StatAccent, getStatStyles } from "@/entities/player/lib/stat-palette";
 import { Award } from "lucide-react";
 
 interface PlayerGridCardProps {
@@ -10,27 +10,27 @@ interface PlayerGridCardProps {
   showSelection: boolean;
 }
 
-const POSITION_ACCENT: Record<string, StatAccent> = {
-  GK: "yellow",
-  CB: "teal",
-  LB: "teal",
-  RB: "teal",
-  LWB: "teal",
-  RWB: "teal",
-  CDM: "emerald",
-  CM: "emerald",
-  CAM: "emerald",
-  LM: "emerald",
-  RM: "emerald",
-  ST: "green",
-  CF: "green",
-  LW: "green",
-  RW: "green",
-};
+// const POSITION_ACCENT: Record<string, StatAccent> = {
+//   GK: "yellow",
+//   CB: "teal",
+//   LB: "teal",
+//   RB: "teal",
+//   LWB: "teal",
+//   RWB: "teal",
+//   CDM: "emerald",
+//   CM: "emerald",
+//   CAM: "emerald",
+//   LM: "emerald",
+//   RM: "emerald",
+//   ST: "green",
+//   CF: "green",
+//   LW: "green",
+//   RW: "green",
+// };
 
-const getAccentByPosition = (position: string): StatAccent => {
-  return POSITION_ACCENT[position] ?? "teal";
-};
+// const getAccentByPosition = (position: string): StatAccent => {
+//   return POSITION_ACCENT[position] ?? "teal";
+// };
 
 export const PlayerGridCard = ({
   player,
@@ -39,7 +39,7 @@ export const PlayerGridCard = ({
   onView,
   showSelection,
 }: PlayerGridCardProps) => {
-  const accent = getStatStyles(getAccentByPosition(player.position));
+  // const accent = getStatStyles(getAccentByPosition(player.position));
 
   return (
     <div
@@ -91,11 +91,15 @@ export const PlayerGridCard = ({
           <div className='text-xs text-slate-400'>Goals</div>
         </div>
         <div className='text-center p-3 bg-slate-800/30 rounded-xl'>
-          <div className='text-xl font-bold text-teal-400'>{player.assists}</div>
+          <div className='text-xl font-bold text-teal-400'>
+            {player.assists}
+          </div>
           <div className='text-xs text-slate-400'>Assists</div>
         </div>
         <div className='text-center p-3 bg-slate-800/30 rounded-xl'>
-          <div className='text-xl font-bold text-yellow-400'>{player.rating}</div>
+          <div className='text-xl font-bold text-yellow-400'>
+            {player.rating}
+          </div>
           <div className='text-xs text-slate-400'>Rating</div>
         </div>
       </div>
