@@ -23,6 +23,7 @@ const kickoffFormatter = new Intl.DateTimeFormat("en-GB", {
   hour: "2-digit",
   minute: "2-digit",
   hour12: false,
+  hourCycle: "h23",
   timeZoneName: "short",
 });
 
