@@ -14,22 +14,18 @@ export const EPL_MATCH_SCHEDULE: MatchDaySchedule[] = [
         headline: "Top-of-the-table showdown",
         referee: "Michael Oliver",
         home: {
-          name: "Manchester City",
-          shortName: "MCI",
-          badge: "🏆",
+          teamId: "mci",
           leaguePosition: 1,
           recentForm: ["W", "W", "D", "W", "W"],
         },
         away: {
-          name: "Arsenal",
-          shortName: "ARS",
-          badge: "🔴",
+          teamId: "ars",
           leaguePosition: 2,
           recentForm: ["W", "W", "W", "D", "W"],
         },
         broadcast: {
           channel: "Sky Sports",
-          platform: "NOW"
+          platform: "NOW",
         },
       },
       {
@@ -42,24 +38,20 @@ export const EPL_MATCH_SCHEDULE: MatchDaySchedule[] = [
         headline: "런던 더비, 팔머의 결승골",
         referee: "Craig Pawson",
         home: {
-          name: "Chelsea",
-          shortName: "CHE",
-          badge: "🔵",
+          teamId: "che",
           leaguePosition: 6,
           recentForm: ["L", "W", "D", "D", "W"],
           score: 2,
         },
         away: {
-          name: "Tottenham",
-          shortName: "TOT",
-          badge: "🐓",
+          teamId: "tot",
           leaguePosition: 5,
           recentForm: ["W", "L", "W", "W", "D"],
           score: 1,
         },
         broadcast: {
           channel: "TNT Sports",
-          platform: "Discovery+"
+          platform: "Discovery+",
         },
       },
     ],
@@ -77,16 +69,12 @@ export const EPL_MATCH_SCHEDULE: MatchDaySchedule[] = [
         headline: "North West derby returns",
         referee: "Anthony Taylor",
         home: {
-          name: "Liverpool",
-          shortName: "LIV",
-          badge: "❤️",
+          teamId: "liv",
           leaguePosition: 3,
           recentForm: ["W", "D", "W", "W", "L"],
         },
         away: {
-          name: "Manchester United",
-          shortName: "MUN",
-          badge: "⚫️",
+          teamId: "mun",
           leaguePosition: 7,
           recentForm: ["L", "W", "W", "L", "D"],
         },
@@ -101,24 +89,20 @@ export const EPL_MATCH_SCHEDULE: MatchDaySchedule[] = [
         venue: "St James' Park",
         city: "Newcastle",
         status: "finished",
+        headline: "세인트 제임스의 팽팽한 승부",
+        referee: "Paul Tierney",
         home: {
-          name: "Newcastle",
-          shortName: "NEW",
-          badge: "⚫️⚪️",
+          teamId: "new",
           leaguePosition: 8,
           recentForm: ["D", "W", "L", "D", "W"],
           score: 1,
         },
         away: {
-          name: "Brighton",
-          shortName: "BHA",
-          badge: "🟦",
+          teamId: "bha",
           leaguePosition: 10,
           recentForm: ["L", "D", "L", "W", "D"],
           score: 1,
         },
-        headline: "세인트 제임스의 팽팽한 승부",
-        referee: "Paul Tierney",
       },
     ],
   },
@@ -133,16 +117,12 @@ export const EPL_MATCH_SCHEDULE: MatchDaySchedule[] = [
         city: "London",
         status: "upcoming",
         home: {
-          name: "Fulham",
-          shortName: "FUL",
-          badge: "⚪️",
+          teamId: "ful",
           leaguePosition: 12,
           recentForm: ["W", "L", "D", "L", "W"],
         },
         away: {
-          name: "Brentford",
-          shortName: "BRE",
-          badge: "🐝",
+          teamId: "bre",
           leaguePosition: 13,
           recentForm: ["D", "L", "W", "L", "D"],
         },
@@ -155,3 +135,4 @@ export const EPL_MATCH_SCHEDULE: MatchDaySchedule[] = [
 ];
 
 export const MATCHWEEK_OPTIONS = [16, 17, 18, 19, 20];
+

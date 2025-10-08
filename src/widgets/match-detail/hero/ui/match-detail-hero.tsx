@@ -1,6 +1,5 @@
-import { ReactNode } from "react";
-
 import { MatchDetail } from "@/entities/match/model/match-detail";
+import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 const statusMeta: Record<MatchDetail["fixture"]["status"], { label: string; classes: string }> = {
   upcoming: {
@@ -62,6 +61,8 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
   const attendanceDisplay = detail.attendance
     ? detail.attendance.toLocaleString("ko-KR")
     : undefined;
+  const homeTeam = TEAMS_BY_ID[fixture.home.teamId];
+  const awayTeam = TEAMS_BY_ID[fixture.away.teamId];
 
   return (
     <section className='relative pt-28 pb-36 overflow-hidden'>
@@ -89,9 +90,9 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
 
           <div className='grid grid-cols-1 md:grid-cols-5 gap-8 items-start'>
             <TeamColumn
-              team={fixture.home.name}
-              short={fixture.home.shortName}
-              badge={fixture.home.badge}
+              teamName={homeTeam?.name ?? fixture.home.teamId.toUpperCase()}
+              short={homeTeam?.shortName ?? fixture.home.teamId.toUpperCase()}
+              crest={homeTeam?.crest ?? "⚽"}
               score={fixture.home.score}
               alignment='right'
             />
@@ -102,9 +103,9 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
             />
 
             <TeamColumn
-              team={fixture.away.name}
-              short={fixture.away.shortName}
-              badge={fixture.away.badge}
+              teamName={awayTeam?.name ?? fixture.away.teamId.toUpperCase()}
+              short={awayTeam?.shortName ?? fixture.away.teamId.toUpperCase()}
+              crest={awayTeam?.crest ?? "⚽"}
               score={fixture.away.score}
               alignment='left'
             />
@@ -150,14 +151,14 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
 };
 
 interface TeamColumnProps {
-  team: string;
+  teamName: string;
   short: string;
-  badge: ReactNode;
+  crest: string;
   score?: number;
   alignment: "left" | "right";
 }
 
-const TeamColumn = ({ team, short, badge, score, alignment }: TeamColumnProps) => {
+const TeamColumn = ({ teamName, short, crest, score, alignment }: TeamColumnProps) => {
   const wrapperAlign = alignment === "right"
     ? "items-center text-center md:items-end md:text-right"
     : "items-center text-center md:items-start md:text-left";
@@ -174,7 +175,7 @@ const TeamColumn = ({ team, short, badge, score, alignment }: TeamColumnProps) =
         <div
           className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${tokens.badge} flex items-center justify-center text-3xl shadow-xl`}
         >
-          {badge}
+          {crest}
         </div>
         {alignment === "left" && (
           <span className={`hidden md:inline text-sm uppercase tracking-[0.35em] ${tokens.label}`}>
@@ -186,7 +187,7 @@ const TeamColumn = ({ team, short, badge, score, alignment }: TeamColumnProps) =
         <span className={`md:hidden text-xs uppercase tracking-[0.35em] ${tokens.label}`}>
           {alignment === "right" ? "홈" : "원정"}
         </span>
-        <p className='text-2xl md:text-3xl font-bold text-white leading-tight'>{team}</p>
+        <p className='text-2xl md:text-3xl font-bold text-white leading-tight'>{teamName}</p>
         <div
           className={`text-sm text-slate-400 flex items-center gap-3 justify-center ${
             alignment === "right" ? "md:justify-end" : "md:justify-start"

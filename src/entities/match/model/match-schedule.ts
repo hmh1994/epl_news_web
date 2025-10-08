@@ -1,11 +1,7 @@
-import { ReactNode } from "react";
-
 export type MatchStatus = "upcoming" | "live" | "finished";
 
 export interface MatchClub {
-  name: string;
-  shortName: string;
-  badge: ReactNode;
+  teamId: string;
   score?: number;
   recentForm?: Array<"W" | "D" | "L">;
   leaguePosition?: number;

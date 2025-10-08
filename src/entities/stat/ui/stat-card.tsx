@@ -1,20 +1,22 @@
-import { TrendingUp } from "lucide-react";
+import { Activity, Globe, Target, TrendingUp, Trophy, Users } from "lucide-react";
 import { LeagueStat } from "../model/league-stat";
 
 interface StatCardProps {
   stat: LeagueStat;
 }
 
-const buildGradientBackground = (color: string) => {
-  const [from, to] = color
-    .split(" ")
-    .map((token) =>
-      token
-        .replace("from-", "")
-        .replace("to-", "")
-        .replace(/\[(.*)\]/, "$1")
-    );
-  return `linear-gradient(135deg, ${from}, ${to})`;
+const ICON_MAP: Record<string, JSX.Element> = {
+  trophy: <Trophy className='w-7 h-7' />,
+  users: <Users className='w-7 h-7' />,
+  globe: <Globe className='w-7 h-7' />,
+  target: <Target className='w-7 h-7' />,
+  activity: <Activity className='w-7 h-7' />,
+};
+
+const resolveIcon = (icon: string) => ICON_MAP[icon] ?? <Trophy className='w-7 h-7' />;
+
+const buildGradientBackground = (gradient: LeagueStat["gradient"]) => {
+  return `linear-gradient(135deg, ${gradient.from}, ${gradient.to})`;
 };
 
 export const StatCard = ({ stat }: StatCardProps) => {
@@ -22,18 +24,19 @@ export const StatCard = ({ stat }: StatCardProps) => {
     <div className='group relative bg-slate-900/40 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 shadow-2xl hover:shadow-3xl hover:-translate-y-2 cursor-pointer transition-all duration-500'>
       <div
         className='absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-3xl'
-        style={{ backgroundImage: buildGradientBackground(stat.color) }}
+        style={{ backgroundImage: buildGradientBackground(stat.gradient) }}
       ></div>
 
       <div className='relative'>
         <div
-          className={`w-16 h-16 bg-gradient-to-br ${stat.color} rounded-2xl flex items-center justify-center mb-6 shadow-2xl group-hover:scale-110 transition-transform duration-300`}
+          className='w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-2xl group-hover:scale-110 transition-transform duration-300'
+          style={{ backgroundImage: buildGradientBackground(stat.gradient) }}
         >
-          <div className='text-white'>{stat.icon}</div>
+          <div className='text-white'>{resolveIcon(stat.icon)}</div>
         </div>
 
         <div className='text-4xl font-black text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#169976] group-hover:to-teal-400 transition-all duration-300'>
-          {stat.number}
+          {stat.value}
         </div>
 
         <div className='text-slate-400 font-medium mb-3'>{stat.label}</div>

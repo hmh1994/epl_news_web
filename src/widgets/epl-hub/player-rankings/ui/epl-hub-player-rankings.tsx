@@ -1,6 +1,7 @@
 import { Star } from "lucide-react";
 import { PlayerRanking } from "@/entities/player/model/player-ranking";
 import { PlayerRankingCard } from "@/entities/player/ui/player-ranking-card";
+import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 interface EplHubPlayerRankingsProps {
   players: PlayerRanking[];
@@ -18,9 +19,17 @@ export const EplHubPlayerRankings = ({ players }: EplHubPlayerRankingsProps) => 
       </div>
 
       <div className='space-y-4'>
-        {players.map((player, index) => (
-          <PlayerRankingCard key={player.name} player={player} rank={index + 1} />
-        ))}
+        {players.map((player, index) => {
+          const team = TEAMS_BY_ID[player.teamId];
+          return (
+            <PlayerRankingCard
+              key={player.name}
+              player={player}
+              rank={index + 1}
+              teamName={team?.name ?? player.teamId.toUpperCase()}
+            />
+          );
+        })}
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ import { PremiumTableTable } from "@/widgets/premium-epl-table/table/ui/premium-
 import { PremiumTableAnalytics } from "@/widgets/premium-epl-table/analytics/ui/premium-table-analytics";
 import { PremiumTableFooter } from "@/widgets/premium-epl-table/footer/ui/premium-table-footer";
 import { SortColumn } from "@/widgets/premium-epl-table/model/types";
+import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 export const PremiumEPLTableWidget = () => {
   const [sortBy, setSortBy] = useState<SortColumn>("position");
@@ -28,17 +29,24 @@ export const PremiumEPLTableWidget = () => {
 
   const sortedTeams = useMemo(() => {
     const term = searchTerm.toLowerCase();
-    const filtered = teams.filter(
-      (team) =>
-        team.team.toLowerCase().includes(term) ||
-        team.shortName.toLowerCase().includes(term)
-    );
+    const filtered = teams.filter((team) => {
+      const teamInfo = TEAMS_BY_ID[team.teamId];
+      const teamName = teamInfo?.name ?? team.teamId.toUpperCase();
+      const shortName = teamInfo?.shortName ?? team.teamId.toUpperCase();
+
+      return (
+        teamName.toLowerCase().includes(term) ||
+        shortName.toLowerCase().includes(term)
+      );
+    });
 
     return filtered.sort((a, b) => {
       if (sortBy === "team") {
+        const teamA = TEAMS_BY_ID[a.teamId]?.name ?? a.teamId.toUpperCase();
+        const teamB = TEAMS_BY_ID[b.teamId]?.name ?? b.teamId.toUpperCase();
         return sortOrder === "asc"
-          ? a.team.localeCompare(b.team)
-          : b.team.localeCompare(a.team);
+          ? teamA.localeCompare(teamB)
+          : teamB.localeCompare(teamA);
       }
 
       const aValue = a[sortBy] as number;

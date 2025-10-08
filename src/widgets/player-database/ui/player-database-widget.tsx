@@ -3,11 +3,6 @@
 import React, { useMemo, useState } from "react";
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import {
-  PLAYER_DATABASE,
-  PLAYER_POSITIONS,
-  PLAYER_TEAMS,
-} from "@/shared/mocks/player-database";
-import {
   PlayerFilter,
   PlayerFilterType,
   ViewMode,
@@ -20,14 +15,25 @@ import { PlayerDatabaseHero } from "@/widgets/player-database/hero/ui/player-dat
 import { PlayerResultsSummary } from "@/widgets/player-database/summary/ui/player-results-summary";
 import { PlayerSearchResults } from "@/widgets/player-database/results/ui/player-search-results";
 import { COMPARISON_LIMIT } from "@/widgets/player-database/model/constants";
+import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
-export const PlayerDatabaseWidget = () => {
+interface PlayerDatabaseWidgetProps {
+  players: PlayerDatabaseEntry[];
+  positions: readonly string[];
+  teams: readonly string[];
+}
+
+export const PlayerDatabaseWidget = ({
+  players,
+  positions,
+  teams,
+}: PlayerDatabaseWidgetProps) => {
+  const defaultPosition = positions[0] ?? "all";
+  const defaultTeam = teams[0] ?? "all";
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedPosition, setSelectedPosition] = useState<string>(
-    PLAYER_POSITIONS[0]
-  );
-  const [selectedTeam, setSelectedTeam] = useState<string>(PLAYER_TEAMS[0]);
+  const [selectedPosition, setSelectedPosition] = useState<string>(defaultPosition);
+  const [selectedTeam, setSelectedTeam] = useState<string>(defaultTeam);
   const [activeFilters, setActiveFilters] = useState<PlayerFilter[]>([]);
   const [selectedPlayers, setSelectedPlayers] = useState<PlayerDatabaseEntry[]>([]);
   const [showComparison, setShowComparison] = useState(false);
@@ -36,14 +42,14 @@ export const PlayerDatabaseWidget = () => {
 
   const filteredPlayers = useMemo(() => {
     const term = searchTerm.toLowerCase();
-    return PLAYER_DATABASE.filter((player) => {
+    return players.filter((player) => {
       const matchesSearch = player.name.toLowerCase().includes(term);
       const matchesPosition =
         selectedPosition === "all" || player.position.includes(selectedPosition);
-      const matchesTeam = selectedTeam === "all" || player.team === selectedTeam;
+      const matchesTeam = selectedTeam === "all" || player.teamId === selectedTeam;
       return matchesSearch && matchesPosition && matchesTeam;
     });
-  }, [searchTerm, selectedPosition, selectedTeam]);
+  }, [players, searchTerm, selectedPosition, selectedTeam]);
 
   const updateFilters = (type: PlayerFilterType, value: string) => {
     setActiveFilters((prev) => {
@@ -68,17 +74,17 @@ export const PlayerDatabaseWidget = () => {
   const handleFilterRemove = (filter: PlayerFilter) => {
     setActiveFilters((prev) => prev.filter((item) => item !== filter));
     if (filter.type === "position") {
-      setSelectedPosition(PLAYER_POSITIONS[0]);
+      setSelectedPosition(defaultPosition);
     }
     if (filter.type === "team") {
-      setSelectedTeam(PLAYER_TEAMS[0]);
+      setSelectedTeam(defaultTeam);
     }
   };
 
   const handleClearFilters = () => {
     setActiveFilters([]);
-    setSelectedPosition(PLAYER_POSITIONS[0]);
-    setSelectedTeam(PLAYER_TEAMS[0]);
+    setSelectedPosition(defaultPosition);
+    setSelectedTeam(defaultTeam);
     setSearchTerm("");
   };
 
@@ -120,8 +126,11 @@ export const PlayerDatabaseWidget = () => {
           onPositionChange={handlePositionChange}
           selectedTeam={selectedTeam}
           onTeamChange={handleTeamChange}
-          positionOptions={PLAYER_POSITIONS}
-          teamOptions={PLAYER_TEAMS}
+          positionOptions={positions}
+          teamOptions={teams}
+          formatTeamOption={(teamId) =>
+            TEAMS_BY_ID[teamId]?.name ?? teamId.toUpperCase()
+          }
           viewMode={viewMode}
           onViewModeChange={setViewMode}
           activeFilters={activeFilters}

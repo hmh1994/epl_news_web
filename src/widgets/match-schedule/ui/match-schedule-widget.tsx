@@ -1,13 +1,10 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import {
-  EPL_MATCH_SCHEDULE,
-  MATCHWEEK_OPTIONS,
-} from "@/shared/mocks/match-schedule";
 import { MatchScheduleFilters } from "@/features/match-schedule/filters/ui/match-schedule-filters";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
 import { MatchDaySchedule } from "@/entities/match/model/match-schedule";
+import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 const dayTitleFormatter = new Intl.DateTimeFormat("ko-KR", {
   month: "long",
@@ -15,11 +12,19 @@ const dayTitleFormatter = new Intl.DateTimeFormat("ko-KR", {
   weekday: "short",
 });
 
-export const MatchScheduleWidget = () => {
-  const defaultMatchweek = MATCHWEEK_OPTIONS[MATCHWEEK_OPTIONS.length - 1];
-  const [selectedMatchweek, setSelectedMatchweek] = useState<number>(
-    defaultMatchweek
-  );
+interface MatchScheduleWidgetProps {
+  schedule: MatchDaySchedule[];
+  matchweekOptions: number[];
+}
+
+export const MatchScheduleWidget = ({
+  schedule,
+  matchweekOptions,
+}: MatchScheduleWidgetProps) => {
+  const defaultMatchweek =
+    matchweekOptions[matchweekOptions.length - 1] ?? matchweekOptions[0] ?? 0;
+  const [selectedMatchweek, setSelectedMatchweek] =
+    useState<number>(defaultMatchweek);
   const [searchTerm, setSearchTerm] = useState("");
   const [showBroadcastOnly, setShowBroadcastOnly] = useState(false);
 
@@ -39,26 +44,30 @@ export const MatchScheduleWidget = () => {
         return true;
       }
 
+      const homeTeam = TEAMS_BY_ID[fixture.home.teamId];
+      const awayTeam = TEAMS_BY_ID[fixture.away.teamId];
+
       const haystack = [
-        fixture.home.name,
-        fixture.home.shortName,
-        fixture.away.name,
-        fixture.away.shortName,
+        homeTeam?.name,
+        homeTeam?.shortName,
+        awayTeam?.name,
+        awayTeam?.shortName,
         fixture.venue,
         fixture.city,
         fixture.headline ?? "",
       ]
+        .filter(Boolean)
         .join(" ")
         .toLowerCase();
 
       return haystack.includes(term);
     };
 
-    return EPL_MATCH_SCHEDULE.map((day) => ({
+    return schedule.map((day) => ({
       ...day,
       fixtures: day.fixtures.filter(filterFixture),
     })).filter((day) => day.fixtures.length > 0);
-  }, [searchTerm, selectedMatchweek, showBroadcastOnly]);
+  }, [schedule, searchTerm, selectedMatchweek, showBroadcastOnly]);
 
   return (
     <div className='min-h-screen bg-slate-950 text-white pb-28'>
@@ -66,7 +75,7 @@ export const MatchScheduleWidget = () => {
 
       <main className='max-w-7xl mx-auto px-6 -mt-24 relative'>
         <MatchScheduleFilters
-          matchweeks={MATCHWEEK_OPTIONS}
+          matchweeks={matchweekOptions}
           selectedMatchweek={selectedMatchweek}
           onMatchweekChange={setSelectedMatchweek}
           searchTerm={searchTerm}
@@ -136,12 +145,30 @@ const ScheduleDay = ({ day }: { day: MatchDaySchedule }) => {
         </div>
       </header>
 
-      <div className='grid grid-cols-1 lg:grid-cols-3 gap-0'>
-        <div className='lg:col-span-2 p-8 space-y-6'>
-          {day.fixtures.map((fixture) => (
-            <MatchFixtureCard key={fixture.id} fixture={fixture} />
-          ))}
-        </div>
+          <div className='grid grid-cols-1 lg:grid-cols-3 gap-0'>
+            <div className='lg:col-span-2 p-8 space-y-6'>
+          {day.fixtures.map((fixture) => {
+            const homeTeamInfo = TEAMS_BY_ID[fixture.home.teamId];
+            const awayTeamInfo = TEAMS_BY_ID[fixture.away.teamId];
+
+            return (
+              <MatchFixtureCard
+                key={fixture.id}
+                fixture={fixture}
+                homeTeam={homeTeamInfo && {
+                  name: homeTeamInfo.name,
+                  shortName: homeTeamInfo.shortName,
+                  crest: homeTeamInfo.crest,
+                }}
+                awayTeam={awayTeamInfo && {
+                  name: awayTeamInfo.name,
+                  shortName: awayTeamInfo.shortName,
+                  crest: awayTeamInfo.crest,
+                }}
+              />
+            );
+          })}
+            </div>
         <aside className='hidden lg:block border-l border-white/10 bg-slate-900/60 p-8 space-y-6'>
           <QuickInfo fixtures={day.fixtures} />
         </aside>

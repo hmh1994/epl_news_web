@@ -5,6 +5,7 @@ import {
   getMatchDetail,
   getMatchDetailIds,
 } from "@/shared/mocks/match-detail";
+import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 interface PageProps {
   params: Promise<{ matchId: string }>;
@@ -25,7 +26,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const { fixture, heroTagline } = detail;
-  const matchup = `${fixture.home.name} vs ${fixture.away.name}`;
+  const homeTeam = TEAMS_BY_ID[fixture.home.teamId]?.name ?? fixture.home.teamId.toUpperCase();
+  const awayTeam = TEAMS_BY_ID[fixture.away.teamId]?.name ?? fixture.away.teamId.toUpperCase();
+  const matchup = `${homeTeam} vs ${awayTeam}`;
 
   return {
     title: `${matchup} - Match Centre`,

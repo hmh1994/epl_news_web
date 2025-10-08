@@ -12,6 +12,7 @@ import {
 import { LeagueTableTeam } from "@/entities/team/model/league-table-team";
 import { LeagueTableRow } from "@/entities/team/ui/league-table-row";
 import { SortColumn } from "@/widgets/premium-epl-table/model/types";
+import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 type PremiumTableTableProps = {
   teams: LeagueTableTeam[];
@@ -134,14 +135,19 @@ export const PremiumTableTable = ({
         </thead>
 
         <tbody className='divide-y divide-white/5'>
-          {teams.map((team, index) => (
-            <React.Fragment key={team.team}>
-              <LeagueTableRow
-                team={team}
-                isHovered={hoveredRow === team.position}
-                onHover={onHover}
-                onHoverEnd={onHoverEnd}
-              />
+          {teams.map((team, index) => {
+            const teamInfo = TEAMS_BY_ID[team.teamId];
+            return (
+              <React.Fragment key={team.teamId}>
+                <LeagueTableRow
+                  team={team}
+                  isHovered={hoveredRow === team.position}
+                  onHover={onHover}
+                  onHoverEnd={onHoverEnd}
+                  teamName={teamInfo?.name ?? team.teamId.toUpperCase()}
+                  teamShortName={teamInfo?.shortName ?? team.teamId.toUpperCase()}
+                  teamCrest={teamInfo?.crest ?? "⚽"}
+                />
               {index === 4 && (
                 <tr>
                   <td colSpan={12} className='py-2 text-center'>
@@ -149,8 +155,9 @@ export const PremiumTableTable = ({
                   </td>
                 </tr>
               )}
-            </React.Fragment>
-          ))}
+              </React.Fragment>
+            );
+          })}
         </tbody>
       </table>
     </div>

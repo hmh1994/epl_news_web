@@ -1,9 +1,11 @@
-import { ReactNode } from "react";
-
 export interface LeagueStat {
-  icon: ReactNode;
-  number: string;
+  id: string;
+  icon: string;
+  value: string;
   label: string;
   change: string;
-  color: string;
+  gradient: {
+    from: string;
+    to: string;
+  };
 }

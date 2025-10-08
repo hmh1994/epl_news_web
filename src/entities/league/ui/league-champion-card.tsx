@@ -4,11 +4,15 @@ import { Trophy, Crown } from "lucide-react";
 interface LeagueChampionCardProps {
   champion: LeagueChampion;
   highlight?: boolean;
+  teamName: string;
+  teamCrest: string;
 }
 
 export const LeagueChampionCard = ({
   champion,
   highlight = false,
+  teamName,
+  teamCrest,
 }: LeagueChampionCardProps) => {
   return (
     <div className='group relative p-6 bg-slate-800/30 rounded-2xl border border-white/10 hover:bg-gradient-to-br hover:from-yellow-500/20 hover:to-orange-500/20 hover:border-yellow-400/40 hover:scale-105 transition-all duration-500 cursor-pointer'>
@@ -29,11 +33,11 @@ export const LeagueChampionCard = ({
 
       <div className='flex items-center space-x-4 mb-4'>
         <div className='w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center text-2xl shadow-xl'>
-          {champion.logo}
+          {teamCrest}
         </div>
         <div>
           <div className='text-lg font-bold text-white group-hover:text-yellow-300 transition-colors'>
-            {champion.team}
+            {teamName}
           </div>
           <div className='text-slate-400 text-sm'>
             {champion.titles} PL Titles

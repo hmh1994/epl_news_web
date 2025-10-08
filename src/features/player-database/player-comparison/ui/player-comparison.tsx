@@ -1,5 +1,6 @@
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import { BarChart3, ArrowRight } from "lucide-react";
+import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 interface PlayerComparisonProps {
   players: PlayerDatabaseEntry[];
@@ -46,17 +47,22 @@ export const PlayerComparison = ({
 
         {showComparison && (
           <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-            {players.map((player) => (
-              <div key={player.id} className='bg-slate-800/50 rounded-2xl p-6 border border-white/10'>
-                <div className='flex items-center space-x-4 mb-4'>
-                  <div className='w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-xl flex items-center justify-center text-xl'>
-                    {player.photo}
+            {players.map((player) => {
+              const team = TEAMS_BY_ID[player.teamId];
+
+              return (
+                <div key={player.id} className='bg-slate-800/50 rounded-2xl p-6 border border-white/10'>
+                  <div className='flex items-center space-x-4 mb-4'>
+                    <div className='w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-xl flex items-center justify-center text-xl'>
+                      {player.photo}
+                    </div>
+                    <div>
+                      <h4 className='text-white font-bold'>{player.name}</h4>
+                      <div className='text-slate-400 text-sm'>
+                        {team?.name ?? player.teamId.toUpperCase()}
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className='text-white font-bold'>{player.name}</h4>
-                    <div className='text-slate-400 text-sm'>{player.team}</div>
-                  </div>
-                </div>
                 <div className='grid grid-cols-3 gap-2 text-center'>
                   <div>
                     <div className='text-lg font-bold text-green-400'>
@@ -77,8 +83,9 @@ export const PlayerComparison = ({
                     <div className='text-xs text-slate-400'>Rating</div>
                   </div>
                 </div>
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

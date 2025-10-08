@@ -1,6 +1,6 @@
 export interface PlayerRanking {
   name: string;
-  team: string;
+  teamId: string;
   goals: number;
   assists: number;
   avatar: string;

@@ -1,6 +1,7 @@
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import { StatAccent, getStatStyles } from "@/entities/player/lib/stat-palette";
 import { X } from "lucide-react";
+import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 interface PlayerDetailProps {
   player: PlayerDatabaseEntry | null;
@@ -9,6 +10,8 @@ interface PlayerDetailProps {
 
 export const PlayerDetail = ({ player, onClose }: PlayerDetailProps) => {
   if (!player) return null;
+
+  const team = TEAMS_BY_ID[player.teamId];
 
   return (
     <div
@@ -23,7 +26,7 @@ export const PlayerDetail = ({ player, onClose }: PlayerDetailProps) => {
           <div>
             <h3 className='text-2xl font-bold text-white'>{player.name}</h3>
             <p className='text-slate-400 text-sm'>
-              {player.team} • {player.position}
+              {(team?.name ?? player.teamId.toUpperCase())} • {player.position}
             </p>
           </div>
           <button
@@ -127,30 +130,33 @@ export const PlayerDetail = ({ player, onClose }: PlayerDetailProps) => {
             <div className='bg-slate-800/40 rounded-3xl p-6 border border-white/10'>
               <h4 className='text-white font-bold mb-6'>Career History</h4>
               <div className='space-y-4'>
-                {player.career.map((period, idx) => (
-                  <div
-                    key={idx}
-                    className='flex items-center space-x-4 p-4 bg-slate-800/30 rounded-2xl border border-white/10'
-                  >
-                    <div className='w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-xl flex items-center justify-center text-xl shadow-lg'>
-                      🏆
-                    </div>
-                    <div className='flex-1'>
-                      <div className='text-white font-bold text-lg'>
-                        {period.team}
+                {player.career.map((period, idx) => {
+                  const careerTeam = TEAMS_BY_ID[period.teamId];
+                  return (
+                    <div
+                      key={idx}
+                      className='flex items-center space-x-4 p-4 bg-slate-800/30 rounded-2xl border border-white/10'
+                    >
+                      <div className='w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-xl flex items-center justify-center text-xl shadow-lg'>
+                      {careerTeam?.crest ?? "⚽"}
                       </div>
-                      <div className='text-slate-400 text-sm'>{period.year}</div>
-                    </div>
-                    <div className='text-right'>
-                      <div className='text-white font-bold'>
-                        {period.matches} matches
+                      <div className='flex-1'>
+                        <div className='text-white font-bold text-lg'>
+                          {careerTeam?.name ?? period.teamId.toUpperCase()}
+                        </div>
+                        <div className='text-slate-400 text-sm'>{period.year}</div>
                       </div>
-                      <div className='text-green-400 font-semibold'>
-                        {period.goals} goals
+                      <div className='text-right'>
+                        <div className='text-white font-bold'>
+                          {period.matches} matches
+                        </div>
+                        <div className='text-green-400 font-semibold'>
+                          {period.goals} goals
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>

@@ -11,6 +11,7 @@ interface PlayerSearchControlsProps {
   onTeamChange: (value: string) => void;
   positionOptions: readonly string[];
   teamOptions: readonly string[];
+  formatTeamOption?: (value: string) => string;
   viewMode: ViewMode;
   onViewModeChange: (mode: ViewMode) => void;
   activeFilters: PlayerFilter[];
@@ -27,6 +28,7 @@ export const PlayerSearchControls = ({
   onTeamChange,
   positionOptions,
   teamOptions,
+  formatTeamOption,
   viewMode,
   onViewModeChange,
   activeFilters,
@@ -35,6 +37,13 @@ export const PlayerSearchControls = ({
 }: PlayerSearchControlsProps) => {
   const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
     onSearchChange(event.target.value);
+  };
+
+  const renderTeamOption = (team: string) => {
+    if (team === "all") {
+      return "모든 팀";
+    }
+    return formatTeamOption ? formatTeamOption(team) : team;
   };
 
   return (
@@ -73,7 +82,7 @@ export const PlayerSearchControls = ({
           >
             {teamOptions.map((team) => (
               <option key={team} value={team}>
-                {team === "all" ? "모든 팀" : team}
+                {renderTeamOption(team)}
               </option>
             ))}
           </select>
@@ -107,21 +116,29 @@ export const PlayerSearchControls = ({
 
       {activeFilters.length > 0 && (
         <div className='flex flex-wrap gap-2 mt-4'>
-          {activeFilters.map((filter) => (
-            <div
-              key={`${filter.type}-${filter.value}`}
-              className='flex items-center space-x-2 bg-[#169976]/20 border border-emerald-400/40 text-emerald-300 px-4 py-2 rounded-xl text-sm font-medium'
-            >
-              <span>{filter.value}</span>
-              <button
-                type='button'
-                onClick={() => onFilterRemove(filter)}
-                className='hover:text-white'
+          {activeFilters.map((filter) => {
+            const label = filter.type === "team"
+              ? renderTeamOption(filter.value)
+              : filter.type === "position"
+              ? filter.value
+              : filter.value;
+
+            return (
+              <div
+                key={`${filter.type}-${filter.value}`}
+                className='flex items-center space-x-2 bg-[#169976]/20 border border-emerald-400/40 text-emerald-300 px-4 py-2 rounded-xl text-sm font-medium'
               >
-                <X className='w-4 h-4' />
-              </button>
-            </div>
-          ))}
+                <span>{label}</span>
+                <button
+                  type='button'
+                  onClick={() => onFilterRemove(filter)}
+                  className='hover:text-white'
+                >
+                  <X className='w-4 h-4' />
+                </button>
+              </div>
+            );
+          })}
           <button
             type='button'
             onClick={onClearFilters}

@@ -8,6 +8,8 @@ interface PlayerGridCardProps {
   onSelect: (player: PlayerDatabaseEntry) => void;
   onView: (player: PlayerDatabaseEntry) => void;
   showSelection: boolean;
+  teamName: string;
+  teamCrest: string;
 }
 
 // const POSITION_ACCENT: Record<string, StatAccent> = {
@@ -38,6 +40,8 @@ export const PlayerGridCard = ({
   onSelect,
   onView,
   showSelection,
+  teamName,
+  teamCrest,
 }: PlayerGridCardProps) => {
   // const accent = getStatStyles(getAccentByPosition(player.position));
 
@@ -80,9 +84,9 @@ export const PlayerGridCard = ({
       </h3>
       <div className='flex items-center space-x-2 text-slate-400 text-sm mb-4'>
         <div className='w-6 h-6 bg-gradient-to-br from-[#169976] to-teal-500 rounded-lg flex items-center justify-center text-xs'>
-          {player.teamLogo}
+          {teamCrest}
         </div>
-        <span>{player.team}</span>
+        <span>{teamName}</span>
       </div>
 
       <div className='grid grid-cols-3 gap-3 mb-4'>

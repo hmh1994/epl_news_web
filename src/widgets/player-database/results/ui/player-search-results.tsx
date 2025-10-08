@@ -5,6 +5,7 @@ import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-ent
 import { PlayerGridCard } from "@/entities/player/ui/player-grid-card";
 import { PlayerListItem } from "@/entities/player/ui/player-list-item";
 import { ViewMode } from "@/features/player-database/types";
+import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 type PlayerSearchResultsProps = {
   players: PlayerDatabaseEntry[];
@@ -38,6 +39,7 @@ export const PlayerSearchResults = ({
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
         {players.map((player) => {
           const isSelected = selectedPlayers.some((item) => item.id === player.id);
+          const team = TEAMS_BY_ID[player.teamId];
           return (
             <PlayerGridCard
               key={player.id}
@@ -46,6 +48,8 @@ export const PlayerSearchResults = ({
               onSelect={onSelect}
               onView={onView}
               showSelection={canSelect(isSelected)}
+              teamName={team?.name ?? player.teamId.toUpperCase()}
+              teamCrest={team?.crest ?? "⚽"}
             />
           );
         })}
@@ -55,9 +59,17 @@ export const PlayerSearchResults = ({
 
   return (
     <div className='space-y-4'>
-      {players.map((player) => (
-        <PlayerListItem key={player.id} player={player} onView={onView} />
-      ))}
+      {players.map((player) => {
+        const team = TEAMS_BY_ID[player.teamId];
+        return (
+          <PlayerListItem
+            key={player.id}
+            player={player}
+            onView={onView}
+            teamName={team?.name ?? player.teamId.toUpperCase()}
+          />
+        );
+      })}
     </div>
   );
 };

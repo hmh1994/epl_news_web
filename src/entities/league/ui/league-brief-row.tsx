@@ -5,6 +5,8 @@ interface LeagueBriefRowProps {
   isHovered: boolean;
   onHover: (pos: number) => void;
   onHoverEnd: () => void;
+  teamName: string;
+  teamCrest: string;
 }
 
 const getPositionStyle = (pos: number) => {
@@ -33,6 +35,8 @@ export const LeagueBriefRow = ({
   isHovered,
   onHover,
   onHoverEnd,
+  teamName,
+  teamCrest,
 }: LeagueBriefRowProps) => {
   const positionStyle = getPositionStyle(row.pos);
 
@@ -58,14 +62,14 @@ export const LeagueBriefRow = ({
               isHovered ? "scale-110 rotate-3" : ""
             } transition-all`}
           >
-            {row.logo}
+            {teamCrest}
           </div>
           <span
             className={`text-lg font-bold transition-colors ${
               isHovered ? "text-emerald-300" : "text-white"
             }`}
           >
-            {row.team}
+            {teamName}
           </span>
         </div>
       </td>

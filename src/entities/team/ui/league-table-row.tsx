@@ -10,6 +10,9 @@ interface LeagueTableRowProps {
   isHovered: boolean;
   onHover: (position: number) => void;
   onHoverEnd: () => void;
+  teamName: string;
+  teamShortName: string;
+  teamCrest: string;
 }
 
 const getPositionStyle = (position: number) => {
@@ -73,6 +76,9 @@ export const LeagueTableRow = ({
   isHovered,
   onHover,
   onHoverEnd,
+  teamName,
+  teamShortName,
+  teamCrest,
 }: LeagueTableRowProps) => {
   const positionStyle = getPositionStyle(team.position);
 
@@ -107,7 +113,7 @@ export const LeagueTableRow = ({
               isHovered ? "scale-110 rotate-3" : ""
             }`}
           >
-            {team.logo}
+            {teamCrest}
           </div>
           <div>
             <div
@@ -115,9 +121,9 @@ export const LeagueTableRow = ({
                 isHovered ? "text-emerald-300" : "text-white"
               }`}
             >
-              {team.team}
+              {teamName}
             </div>
-            <div className='text-slate-400 text-sm font-medium'>{team.shortName}</div>
+            <div className='text-slate-400 text-sm font-medium'>{teamShortName}</div>
             <div className='text-slate-500 text-xs'>{team.value}</div>
           </div>
         </div>

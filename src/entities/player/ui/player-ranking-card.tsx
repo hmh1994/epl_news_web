@@ -3,9 +3,10 @@ import { PlayerRanking } from "../model/player-ranking";
 interface PlayerRankingCardProps {
   player: PlayerRanking;
   rank: number;
+  teamName: string;
 }
 
-export const PlayerRankingCard = ({ player, rank }: PlayerRankingCardProps) => {
+export const PlayerRankingCard = ({ player, rank, teamName }: PlayerRankingCardProps) => {
   return (
     <div className='group relative p-5 rounded-2xl hover:bg-white/5 cursor-pointer transition-all duration-300 border border-transparent hover:border-white/10'>
       <div className='flex items-center space-x-4'>
@@ -22,7 +23,7 @@ export const PlayerRankingCard = ({ player, rank }: PlayerRankingCardProps) => {
           <h4 className='text-white font-bold text-lg group-hover:text-[#169976] transition-colors'>
             {player.name}
           </h4>
-          <p className='text-slate-400 text-sm mb-1'>{player.team}</p>
+          <p className='text-slate-400 text-sm mb-1'>{teamName}</p>
           <div className='flex items-center space-x-4 text-sm'>
             <span className='text-green-400 font-semibold'>{player.goals}골</span>
             <span className='text-[#169976] font-semibold'>{player.assists}도움</span>

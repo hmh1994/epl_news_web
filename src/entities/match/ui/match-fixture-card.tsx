@@ -2,6 +2,14 @@ import { MatchFixture } from "@/entities/match/model/match-schedule";
 
 interface MatchFixtureCardProps {
   fixture: MatchFixture;
+  homeTeam?: ClubDisplay;
+  awayTeam?: ClubDisplay;
+}
+
+interface ClubDisplay {
+  name: string;
+  shortName: string;
+  crest: string;
 }
 
 const statusStyles: Record<MatchFixture["status"], { label: string; classes: string }> = {
@@ -39,7 +47,7 @@ const formColor: Record<"W" | "D" | "L", string> = {
   L: "bg-red-500 text-white",
 };
 
-export const MatchFixtureCard = ({ fixture }: MatchFixtureCardProps) => {
+export const MatchFixtureCard = ({ fixture, homeTeam, awayTeam }: MatchFixtureCardProps) => {
   const kickoff = new Date(fixture.kickoff);
   const status = statusStyles[fixture.status];
 
@@ -76,7 +84,7 @@ export const MatchFixtureCard = ({ fixture }: MatchFixtureCardProps) => {
       )}
 
       <div className='grid grid-cols-5 gap-4 items-center mb-6'>
-        <ClubColumn club={fixture.home} alignment='right' />
+        <ClubColumn club={fixture.home} display={homeTeam} alignment='right' />
 
         <div className='col-span-1 flex flex-col items-center space-y-2'>
           <div className='text-sm text-slate-400'>vs</div>
@@ -91,7 +99,7 @@ export const MatchFixtureCard = ({ fixture }: MatchFixtureCardProps) => {
           )}
         </div>
 
-        <ClubColumn club={fixture.away} alignment='left' />
+        <ClubColumn club={fixture.away} display={awayTeam} alignment='left' />
       </div>
 
       <div className='flex flex-wrap items-center justify-between gap-4 text-sm text-slate-400'>
@@ -117,9 +125,11 @@ export const MatchFixtureCard = ({ fixture }: MatchFixtureCardProps) => {
 
 const ClubColumn = ({
   club,
+  display,
   alignment,
 }: {
   club: MatchFixture["home"];
+  display?: ClubDisplay;
   alignment: "left" | "right";
 }) => {
   const justify = alignment === "right" ? "items-end text-right" : "items-start text-left";
@@ -134,16 +144,16 @@ const ClubColumn = ({
         <div
           className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-[#169976] ${badgeGlow} flex items-center justify-center text-2xl shadow-xl`}
         >
-          {club.badge}
+          {display?.crest ?? "⚽"}
         </div>
         {alignment === "left" && (
           <RecentForm recent={club.recentForm} alignment={alignment} />
         )}
       </div>
       <div>
-        <p className='text-2xl font-bold text-white'>{club.name}</p>
+        <p className='text-2xl font-bold text-white'>{display?.name ?? club.teamId.toUpperCase()}</p>
         <div className='text-sm text-slate-400 flex items-center gap-3'>
-          <span>{club.shortName}</span>
+          <span>{display?.shortName ?? club.teamId.toUpperCase()}</span>
           {club.leaguePosition && (
             <span className='flex items-center gap-1 text-emerald-300'>
               <span className='w-2 h-2 rounded-full bg-emerald-400'></span>

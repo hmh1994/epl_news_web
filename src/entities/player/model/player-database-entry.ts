@@ -11,7 +11,7 @@ export interface PlayerSkillSet {
 
 export interface PlayerCareerPeriod {
   year: string;
-  team: string;
+  teamId: string;
   matches: number;
   goals: number;
 }
@@ -20,8 +20,7 @@ export interface PlayerDatabaseEntry {
   id: number;
   name: string;
   photo: string;
-  team: string;
-  teamLogo: string;
+  teamId: string;
   position: PlayerPosition;
   age: number;
   nationality: string;

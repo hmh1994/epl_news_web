@@ -13,8 +13,7 @@ export interface LeagueSummary {
 
 export interface LeagueTableRow {
   pos: number;
-  team: string;
-  logo: string;
+  teamId: string;
   played: number;
   won: number;
   drawn: number;
@@ -25,8 +24,7 @@ export interface LeagueTableRow {
 
 export interface LeagueChampion {
   year: string;
-  team: string;
-  logo: string;
+  teamId: string;
   titles: number;
   points: number;
 }
@@ -43,8 +41,7 @@ export interface LeagueStat {
 }
 
 export interface SuccessfulClub {
-  team: string;
-  logo: string;
+  teamId: string;
   titles: number;
   color: string;
 }

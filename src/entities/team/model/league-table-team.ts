@@ -1,8 +1,6 @@
 export interface LeagueTableTeam {
   position: number;
-  team: string;
-  shortName: string;
-  logo: string;
+  teamId: string;
   played: number;
   won: number;
   drawn: number;

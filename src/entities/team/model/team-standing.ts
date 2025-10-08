@@ -2,11 +2,10 @@ export type TeamFormResult = "W" | "D" | "L";
 
 export interface TeamStanding {
   position: number;
-  team: string;
+  teamId: string;
   matches: number;
   points: number;
-  goalDiff: string;
-  logo: string;
-  trend: string;
+  goalDifference: number;
+  trend: number;
   form: TeamFormResult[];
 }

@@ -2,57 +2,51 @@ import { TeamStanding } from "@/entities/team/model/team-standing";
 import { PlayerRanking } from "@/entities/player/model/player-ranking";
 import { LiveUpdate } from "@/entities/update/model/live-update";
 import { LeagueStat } from "@/entities/stat/model/league-stat";
-import { Globe, Target, Trophy, Users } from "lucide-react";
 
 export const EPL_STANDINGS: TeamStanding[] = [
   {
     position: 1,
-    team: "맨체스터 시티",
+    teamId: "mci",
     matches: 38,
     points: 89,
-    goalDiff: "+73",
-    logo: "🏆",
-    trend: "+2",
+    goalDifference: 73,
+    trend: 2,
     form: ["W", "W", "W", "D", "W"],
   },
   {
     position: 2,
-    team: "아스날",
+    teamId: "ars",
     matches: 38,
     points: 84,
-    goalDiff: "+62",
-    logo: "🔴",
-    trend: "-1",
+    goalDifference: 62,
+    trend: -1,
     form: ["W", "L", "W", "W", "D"],
   },
   {
     position: 3,
-    team: "맨체스터 유나이티드",
+    teamId: "mun",
     matches: 38,
     points: 75,
-    goalDiff: "+15",
-    logo: "👹",
-    trend: "+1",
+    goalDifference: 15,
+    trend: 1,
     form: ["D", "W", "L", "W", "W"],
   },
   {
     position: 4,
-    team: "뉴캐슬 유나이티드",
+    teamId: "new",
     matches: 38,
     points: 71,
-    goalDiff: "+35",
-    logo: "⚫",
-    trend: "0",
+    goalDifference: 35,
+    trend: 0,
     form: ["W", "D", "W", "L", "W"],
   },
   {
     position: 5,
-    team: "리버풀",
+    teamId: "liv",
     matches: 38,
     points: 67,
-    goalDiff: "+28",
-    logo: "🔴",
-    trend: "-2",
+    goalDifference: 28,
+    trend: -2,
     form: ["L", "D", "W", "D", "L"],
   },
 ];
@@ -60,7 +54,7 @@ export const EPL_STANDINGS: TeamStanding[] = [
 export const EPL_PLAYER_RANKINGS: PlayerRanking[] = [
   {
     name: "얼링 홀란드",
-    team: "맨체스터 시티",
+    teamId: "mci",
     goals: 36,
     assists: 8,
     avatar: "🇳🇴",
@@ -69,7 +63,7 @@ export const EPL_PLAYER_RANKINGS: PlayerRanking[] = [
   },
   {
     name: "해리 케인",
-    team: "토트넘 홋스퍼",
+    teamId: "tot",
     goals: 30,
     assists: 3,
     avatar: "🇬🇧",
@@ -78,7 +72,7 @@ export const EPL_PLAYER_RANKINGS: PlayerRanking[] = [
   },
   {
     name: "이반 토니",
-    team: "브렌트포드",
+    teamId: "bre",
     goals: 20,
     assists: 5,
     avatar: "🇬🇧",
@@ -120,31 +114,47 @@ export const EPL_LIVE_UPDATES: LiveUpdate[] = [
 
 export const EPL_SEASON_STATS: LeagueStat[] = [
   {
-    icon: <Trophy className='w-8 h-8' />,
-    number: "1,026",
+    id: "season-goals",
+    icon: "trophy",
+    value: "1,026",
     label: "시즌 총 골",
     change: "+12%",
-    color: "from-yellow-400 to-orange-500",
+    gradient: {
+      from: "#FACC15",
+      to: "#F97316",
+    },
   },
   {
-    icon: <Users className='w-8 h-8' />,
-    number: "380",
+    id: "total-matches",
+    icon: "users",
+    value: "380",
     label: "총 경기 수",
     change: "+5%",
-    color: "from-[#169976] to-emerald-600",
+    gradient: {
+      from: "#169976",
+      to: "#059669",
+    },
   },
   {
-    icon: <Globe className='w-8 h-8' />,
-    number: "20",
+    id: "participating-teams",
+    icon: "globe",
+    value: "20",
     label: "참가 팀",
     change: "0%",
-    color: "from-green-400 to-emerald-500",
+    gradient: {
+      from: "#22C55E",
+      to: "#10B981",
+    },
   },
   {
-    icon: <Target className='w-8 h-8' />,
-    number: "2.7",
+    id: "avg-goals",
+    icon: "target",
+    value: "2.7",
     label: "경기당 평균 골",
     change: "+8%",
-    color: "from-[#169976] to-teal-600",
+    gradient: {
+      from: "#169976",
+      to: "#0D9488",
+    },
   },
 ];

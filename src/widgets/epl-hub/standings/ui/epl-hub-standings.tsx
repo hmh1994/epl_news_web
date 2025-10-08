@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { TeamStanding } from "@/entities/team/model/team-standing";
 import { TeamStandingRow } from "@/entities/team/ui/team-standing-row";
+import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 interface EplHubStandingsProps {
   teams: TeamStanding[];
@@ -47,9 +48,17 @@ export const EplHubStandings = ({ teams }: EplHubStandingsProps) => {
               </tr>
             </thead>
             <tbody>
-              {teams.map((team) => (
-                <TeamStandingRow key={team.position} team={team} />
-              ))}
+              {teams.map((standing) => {
+                const team = TEAMS_BY_ID[standing.teamId];
+                return (
+                  <TeamStandingRow
+                    key={standing.position}
+                    standing={standing}
+                    teamName={team?.name ?? standing.teamId.toUpperCase()}
+                    crest={team?.crest ?? "⚽"}
+                  />
+                );
+              })}
             </tbody>
           </table>
         </div>

@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { LeagueTableRow } from "@/entities/league/model/league-overview";
 import { LeagueBriefRow } from "@/entities/league/ui/league-brief-row";
+import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 interface LeagueBriefTableProps {
   rows: LeagueTableRow[];
@@ -46,14 +47,18 @@ export const LeagueBriefTable = ({
         </tr>
       </thead>
       <tbody>
-        {rows.map((row, index) => (
-          <Fragment key={row.team}>
-            <LeagueBriefRow
-              row={row}
-              isHovered={hoveredTeam === row.pos}
-              onHover={onHover}
-              onHoverEnd={onHoverEnd}
-            />
+        {rows.map((row, index) => {
+          const team = TEAMS_BY_ID[row.teamId];
+          return (
+            <Fragment key={row.teamId}>
+              <LeagueBriefRow
+                row={row}
+                isHovered={hoveredTeam === row.pos}
+                onHover={onHover}
+                onHoverEnd={onHoverEnd}
+                teamName={team?.name ?? row.teamId.toUpperCase()}
+                teamCrest={team?.crest ?? "⚽"}
+              />
             {index === 4 && (
               <tr>
                 <td colSpan={8} className='py-2 text-center'>
@@ -61,8 +66,9 @@ export const LeagueBriefTable = ({
                 </td>
               </tr>
             )}
-          </Fragment>
-        ))}
+            </Fragment>
+          );
+        })}
       </tbody>
     </table>
   );

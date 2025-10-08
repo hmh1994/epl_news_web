@@ -53,8 +53,7 @@ export const LEAGUE_SUMMARIES: Record<LeagueKey, LeagueSummary> = {
 export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   {
     pos: 1,
-    team: "Manchester City",
-    logo: "🏆",
+    teamId: "mci",
     played: 38,
     won: 28,
     drawn: 5,
@@ -64,8 +63,7 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   },
   {
     pos: 2,
-    team: "Arsenal",
-    logo: "🔴",
+    teamId: "ars",
     played: 38,
     won: 28,
     drawn: 5,
@@ -75,8 +73,7 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   },
   {
     pos: 3,
-    team: "Liverpool",
-    logo: "❤️",
+    teamId: "liv",
     played: 38,
     won: 24,
     drawn: 10,
@@ -86,8 +83,7 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   },
   {
     pos: 4,
-    team: "Aston Villa",
-    logo: "🦁",
+    teamId: "avl",
     played: 38,
     won: 20,
     drawn: 8,
@@ -97,8 +93,7 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   },
   {
     pos: 5,
-    team: "Tottenham",
-    logo: "🐓",
+    teamId: "tot",
     played: 38,
     won: 20,
     drawn: 6,
@@ -108,8 +103,7 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   },
   {
     pos: 18,
-    team: "Luton Town",
-    logo: "🎩",
+    teamId: "lut",
     played: 38,
     won: 6,
     drawn: 8,
@@ -119,8 +113,7 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   },
   {
     pos: 19,
-    team: "Burnley",
-    logo: "🔥",
+    teamId: "bur",
     played: 38,
     won: 5,
     drawn: 9,
@@ -130,8 +123,7 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   },
   {
     pos: 20,
-    team: "Sheffield Utd",
-    logo: "⚔️",
+    teamId: "shu",
     played: 38,
     won: 3,
     drawn: 7,
@@ -144,43 +136,37 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
 export const EPL_CHAMPIONS: LeagueChampion[] = [
   {
     year: "2023-24",
-    team: "Manchester City",
-    logo: "🏆",
+    teamId: "mci",
     titles: 10,
     points: 89,
   },
   {
     year: "2022-23",
-    team: "Manchester City",
-    logo: "🏆",
+    teamId: "mci",
     titles: 9,
     points: 89,
   },
   {
     year: "2021-22",
-    team: "Manchester City",
-    logo: "🏆",
+    teamId: "mci",
     titles: 8,
     points: 93,
   },
   {
     year: "2020-21",
-    team: "Manchester City",
-    logo: "🏆",
+    teamId: "mci",
     titles: 7,
     points: 86,
   },
   {
     year: "2019-20",
-    team: "Liverpool",
-    logo: "❤️",
+    teamId: "liv",
     titles: 1,
     points: 99,
   },
   {
     year: "2018-19",
-    team: "Manchester City",
-    logo: "🏆",
+    teamId: "mci",
     titles: 6,
     points: 98,
   },
@@ -223,20 +209,17 @@ export const EPL_STATS: LeagueStat[] = [
 
 export const EPL_TOP_CLUBS: SuccessfulClub[] = [
   {
-    team: "Manchester City",
-    logo: "🏆",
+    teamId: "mci",
     titles: 10,
     color: "from-[#169976] to-teal-500",
   },
   {
-    team: "Manchester United",
-    logo: "👹",
+    teamId: "mun",
     titles: 13,
     color: "from-red-400 to-pink-500",
   },
   {
-    team: "Chelsea",
-    logo: "💙",
+    teamId: "che",
     titles: 5,
     color: "from-blue-500 to-purple-500",
   },
