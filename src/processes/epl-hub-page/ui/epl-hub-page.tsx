@@ -9,8 +9,9 @@ import { PlayerRankingCard } from "@/entities/player/ui/player-ranking-card";
 import { EPL_MATCH_SCHEDULE } from "@/shared/mocks/match-schedule";
 import { MatchFixture } from "@/entities/match/model/match-schedule";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
-import { BookmarkCheck, CalendarClock, Star, Trash2 } from "lucide-react";
+import { CalendarClock, Star, Trash2, Trophy } from "lucide-react";
 import { EplHubHeader } from "@/widgets/epl-hub/header/ui/epl-hub-header";
+import { EplLeaguePulse } from "@/widgets/epl-hub/season-insights/ui/epl-league-pulse";
 
 const FAVORITE_TEAMS_STORAGE_KEY = "eplFavoriteTeams";
 const FAVORITE_MATCHES_STORAGE_KEY = "eplFavoriteMatches";
@@ -367,7 +368,7 @@ export const EPLHubPage = () => {
                       올 시즌을 빛내고 있는 공격수들을 확인하세요.
                     </p>
                   </div>
-                  <BookmarkCheck className='h-6 w-6 text-emerald-300' />
+                  <Trophy className='h-6 w-6 text-yellow-300' />
                 </div>
                 <div className='mt-6 space-y-4'>
                   {EPL_PLAYER_RANKINGS.map((player, index) => {
@@ -385,6 +386,10 @@ export const EPLHubPage = () => {
               </div>
             </div>
           </div>
+        </section>
+
+        <section className='mx-auto w-full max-w-7xl px-6 pb-12 lg:px-12 xl:px-16'>
+          <EplLeaguePulse />
         </section>
 
         <section className='mx-auto w-full max-w-7xl px-6 pb-20 lg:px-12 xl:px-16'>

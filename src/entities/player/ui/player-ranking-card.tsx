@@ -30,11 +30,6 @@ export const PlayerRankingCard = ({ player, rank, teamName }: PlayerRankingCardP
             <span className='text-yellow-400 font-semibold'>★{player.rating}</span>
           </div>
         </div>
-
-        <div className='text-right'>
-          <div className='text-slate-400 text-xs mb-1'>시장가치</div>
-          <div className='text-white font-bold'>{player.value}</div>
-        </div>
       </div>
     </div>
   );
