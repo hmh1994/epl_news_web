@@ -8,6 +8,8 @@ interface LeagueBriefTableProps {
   hoveredTeam: number | null;
   onHover: (pos: number) => void;
   onHoverEnd: () => void;
+  onFavorite?: (teamId: string) => void;
+  favoriteTeamIds?: string[];
 }
 
 export const LeagueBriefTable = ({
@@ -15,6 +17,8 @@ export const LeagueBriefTable = ({
   hoveredTeam,
   onHover,
   onHoverEnd,
+  onFavorite,
+  favoriteTeamIds,
 }: LeagueBriefTableProps) => {
   return (
     <table className='w-full'>
@@ -58,14 +62,16 @@ export const LeagueBriefTable = ({
                 onHoverEnd={onHoverEnd}
                 teamName={team?.name ?? row.teamId.toUpperCase()}
                 teamCrest={team?.crest ?? "⚽"}
+                onFavorite={onFavorite}
+                isFavorite={favoriteTeamIds?.includes(row.teamId)}
               />
-            {index === 4 && (
-              <tr>
-                <td colSpan={8} className='py-2 text-center'>
-                  <div className='text-slate-500 text-sm'>• • •</div>
-                </td>
-              </tr>
-            )}
+              {index === 4 && (
+                <tr>
+                  <td colSpan={8} className='py-2 text-center'>
+                    <div className='text-slate-500 text-sm'>• • •</div>
+                  </td>
+                </tr>
+              )}
             </Fragment>
           );
         })}

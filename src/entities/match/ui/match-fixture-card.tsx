@@ -1,15 +1,19 @@
+import { ReactNode } from "react";
+import { Bookmark } from "lucide-react";
 import { MatchFixture } from "@/entities/match/model/match-schedule";
 
 interface MatchFixtureCardProps {
   fixture: MatchFixture;
   homeTeam?: ClubDisplay;
   awayTeam?: ClubDisplay;
+  onToggleFavorite?: (matchId: string) => void;
+  isFavorite?: boolean;
 }
 
 interface ClubDisplay {
   name: string;
   shortName: string;
-  crest: string;
+  crest?: ReactNode;
 }
 
 const statusStyles: Record<MatchFixture["status"], { label: string; classes: string }> = {
@@ -41,83 +45,112 @@ const dayFormatter = new Intl.DateTimeFormat("en-GB", {
   month: "short",
 });
 
-const formColor: Record<"W" | "D" | "L", string> = {
-  W: "bg-green-500 text-white",
-  D: "bg-yellow-500 text-white",
-  L: "bg-red-500 text-white",
-};
-
-export const MatchFixtureCard = ({ fixture, homeTeam, awayTeam }: MatchFixtureCardProps) => {
+export const MatchFixtureCard = ({
+  fixture,
+  homeTeam,
+  awayTeam,
+  onToggleFavorite,
+  isFavorite,
+}: MatchFixtureCardProps) => {
   const kickoff = new Date(fixture.kickoff);
   const status = statusStyles[fixture.status];
 
   return (
-    <article className='relative bg-slate-900/60 border border-white/10 rounded-3xl p-6 backdrop-blur-3xl shadow-2xl hover:-translate-y-1 transition-transform'>
-      <div className='flex items-center justify-between mb-6'>
-        <div>
-          <p className='text-xs uppercase tracking-[0.2em] text-slate-400'>
-            Matchweek {fixture.matchweek}
-          </p>
-          <div className='flex items-center space-x-3 mt-2'>
+    <article className='relative h-full overflow-hidden rounded-3xl border border-white/10 bg-slate-900/60 p-6 backdrop-blur-3xl shadow-2xl transition-transform hover:-translate-y-1'>
+      <div className='flex h-full flex-col gap-6'>
+        <div className='flex items-start justify-between'>
+          <div className='flex flex-col gap-1'>
+            <p className='text-xs uppercase tracking-[0.2em] text-slate-400'>
+              Matchweek {fixture.matchweek}
+            </p>
+            <div className='flex items-center space-x-3 mt-2'>
             <span className='text-xl font-bold text-white'>
               {kickoffFormatter.format(kickoff)}
             </span>
             <span className='text-slate-400 text-sm'>
               {dayFormatter.format(kickoff)}
+              </span>
+            </div>
+          </div>
+          <div className='flex flex-col items-end gap-2'>
+            {onToggleFavorite && (
+            <button
+              type='button'
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                onToggleFavorite(fixture.id);
+              }}
+              className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all ${
+                isFavorite
+                  ? "border-emerald-400/60 bg-emerald-500/10 text-emerald-300 shadow-inner shadow-emerald-400/20 hover:bg-emerald-500/20"
+                  : "border-white/10 bg-white/5 text-slate-200 hover:border-emerald-400/40 hover:text-emerald-200"
+              }`}
+              aria-pressed={isFavorite}
+            >
+              <Bookmark
+                className='h-4 w-4'
+                strokeWidth={isFavorite ? 2.5 : 2}
+                fill={isFavorite ? "currentColor" : "none"}
+              />
+              {isFavorite ? "관심 경기" : "즐겨찾기"}
+            </button>
+            )}
+            <span
+              className={`px-4 py-2 rounded-xl text-xs font-semibold border ${status.classes}`}
+            >
+              {status.label}
             </span>
           </div>
         </div>
-        <span
-          className={`px-4 py-2 rounded-xl text-xs font-semibold border ${status.classes}`}
-        >
-          {status.label}
-        </span>
-      </div>
 
-      {fixture.headline && (
-        <div className='mb-6'>
-          <p className='text-emerald-300 text-sm font-medium uppercase tracking-[0.3em]'>
-            Spotlight
-          </p>
-          <p className='text-white text-lg font-semibold'>{fixture.headline}</p>
-        </div>
-      )}
+        <div className='flex flex-col gap-4 rounded-2xl bg-slate-900/40 p-4'>
+          <div className='grid grid-cols-[1fr_auto_1fr] items-center gap-6'>
+            <ClubColumn club={fixture.home} display={homeTeam} alignment='right' />
 
-      <div className='grid grid-cols-5 gap-4 items-center mb-6'>
-        <ClubColumn club={fixture.home} display={homeTeam} alignment='right' />
-
-        <div className='col-span-1 flex flex-col items-center space-y-2'>
-          <div className='text-sm text-slate-400'>vs</div>
-          {fixture.home.score !== undefined && fixture.away.score !== undefined ? (
-            <div className='text-3xl font-black text-white'>
-              {fixture.home.score} - {fixture.away.score}
+            <div className='flex flex-col items-center gap-1 text-center'>
+              <div className='text-xs uppercase tracking-[0.3em] text-slate-500'>
+                VS
+              </div>
+              {fixture.home.score !== undefined && fixture.away.score !== undefined ? (
+                <div className='text-3xl font-black text-white'>
+                  {fixture.home.score} - {fixture.away.score}
+                </div>
+              ) : (
+                <div className='text-base text-slate-400'>
+                  {kickoffFormatter.format(kickoff)}
+                </div>
+              )}
             </div>
-          ) : (
-            <div className='text-base text-slate-400'>
-              {fixture.referee ? `Ref ${fixture.referee}` : ""}
+
+            <ClubColumn club={fixture.away} display={awayTeam} alignment='left' />
+          </div>
+
+          <div className='flex flex-wrap items-center justify-between gap-4 text-sm text-slate-400'>
+            <div className='flex items-center gap-2'>
+              <span className='text-xs uppercase tracking-[0.3em] text-slate-500'>
+                Venue
+              </span>
+              <span className='text-slate-300 font-semibold'>{fixture.venue}</span>
+              <span>•</span>
+              <span>{fixture.city}</span>
             </div>
-          )}
-        </div>
 
-        <ClubColumn club={fixture.away} display={awayTeam} alignment='left' />
-      </div>
-
-      <div className='flex flex-wrap items-center justify-between gap-4 text-sm text-slate-400'>
-        <div>
-          <span className='text-slate-300 font-semibold'>{fixture.venue}</span>
-          <span className='mx-2'>•</span>
-          <span>{fixture.city}</span>
-        </div>
-
-        {fixture.broadcast && (
-          <div className='flex items-center space-x-2 text-slate-300'>
-            <span className='text-xs uppercase tracking-widest text-slate-500'>Broadcast</span>
-            <span className='font-semibold'>{fixture.broadcast.channel}</span>
-            {fixture.broadcast.platform && (
-              <span className='text-slate-400 text-xs'>({fixture.broadcast.platform})</span>
+            {fixture.broadcast && (
+              <div className='flex items-center gap-2 text-slate-300'>
+                <span className='text-xs uppercase tracking-[0.3em] text-slate-500'>
+                  Broadcast
+                </span>
+                <span className='font-semibold'>{fixture.broadcast.channel}</span>
+                {fixture.broadcast.platform && (
+                  <span className='text-slate-400 text-xs'>
+                    ({fixture.broadcast.platform})
+                  </span>
+                )}
+              </div>
             )}
           </div>
-        )}
+        </div>
       </div>
     </article>
   );
@@ -132,61 +165,29 @@ const ClubColumn = ({
   display?: ClubDisplay;
   alignment: "left" | "right";
 }) => {
-  const justify = alignment === "right" ? "items-end text-right" : "items-start text-left";
-  const badgeGlow = alignment === "right" ? "to-emerald-500" : "to-teal-500";
+  const shortName = display?.shortName ?? club.teamId.toUpperCase();
+  const fullName = display?.name ?? club.teamId.toUpperCase();
+  const isHome = alignment === "right";
+  const justifyText = isHome ? "items-end text-right" : "items-start text-left";
 
   return (
-    <div className={`col-span-2 flex flex-col ${justify} space-y-3`}>
-      <div className='flex items-center space-x-3'>
-        {alignment === "right" && (
-          <RecentForm recent={club.recentForm} alignment={alignment} />
-        )}
-        <div
-          className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-[#169976] ${badgeGlow} flex items-center justify-center text-2xl shadow-xl`}
-        >
-          {display?.crest ?? "⚽"}
-        </div>
-        {alignment === "left" && (
-          <RecentForm recent={club.recentForm} alignment={alignment} />
-        )}
-      </div>
-      <div>
-        <p className='text-2xl font-bold text-white'>{display?.name ?? club.teamId.toUpperCase()}</p>
-        <div className='text-sm text-slate-400 flex items-center gap-3'>
-          <span>{display?.shortName ?? club.teamId.toUpperCase()}</span>
-          {club.leaguePosition && (
-            <span className='flex items-center gap-1 text-emerald-300'>
-              <span className='w-2 h-2 rounded-full bg-emerald-400'></span>
-              {club.leaguePosition}위
-            </span>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const RecentForm = ({
-  recent,
-  alignment,
-}: {
-  recent?: MatchFixture["home"]["recentForm"];
-  alignment: "left" | "right";
-}) => {
-  if (!recent || recent.length === 0) {
-    return null;
-  }
-
-  return (
-    <div className={`flex items-center space-x-2 ${alignment === "right" ? "flex-row-reverse space-x-reverse" : ""}`}>
-      {recent.map((result, index) => (
-        <span
-          key={`${result}-${index}`}
-          className={`w-7 h-7 rounded-xl text-xs font-bold flex items-center justify-center ${formColor[result]}`}
-        >
-          {result}
+    <div className='flex flex-col gap-3'>
+      <div className={`flex min-w-0 flex-col gap-2 ${justifyText}`}>
+        <span className='text-3xl font-black tracking-[0.1em] text-white'>
+          {shortName}
         </span>
-      ))}
+        <p
+          className='max-w-full text-sm text-slate-300 leading-tight break-words'
+          title={fullName}
+        >
+          {fullName}
+        </p>
+        {club.leaguePosition && (
+          <span className='text-xs font-semibold text-emerald-300'>
+            {club.leaguePosition}위
+          </span>
+        )}
+      </div>
     </div>
   );
 };

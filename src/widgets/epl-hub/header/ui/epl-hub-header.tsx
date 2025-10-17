@@ -33,7 +33,7 @@ export const EplHubHeader = ({
                 EPL Hub
               </span>
               <div className='text-xs text-slate-400 font-medium'>
-                Premium Football Analytics
+                Football Data Hub
               </div>
             </div>
           </div>

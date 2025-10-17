@@ -15,7 +15,7 @@ export const EplHubFooter = () => {
             프리미어리그의 모든 순간을 놓치지 마세요. 실시간 분석과 전문가 인사이트로 더 깊은 축구 경험을 만들어보세요.
           </p>
           <div className='text-sm text-slate-500'>
-            © 2024 EPL Hub. Premium Football Analytics Platform.
+            © 2024 EPL Hub. Football Analytics Playground.
           </div>
         </div>
       </div>

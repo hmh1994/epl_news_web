@@ -15,10 +15,10 @@ export const TeamInfoFooter = () => (
           </span>
         </div>
         <p className='text-slate-400 mb-8 max-w-2xl mx-auto'>
-          세계 최고의 축구 리그, 프리미어리그의 모든 데이터와 인사이트를 제공하는 프리미엄 플랫폼입니다.
+          세계 최고의 축구 리그, 프리미어리그의 모든 데이터를 누구나 쉽게 탐색할 수 있도록 돕는 정보 허브입니다.
         </p>
         <div className='text-sm text-slate-500'>
-          © 2024 EPL Hub. Premium Football Analytics Platform.
+          © 2024 EPL Hub. Football Analytics Playground.
         </div>
       </div>
     </div>

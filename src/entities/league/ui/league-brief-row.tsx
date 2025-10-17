@@ -1,4 +1,5 @@
 import { LeagueTableRow } from "@/entities/league/model/league-overview";
+import { Star } from "lucide-react";
 
 interface LeagueBriefRowProps {
   row: LeagueTableRow;
@@ -7,6 +8,8 @@ interface LeagueBriefRowProps {
   onHoverEnd: () => void;
   teamName: string;
   teamCrest: string;
+  onFavorite?: (teamId: string) => void;
+  isFavorite?: boolean;
 }
 
 const getPositionStyle = (pos: number) => {
@@ -37,6 +40,8 @@ export const LeagueBriefRow = ({
   onHoverEnd,
   teamName,
   teamCrest,
+  onFavorite,
+  isFavorite,
 }: LeagueBriefRowProps) => {
   const positionStyle = getPositionStyle(row.pos);
 
@@ -56,21 +61,46 @@ export const LeagueBriefRow = ({
         </div>
       </td>
       <td className='py-6 px-8'>
-        <div className='flex items-center space-x-4'>
-          <div
-            className={`w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-2xl flex items-center justify-center text-xl shadow-lg ${
-              isHovered ? "scale-110 rotate-3" : ""
-            } transition-all`}
-          >
-            {teamCrest}
+        <div className='flex items-center justify-between gap-4'>
+          <div className='flex items-center space-x-4'>
+            <div
+              className={`w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-2xl flex items-center justify-center text-xl shadow-lg ${
+                isHovered ? "scale-110 rotate-3" : ""
+              } transition-all`}
+            >
+              {teamCrest}
+            </div>
+            <span
+              className={`text-lg font-bold transition-colors ${
+                isHovered ? "text-emerald-300" : "text-white"
+              }`}
+            >
+              {teamName}
+            </span>
           </div>
-          <span
-            className={`text-lg font-bold transition-colors ${
-              isHovered ? "text-emerald-300" : "text-white"
-            }`}
-          >
-            {teamName}
-          </span>
+          {onFavorite && (
+            <button
+              type='button'
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                onFavorite(row.teamId);
+              }}
+              className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all ${
+                isFavorite
+                  ? "border-emerald-400/60 bg-emerald-500/10 text-emerald-300 shadow-inner shadow-emerald-400/20 hover:bg-emerald-500/20"
+                  : "border-white/10 bg-white/5 text-slate-200 hover:border-emerald-400/40 hover:text-emerald-200"
+              }`}
+              aria-pressed={isFavorite}
+            >
+              <Star
+                className='h-4 w-4'
+                strokeWidth={isFavorite ? 2.5 : 2}
+                fill={isFavorite ? "currentColor" : "none"}
+              />
+              즐겨찾기
+            </button>
+          )}
         </div>
       </td>
       <td className='py-6 px-4 text-center text-slate-300 font-medium'>

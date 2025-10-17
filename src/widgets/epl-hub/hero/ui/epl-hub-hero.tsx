@@ -36,14 +36,14 @@ export const EplHubHero = () => {
           <button className='group relative px-10 py-5 bg-gradient-to-r from-[#169976] via-emerald-600 to-teal-600 rounded-2xl text-white text-lg font-bold shadow-2xl hover:scale-105 transform transition-all duration-300 overflow-hidden'>
             <div className='absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000'></div>
             <div className='relative flex items-center space-x-2'>
-              <span>프리미엄 시작하기</span>
+              <span>데이터 허브 살펴보기</span>
               <ArrowRight className='w-5 h-5 group-hover:translate-x-1 transition-transform' />
             </div>
           </button>
 
           <button className='group px-10 py-5 border-2 border-white/20 rounded-2xl text-white text-lg font-bold hover:bg-white/10 transition-all duration-300 backdrop-blur-xl'>
             <div className='flex items-center space-x-2'>
-              <span>무료 체험</span>
+              <span>팀 비교하기</span>
             </div>
           </button>
         </div>
