@@ -15,14 +15,10 @@ const POSITION_GROUPS: Record<Exclude<PositionFilter, "all">, string[]> = {
   FW: ["ST", "CF", "LW", "RW"],
 };
 
-const SQUAD_SORTERS: Record<
-  SquadSortKey,
-  (a: PlayerProfile, b: PlayerProfile) => number
-> = {
+const SQUAD_SORTERS: Record<SquadSortKey, (a: PlayerProfile, b: PlayerProfile) => number> = {
   number: (a, b) => a.number - b.number,
   name: (a, b) => a.name.localeCompare(b.name),
   age: (a, b) => a.age - b.age,
-  value: (a, b) => b.marketValue - a.marketValue,
   rating: (a, b) => b.rating - a.rating,
 };
 
@@ -61,49 +57,38 @@ export const filterPlayers = ({
 
 export const calculateTeamStats = (
   team: TeamProfile | null,
-  players: PlayerProfile[]
+  _players: PlayerProfile[]
 ): TeamStats | null => {
   if (!team) return null;
 
-  const squad = players.filter((player) => player.teamId === team.id);
-
-  if (squad.length === 0) {
-    return {
-      totalPlayers: 0,
-      avgAge: "0",
-      foreignPercentage: "0",
-      foreignPlayers: 0,
-      avgRating: "0",
-      totalValue: "€0M",
-      totalGoals: 0,
-      totalAssists: 0,
-    };
-  }
-
-  const totalAge = squad.reduce((sum, player) => sum + player.age, 0);
-  const avgAge = (totalAge / squad.length).toFixed(1);
-
-  const foreignPlayers = squad.filter((player) => player.nationality !== "🇬🇧").length;
-  const foreignPercentage = ((foreignPlayers / squad.length) * 100).toFixed(1);
-
-  const avgRating = (
-    squad.reduce((sum, player) => sum + player.rating, 0) / squad.length
-  ).toFixed(1);
-
-  const totalValueNumber = squad.reduce(
-    (sum, player) => sum + player.marketValue,
-    0
-  );
+  const matchesPlayed = team.played;
+  const winRate = matchesPlayed
+    ? ((team.won / matchesPlayed) * 100).toFixed(1)
+    : "0.0";
+  const goalDifference = team.goalsFor - team.goalsAgainst;
+  const goalsForPerGame = matchesPlayed
+    ? (team.goalsFor / matchesPlayed).toFixed(2)
+    : "0.00";
+  const goalsAgainstPerGame = matchesPlayed
+    ? (team.goalsAgainst / matchesPlayed).toFixed(2)
+    : "0.00";
+  const possession = `${team.keyStats.possession.toFixed(1)}%`;
+  const passAccuracy = `${team.keyStats.passAccuracy.toFixed(1)}%`;
+  const cleanSheetRate = matchesPlayed
+    ? ((team.keyStats.cleanSheets / matchesPlayed) * 100).toFixed(1) + "%"
+    : "0.0%";
+  const shotsPerGame = team.keyStats.shotsPerGame.toFixed(1);
 
   return {
-    totalPlayers: squad.length,
-    avgAge,
-    foreignPercentage,
-    foreignPlayers,
-    avgRating,
-    totalValue: `€${totalValueNumber}M`,
-    totalGoals: squad.reduce((sum, player) => sum + player.goals, 0),
-    totalAssists: squad.reduce((sum, player) => sum + player.assists, 0),
+    matchesPlayed,
+    winRate,
+    goalDifference,
+    goalsForPerGame,
+    goalsAgainstPerGame,
+    possession,
+    passAccuracy,
+    cleanSheetRate,
+    shotsPerGame,
   };
 };
 

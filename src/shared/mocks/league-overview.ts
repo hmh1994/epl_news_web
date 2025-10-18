@@ -18,36 +18,6 @@ export const LEAGUE_SUMMARIES: Record<LeagueKey, LeagueSummary> = {
     color: "from-[#169976] to-teal-500",
     logo: "⚽",
   },
-  LaLiga: {
-    name: "La Liga",
-    country: "🇪🇸",
-    teams: 20,
-    totalGoals: 1028,
-    avgAttendance: 28963,
-    marketValue: "€4.12B",
-    color: "from-red-600 to-orange-600",
-    logo: "🔥",
-  },
-  Bundesliga: {
-    name: "Bundesliga",
-    country: "🇩🇪",
-    teams: 18,
-    totalGoals: 896,
-    avgAttendance: 42609,
-    marketValue: "€3.89B",
-    color: "from-red-500 to-yellow-500",
-    logo: "🦅",
-  },
-  SerieA: {
-    name: "Serie A",
-    country: "🇮🇹",
-    teams: 20,
-    totalGoals: 1067,
-    avgAttendance: 25080,
-    marketValue: "€4.33B",
-    color: "from-blue-600 to-green-600",
-    logo: "🏛️",
-  },
 };
 
 export const EPL_BRIEF_TABLE: LeagueTableRow[] = [

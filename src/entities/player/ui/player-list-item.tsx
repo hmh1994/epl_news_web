@@ -31,20 +31,23 @@ export const PlayerListItem = ({ player, onView, teamName }: PlayerListItemProps
           </div>
         </div>
 
-        <div className='flex items-center space-x-8'>
-          <div className='text-center'>
+        <div className='flex items-center space-x-8 text-center'>
+          <div>
             <div className='text-2xl font-bold text-green-400'>{player.goals}</div>
             <div className='text-xs text-slate-400'>Goals</div>
           </div>
-          <div className='text-center'>
+          <div>
             <div className='text-2xl font-bold text-teal-400'>{player.assists}</div>
             <div className='text-xs text-slate-400'>Assists</div>
           </div>
-          <div className='text-center'>
-            <div className='text-2xl font-bold text-yellow-400'>{player.rating}</div>
-            <div className='text-xs text-slate-400'>Rating</div>
+          <div>
+            <div className='text-2xl font-bold text-emerald-400'>{player.goals + player.assists}</div>
+            <div className='text-xs text-slate-400'>Goal Involvements</div>
           </div>
-          <div className='text-white font-bold'>{player.marketValue}</div>
+          <div>
+            <div className='text-lg font-semibold text-white'>{player.stats.passing}</div>
+            <div className='text-xs text-slate-400'>Passing</div>
+          </div>
         </div>
       </div>
     </div>

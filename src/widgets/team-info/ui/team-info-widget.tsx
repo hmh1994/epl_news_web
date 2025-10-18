@@ -5,7 +5,6 @@ import { Search } from "lucide-react";
 import { TeamProfile } from "@/entities/team/model/team-profile";
 import { PlayerProfile } from "@/entities/player/model/player-profile";
 import { TEAM_PROFILES, TEAM_PLAYERS } from "@/shared/mocks/team-info";
-import { TeamInfoHeader } from "@/widgets/team-info/header/ui/team-info-header";
 import { TeamInfoHero } from "@/widgets/team-info/hero/ui/team-info-hero";
 import { TeamSelectionGrid } from "@/widgets/team-info/team-grid/ui/team-selection-grid";
 import { TeamDetailSection } from "@/widgets/team-info/detail/ui/team-detail-section";
@@ -82,7 +81,6 @@ export const TeamInfoWidget = () => {
 
   return (
     <div className='min-h-screen bg-slate-950 text-white overflow-x-hidden'>
-      <TeamInfoHeader />
       <TeamInfoHero />
 
       <main className='max-w-7xl mx-auto px-6 pb-20'>
@@ -118,13 +116,14 @@ export const TeamInfoWidget = () => {
                 </div>
               </div>
 
-              <div className='mt-5 lg:max-h-[calc(100vh-220px)] lg:overflow-y-auto lg:pr-1 scrollbar-slim'>
+              <div className='mt-5'>
                 <TeamSelectionGrid
                   teams={filteredTeams}
                   selectedTeam={selectedTeam}
                   onSelect={setSelectedTeam}
                   showHeader={false}
                   variant='compact'
+                  searchTerm={teamSearchTerm}
                 />
               </div>
             </div>

@@ -2,18 +2,19 @@ import { TeamProfile } from "@/entities/team/model/team-profile";
 import { PlayerProfile } from "@/entities/player/model/player-profile";
 
 export type TeamTab = "overview" | "squad" | "stats";
-export type SquadSortKey = "number" | "name" | "age" | "value" | "rating";
+export type SquadSortKey = "number" | "name" | "age" | "rating";
 export type PositionFilter = "all" | "GK" | "DF" | "MF" | "FW";
 
 export type TeamStats = {
-  totalPlayers: number;
-  avgAge: string;
-  foreignPercentage: string;
-  foreignPlayers: number;
-  avgRating: string;
-  totalValue: string;
-  totalGoals: number;
-  totalAssists: number;
+  matchesPlayed: number;
+  winRate: string;
+  goalDifference: number;
+  goalsForPerGame: string;
+  goalsAgainstPerGame: string;
+  possession: string;
+  passAccuracy: string;
+  cleanSheetRate: string;
+  shotsPerGame: string;
 };
 
 export type PositionDistribution = {

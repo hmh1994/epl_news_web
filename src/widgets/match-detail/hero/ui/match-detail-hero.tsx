@@ -50,6 +50,15 @@ const teamColorTokens = {
   },
 } as const;
 
+const RESULT_POINTS = {
+  W: 3,
+  D: 1,
+  L: 0,
+} as const;
+
+const calculateMomentum = (results: Array<"W" | "D" | "L">): number =>
+  results.reduce((sum, result) => sum + RESULT_POINTS[result], 0);
+
 interface MatchDetailHeroProps {
   detail: MatchDetail;
 }
@@ -63,6 +72,11 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
     : undefined;
   const homeTeam = TEAMS_BY_ID[fixture.home.teamId];
   const awayTeam = TEAMS_BY_ID[fixture.away.teamId];
+  const homeShort = homeTeam?.shortName ?? fixture.home.teamId.toUpperCase();
+  const awayShort = awayTeam?.shortName ?? fixture.away.teamId.toUpperCase();
+  const homeMomentum = calculateMomentum(detail.formGuide.home.map((entry) => entry.result));
+  const awayMomentum = calculateMomentum(detail.formGuide.away.map((entry) => entry.result));
+  const momentumLabel = `${homeShort} ${homeMomentum} vs ${awayShort} ${awayMomentum}`;
 
   return (
     <section className='relative pt-28 pb-36 overflow-hidden'>
@@ -119,15 +133,10 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
                 `${fixture.venue}, ${fixture.city}`,
               ]}
             />
-            {detail.weather && (
-              <InfoTile
-                title='기상 정보'
-                lines={[
-                  `${detail.weather.condition} • ${detail.weather.temperature}`,
-                  `풍속 ${detail.weather.wind} • 강수확률 ${detail.weather.precipitationChance}`,
-                ]}
-              />
-            )}
+            <InfoTile
+              title='기세 지표'
+              lines={[momentumLabel, "최근 3경기 승점 지수 (승=3, 무=1, 패=0)"]}
+            />
             {attendanceDisplay && fixture.status !== "upcoming" && (
               <InfoTile
                 title='공식 집계'
@@ -143,6 +152,10 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
                 ].filter(Boolean)}
               />
             )}
+            <InfoTile
+              title='주심'
+              lines={[fixture.referee ?? "배정 미정"]}
+            />
           </div>
         </div>
       </div>

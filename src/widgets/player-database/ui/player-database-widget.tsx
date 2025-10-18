@@ -7,7 +7,6 @@ import {
   PlayerFilterType,
   ViewMode,
 } from "@/features/player-database/types";
-import { PlayerDatabaseHeader } from "@/features/player-database/header/ui/player-database-header";
 import { PlayerSearchControls } from "@/features/player-database/search/ui/player-search-controls";
 import { PlayerDetail } from "@/features/player-database/player-detail/ui/player-detail";
 import { PlayerComparison } from "@/features/player-database/player-comparison/ui/player-comparison";
@@ -114,8 +113,6 @@ export const PlayerDatabaseWidget = ({
 
   return (
     <div className='min-h-screen bg-slate-950 text-white pb-32'>
-      <PlayerDatabaseHeader />
-
       <PlayerDatabaseHero />
 
       <main className='max-w-7xl mx-auto px-6'>

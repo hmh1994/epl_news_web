@@ -13,7 +13,7 @@ export const LeagueSelector = ({
   onSelect,
 }: LeagueSelectorProps) => {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-4 gap-6'>
+    <div className='grid grid-cols-1 md:grid-cols-3 gap-6 md:place-items-center'>
       {leagues.map(([key, league]) => (
         <LeagueSelectorCard
           key={key}

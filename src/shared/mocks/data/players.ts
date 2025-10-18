@@ -12,8 +12,6 @@ export interface MockPlayer {
   photo: string;
   goals: number;
   assists: number;
-  rating: number;
-  marketValue: string;
   stats: {
     pace: number;
     shooting: number;
@@ -43,8 +41,6 @@ export const MOCK_PLAYERS: MockPlayer[] = [
     photo: "🇳🇴",
     goals: 36,
     assists: 8,
-    rating: 9.2,
-    marketValue: "€180M",
     stats: {
       pace: 89,
       shooting: 94,
@@ -70,8 +66,6 @@ export const MOCK_PLAYERS: MockPlayer[] = [
     photo: "🇧🇪",
     goals: 7,
     assists: 16,
-    rating: 8.9,
-    marketValue: "€85M",
     stats: {
       pace: 76,
       shooting: 86,
@@ -97,8 +91,6 @@ export const MOCK_PLAYERS: MockPlayer[] = [
     photo: "🏴",
     goals: 14,
     assists: 11,
-    rating: 8.6,
-    marketValue: "€120M",
     stats: {
       pace: 85,
       shooting: 79,
@@ -121,8 +113,6 @@ export const MOCK_PLAYERS: MockPlayer[] = [
     photo: "🇪🇬",
     goals: 18,
     assists: 10,
-    rating: 8.4,
-    marketValue: "€65M",
     stats: {
       pace: 90,
       shooting: 87,
@@ -141,4 +131,3 @@ export const MOCK_PLAYERS: MockPlayer[] = [
 export const PLAYER_POSITIONS = ["all", "GK", "DF", "MF", "FW"] as const;
 
 export const PLAYER_TEAMS = ["all", "mci", "ars", "liv", "che"] as const;
-

@@ -1,10 +1,13 @@
 import { HeadToHeadRecord } from "@/entities/match/model/match-detail";
+import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 interface MatchHeadToHeadPanelProps {
   records: HeadToHeadRecord[];
+  homeLabel?: string;
+  awayLabel?: string;
 }
 
-export const MatchHeadToHeadPanel = ({ records }: MatchHeadToHeadPanelProps) => {
+export const MatchHeadToHeadPanel = ({ records, homeLabel, awayLabel }: MatchHeadToHeadPanelProps) => {
   if (records.length === 0) {
     return null;
   }
@@ -13,7 +16,11 @@ export const MatchHeadToHeadPanel = ({ records }: MatchHeadToHeadPanelProps) => 
     <section className='bg-slate-900/60 border border-white/10 rounded-3xl backdrop-blur-2xl shadow-2xl overflow-hidden'>
       <header className='px-7 py-6 border-b border-white/10'>
         <p className='text-xs uppercase tracking-[0.3em] text-emerald-300'>Head to Head</p>
-        <h2 className='text-xl font-semibold text-white'>맞대결 기록</h2>
+        <h2 className='text-xl font-semibold text-white'>
+          {homeLabel && awayLabel
+            ? `${homeLabel} vs ${awayLabel}`
+            : "맞대결 기록"}
+        </h2>
       </header>
 
       <div className='divide-y divide-white/10'>

@@ -81,9 +81,9 @@ export const PlayerDetail = ({ player, onClose }: PlayerDetailProps) => {
                 </div>
                 <div>
                   <div className='text-2xl font-black text-yellow-400'>
-                    {player.rating}
+                    {player.goals + player.assists}
                   </div>
-                  <div className='text-xs text-slate-400'>Rating</div>
+                  <div className='text-xs text-slate-400'>Goal Involvements</div>
                 </div>
                 <div>
                   <div className='text-2xl font-black text-emerald-400'>

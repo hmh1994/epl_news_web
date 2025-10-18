@@ -1,5 +1,5 @@
 export const PlayerDatabaseHeader = () => (
-  <header className='fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur-3xl border-b border-white/10 shadow-2xl'>
+  <header className='relative z-40 mt-16 bg-slate-900/90 backdrop-blur-3xl border border-white/10 shadow-2xl rounded-3xl'>
     <div className='max-w-7xl mx-auto px-6 py-4'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center space-x-6'>

@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { MatchScheduleFilters } from "@/features/match-schedule/filters/ui/match-schedule-filters";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
-import { MatchDaySchedule } from "@/entities/match/model/match-schedule";
+import { MatchDaySchedule, MatchFixture } from "@/entities/match/model/match-schedule";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 const dayTitleFormatter = new Intl.DateTimeFormat("ko-KR", {
@@ -11,6 +11,77 @@ const dayTitleFormatter = new Intl.DateTimeFormat("ko-KR", {
   day: "numeric",
   weekday: "short",
 });
+
+type FixtureKey = `${string}-${string}`;
+
+const createFixtureKey = (homeId: string, awayId: string): FixtureKey => {
+  const sorted = [homeId, awayId].sort();
+  return `${sorted[0]}-${sorted[1]}`;
+};
+
+const calculatePowerScore = (fixture: MatchFixture): number => {
+  const { home, away } = fixture;
+  const homeRank = home.leaguePosition ?? 15;
+  const awayRank = away.leaguePosition ?? 15;
+  const baseRankScore = (22 - homeRank) + (22 - awayRank);
+
+  const rivalryBonus = RIVALRIES.has(createFixtureKey(home.teamId, away.teamId)) ? 15 : 0;
+
+  const attackScore =
+    (TEAM_ATTACK_INDEX[home.teamId] ?? 60) +
+    (TEAM_ATTACK_INDEX[away.teamId] ?? 60);
+
+  return baseRankScore + rivalryBonus + attackScore / 10;
+};
+
+const getHeadToHead = (fixture: MatchFixture) => {
+  const key = createFixtureKey(fixture.home.teamId, fixture.away.teamId);
+  return HEAD_TO_HEAD_HISTORY[key] ?? [];
+};
+
+const RIVALRIES = new Set<FixtureKey>([
+  createFixtureKey("mci", "ars"),
+  createFixtureKey("liv", "mun"),
+  createFixtureKey("che", "tot"),
+  createFixtureKey("ful", "bre"),
+  createFixtureKey("new", "bha"),
+]);
+
+const TEAM_ATTACK_INDEX: Record<string, number> = {
+  mci: 95,
+  ars: 90,
+  liv: 92,
+  che: 78,
+  tot: 82,
+  mun: 80,
+  new: 76,
+  bha: 74,
+  ful: 68,
+  bre: 66,
+};
+
+const HEAD_TO_HEAD_HISTORY: Record<FixtureKey, Array<{ season: string; date: string; venue: string; result: string }>> = {
+  [createFixtureKey("mci", "ars")]: [
+    { season: "2024/25", date: "2024-08-10", venue: "Emirates", result: "ARS 1-1 MCI" },
+    { season: "2023/24", date: "2024-04-01", venue: "Etihad", result: "MCI 0-0 ARS" },
+  ],
+  [createFixtureKey("che", "tot")]: [
+    { season: "2024/25", date: "2024-10-18", venue: "Tottenham Hotspur Stadium", result: "TOT 2-2 CHE" },
+    { season: "2023/24", date: "2023-11-06", venue: "Tottenham Hotspur Stadium", result: "CHE 4-1 TOT" },
+  ],
+  [createFixtureKey("liv", "mun")]: [
+    { season: "2024/25", date: "2024-09-28", venue: "Old Trafford", result: "MUN 1-3 LIV" },
+    { season: "2023/24", date: "2024-04-07", venue: "Old Trafford", result: "MUN 2-2 LIV" },
+  ],
+  [createFixtureKey("new", "bha")]: [
+    { season: "2024/25", date: "2024-09-15", venue: "Amex Stadium", result: "BHA 1-2 NEW" },
+    { season: "2023/24", date: "2024-05-19", venue: "St James' Park", result: "NEW 1-1 BHA" },
+  ],
+  [createFixtureKey("ful", "bre")]: [
+    { season: "2024/25", date: "2024-08-30", venue: "Gtech Community Stadium", result: "BRE 0-0 FUL" },
+    { season: "2023/24", date: "2024-03-02", venue: "Craven Cottage", result: "FUL 3-2 BRE" },
+  ],
+};
 
 interface MatchScheduleWidgetProps {
   schedule: MatchDaySchedule[];
@@ -27,6 +98,7 @@ export const MatchScheduleWidget = ({
     useState<number>(defaultMatchweek);
   const [searchTerm, setSearchTerm] = useState("");
   const [showBroadcastOnly, setShowBroadcastOnly] = useState(false);
+  const [selectedFixtureId, setSelectedFixtureId] = useState<string | null>(null);
 
   const filteredSchedule = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
@@ -69,11 +141,40 @@ export const MatchScheduleWidget = ({
     })).filter((day) => day.fixtures.length > 0);
   }, [schedule, searchTerm, selectedMatchweek, showBroadcastOnly]);
 
+  const firstAvailableFixtureId = filteredSchedule[0]?.fixtures[0]?.id ?? null;
+
+  useEffect(() => {
+    if (!selectedFixtureId && firstAvailableFixtureId) {
+      setSelectedFixtureId(firstAvailableFixtureId);
+      return;
+    }
+
+    if (!selectedFixtureId) {
+      return;
+    }
+
+    const exists = filteredSchedule.some((day) =>
+      day.fixtures.some((fixture) => fixture.id === selectedFixtureId)
+    );
+
+    if (!exists) {
+      setSelectedFixtureId(firstAvailableFixtureId ?? null);
+    }
+  }, [filteredSchedule, selectedFixtureId, firstAvailableFixtureId]);
+
+  const rankedFixtures = useMemo(() => {
+    const allFixtures = filteredSchedule.flatMap((day) => day.fixtures);
+    return allFixtures
+      .map((fixture) => ({ fixture, score: calculatePowerScore(fixture) }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5);
+  }, [filteredSchedule]);
+
   return (
     <div className='min-h-screen bg-slate-950 text-white pb-28'>
       <ScheduleHero matchweek={selectedMatchweek} />
 
-      <main className='max-w-7xl mx-auto px-6 -mt-24 relative'>
+      <main className='max-w-7xl mx-auto px-6 -mt-24 relative space-y-12'>
         <MatchScheduleFilters
           matchweeks={matchweekOptions}
           selectedMatchweek={selectedMatchweek}
@@ -84,12 +185,21 @@ export const MatchScheduleWidget = ({
           onToggleBroadcast={() => setShowBroadcastOnly((prev) => !prev)}
         />
 
+        {rankedFixtures.length > 0 && (
+          <MatchweekSpotlight fixtures={rankedFixtures} />
+        )}
+
         {filteredSchedule.length === 0 ? (
           <EmptyState />
         ) : (
           <div className='space-y-10'>
             {filteredSchedule.map((day) => (
-              <ScheduleDay key={day.date} day={day} />
+              <ScheduleDay
+                key={day.date}
+                day={day}
+                selectedFixtureId={selectedFixtureId}
+                onSelectFixture={(fixtureId) => setSelectedFixtureId(fixtureId)}
+              />
             ))}
           </div>
         )}
@@ -130,11 +240,25 @@ const ScheduleHero = ({ matchweek }: { matchweek: number }) => (
   </section>
 );
 
-const ScheduleDay = ({ day }: { day: MatchDaySchedule }) => {
+const ScheduleDay = ({
+  day,
+  selectedFixtureId,
+  onSelectFixture,
+}: {
+  day: MatchDaySchedule;
+  selectedFixtureId: string | null;
+  onSelectFixture: (fixtureId: string) => void;
+}) => {
   const dayTitle = dayTitleFormatter.format(new Date(day.date));
+  const dayPowerRanking = day.fixtures
+    .map((fixture) => ({ fixture, score: calculatePowerScore(fixture) }))
+    .sort((a, b) => b.score - a.score);
+  const selectedFixture =
+    day.fixtures.find((fixture) => fixture.id === selectedFixtureId) ??
+    day.fixtures[0] ?? null;
 
   return (
-    <section className='bg-slate-900/50 border border-white/10 rounded-3xl backdrop-blur-3xl shadow-2xl overflow-hidden'>
+    <section className='bg-slate-900/50 border border-white/10 rounded-3xl backdrop-blur-3xl shadow-2xl'>
       <header className='px-8 py-6 border-b border-white/10 flex flex-wrap items-center justify-between gap-4'>
         <div>
           <p className='text-xs uppercase tracking-[0.3em] text-slate-400'>Match Day</p>
@@ -145,8 +269,8 @@ const ScheduleDay = ({ day }: { day: MatchDaySchedule }) => {
         </div>
       </header>
 
-          <div className='grid grid-cols-1 lg:grid-cols-3 gap-0'>
-            <div className='lg:col-span-2 p-8 space-y-6'>
+      <div className='grid grid-cols-1 lg:grid-cols-3 gap-0'>
+        <div className='lg:col-span-2 p-6 space-y-4 lg:max-h-[640px] lg:overflow-y-auto lg:pr-4 scrollbar-slim'>
           {day.fixtures.map((fixture) => {
             const homeTeamInfo = TEAMS_BY_ID[fixture.home.teamId];
             const awayTeamInfo = TEAMS_BY_ID[fixture.away.teamId];
@@ -165,59 +289,209 @@ const ScheduleDay = ({ day }: { day: MatchDaySchedule }) => {
                   shortName: awayTeamInfo.shortName,
                   crest: awayTeamInfo.crest,
                 }}
+                isSelected={fixture.id === selectedFixtureId}
+                onSelect={() => onSelectFixture(fixture.id)}
               />
             );
           })}
-            </div>
-        <aside className='hidden lg:block border-l border-white/10 bg-slate-900/60 p-8 space-y-6'>
-          <QuickInfo fixtures={day.fixtures} />
+        </div>
+        <aside className='border-t border-white/10 bg-slate-900/60 p-6 space-y-8 lg:border-t-0 lg:border-l lg:p-8'>
+          <DayInsights
+            fixtures={day.fixtures}
+            ranking={dayPowerRanking}
+            selectedFixture={selectedFixture}
+          />
         </aside>
       </div>
     </section>
   );
 };
 
-const QuickInfo = ({ fixtures }: { fixtures: MatchDaySchedule["fixtures"] }) => {
-  const venues = Array.from(new Set(fixtures.map((fixture) => fixture.venue)));
-  const cities = Array.from(new Set(fixtures.map((fixture) => fixture.city)));
-  const broadcasts = fixtures.filter((fixture) => fixture.broadcast).length;
+const DayInsights = ({
+  fixtures,
+  ranking,
+  selectedFixture,
+}: {
+  fixtures: MatchDaySchedule["fixtures"];
+  ranking: Array<{ fixture: MatchFixture; score: number }>;
+  selectedFixture: MatchFixture | null;
+}) => {
+  const fixture = selectedFixture ?? fixtures[0];
+
+  if (!fixture) return null;
+
+  const homeTeam = TEAMS_BY_ID[fixture.home.teamId];
+  const awayTeam = TEAMS_BY_ID[fixture.away.teamId];
 
   return (
-    <div className='space-y-6'>
-      <div>
-        <p className='text-xs uppercase tracking-[0.3em] text-slate-500 mb-2'>Highlights</p>
-        <p className='text-3xl font-black text-white'>{fixtures.length}</p>
-        <p className='text-slate-400 text-sm'>scheduled EPL fixtures</p>
+    <div className='space-y-8'>
+      <div className='space-y-2'>
+        <p className='text-xs uppercase tracking-[0.3em] text-slate-500'>Match Facts</p>
+        <div className='bg-slate-800/50 border border-white/10 rounded-2xl px-4 py-4 space-y-3 text-sm text-slate-300'>
+          <div className='flex items-center justify-between text-white font-semibold'>
+            <span>{homeTeam?.shortName ?? fixture.home.teamId.toUpperCase()}</span>
+            <span>vs</span>
+            <span>{awayTeam?.shortName ?? fixture.away.teamId.toUpperCase()}</span>
+          </div>
+          <div className='flex items-center justify-between'>
+            <span>Kickoff</span>
+            <span className='text-white'>
+              {new Date(fixture.kickoff).toLocaleString("ko-KR", {
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </span>
+          </div>
+          <div className='flex items-center justify-between'>
+            <span>Venue</span>
+            <span className='text-white text-right'>
+              {fixture.venue}
+              <span className='block text-xs text-slate-400'>{fixture.city}</span>
+            </span>
+          </div>
+          <div className='flex items-center justify-between'>
+            <span>Broadcast</span>
+            <span className='text-white text-right'>
+              {fixture.broadcast?.channel ?? "-"}
+              {fixture.broadcast?.platform && (
+                <span className='block text-xs text-slate-400'>({fixture.broadcast.platform})</span>
+              )}
+            </span>
+          </div>
+          <div className='flex items-center justify-between'>
+            <span>League Rank</span>
+            <span className='text-white'>
+              {(fixture.home.leaguePosition ?? "-")} vs {(fixture.away.leaguePosition ?? "-")}
+            </span>
+          </div>
+        </div>
       </div>
 
-      <div className='space-y-3 text-sm text-slate-300'>
-        <div>
-          <p className='text-slate-500 text-xs uppercase tracking-[0.2em] mb-1'>Venues</p>
-          <div className='flex flex-wrap gap-2'>
-            {venues.map((venue) => (
-              <span
-                key={venue}
-                className='px-3 py-1 rounded-xl bg-slate-800/60 border border-white/10'
-              >
-                {venue}
-              </span>
-            ))}
-          </div>
-        </div>
+      <PowerRankingList ranking={ranking} selectedFixture={fixture} />
+      <HeadToHeadList fixtures={fixtures} selectedFixture={fixture} />
+    </div>
+  );
+};
 
-        <div>
-          <p className='text-slate-500 text-xs uppercase tracking-[0.2em] mb-1'>Cities</p>
-          <div className='flex flex-wrap gap-2 text-slate-300'>
-            {cities.join(" • ")}
-          </div>
-        </div>
+const MatchweekSpotlight = ({
+  fixtures,
+}: {
+  fixtures: Array<{ fixture: MatchFixture; score: number }>;
+}) => {
+  if (fixtures.length === 0) return null;
 
-        <div className='flex items-center justify-between bg-emerald-500/10 border border-emerald-400/30 rounded-2xl px-4 py-3'>
-          <span className='text-emerald-200 font-semibold'>Broadcast</span>
-          <span className='text-white font-bold'>
-            {broadcasts}/{fixtures.length}
-          </span>
+  return (
+    <section className='bg-gradient-to-br from-[#169976]/15 via-slate-900/60 to-slate-900/80 border border-white/10 rounded-3xl backdrop-blur-3xl shadow-2xl mb-12'>
+      <div className='px-8 py-6 border-b border-white/10 flex flex-wrap items-center justify-between gap-4'>
+        <div>
+          <p className='text-xs uppercase tracking-[0.3em] text-emerald-200/80 mb-1'>EPL spotlight</p>
+          <h2 className='text-2xl font-bold text-white'>이번 라운드 하이라이트</h2>
         </div>
+        <p className='text-sm text-slate-300'>파워 지수가 높은 빅매치를 확인하세요.</p>
+      </div>
+      <div className='px-8 py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+        {fixtures.map(({ fixture, score }, index) => {
+          const homeTeam = TEAMS_BY_ID[fixture.home.teamId];
+          const awayTeam = TEAMS_BY_ID[fixture.away.teamId];
+          const key = `spotlight-${fixture.id}`;
+
+          return (
+            <div key={key} className='bg-slate-900/70 border border-white/10 rounded-2xl px-5 py-4 space-y-3'>
+              <div className='flex items-center justify-between text-xs text-slate-500 uppercase tracking-[0.3em]'>
+                <span>#{index + 1}</span>
+                <span>Power {Math.round(score)}</span>
+              </div>
+              <div className='text-white font-semibold text-lg'>
+                {(homeTeam?.shortName ?? fixture.home.teamId.toUpperCase())} vs {(
+                  awayTeam?.shortName ?? fixture.away.teamId.toUpperCase()
+                )}
+              </div>
+              {fixture.headline && (
+                <p className='text-slate-300 text-sm'>{fixture.headline}</p>
+              )}
+              <div className='text-xs text-slate-400 space-y-1'>
+                <div>
+                  킥오프 · {new Date(fixture.kickoff).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}
+                </div>
+                <div>
+                  순위 · {(fixture.home.leaguePosition ?? "-")} vs {(fixture.away.leaguePosition ?? "-")}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
+
+const PowerRankingList = ({
+  ranking,
+  selectedFixture,
+}: {
+  ranking: Array<{ fixture: MatchFixture; score: number }>;
+  selectedFixture?: MatchFixture | null;
+}) => {
+  if (!selectedFixture) return null;
+
+  const active = ranking.find((entry) => entry.fixture.id === selectedFixture.id);
+  const homeTeam = TEAMS_BY_ID[selectedFixture.home.teamId];
+  const awayTeam = TEAMS_BY_ID[selectedFixture.away.teamId];
+  const score = active ? Math.round(active.score) : "-";
+
+  return (
+    <div className='space-y-3'>
+      <div className='flex items-center justify-between'>
+        <p className='text-xs uppercase tracking-[0.3em] text-slate-500'>Power Ranking</p>
+        <span className='text-[10px] uppercase text-slate-500'>Higher is spicier</span>
+      </div>
+      <div className='bg-slate-800/50 border border-white/10 rounded-2xl px-4 py-4 text-sm text-white flex items-center justify-between'>
+        <div className='flex items-center gap-2'>
+          <span>{homeTeam?.shortName ?? selectedFixture.home.teamId.toUpperCase()}</span>
+          <span className='text-slate-400'>vs</span>
+          <span>{awayTeam?.shortName ?? selectedFixture.away.teamId.toUpperCase()}</span>
+        </div>
+        <div className='text-emerald-400 font-bold text-base'>{score}</div>
+      </div>
+    </div>
+  );
+};
+
+const HeadToHeadList = ({
+  fixtures,
+  selectedFixture,
+}: {
+  fixtures: MatchDaySchedule["fixtures"];
+  selectedFixture?: MatchFixture | null;
+}) => {
+  if (!selectedFixture) return null;
+
+  const home = TEAMS_BY_ID[selectedFixture.home.teamId];
+  const away = TEAMS_BY_ID[selectedFixture.away.teamId];
+  const history = getHeadToHead(selectedFixture);
+
+  if (history.length === 0) return null;
+
+  return (
+    <div className='space-y-3'>
+      <p className='text-xs uppercase tracking-[0.3em] text-slate-500'>맞대결 기록</p>
+      <div className='bg-slate-800/40 border border-white/10 rounded-2xl px-4 py-4 space-y-2'>
+        <div className='text-sm font-semibold text-white'>
+          {(home?.shortName ?? selectedFixture.home.teamId.toUpperCase())} vs {(
+            away?.shortName ?? selectedFixture.away.teamId.toUpperCase()
+          )}
+        </div>
+        <ul className='space-y-1 text-xs text-slate-300'>
+          {history.slice(0, 3).map((match, idx) => (
+            <li key={`${selectedFixture.id}-history-${idx}`} className='flex items-center justify-between'>
+              <span>{match.season}</span>
+              <span className='font-semibold'>{match.result}</span>
+              <span className='text-slate-500'>{match.venue}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

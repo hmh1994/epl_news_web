@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Trophy, Zap } from "lucide-react";
+import { Trophy } from "lucide-react";
 
 export const TeamInfoHero = () => (
   <section className='relative py-20 overflow-hidden'>
@@ -28,20 +28,10 @@ export const TeamInfoHero = () => (
         </span>
       </h1>
 
-      <p className='text-2xl text-slate-300 mb-12 max-w-4xl mx-auto leading-relaxed'>
+      <p className='text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed'>
         프리미어리그 20개 팀의 심층 분석과 실시간 데이터를 통해
         <br />축구의 새로운 차원을 경험하세요
       </p>
-
-      <div className='flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6'>
-        <button className='group relative px-12 py-6 bg-gradient-to-r from-[#169976] via-emerald-600 to-teal-600 rounded-2xl text-white text-xl font-bold shadow-2xl hover:scale-105 transform transition-all duration-300 overflow-hidden'>
-          <div className='absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000'></div>
-          <div className='relative flex items-center space-x-3'>
-            <Zap className='w-6 h-6' />
-            <span>팀 분석 시작</span>
-          </div>
-        </button>
-      </div>
     </div>
   </section>
 );

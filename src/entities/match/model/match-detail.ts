@@ -55,17 +55,9 @@ export interface MatchDetailInsight {
   helperText?: string;
 }
 
-export interface MatchWeatherInfo {
-  condition: string;
-  temperature: string;
-  wind: string;
-  precipitationChance: string;
-}
-
 export interface MatchDetail {
   fixture: MatchFixture;
   heroTagline: string;
-  weather?: MatchWeatherInfo;
   attendance?: number;
   insights: MatchDetailInsight[];
   timeline: MatchTimelineEvent[];

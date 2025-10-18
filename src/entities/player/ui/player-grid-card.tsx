@@ -101,16 +101,26 @@ export const PlayerGridCard = ({
           <div className='text-xs text-slate-400'>Assists</div>
         </div>
         <div className='text-center p-3 bg-slate-800/30 rounded-xl'>
-          <div className='text-xl font-bold text-yellow-400'>
-            {player.rating}
+          <div className='text-xl font-bold text-emerald-400'>
+            {player.goals + player.assists}
           </div>
-          <div className='text-xs text-slate-400'>Rating</div>
+          <div className='text-xs text-slate-400'>Goal Involvements</div>
         </div>
       </div>
 
-      <div className='flex items-center justify-between pt-4 border-t border-white/10'>
-        <span className='text-slate-400 text-sm'>Market Value</span>
-        <span className='text-white font-bold'>{player.marketValue}</span>
+      <div className='grid grid-cols-3 gap-2 pt-4 border-t border-white/10 text-xs text-slate-400'>
+        <div className='flex flex-col items-center'>
+          <span className='text-white font-semibold text-sm'>{player.height} cm</span>
+          <span>Height</span>
+        </div>
+        <div className='flex flex-col items-center'>
+          <span className='text-white font-semibold text-sm'>{player.weight} kg</span>
+          <span>Weight</span>
+        </div>
+        <div className='flex flex-col items-center'>
+          <span className='text-white font-semibold text-sm'>{player.stats.pace}</span>
+          <span>Pace</span>
+        </div>
       </div>
 
       {showSelection && (

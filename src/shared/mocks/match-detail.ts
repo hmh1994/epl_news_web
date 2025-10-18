@@ -22,12 +22,6 @@ export const MATCH_DETAILS: Record<string, MatchDetail> = {
   "m-241214-mci-ars": {
     fixture: getFixture("m-241214-mci-ars"),
     heroTagline: "Matchweek 18 • Title rivals collide at the Etihad",
-    weather: {
-      condition: "맑음",
-      temperature: "6°C",
-      wind: "북서풍 9km/h",
-      precipitationChance: "10%",
-    },
     attendance: 55097,
     insights: [
       {
@@ -198,12 +192,6 @@ export const MATCH_DETAILS: Record<string, MatchDetail> = {
   "m-241214-che-tot": {
     fixture: getFixture("m-241214-che-tot"),
     heroTagline: "런던 더비 • 파란색과 하얀색의 명승부",
-    weather: {
-      condition: "구름 많음",
-      temperature: "5°C",
-      wind: "서풍 14km/h",
-      precipitationChance: "35%",
-    },
     attendance: 40341,
     insights: [
       {
@@ -398,12 +386,6 @@ export const MATCH_DETAILS: Record<string, MatchDetail> = {
   "m-241215-liv-mun": {
     fixture: getFixture("m-241215-liv-mun"),
     heroTagline: "전통의 라이벌 • 안필드가 기다린 명승부",
-    weather: {
-      condition: "비",
-      temperature: "7°C",
-      wind: "남서풍 18km/h",
-      precipitationChance: "60%",
-    },
     insights: [
       {
         label: "홈 연승",
@@ -570,12 +552,6 @@ export const MATCH_DETAILS: Record<string, MatchDetail> = {
   "m-241215-new-bha": {
     fixture: getFixture("m-241215-new-bha"),
     heroTagline: "Matchweek 18 • 세인트 제임스 파크에서 승점 1씩 나눠가진 밤",
-    weather: {
-      condition: "흐림",
-      temperature: "4°C",
-      wind: "북풍 12km/h",
-      precipitationChance: "20%",
-    },
     insights: [
       {
         label: "득점 기대값",

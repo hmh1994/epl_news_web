@@ -1,6 +1,7 @@
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import { BarChart3, ArrowRight } from "lucide-react";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
+import { PlayerComparisonMatrix } from "./player-comparison-matrix";
 
 interface PlayerComparisonProps {
   players: PlayerDatabaseEntry[];
@@ -20,17 +21,19 @@ export const PlayerComparison = ({
   return (
     <div className='fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-3xl border-t border-white/10 shadow-2xl'>
       <div className='max-w-7xl mx-auto px-6 py-6'>
-        <div className='flex items-center justify-between mb-4'>
-          <div className='flex items-center space-x-3'>
+        <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
+          <div className='flex items-center gap-3'>
             <BarChart3 className='w-6 h-6 text-emerald-400' />
-            <h3 className='text-xl font-bold text-white'>Player Comparison</h3>
-            <span className='text-slate-400 text-sm'>({players.length}/3 selected)</span>
+            <div>
+              <h3 className='text-xl font-bold text-white'>Player Comparison</h3>
+              <span className='text-slate-400 text-sm'>선택한 선수 {players.length}/3</span>
+            </div>
           </div>
-          <div className='flex items-center space-x-4'>
+          <div className='flex items-center gap-3'>
             <button
               type='button'
               onClick={onToggle}
-              className='px-6 py-3 bg-[#169976] hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors flex items-center space-x-2'
+              className='px-6 py-3 bg-[#169976] hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors flex items-center gap-2'
             >
               <span>{showComparison ? "Hide" : "Show"} Comparison</span>
               <ArrowRight className='w-4 h-4' />
@@ -45,47 +48,31 @@ export const PlayerComparison = ({
           </div>
         </div>
 
-        {showComparison && (
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-            {players.map((player) => {
-              const team = TEAMS_BY_ID[player.teamId];
+        <div className='flex items-center gap-3 mt-4 overflow-x-auto pb-2'>
+          {players.map((player) => {
+            const team = TEAMS_BY_ID[player.teamId];
+            return (
+              <div
+                key={`chip-${player.id}`}
+                className='flex items-center gap-3 bg-slate-800/60 border border-white/10 rounded-2xl px-4 py-3 min-w-[200px]'
+              >
+                <div className='w-10 h-10 rounded-xl bg-gradient-to-br from-[#169976] to-teal-500 flex items-center justify-center text-lg'>
+                  {player.photo}
+                </div>
+                <div>
+                  <div className='text-white font-semibold text-sm'>{player.name}</div>
+                  <div className='text-xs text-slate-400'>
+                    {(team?.name ?? player.teamId.toUpperCase())} • {player.position}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
 
-              return (
-                <div key={player.id} className='bg-slate-800/50 rounded-2xl p-6 border border-white/10'>
-                  <div className='flex items-center space-x-4 mb-4'>
-                    <div className='w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-xl flex items-center justify-center text-xl'>
-                      {player.photo}
-                    </div>
-                    <div>
-                      <h4 className='text-white font-bold'>{player.name}</h4>
-                      <div className='text-slate-400 text-sm'>
-                        {team?.name ?? player.teamId.toUpperCase()}
-                      </div>
-                    </div>
-                  </div>
-                <div className='grid grid-cols-3 gap-2 text-center'>
-                  <div>
-                    <div className='text-lg font-bold text-green-400'>
-                      {player.goals}
-                    </div>
-                    <div className='text-xs text-slate-400'>Goals</div>
-                  </div>
-                  <div>
-                    <div className='text-lg font-bold text-teal-400'>
-                      {player.assists}
-                    </div>
-                    <div className='text-xs text-slate-400'>Assists</div>
-                  </div>
-                  <div>
-                    <div className='text-lg font-bold text-yellow-400'>
-                      {player.rating}
-                    </div>
-                    <div className='text-xs text-slate-400'>Rating</div>
-                  </div>
-                </div>
-                </div>
-              );
-            })}
+        {showComparison && (
+          <div className='mt-6'>
+            <PlayerComparisonMatrix players={players} />
           </div>
         )}
       </div>

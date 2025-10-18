@@ -88,28 +88,28 @@ export const LeagueTableRow = ({
       onMouseEnter={() => onHover(team.position)}
       onMouseLeave={onHoverEnd}
     >
-      <td className='py-8 px-8'>
+      <td className='py-4 px-5'>
         <div
           className={`flex items-center space-x-3`}
         >
           <div
-            className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg border-2 shadow-lg transition-all duration-300 ${
+            className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-base border-2 shadow-lg transition-all duration-300 ${
               positionStyle.container
             } ${positionStyle.text} ${isHovered ? "scale-110 shadow-xl" : ""}`}
           >
             {team.position}
           </div>
           {team.position === 1 && (
-            <div className='w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center'>
-              <Trophy className='w-3 h-3 text-white' />
+            <div className='w-5 h-5 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center'>
+              <Trophy className='w-2.5 h-2.5 text-white' />
             </div>
           )}
         </div>
       </td>
-      <td className='py-8 px-8'>
-        <div className='flex items-center space-x-5'>
+      <td className='py-4 px-5'>
+        <div className='flex items-center space-x-3'>
           <div
-            className={`w-16 h-16 bg-gradient-to-br from-[#169976] to-teal-500 rounded-3xl flex items-center justify-center text-2xl shadow-xl transition-all duration-300 ${
+            className={`w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-2xl flex items-center justify-center text-xl shadow-xl transition-all duration-300 ${
               isHovered ? "scale-110 rotate-3" : ""
             }`}
           >
@@ -117,34 +117,33 @@ export const LeagueTableRow = ({
           </div>
           <div>
             <div
-              className={`text-xl font-bold transition-colors duration-300 ${
+              className={`text-lg font-bold transition-colors duration-300 ${
                 isHovered ? "text-emerald-300" : "text-white"
               }`}
             >
               {teamName}
             </div>
-            <div className='text-slate-400 text-sm font-medium'>{teamShortName}</div>
-            <div className='text-slate-500 text-xs'>{team.value}</div>
+            <div className='text-slate-400 text-xs font-medium'>{teamShortName}</div>
           </div>
         </div>
       </td>
-      <td className='py-8 px-4 text-center'>
-        <div className='bg-slate-700/30 rounded-xl px-3 py-2 inline-block'>
-          <span className='text-slate-300 font-semibold'>{team.played}</span>
+      <td className='py-4 px-3 text-center'>
+        <div className='bg-slate-700/30 rounded-lg px-2.5 py-1 inline-block'>
+          <span className='text-slate-300 font-semibold text-sm'>{team.played}</span>
         </div>
       </td>
-      <td className='py-8 px-4 text-center text-green-400 font-bold'>
+      <td className='py-4 px-3 text-center text-green-400 font-semibold text-sm'>
         {team.won}
       </td>
-      <td className='py-8 px-4 text-center text-yellow-400 font-bold'>
+      <td className='py-4 px-3 text-center text-yellow-400 font-semibold text-sm'>
         {team.drawn}
       </td>
-      <td className='py-8 px-4 text-center text-red-400 font-bold'>
+      <td className='py-4 px-3 text-center text-red-400 font-semibold text-sm'>
         {team.lost}
       </td>
-      <td className='py-8 px-4 text-center'>
+      <td className='py-4 px-3 text-center'>
         <div
-          className={`font-black text-xl px-3 py-2 rounded-xl inline-block ${
+          className={`font-black text-base px-2.5 py-1.5 rounded-lg inline-block ${
             team.goalDifference > 0
               ? "text-green-400 bg-green-400/10"
               : team.goalDifference < 0
@@ -156,21 +155,21 @@ export const LeagueTableRow = ({
           {team.goalDifference}
         </div>
       </td>
-      <td className='py-8 px-4 text-center'>
+      <td className='py-4 px-3 text-center'>
         <div
-          className={`w-20 h-14 bg-gradient-to-r from-[#169976]/20 to-teal-500/20 border-2 border-emerald-400/40 rounded-2xl flex items-center justify-center shadow-lg transition-all duration-300 ${
+          className={`w-14 h-10 bg-gradient-to-r from-[#169976]/20 to-teal-500/20 border-2 border-emerald-400/40 rounded-xl flex items-center justify-center shadow-lg transition-all duration-300 ${
             isHovered ? "scale-110 shadow-emerald-400/50" : ""
           }`}
         >
-          <span className='text-white font-black text-xl'>{team.points}</span>
+          <span className='text-white font-black text-base'>{team.points}</span>
         </div>
       </td>
-      <td className='py-8 px-6'>
-        <div className='flex justify-center space-x-2'>
+      <td className='py-4 px-4'>
+        <div className='flex justify-center space-x-1.5'>
           {team.form.map((result, index) => (
             <div
               key={index}
-              className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold shadow-lg transition-all duration-300 hover:scale-110 ${
+              className={`w-8 h-8 rounded-xl flex items-center justify-center text-[11px] font-bold shadow-lg transition-all duration-300 hover:scale-110 ${
                 result === "W"
                   ? "bg-green-500 text-white shadow-green-500/50"
                   : result === "D"
@@ -180,18 +179,15 @@ export const LeagueTableRow = ({
             >
               {result}
             </div>
-          ))}
+            ))}
         </div>
       </td>
-      <td className='py-8 px-4 text-center'>
-        <div className='space-y-1'>
-          <div className='text-white font-bold'>{team.xG}</div>
-          <div className='text-slate-400 text-xs'>Expected Goals</div>
-        </div>
+      <td className='py-4 px-3 text-center'>
+        <div className='text-white font-semibold text-sm'>{team.xG}</div>
       </td>
-      <td className='py-8 px-4 text-center'>
-        <div className='space-y-2'>
-          <div className='text-white font-bold'>{team.passAccuracy}%</div>
+      <td className='py-4 px-3 text-center'>
+        <div className='space-y-1.5'>
+          <div className='text-white font-semibold text-sm'>{team.passAccuracy}%</div>
           <div className='w-full bg-slate-600 rounded-full h-1.5'>
             <div
               className='bg-gradient-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-1000'
@@ -200,7 +196,7 @@ export const LeagueTableRow = ({
           </div>
         </div>
       </td>
-      <td className='py-8 px-4 text-center'>
+      <td className='py-4 px-3 text-center'>
         <TrendIndicator trend={team.trend} />
       </td>
     </tr>

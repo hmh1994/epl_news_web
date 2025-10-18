@@ -15,7 +15,7 @@ const DEFAULT_NAV_ITEMS = [
 ];
 
 export const TeamInfoHeader = ({ navItems = DEFAULT_NAV_ITEMS }: TeamInfoHeaderProps) => (
-  <header className='sticky top-0 z-50 bg-slate-900/95 backdrop-blur-2xl border-b border-slate-700/50 shadow-2xl'>
+  <header className='relative z-40 mt-16 bg-slate-900/95 backdrop-blur-2xl border-b border-slate-700/50 shadow-2xl rounded-3xl rounded-t-none lg:rounded-t-3xl'>
     <div className='max-w-7xl mx-auto px-6 py-4'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center space-x-4'>

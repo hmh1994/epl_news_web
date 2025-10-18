@@ -9,7 +9,7 @@ type LeagueTabNavigationProps = {
 };
 
 const TABS: Array<{ id: LeagueTab; name: string; icon: string }> = [
-  { id: "table", name: "League Table", icon: "📊" },
+  { id: "insights", name: "Season Insights", icon: "🗂️" },
   { id: "stats", name: "Statistics", icon: "📈" },
   { id: "champions", name: "Champions", icon: "🏆" },
 ];

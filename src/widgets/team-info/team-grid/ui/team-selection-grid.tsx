@@ -10,13 +10,15 @@ type TeamSelectionGridProps = {
   onSelect: (team: TeamProfile) => void;
   showHeader?: boolean;
   variant?: "default" | "compact";
+  searchTerm?: string;
 };
 
 const CompactList = ({
   teams,
   selectedTeam,
   onSelect,
-}: Pick<TeamSelectionGridProps, "teams" | "selectedTeam" | "onSelect">) => {
+  searchTerm,
+}: Pick<TeamSelectionGridProps, "teams" | "selectedTeam" | "onSelect" | "searchTerm">) => {
   if (teams.length === 0) {
     return (
       <div className='rounded-xl border border-dashed border-white/10 bg-white/5 px-3 py-4 text-xs text-slate-400 text-center'>
@@ -25,39 +27,48 @@ const CompactList = ({
     );
   }
 
+  const hasSearchTerm = Boolean(searchTerm?.trim());
+
   return (
-    <div className='space-y-1'>
-      {teams.map((team) => {
-        const isSelected = selectedTeam?.id === team.id;
-        return (
-          <button
-            key={team.id}
-            type='button'
-            onClick={() => onSelect(team)}
-            className={`flex h-12 w-full items-center justify-between rounded-xl border px-3 py-2 text-left transition-all ${
-              isSelected
-                ? "border-emerald-400 bg-emerald-500/10 text-white shadow-lg"
-                : "border-white/10 bg-slate-900/60 text-white/80 hover:border-emerald-400/60 hover:bg-slate-900/80"
-            }`}
-          >
-            <div className='flex min-w-0 items-center gap-2.5'>
-              <div className='flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-br from-[#169976] to-teal-500 text-base text-white shadow-inner'>
-                {team.logo}
+    <div>
+      {hasSearchTerm && (
+        <div className='mb-2 text-xs font-medium text-emerald-300'>
+          검색 결과 {teams.length}개 팀
+        </div>
+      )}
+      <div className='space-y-1 max-h-[17rem] overflow-y-auto pr-0.5 scrollbar-slim'>
+        {teams.map((team) => {
+          const isSelected = selectedTeam?.id === team.id;
+          return (
+            <button
+              key={team.id}
+              type='button'
+              onClick={() => onSelect(team)}
+              className={`flex h-12 w-full items-center justify-between rounded-xl border px-3 py-2 text-left transition-all ${
+                isSelected
+                  ? "border-emerald-400 bg-emerald-500/10 text-white shadow-lg"
+                  : "border-white/10 bg-slate-900/60 text-white/80 hover:border-emerald-400/60 hover:bg-slate-900/80"
+              }`}
+            >
+              <div className='flex min-w-0 items-center gap-2.5'>
+                <div className='flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-br from-[#169976] to-teal-500 text-base text-white shadow-inner'>
+                  {team.logo}
+                </div>
+                <div className='min-w-0'>
+                  <p className='truncate text-[13px] font-semibold text-white'>
+                    {team.name}
+                  </p>
+                  <p className='text-[10px] text-slate-400'>{team.shortName}</p>
+                </div>
               </div>
-              <div className='min-w-0'>
-                <p className='truncate text-[13px] font-semibold text-white'>
-                  {team.name}
-                </p>
-                <p className='text-[10px] text-slate-400'>{team.shortName}</p>
+              <div className='flex flex-col items-end text-[10px] text-slate-300'>
+                <span className='font-semibold text-white'>#{team.rank}</span>
+                <span>{team.points} pts</span>
               </div>
-            </div>
-            <div className='flex flex-col items-end text-[10px] text-slate-300'>
-              <span className='font-semibold text-white'>#{team.rank}</span>
-              <span>{team.points} pts</span>
-            </div>
-          </button>
-        );
-      })}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -68,10 +79,16 @@ export const TeamSelectionGrid = ({
   onSelect,
   showHeader = true,
   variant = "default",
+  searchTerm,
 }: TeamSelectionGridProps) => {
   if (variant === "compact") {
     return (
-      <CompactList teams={teams} selectedTeam={selectedTeam} onSelect={onSelect} />
+      <CompactList
+        teams={teams}
+        selectedTeam={selectedTeam}
+        onSelect={onSelect}
+        searchTerm={searchTerm}
+      />
     );
   }
 

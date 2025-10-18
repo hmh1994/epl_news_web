@@ -1,4 +1,4 @@
-export type LeagueKey = "EPL" | "LaLiga" | "Bundesliga" | "SerieA";
+export type LeagueKey = "EPL";
 
 export interface LeagueSummary {
   name: string;

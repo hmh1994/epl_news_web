@@ -28,8 +28,6 @@ export interface PlayerDatabaseEntry {
   weight: number;
   goals: number;
   assists: number;
-  rating: number;
-  marketValue: string;
   stats: PlayerSkillSet;
   career: PlayerCareerPeriod[];
 }

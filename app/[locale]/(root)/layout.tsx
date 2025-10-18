@@ -6,6 +6,7 @@ import "../../globals.css";
 // import { getMessages } from "next-intl/server";
 import { routing } from "@/shared/config/i18n/routing";
 import { notFound } from "next/navigation";
+import { AppHeader } from "@/widgets/app-header/ui/app-header";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -58,8 +59,9 @@ export default async function RootLayout({
           content='nC4JTzhNvKulZbpjuDwJRX84rdXmcBRqFTZUa7Y6c4g'
         />
       </head>
-      <body>
-        {children}
+      <body className='bg-slate-950 text-white'>
+        <AppHeader />
+        <main>{children}</main>
         {/* <NextIntlClientProvider messages={messages}>
           <Header />
           <Footer />

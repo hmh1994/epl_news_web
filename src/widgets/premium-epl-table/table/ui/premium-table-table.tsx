@@ -1,6 +1,4 @@
 "use client";
-
-import React from "react";
 import {
   ArrowUpDown,
   ChevronDown,
@@ -8,6 +6,7 @@ import {
   Award,
   Target,
   Calendar,
+  Info,
 } from "lucide-react";
 import { LeagueTableTeam } from "@/entities/team/model/league-table-team";
 import { LeagueTableRow } from "@/entities/team/ui/league-table-row";
@@ -74,88 +73,88 @@ export const PremiumTableTable = ({
         <thead className='bg-slate-800/30'>
           <tr>
             <th
-              className='text-left py-6 px-8 text-slate-300 font-bold text-sm uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
+              className='text-left py-5 px-6 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
               onClick={() => onSort("position")}
             >
-              <div className='flex items-center space-x-3'>
+              <div className='flex items-center space-x-2'>
                 <span className='group-hover:text-white transition-colors'>Position</span>
                 {getSortIcon("position", sortBy, sortOrder)}
               </div>
             </th>
 
             <th
-              className='text-left py-6 px-8 text-slate-300 font-bold text-sm uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
+              className='text-left py-5 px-6 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
               onClick={() => onSort("team")}
             >
-              <div className='flex items-center space-x-3'>
+              <div className='flex items-center space-x-2'>
                 <span className='group-hover:text-white transition-colors'>Club</span>
                 {getSortIcon("team", sortBy, sortOrder)}
               </div>
             </th>
 
             <th
-              className='text-center py-6 px-4 text-slate-300 font-bold text-sm uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
               onClick={() => onSort("played")}
             >
-              <div className='flex items-center justify-center space-x-2'>
+              <div className='flex items-center justify-center space-x-1.5'>
                 <span className='group-hover:text-white transition-colors'>PL</span>
                 {getSortIcon("played", sortBy, sortOrder)}
               </div>
             </th>
 
-            <th className='text-center py-6 px-4 text-slate-300 font-bold text-sm uppercase tracking-wider'>W</th>
-            <th className='text-center py-6 px-4 text-slate-300 font-bold text-sm uppercase tracking-wider'>D</th>
-            <th className='text-center py-6 px-4 text-slate-300 font-bold text-sm uppercase tracking-wider'>L</th>
+            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'>W</th>
+            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'>D</th>
+            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'>L</th>
 
             <th
-              className='text-center py-6 px-4 text-slate-300 font-bold text-sm uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
               onClick={() => onSort("goalDifference")}
             >
-              <div className='flex items-center justify-center space-x-2'>
+              <div className='flex items-center justify-center space-x-1.5'>
                 <span className='group-hover:text-white transition-colors'>GD</span>
                 {getSortIcon("goalDifference", sortBy, sortOrder)}
               </div>
             </th>
 
             <th
-              className='text-center py-6 px-4 text-slate-300 font-bold text-sm uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
               onClick={() => onSort("points")}
             >
-              <div className='flex items-center justify-center space-x-2'>
+              <div className='flex items-center justify-center space-x-1.5'>
                 <span className='group-hover:text-white transition-colors'>PTS</span>
                 {getSortIcon("points", sortBy, sortOrder)}
               </div>
             </th>
 
-            <th className='text-center py-6 px-6 text-slate-300 font-bold text-sm uppercase tracking-wider'>Last 5</th>
-            <th className='text-center py-6 px-4 text-slate-300 font-bold text-sm uppercase tracking-wider'>xG</th>
-            <th className='text-center py-6 px-4 text-slate-300 font-bold text-sm uppercase tracking-wider'>Pass%</th>
-            <th className='text-center py-6 px-4 text-slate-300 font-bold text-sm uppercase tracking-wider'>Trend</th>
+            <th className='text-center py-5 px-4 text-slate-300 font-bold text-xs uppercase tracking-wider'>Last 5</th>
+            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider group'>
+              <div
+                className='flex items-center justify-center space-x-1 cursor-help'
+                title='Expected goals (xG) based on shot quality and volume'
+              >
+                <span className='group-hover:text-white transition-colors'>xG</span>
+                <Info className='w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-colors' />
+              </div>
+            </th>
+            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'>Pass%</th>
+            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'>Trend</th>
           </tr>
         </thead>
 
         <tbody className='divide-y divide-white/5'>
-          {teams.map((team, index) => {
+          {teams.map((team) => {
             const teamInfo = TEAMS_BY_ID[team.teamId];
             return (
-              <React.Fragment key={team.teamId}>
-                <LeagueTableRow
-                  team={team}
-                  isHovered={hoveredRow === team.position}
-                  onHover={onHover}
-                  onHoverEnd={onHoverEnd}
-                  teamName={teamInfo?.name ?? team.teamId.toUpperCase()}
-                  teamShortName={teamInfo?.shortName ?? team.teamId.toUpperCase()}
-                  teamCrest={teamInfo?.crest ?? "⚽"}
-                />
-              {index === 4 && (
-                <tr>
-                  <td colSpan={12} className='py-2 text-center'>
-                    <div className='text-slate-500 text-sm'>• • •</div>
-                  </td>
-                </tr>
-              )}
-              </React.Fragment>
+              <LeagueTableRow
+                key={team.teamId}
+                team={team}
+                isHovered={hoveredRow === team.position}
+                onHover={onHover}
+                onHoverEnd={onHoverEnd}
+                teamName={teamInfo?.name ?? team.teamId.toUpperCase()}
+                teamShortName={teamInfo?.shortName ?? team.teamId.toUpperCase()}
+                teamCrest={teamInfo?.crest ?? "⚽"}
+              />
             );
           })}
         </tbody>

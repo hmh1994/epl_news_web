@@ -70,12 +70,6 @@ export const TeamDetailSection = ({
     );
   }
 
-  const averageValuePerPlayer = stats?.totalPlayers
-    ? Math.round(
-        parseFloat(stats.totalValue.replace(/[€M]/g, "")) / stats.totalPlayers
-      )
-    : 0;
-
   return (
     <div className='space-y-12'>
       <div className='relative bg-slate-900/60 backdrop-blur-2xl rounded-3xl p-10 border border-white/10 shadow-2xl overflow-hidden'>
@@ -225,19 +219,33 @@ export const TeamDetailSection = ({
                     style={{ backgroundColor: team.colors.primary }}
                   ></div>
                   <span className='text-slate-300'>팀 컬러</span>
+              </div>
+              <div className='flex space-x-3'>
+                <div
+                  className='flex-1 h-4 rounded-lg'
+                  style={{ backgroundColor: team.colors.primary }}
+                ></div>
+                <div
+                  className='flex-1 h-4 rounded-lg'
+                  style={{ backgroundColor: team.colors.secondary }}
+                ></div>
+              </div>
+              <div className='mt-3 grid grid-cols-2 gap-3 text-[11px] uppercase text-slate-400'>
+                <div className='flex items-center justify-between'>
+                  <span>Primary</span>
+                  <span className='font-mono text-white text-xs normal-case'>
+                    {team.colors.primary}
+                  </span>
                 </div>
-                <div className='flex space-x-3'>
-                  <div
-                    className='flex-1 h-4 rounded-lg'
-                    style={{ backgroundColor: team.colors.primary }}
-                  ></div>
-                  <div
-                    className='flex-1 h-4 rounded-lg'
-                    style={{ backgroundColor: team.colors.secondary }}
-                  ></div>
+                <div className='flex items-center justify-between'>
+                  <span>Secondary</span>
+                  <span className='font-mono text-white text-xs normal-case'>
+                    {team.colors.secondary}
+                  </span>
                 </div>
               </div>
             </div>
+          </div>
           </div>
 
           <div className='bg-slate-900/60 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 shadow-2xl'>
@@ -346,7 +354,6 @@ export const TeamDetailSection = ({
                   <option value='number'>등번호순</option>
                   <option value='name'>이름순</option>
                   <option value='age'>나이순</option>
-                  <option value='value'>시장가치순</option>
                   <option value='rating'>평점순</option>
                 </select>
               </div>
@@ -410,8 +417,8 @@ export const TeamDetailSection = ({
                 </div>
 
                 <div className='flex items-center justify-between pt-4 border-t border-white/10'>
-                  <div className='text-slate-400 text-sm'>시장가치</div>
-                  <div className='text-white font-bold'>{player.value}</div>
+                  <div className='text-slate-400 text-sm'>시즌 출전</div>
+                  <div className='text-white font-bold'>{player.appearances}경기</div>
                 </div>
               </div>
             ))}
@@ -437,30 +444,63 @@ export const TeamDetailSection = ({
 
             <div className='grid grid-cols-2 gap-6'>
               <div className='text-center p-6 bg-gradient-to-br from-[#169976]/10 to-teal-500/10 rounded-2xl border border-emerald-500/20'>
-                <div className='text-3xl font-black text-emerald-400 mb-2'>{stats?.totalPlayers ?? 0}</div>
-                <div className='text-slate-400 text-sm'>총 선수</div>
+                <div className='text-3xl font-black text-emerald-400 mb-2'>
+                  {stats?.matchesPlayed ?? team.played}
+                </div>
+                <div className='text-slate-400 text-sm'>경기 수</div>
               </div>
               <div className='text-center p-6 bg-gradient-to-br from-[#169976]/10 to-teal-500/10 rounded-2xl border border-teal-500/20'>
-                <div className='text-3xl font-black text-teal-400 mb-2'>{stats?.avgAge ?? 0}</div>
-                <div className='text-slate-400 text-sm'>평균 연령</div>
+                <div className='text-3xl font-black text-teal-400 mb-2'>
+                  {stats?.winRate ?? "0.0"}%
+                </div>
+                <div className='text-slate-400 text-sm'>승률</div>
               </div>
               <div className='text-center p-6 bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-2xl border border-green-500/20'>
-                <div className='text-3xl font-black text-green-400 mb-2'>{stats?.avgRating ?? 0}</div>
-                <div className='text-slate-400 text-sm'>평균 평점</div>
+                <div className='text-3xl font-black text-green-400 mb-2'>
+                  {stats?.goalDifference ?? team.goalsFor - team.goalsAgainst}
+                </div>
+                <div className='text-slate-400 text-sm'>득실차</div>
               </div>
               <div className='text-center p-6 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 rounded-2xl border border-yellow-500/20'>
-                <div className='text-3xl font-black text-yellow-400 mb-2'>{stats?.foreignPercentage ?? 0}%</div>
-                <div className='text-slate-400 text-sm'>외국인 비율</div>
+                <div className='text-3xl font-black text-yellow-400 mb-2'>
+                  {stats?.goalsForPerGame ?? "0.00"}
+                </div>
+                <div className='text-slate-400 text-sm'>경기당 득점</div>
               </div>
             </div>
 
-            <div className='mt-8 p-6 bg-slate-800/30 rounded-2xl border border-white/10'>
-              <div className='flex items-center justify-between mb-2'>
-                <span className='text-slate-300 font-medium'>스쿼드 총 가치</span>
-                <span className='text-2xl font-bold text-white'>{stats?.totalValue ?? "€0M"}</span>
+            <div className='mt-8 grid grid-cols-1 md:grid-cols-2 gap-4'>
+              <div className='p-4 bg-slate-800/30 rounded-2xl border border-white/10'>
+                <div className='text-slate-300 text-sm'>경기당 실점</div>
+                <div className='mt-1 text-2xl font-bold text-white'>
+                  {stats?.goalsAgainstPerGame ?? "0.00"}
+                </div>
               </div>
-              <div className='text-slate-400 text-sm'>
-                평균 선수당 €{averageValuePerPlayer}M
+              <div className='p-4 bg-slate-800/30 rounded-2xl border border-white/10'>
+                <div className='text-slate-300 text-sm'>점유율</div>
+                <div className='mt-1 text-2xl font-bold text-white'>
+                  {stats?.possession ?? `${team.keyStats.possession}%`}
+                </div>
+              </div>
+              <div className='p-4 bg-slate-800/30 rounded-2xl border border-white/10'>
+                <div className='text-slate-300 text-sm'>패스 성공률</div>
+                <div className='mt-1 text-2xl font-bold text-white'>
+                  {stats?.passAccuracy ?? `${team.keyStats.passAccuracy}%`}
+                </div>
+              </div>
+              <div className='p-4 bg-slate-800/30 rounded-2xl border border-white/10'>
+                <div className='text-slate-300 text-sm'>클린시트 비율</div>
+                <div className='mt-1 text-2xl font-bold text-white'>
+                  {stats?.cleanSheetRate ?? "0.0%"}
+                </div>
+              </div>
+              <div className='p-4 bg-slate-800/30 rounded-2xl border border-white/10 md:col-span-2'>
+                <div className='flex items-center justify-between'>
+                  <span className='text-slate-300 text-sm'>경기당 슈팅</span>
+                  <span className='text-2xl font-bold text-white'>
+                    {stats?.shotsPerGame ?? team.keyStats.shotsPerGame}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
