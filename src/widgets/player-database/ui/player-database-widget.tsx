@@ -115,7 +115,7 @@ export const PlayerDatabaseWidget = ({
     <div className='min-h-screen bg-slate-950 text-white pb-32'>
       <PlayerDatabaseHero />
 
-      <main className='max-w-7xl mx-auto px-6'>
+      <main className='max-w-7xl mx-auto px-6 mt-12 lg:mt-16'>
         <PlayerSearchControls
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}

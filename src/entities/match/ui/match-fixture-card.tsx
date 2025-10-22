@@ -130,13 +130,6 @@ export const MatchFixtureCard = ({
             <span>•</span>
             <span>{fixture.city}</span>
           </div>
-          {fixture.broadcast && (
-            <div className='flex items-center gap-2 text-slate-300'>
-              <span className='uppercase tracking-[0.25em] text-slate-500'>Broadcast</span>
-              <span className='font-semibold'>{fixture.broadcast.channel}</span>
-              {fixture.broadcast.platform && <span className='text-slate-400 text-[11px]'>({fixture.broadcast.platform})</span>}
-            </div>
-          )}
         </div>
       </div>
     </article>

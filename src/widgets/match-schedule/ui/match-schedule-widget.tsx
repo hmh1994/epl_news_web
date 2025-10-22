@@ -97,7 +97,6 @@ export const MatchScheduleWidget = ({
   const [selectedMatchweek, setSelectedMatchweek] =
     useState<number>(defaultMatchweek);
   const [searchTerm, setSearchTerm] = useState("");
-  const [showBroadcastOnly, setShowBroadcastOnly] = useState(false);
   const [selectedFixtureId, setSelectedFixtureId] = useState<string | null>(null);
 
   const filteredSchedule = useMemo(() => {
@@ -105,10 +104,6 @@ export const MatchScheduleWidget = ({
 
     const filterFixture = (fixture: MatchDaySchedule["fixtures"][number]) => {
       if (fixture.matchweek !== selectedMatchweek) {
-        return false;
-      }
-
-      if (showBroadcastOnly && !fixture.broadcast) {
         return false;
       }
 
@@ -139,7 +134,7 @@ export const MatchScheduleWidget = ({
       ...day,
       fixtures: day.fixtures.filter(filterFixture),
     })).filter((day) => day.fixtures.length > 0);
-  }, [schedule, searchTerm, selectedMatchweek, showBroadcastOnly]);
+  }, [schedule, searchTerm, selectedMatchweek]);
 
   const firstAvailableFixtureId = filteredSchedule[0]?.fixtures[0]?.id ?? null;
 
@@ -181,8 +176,6 @@ export const MatchScheduleWidget = ({
           onMatchweekChange={setSelectedMatchweek}
           searchTerm={searchTerm}
           onSearchTermChange={setSearchTerm}
-          showBroadcastOnly={showBroadcastOnly}
-          onToggleBroadcast={() => setShowBroadcastOnly((prev) => !prev)}
         />
 
         {rankedFixtures.length > 0 && (
@@ -349,15 +342,6 @@ const DayInsights = ({
             <span className='text-white text-right'>
               {fixture.venue}
               <span className='block text-xs text-slate-400'>{fixture.city}</span>
-            </span>
-          </div>
-          <div className='flex items-center justify-between'>
-            <span>Broadcast</span>
-            <span className='text-white text-right'>
-              {fixture.broadcast?.channel ?? "-"}
-              {fixture.broadcast?.platform && (
-                <span className='block text-xs text-slate-400'>({fixture.broadcast.platform})</span>
-              )}
             </span>
           </div>
           <div className='flex items-center justify-between'>

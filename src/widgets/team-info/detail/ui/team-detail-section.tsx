@@ -204,14 +204,6 @@ export const TeamDetailSection = ({
                 <span className='text-white font-bold text-lg'>{team.trophies}회</span>
               </div>
 
-              <div className='flex items-center justify-between p-4 bg-slate-800/30 rounded-xl border border-white/5'>
-                <div className='flex items-center space-x-3'>
-                  <Star className='w-5 h-5 text-teal-400' />
-                  <span className='text-slate-300'>클럽 가치</span>
-                </div>
-                <span className='text-white font-bold text-lg'>{team.value}</span>
-              </div>
-
               <div className='p-4 bg-slate-800/30 rounded-xl border border-white/5'>
                 <div className='flex items-center space-x-3 mb-3'>
                   <div

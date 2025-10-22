@@ -164,6 +164,20 @@ export const LeagueTableRow = ({
           <span className='text-white font-black text-base'>{team.points}</span>
         </div>
       </td>
+      <td className='py-4 px-3 text-center'>
+        <div className='text-white font-semibold text-sm'>{team.xG}</div>
+      </td>
+      <td className='py-4 px-3 text-center'>
+        <div className='space-y-1.5'>
+          <div className='text-white font-semibold text-sm'>{team.passAccuracy}%</div>
+          <div className='w-full bg-slate-600 rounded-full h-1.5'>
+            <div
+              className='bg-gradient-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-1000'
+              style={{ width: `${team.passAccuracy}%` }}
+            />
+          </div>
+        </div>
+      </td>
       <td className='py-4 px-4'>
         <div className='flex justify-center space-x-1.5'>
           {team.form.map((result, index) => (
@@ -179,21 +193,7 @@ export const LeagueTableRow = ({
             >
               {result}
             </div>
-            ))}
-        </div>
-      </td>
-      <td className='py-4 px-3 text-center'>
-        <div className='text-white font-semibold text-sm'>{team.xG}</div>
-      </td>
-      <td className='py-4 px-3 text-center'>
-        <div className='space-y-1.5'>
-          <div className='text-white font-semibold text-sm'>{team.passAccuracy}%</div>
-          <div className='w-full bg-slate-600 rounded-full h-1.5'>
-            <div
-              className='bg-gradient-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-1000'
-              style={{ width: `${team.passAccuracy}%` }}
-            />
-          </div>
+          ))}
         </div>
       </td>
       <td className='py-4 px-3 text-center'>

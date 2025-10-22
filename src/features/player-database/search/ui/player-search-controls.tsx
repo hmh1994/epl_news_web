@@ -49,17 +49,6 @@ export const PlayerSearchControls = ({
   return (
     <div className='bg-slate-900/40 backdrop-blur-3xl rounded-3xl p-6 border border-white/10 shadow-2xl mb-8'>
       <div className='grid grid-cols-1 lg:grid-cols-12 gap-4'>
-        <div className='lg:col-span-5 relative'>
-          <Search className='absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400' />
-          <input
-            type='text'
-            placeholder='선수 이름 검색...'
-            className='w-full bg-slate-800/50 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20'
-            value={searchTerm}
-            onChange={handleSearchInput}
-          />
-        </div>
-
         <div className='lg:col-span-3'>
           <select
             className='w-full bg-slate-800/50 border border-white/10 rounded-2xl px-4 py-4 text-white focus:outline-none focus:border-emerald-400'
@@ -88,11 +77,22 @@ export const PlayerSearchControls = ({
           </select>
         </div>
 
-        <div className='lg:col-span-1 flex space-x-2'>
+        <div className='lg:col-span-5 relative'>
+          <Search className='absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400' />
+          <input
+            type='text'
+            placeholder='선수 이름 검색...'
+            className='w-full bg-slate-800/50 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20'
+            value={searchTerm}
+            onChange={handleSearchInput}
+          />
+        </div>
+
+        <div className='lg:col-span-1 flex items-center justify-start lg:justify-end gap-2 lg:pl-2'>
           <button
             type='button'
             onClick={() => onViewModeChange("grid")}
-            className={`flex-1 p-4 rounded-2xl transition-all ${
+            className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl transition-all ${
               viewMode === "grid"
                 ? "bg-[#169976] text-white"
                 : "bg-slate-800/50 text-slate-400 hover:text-white"
@@ -103,7 +103,7 @@ export const PlayerSearchControls = ({
           <button
             type='button'
             onClick={() => onViewModeChange("list")}
-            className={`flex-1 p-4 rounded-2xl transition-all ${
+            className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl transition-all ${
               viewMode === "list"
                 ? "bg-[#169976] text-white"
                 : "bg-slate-800/50 text-slate-400 hover:text-white"

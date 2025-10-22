@@ -90,21 +90,23 @@ export const PlayerGridCard = ({
       </div>
 
       <div className='grid grid-cols-3 gap-3 mb-4'>
-        <div className='text-center p-3 bg-slate-800/30 rounded-xl'>
+        <div className='flex flex-col items-center justify-center p-3 bg-slate-800/30 rounded-xl text-center'>
           <div className='text-xl font-bold text-green-400'>{player.goals}</div>
-          <div className='text-xs text-slate-400'>Goals</div>
+          <div className='text-xs text-slate-400 leading-[1.15]'>Goals</div>
         </div>
-        <div className='text-center p-3 bg-slate-800/30 rounded-xl'>
+        <div className='flex flex-col items-center justify-center p-3 bg-slate-800/30 rounded-xl text-center'>
           <div className='text-xl font-bold text-teal-400'>
             {player.assists}
           </div>
-          <div className='text-xs text-slate-400'>Assists</div>
+          <div className='text-xs text-slate-400 leading-[1.15]'>Assists</div>
         </div>
-        <div className='text-center p-3 bg-slate-800/30 rounded-xl'>
+        <div className='flex flex-col items-center justify-center p-3 bg-slate-800/30 rounded-xl text-center'>
           <div className='text-xl font-bold text-emerald-400'>
             {player.goals + player.assists}
           </div>
-          <div className='text-xs text-slate-400'>Goal Involvements</div>
+          <div className='text-xs text-slate-400 leading-tight whitespace-normal'>
+            Goal Involvements
+          </div>
         </div>
       </div>
 

@@ -143,15 +143,6 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
                 lines={[`관중 ${attendanceDisplay}명`]}
               />
             )}
-            {fixture.broadcast && (
-              <InfoTile
-                title='중계 정보'
-                lines={[
-                  fixture.broadcast.channel,
-                  fixture.broadcast.platform ? `플랫폼 ${fixture.broadcast.platform}` : "",
-                ].filter(Boolean)}
-              />
-            )}
             <InfoTile
               title='주심'
               lines={[fixture.referee ?? "배정 미정"]}

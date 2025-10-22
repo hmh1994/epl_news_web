@@ -40,9 +40,13 @@ export const PlayerListItem = ({ player, onView, teamName }: PlayerListItemProps
             <div className='text-2xl font-bold text-teal-400'>{player.assists}</div>
             <div className='text-xs text-slate-400'>Assists</div>
           </div>
-          <div>
-            <div className='text-2xl font-bold text-emerald-400'>{player.goals + player.assists}</div>
-            <div className='text-xs text-slate-400'>Goal Involvements</div>
+          <div className='w-20'>
+            <div className='text-2xl font-bold text-emerald-400'>
+              {player.goals + player.assists}
+            </div>
+            <div className='text-xs text-slate-400 leading-tight whitespace-normal'>
+              Goal Involvements
+            </div>
           </div>
           <div>
             <div className='text-lg font-semibold text-white'>{player.stats.passing}</div>

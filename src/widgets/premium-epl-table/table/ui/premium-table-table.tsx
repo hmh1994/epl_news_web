@@ -23,7 +23,11 @@ type PremiumTableTableProps = {
   onHoverEnd: () => void;
 };
 
-const getSortIcon = (column: SortColumn, sortBy: SortColumn, sortOrder: "asc" | "desc") => {
+const getSortIcon = (
+  column: SortColumn,
+  sortBy: SortColumn,
+  sortOrder: "asc" | "desc"
+) => {
   if (sortBy !== column) {
     return (
       <ArrowUpDown className='w-4 h-4 opacity-40 group-hover:opacity-70 transition-opacity' />
@@ -49,7 +53,9 @@ export const PremiumTableTable = ({
     <div className='bg-slate-800/50 px-8 py-6 border-b border-white/10'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center space-x-6'>
-          <h2 className='text-2xl font-black text-white'>Premier League Table</h2>
+          <h2 className='text-2xl font-black text-white'>
+            Premier League Table
+          </h2>
           <div className='flex items-center space-x-2 text-sm text-slate-400'>
             <div className='w-2 h-2 bg-green-400 rounded-full animate-pulse'></div>
             <span>Live Updated</span>
@@ -77,7 +83,9 @@ export const PremiumTableTable = ({
               onClick={() => onSort("position")}
             >
               <div className='flex items-center space-x-2'>
-                <span className='group-hover:text-white transition-colors'>Position</span>
+                <span className='group-hover:text-white transition-colors'>
+                  Position
+                </span>
                 {getSortIcon("position", sortBy, sortOrder)}
               </div>
             </th>
@@ -87,7 +95,9 @@ export const PremiumTableTable = ({
               onClick={() => onSort("team")}
             >
               <div className='flex items-center space-x-2'>
-                <span className='group-hover:text-white transition-colors'>Club</span>
+                <span className='group-hover:text-white transition-colors'>
+                  Club
+                </span>
                 {getSortIcon("team", sortBy, sortOrder)}
               </div>
             </th>
@@ -97,21 +107,55 @@ export const PremiumTableTable = ({
               onClick={() => onSort("played")}
             >
               <div className='flex items-center justify-center space-x-1.5'>
-                <span className='group-hover:text-white transition-colors'>PL</span>
+                <span className='group-hover:text-white transition-colors'>
+                  PL
+                </span>
                 {getSortIcon("played", sortBy, sortOrder)}
               </div>
             </th>
 
-            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'>W</th>
-            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'>D</th>
-            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'>L</th>
+            <th
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
+              onClick={() => onSort("won")}
+            >
+              <div className='flex items-center justify-center space-x-1.5'>
+                <span className='group-hover:text-white transition-colors'>
+                  W
+                </span>
+                {getSortIcon("won", sortBy, sortOrder)}
+              </div>
+            </th>
+            <th
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
+              onClick={() => onSort("drawn")}
+            >
+              <div className='flex items-center justify-center space-x-1.5'>
+                <span className='group-hover:text-white transition-colors'>
+                  D
+                </span>
+                {getSortIcon("drawn", sortBy, sortOrder)}
+              </div>
+            </th>
+            <th
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
+              onClick={() => onSort("lost")}
+            >
+              <div className='flex items-center justify-center space-x-1.5'>
+                <span className='group-hover:text-white transition-colors'>
+                  L
+                </span>
+                {getSortIcon("lost", sortBy, sortOrder)}
+              </div>
+            </th>
 
             <th
               className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
               onClick={() => onSort("goalDifference")}
             >
               <div className='flex items-center justify-center space-x-1.5'>
-                <span className='group-hover:text-white transition-colors'>GD</span>
+                <span className='group-hover:text-white transition-colors'>
+                  GD
+                </span>
                 {getSortIcon("goalDifference", sortBy, sortOrder)}
               </div>
             </th>
@@ -121,23 +165,43 @@ export const PremiumTableTable = ({
               onClick={() => onSort("points")}
             >
               <div className='flex items-center justify-center space-x-1.5'>
-                <span className='group-hover:text-white transition-colors'>PTS</span>
+                <span className='group-hover:text-white transition-colors'>
+                  PTS
+                </span>
                 {getSortIcon("points", sortBy, sortOrder)}
               </div>
             </th>
 
-            <th className='text-center py-5 px-4 text-slate-300 font-bold text-xs uppercase tracking-wider'>Last 5</th>
-            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider group'>
-              <div
-                className='flex items-center justify-center space-x-1 cursor-help'
-                title='Expected goals (xG) based on shot quality and volume'
-              >
-                <span className='group-hover:text-white transition-colors'>xG</span>
+            <th
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
+              onClick={() => onSort("xG")}
+              title='Expected goals (xG) based on shot quality and volume'
+            >
+              <div className='flex items-center justify-center space-x-1.5'>
+                <span className='group-hover:text-white transition-colors'>
+                  xG
+                </span>
                 <Info className='w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-colors' />
+                {getSortIcon("xG", sortBy, sortOrder)}
               </div>
             </th>
-            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'>Pass%</th>
-            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'>Trend</th>
+            <th
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
+              onClick={() => onSort("passAccuracy")}
+            >
+              <div className='flex items-center justify-center space-x-1.5'>
+                <span className='group-hover:text-white transition-colors'>
+                  Pass%
+                </span>
+                {getSortIcon("passAccuracy", sortBy, sortOrder)}
+              </div>
+            </th>
+            <th className='text-center py-5 px-4 text-slate-300 font-bold text-xs uppercase tracking-wider'>
+              Last 5
+            </th>
+            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'>
+              Trend
+            </th>
           </tr>
         </thead>
 
@@ -176,7 +240,9 @@ export const PremiumTableTable = ({
         <div className='flex items-center space-x-8 text-slate-400'>
           <div className='flex items-center space-x-2'>
             <span>1-4위:</span>
-            <span className='text-green-400 font-semibold'>Champions League</span>
+            <span className='text-green-400 font-semibold'>
+              Champions League
+            </span>
           </div>
           <div className='flex items-center space-x-2'>
             <span>5-6위:</span>

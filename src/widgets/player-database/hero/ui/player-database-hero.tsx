@@ -25,13 +25,15 @@ export const PlayerDatabaseHero = () => (
         프리미어리그 최고의 선수들을 검색하고 비교해보세요
       </p>
 
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mt-12'>
+      <div className='grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto mt-12 justify-items-center'>
         {HERO_STATS.map((stat) => (
           <div
             key={stat.label}
-            className='bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10'
+            className='bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 w-full'
           >
-            <div className='text-3xl font-black text-white mb-2'>{stat.value}</div>
+            <div className='text-3xl font-black text-white mb-2'>
+              {stat.value}
+            </div>
             <div className='text-slate-400 text-sm'>{stat.label}</div>
             <div className='text-slate-500 text-xs mt-1'>{stat.caption}</div>
           </div>
