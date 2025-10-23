@@ -41,10 +41,6 @@ export const MatchStatsPanel = ({
   awayLabel,
   timeframeNote,
 }: MatchStatsPanelProps) => {
-  if (stats.length === 0) {
-    return null;
-  }
-
   const selectedStats = useMemo(() => {
     if (stats.length <= 6) {
       return stats;
@@ -145,8 +141,12 @@ export const MatchStatsPanel = ({
         easing: "easeOutQuart",
       },
     }),
-    [selectedStats, homeLabel, awayLabel]
+    [selectedStats, homeLabel]
   );
+
+  if (selectedStats.length === 0) {
+    return null;
+  }
 
   return (
     <section className='bg-slate-900/60 border border-white/10 rounded-3xl backdrop-blur-2xl shadow-2xl overflow-hidden'>

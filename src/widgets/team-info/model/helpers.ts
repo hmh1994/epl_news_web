@@ -56,8 +56,7 @@ export const filterPlayers = ({
 };
 
 export const calculateTeamStats = (
-  team: TeamProfile | null,
-  _players: PlayerProfile[]
+  team: TeamProfile | null
 ): TeamStats | null => {
   if (!team) return null;
 

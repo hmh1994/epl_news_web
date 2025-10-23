@@ -1,5 +1,4 @@
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
-// import { StatAccent, getStatStyles } from "@/entities/player/lib/stat-palette";
 import { Award } from "lucide-react";
 
 interface PlayerGridCardProps {
@@ -12,28 +11,6 @@ interface PlayerGridCardProps {
   teamCrest: string;
 }
 
-// const POSITION_ACCENT: Record<string, StatAccent> = {
-//   GK: "yellow",
-//   CB: "teal",
-//   LB: "teal",
-//   RB: "teal",
-//   LWB: "teal",
-//   RWB: "teal",
-//   CDM: "emerald",
-//   CM: "emerald",
-//   CAM: "emerald",
-//   LM: "emerald",
-//   RM: "emerald",
-//   ST: "green",
-//   CF: "green",
-//   LW: "green",
-//   RW: "green",
-// };
-
-// const getAccentByPosition = (position: string): StatAccent => {
-//   return POSITION_ACCENT[position] ?? "teal";
-// };
-
 export const PlayerGridCard = ({
   player,
   isSelected,
@@ -43,8 +20,6 @@ export const PlayerGridCard = ({
   teamName,
   teamCrest,
 }: PlayerGridCardProps) => {
-  // const accent = getStatStyles(getAccentByPosition(player.position));
-
   return (
     <div
       className={`group relative bg-slate-900/60 backdrop-blur-3xl rounded-3xl p-6 border transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl cursor-pointer ${

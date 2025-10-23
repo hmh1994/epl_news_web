@@ -9,7 +9,6 @@ import {
   MapPin,
   Search,
   Shield,
-  Star,
   Target,
   TrendingUp,
   Trophy,

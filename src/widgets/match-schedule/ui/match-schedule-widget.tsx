@@ -354,7 +354,7 @@ const DayInsights = ({
       </div>
 
       <PowerRankingList ranking={ranking} selectedFixture={fixture} />
-      <HeadToHeadList fixtures={fixtures} selectedFixture={fixture} />
+      <HeadToHeadList selectedFixture={fixture} />
     </div>
   );
 };
@@ -444,10 +444,8 @@ const PowerRankingList = ({
 };
 
 const HeadToHeadList = ({
-  fixtures,
   selectedFixture,
 }: {
-  fixtures: MatchDaySchedule["fixtures"];
   selectedFixture?: MatchFixture | null;
 }) => {
   if (!selectedFixture) return null;

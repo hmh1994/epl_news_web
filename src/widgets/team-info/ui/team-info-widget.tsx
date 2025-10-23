@@ -70,8 +70,8 @@ export const TeamInfoWidget = () => {
   );
 
   const teamStats = useMemo(
-    () => calculateTeamStats(selectedTeam, teamPlayers),
-    [selectedTeam, teamPlayers]
+    () => calculateTeamStats(selectedTeam),
+    [selectedTeam]
   );
 
   const positionDistribution = useMemo(

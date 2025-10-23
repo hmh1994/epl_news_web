@@ -1,5 +1,4 @@
 import { HeadToHeadRecord } from "@/entities/match/model/match-detail";
-import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 interface MatchHeadToHeadPanelProps {
   records: HeadToHeadRecord[];
