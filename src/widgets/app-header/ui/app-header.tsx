@@ -5,12 +5,12 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 const NAV_ITEMS: Array<{ segment: string; label: string }> = [
+  { segment: "home", label: "Home" },
   { segment: "matches", label: "Matches" },
-  { segment: "match", label: "Match Center" },
-  { segment: "test2", label: "Teams" },
-  { segment: "test_player", label: "Players" },
-  { segment: "test3", label: "Table" },
-  { segment: "test4", label: "Overview" },
+  { segment: "players", label: "Players" },
+  { segment: "teams", label: "Table" },
+  { segment: "teams/detail", label: "Teams" },
+  { segment: "league", label: "Overview" },
 ];
 
 export const AppHeader = () => {
@@ -50,7 +50,7 @@ export const AppHeader = () => {
         <div className='flex items-center gap-3 text-xs text-slate-400'>
           <span className='hidden md:inline'>Premier League Hub</span>
           <Link
-            href={`${base}/test_player`}
+            href={`${base}/players`}
             className='rounded-xl border border-white/10 px-3 py-2 text-slate-200 hover:border-emerald-400/40 hover:text-white'
           >
             Player DB
