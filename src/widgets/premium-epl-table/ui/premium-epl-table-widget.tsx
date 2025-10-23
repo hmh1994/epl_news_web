@@ -67,7 +67,6 @@ export const PremiumEPLTableWidget = () => {
 
   return (
     <div className='min-h-screen bg-slate-950 text-white'>
-      <PremiumTableHeader isScrolled={scrollY > 50} />
       <PremiumTableHero />
 
       <main className='max-w-7xl mx-auto px-6 pb-20'>

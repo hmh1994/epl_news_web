@@ -10,7 +10,6 @@ import { EPL_MATCH_SCHEDULE } from "@/shared/mocks/match-schedule";
 import { MatchFixture } from "@/entities/match/model/match-schedule";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
 import { CalendarClock, Star, Trash2, Trophy } from "lucide-react";
-import { EplHubHeader } from "@/widgets/epl-hub/header/ui/epl-hub-header";
 import { EplLeaguePulse } from "@/widgets/epl-hub/season-insights/ui/epl-league-pulse";
 
 const FAVORITE_TEAMS_STORAGE_KEY = "eplFavoriteTeams";
@@ -39,7 +38,6 @@ export const EPLHubPage = () => {
   const [favoriteTeams, setFavoriteTeams] = useState<string[]>([]);
   const [favoriteMatches, setFavoriteMatches] = useState<string[]>([]);
   const [storageReady, setStorageReady] = useState(false);
-  const [activeTab, setActiveTab] = useState("홈");
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -162,11 +160,6 @@ export const EPLHubPage = () => {
 
   return (
     <div className='flex min-h-screen flex-col bg-slate-950 text-white'>
-      <EplHubHeader
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-        isScrolled={isScrolled}
-      />
       <main className='flex-1'>
         <section className='mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-12 xl:px-16'>
           <div className='mb-10 space-y-3'>
