@@ -1,5 +1,5 @@
-import { TestPlayerPage as TestPlayerContent } from "@/views/test-player";
+import { PlayerDatabasePage } from "@/processes/player-database-page";
 
-export default function TestPlayerPage() {
-  return <TestPlayerContent />;
+export default function PlayerDatabaseRoute() {
+  return <PlayerDatabasePage />;
 }

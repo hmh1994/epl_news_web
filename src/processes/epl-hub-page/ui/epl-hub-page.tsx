@@ -38,7 +38,6 @@ export const EPLHubPage = () => {
   const [favoriteTeams, setFavoriteTeams] = useState<string[]>([]);
   const [favoriteMatches, setFavoriteMatches] = useState<string[]>([]);
   const [storageReady, setStorageReady] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -90,15 +89,6 @@ export const EPLHubPage = () => {
       JSON.stringify(favoriteMatches)
     );
   }, [favoriteMatches, storageReady]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const allFixtures = useMemo(
     () => EPL_MATCH_SCHEDULE.flatMap((day) => day.fixtures),

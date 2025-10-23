@@ -1,5 +1,5 @@
-import { TeamInfoPage } from "@/views/test2";
+import { TeamInfoPage } from "@/processes/team-info-page";
 
-export default function Test2Page() {
+export default function TeamInfoRoute() {
   return <TeamInfoPage />;
 }

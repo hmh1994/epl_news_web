@@ -1,5 +1,5 @@
-import { EPLHubPage } from "@/views/test";
+import { EPLHubPage } from "@/processes/epl-hub-page";
 
-export default function TestPage() {
+export default function HomeRoute() {
   return <EPLHubPage />;
 }

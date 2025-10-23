@@ -1,5 +1,5 @@
-import { PremiumEPLTablePage } from "@/views/test3";
+import { PremiumEPLTablePage } from "@/processes/premium-epl-table-page";
 
-export default function Test3Page() {
+export default function PremiumEPLTableRoute() {
   return <PremiumEPLTablePage />;
 }

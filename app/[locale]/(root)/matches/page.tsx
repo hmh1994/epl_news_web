@@ -1,5 +1,5 @@
-import { MatchSchedulePage } from "@/views/match-schedule";
+import { MatchSchedulePage } from "@/processes/match-schedule-page";
 
-export default function Page() {
+export default function MatchScheduleRoute() {
   return <MatchSchedulePage />;
 }

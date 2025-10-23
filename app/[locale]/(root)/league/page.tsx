@@ -1,5 +1,5 @@
-import { Test4Page as Test4Content } from "@/views/test4";
+import { LeagueOverviewPage } from "@/processes/league-overview-page";
 
-export default function Test4Page() {
-  return <Test4Content />;
+export default function LeagueOverviewRoute() {
+  return <LeagueOverviewPage />;
 }

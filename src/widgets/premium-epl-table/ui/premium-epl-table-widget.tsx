@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import { LeagueTableTeam } from "@/entities/team/model/league-table-team";
 import { PREMIER_LEAGUE_TABLE } from "@/shared/mocks/premium-epl-table";
-import { PremiumTableHeader } from "@/widgets/premium-epl-table/header/ui/premium-table-header";
 import { PremiumTableHero } from "@/widgets/premium-epl-table/hero/ui/premium-table-hero";
 import { PremiumTableControls } from "@/widgets/premium-epl-table/controls/ui/premium-table-controls";
 import { PremiumTableTable } from "@/widgets/premium-epl-table/table/ui/premium-table-table";
@@ -16,14 +15,7 @@ export const PremiumEPLTableWidget = () => {
   const [sortBy, setSortBy] = useState<SortColumn>("position");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [searchTerm, setSearchTerm] = useState("");
-  const [scrollY, setScrollY] = useState(0);
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const teams: LeagueTableTeam[] = PREMIER_LEAGUE_TABLE;
 

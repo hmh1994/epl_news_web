@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { MatchDetailPage } from "@/views/match-detail";
+import { MatchDetailPage } from "@/processes/match-detail-page";
 import {
   getMatchDetail,
   getMatchDetailIds,
