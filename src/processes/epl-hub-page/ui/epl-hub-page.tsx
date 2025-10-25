@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { LeagueBriefTable } from "@/features/league-overview/table/ui/league-brief-table";
 import { EPL_BRIEF_TABLE } from "@/shared/mocks/league-overview";
@@ -38,6 +40,9 @@ export const EPLHubPage = () => {
   const [favoriteTeams, setFavoriteTeams] = useState<string[]>([]);
   const [favoriteMatches, setFavoriteMatches] = useState<string[]>([]);
   const [storageReady, setStorageReady] = useState(false);
+  const pathname = usePathname();
+  const [, locale] = pathname?.split("/") ?? [];
+  const basePath = locale ? `/${locale}` : "";
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -174,12 +179,20 @@ export const EPLHubPage = () => {
                       팀 옆의 즐겨찾기 버튼을 눌러 관심 팀을 등록해 보세요.
                     </p>
                   </div>
-                  <span className='inline-flex items-center gap-2 rounded-full bg-emerald-500/15 px-4 py-1 text-xs font-semibold text-emerald-200'>
-                    <Star className='h-4 w-4' />
-                    {favoriteTeams.length > 0
-                      ? `${favoriteTeams.length}팀 즐겨찾음`
-                      : "즐겨찾기 준비됨"}
-                  </span>
+                  <div className='flex items-center gap-3'>
+                    <Link
+                      href={`${basePath}/teams`}
+                      className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+                    >
+                      전체 순위 보기
+                    </Link>
+                    <span className='inline-flex items-center gap-2 rounded-full bg-emerald-500/15 px-4 py-1 text-xs font-semibold text-emerald-200'>
+                      <Star className='h-4 w-4' />
+                      {favoriteTeams.length > 0
+                        ? `${favoriteTeams.length}팀 즐겨찾음`
+                        : "즐겨찾기 준비됨"}
+                    </span>
+                  </div>
                 </div>
                 <div className='scrollbar-slim overflow-x-auto'>
                   <LeagueBriefTable
@@ -205,7 +218,15 @@ export const EPLHubPage = () => {
                         {favoriteTeamFixtures.length}경기를 미리 체크하세요.
                       </p>
                     </div>
-                    <CalendarClock className='h-6 w-6 text-emerald-300' />
+                    <div className='flex items-center gap-2'>
+                      <Link
+                        href={`${basePath}/matches`}
+                        className='rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+                      >
+                        전체 일정 보기
+                      </Link>
+                      <CalendarClock className='h-6 w-6 text-emerald-300' />
+                    </div>
                   </div>
                   <ul className='mt-6 space-y-4'>
                     {favoriteTeamFixtures.slice(0, 5).map((fixture) => {
@@ -244,16 +265,24 @@ export const EPLHubPage = () => {
                       자주 확인하고 싶은 팀을 관리하세요.
                     </p>
                   </div>
-                  {favoriteTeams.length > 0 && (
-                    <button
-                      type='button'
-                      onClick={clearFavoriteTeams}
-                      className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-red-400/40 hover:text-red-200'
+                  <div className='flex items-center gap-2'>
+                    <Link
+                      href={`${basePath}/teams/detail`}
+                      className='rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-300 transition-colors hover:border-emerald-400/40 hover:text-white'
                     >
-                      <Trash2 className='h-4 w-4' />
-                      초기화
-                    </button>
-                  )}
+                      팀 정보 보기
+                    </Link>
+                    {favoriteTeams.length > 0 && (
+                      <button
+                        type='button'
+                        onClick={clearFavoriteTeams}
+                        className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-red-400/40 hover:text-red-200'
+                      >
+                        <Trash2 className='h-4 w-4' />
+                        초기화
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div className='mt-6 space-y-4'>
                   {favoriteTeams.length === 0 ? (
@@ -308,14 +337,22 @@ export const EPLHubPage = () => {
                         저장한 경기 일정은 홈에서 바로 확인할 수 있어요.
                       </p>
                     </div>
-                    <button
-                      type='button'
-                      onClick={clearFavoriteMatches}
-                      className='inline-flex items-center gap-2 rounded-full border border-emerald-400/40 px-3 py-1 text-xs font-semibold text-emerald-100 transition-colors hover:border-emerald-300 hover:text-white'
-                    >
-                      <Trash2 className='h-4 w-4' />
-                      전체 해제
-                    </button>
+                    <div className='flex items-center gap-2'>
+                      <Link
+                        href={`${basePath}/matches`}
+                        className='rounded-full border border-emerald-400/40 px-3 py-1 text-xs font-semibold text-emerald-100 transition-colors hover:border-emerald-300 hover:text-white'
+                      >
+                        전체 경기 보기
+                      </Link>
+                      <button
+                        type='button'
+                        onClick={clearFavoriteMatches}
+                        className='inline-flex items-center gap-2 rounded-full border border-emerald-400/40 px-3 py-1 text-xs font-semibold text-emerald-100 transition-colors hover:border-emerald-300 hover:text-white'
+                      >
+                        <Trash2 className='h-4 w-4' />
+                        전체 해제
+                      </button>
+                    </div>
                   </div>
                   <ul className='mt-6 space-y-4'>
                     {favoriteMatchFixtures.slice(0, 4).map((fixture) => {
@@ -351,7 +388,15 @@ export const EPLHubPage = () => {
                       올 시즌을 빛내고 있는 공격수들을 확인하세요.
                     </p>
                   </div>
-                  <Trophy className='h-6 w-6 text-yellow-300' />
+                  <div className='flex items-center gap-2'>
+                    <Link
+                      href={`${basePath}/players`}
+                      className='rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+                    >
+                      선수 데이터 보기
+                    </Link>
+                    <Trophy className='h-6 w-6 text-yellow-300' />
+                  </div>
                 </div>
                 <div className='mt-6 space-y-4'>
                   {EPL_PLAYER_RANKINGS.map((player, index) => {
@@ -372,6 +417,15 @@ export const EPLHubPage = () => {
         </section>
 
         <section className='mx-auto w-full max-w-7xl px-6 pb-12 lg:px-12 xl:px-16'>
+          <div className='mb-6 flex items-center justify-between'>
+            <h2 className='text-2xl font-semibold text-white'>리그 인사이트</h2>
+            <Link
+              href={`${basePath}/league`}
+              className='rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+            >
+              리그 전체 보기
+            </Link>
+          </div>
           <EplLeaguePulse />
         </section>
 
@@ -386,6 +440,12 @@ export const EPLHubPage = () => {
                   즐겨찾기한 경기는 카드 오른쪽 상단에서 확인할 수 있어요.
                 </p>
               </div>
+              <Link
+                href={`${basePath}/matches`}
+                className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+              >
+                전체 경기 일정
+              </Link>
             </div>
 
             <div className='grid gap-6 p-6 md:grid-cols-2 xl:grid-cols-3'>

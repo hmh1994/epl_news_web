@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { MatchScheduleFilters } from "@/features/match-schedule/filters/ui/match-schedule-filters";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
@@ -201,37 +203,70 @@ export const MatchScheduleWidget = ({
   );
 };
 
-const ScheduleHero = ({ matchweek }: { matchweek: number }) => (
-  <section className='relative pt-28 pb-32 overflow-hidden'>
-    <div className='absolute inset-0 bg-gradient-to-br from-slate-900 via-emerald-900/30 to-slate-950'></div>
-    <div className='absolute inset-0 opacity-20'>
-      <div className='absolute top-1/3 left-1/5 w-96 h-96 bg-[#169976] rounded-full mix-blend-multiply filter blur-3xl animate-pulse'></div>
-      <div className='absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse'></div>
-    </div>
+const ScheduleHero = ({ matchweek }: { matchweek: number }) => {
+  const pathname = usePathname();
+  const [, locale] = pathname?.split("/") ?? [];
+  const basePath = locale ? `/${locale}` : "";
 
-    <div className='relative z-10 max-w-7xl mx-auto px-6 text-center'>
-      <p className='text-sm uppercase tracking-[0.4em] text-emerald-200/80 mb-3'>
-        Premier League 2024/25
-      </p>
-      <h1 className='text-5xl md:text-6xl font-black mb-4 leading-tight'>
-        <span className='bg-gradient-to-r from-white to-emerald-100 bg-clip-text text-transparent'>
-          Match Schedule
-        </span>
-      </h1>
-      <p className='text-lg text-slate-300 max-w-2xl mx-auto'>
-        경기 주차별 킥오프 시간, 경기장, 방송 정보를 한 곳에서 확인하세요.
-        맞춤 필터로 보고 싶은 경기를 빠르게 찾아보세요.
-      </p>
-
-      <div className='mt-10 inline-flex items-center gap-4 px-6 py-3 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-2xl text-sm text-slate-200'>
-        <span className='uppercase tracking-[0.3em] text-emerald-300'>Current</span>
-        <span className='text-white font-semibold'>Matchweek {matchweek}</span>
-        <span className='text-slate-400 hidden md:inline'>•</span>
-        <span className='text-slate-400 hidden md:inline'>Kickoffs shown in local time</span>
+  return (
+    <section className='relative pt-28 pb-32 overflow-hidden'>
+      <div className='absolute inset-0 bg-gradient-to-br from-slate-900 via-emerald-900/30 to-slate-950'></div>
+      <div className='absolute inset-0 opacity-20'>
+        <div className='absolute top-1/3 left-1/5 w-96 h-96 bg-[#169976] rounded-full mix-blend-multiply filter blur-3xl animate-pulse'></div>
+        <div className='absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse'></div>
       </div>
-    </div>
-  </section>
-);
+
+      <div className='relative z-10 max-w-7xl mx-auto px-6 text-center'>
+        <p className='text-sm uppercase tracking-[0.4em] text-emerald-200/80 mb-3'>
+          Premier League 2024/25
+        </p>
+        <h1 className='text-5xl md:text-6xl font-black mb-4 leading-tight'>
+          <span className='bg-gradient-to-r from-white to-emerald-100 bg-clip-text text-transparent'>
+            Match Schedule
+          </span>
+        </h1>
+        <p className='text-lg text-slate-300 max-w-2xl mx-auto'>
+          경기 주차별 킥오프 시간, 경기장, 방송 정보를 한 곳에서 확인하세요.
+          맞춤 필터로 보고 싶은 경기를 빠르게 찾아보세요.
+        </p>
+
+        <div className='mt-6 flex flex-wrap items-center justify-center gap-4 text-sm font-semibold'>
+          <Link
+            href={`${basePath}/teams`}
+            className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+          >
+            팀 순위 보기
+          </Link>
+          <Link
+            href={`${basePath}/players`}
+            className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+          >
+            선수 기록 살펴보기
+          </Link>
+          <Link
+            href={`${basePath}/league`}
+            className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+          >
+            리그 인사이트
+          </Link>
+        </div>
+
+        <div className='mt-10 inline-flex items-center gap-4 px-6 py-3 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-2xl text-sm text-slate-200'>
+          <span className='uppercase tracking-[0.3em] text-emerald-300'>
+            Current
+          </span>
+          <span className='text-white font-semibold'>
+            Matchweek {matchweek}
+          </span>
+          <span className='text-slate-400 hidden md:inline'>•</span>
+          <span className='text-slate-400 hidden md:inline'>
+            Kickoffs shown in local time
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const ScheduleDay = ({
   day,
