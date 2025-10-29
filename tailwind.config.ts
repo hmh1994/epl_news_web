@@ -39,13 +39,13 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
+        "nanum-square": ["var(--font-nanum-square)", "sans-serif"],
         sans: [
           "var(--font-nanum-square)",
           "system-ui",
           "-apple-system",
           "sans-serif",
         ],
-        "nanum-square": ["var(--font-nanum-square)", "sans-serif"],
       },
     },
   },
