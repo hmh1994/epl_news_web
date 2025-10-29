@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
 import "../../globals.css";
-// import { Footer, Header } from "@/components/common";
-// import { nanumSquare } from "../../fonts";
-// import { NextIntlClientProvider } from "next-intl";
-// import { getMessages } from "next-intl/server";
+import type { Metadata } from "next";
 import { routing } from "@/shared/config/i18n/routing";
 import { notFound } from "next/navigation";
 import { AppHeader } from "@/widgets/app-header/ui/app-header";
+import { nanumSquare } from "../../fonts";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -45,8 +42,8 @@ export default async function RootLayout({
   // const messages = await getMessages();
   return (
     <html
-      lang='locale'
-      // className={`${nanumSquare.variable} font-(family-name:--font-nanum-square) `}
+      lang={locale}
+      className={`${nanumSquare.variable} ${nanumSquare.className} antialiased`}
     >
       <head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
@@ -59,7 +56,7 @@ export default async function RootLayout({
           content='nC4JTzhNvKulZbpjuDwJRX84rdXmcBRqFTZUa7Y6c4g'
         />
       </head>
-      <body className='bg-slate-950 text-white'>
+      <body className='bg-slate-950 font-nanum-square text-white'>
         <AppHeader />
         <main>{children}</main>
         {/* <NextIntlClientProvider messages={messages}>
