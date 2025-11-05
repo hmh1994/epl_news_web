@@ -115,11 +115,6 @@ export const NewsHubPage = ({ locale }: NewsHubPageProps) => {
         <h1 className='text-3xl font-bold text-white sm:text-4xl lg:text-5xl'>
           오늘의 프리미어리그 이슈를 한눈에 만나보세요
         </h1>
-        <p className='max-w-3xl text-base text-slate-300 sm:text-lg'>
-          주요 클럽의 이슈와 선수 동향부터 전술 트렌드까지, Infootball의 데이터
-          기반 분석과 현장 리포트를 카드 형태로 정리했습니다. 관심 있는 카드를
-          클릭하면 상세 기사 페이지로 이동합니다.
-        </p>
       </div>
 
       <div className='grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]'>
