@@ -18,6 +18,24 @@ import type {
 } from "@/entities/player/model/player-profile";
 import type { TeamProfile } from "@/entities/team/model/team-profile";
 
+export interface ApiResponseMeta {
+  season?: string;
+  lastUpdated?: number;
+  leagueId?: string;
+  leagueName?: string;
+  locale?: string;
+}
+
+export interface ApiListResponse<T> {
+  data: T[];
+  meta?: ApiResponseMeta;
+}
+
+export interface ApiResourceResponse<T> {
+  data: T;
+  meta?: ApiResponseMeta;
+}
+
 export interface TeamSummary {
   id: string;
   name: string;
@@ -41,24 +59,6 @@ export interface FixtureHeadToHeadRecord {
   venue: string;
   result: string;
   note?: string;
-}
-
-export interface ApiResponseMeta {
-  season?: string;
-  lastUpdated?: number;
-  leagueId?: string;
-  leagueName?: string;
-  locale?: string;
-}
-
-export interface ApiListResponse<T> {
-  data: T[];
-  meta?: ApiResponseMeta;
-}
-
-export interface ApiResourceResponse<T> {
-  data: T;
-  meta?: ApiResponseMeta;
 }
 
 export interface LeagueStandingsRow {
