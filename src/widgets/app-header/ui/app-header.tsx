@@ -6,6 +6,7 @@ import clsx from "clsx";
 
 const NAV_ITEMS: Array<{ segment: string; label: string }> = [
   { segment: "home", label: "Home" },
+  { segment: "news", label: "News" },
   { segment: "matches", label: "Matches" },
   { segment: "players", label: "Players" },
   { segment: "teams", label: "Table" },
@@ -29,7 +30,8 @@ export const AppHeader = () => {
         <nav className='hidden items-center gap-2 md:flex'>
           {NAV_ITEMS.map((item) => {
             const href = `${base}/${item.segment}`;
-            const isActive = pathname === href;
+            const isActive =
+              pathname === href || pathname?.startsWith(`${href}/`);
             return (
               <Link
                 key={item.segment}

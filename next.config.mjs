@@ -14,6 +14,11 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    domains: [
+      "resources.premierleague.com",
+      "thumbnews.nateimg.co.kr",
+      "images.unsplash.com",
+    ],
     remotePatterns: [
       {
         protocol: "https",
@@ -31,7 +36,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "*",
+        hostname: "images.unsplash.com",
         port: "",
         pathname: "/**",
         search: "",
