@@ -127,6 +127,50 @@
     - `includeAnalytics` (`boolean`, default: `true`)
   - Response: `PremiumTableResponse`
 
+### 12. 뉴스 목록
+
+- `GET /api/v1/leagues/{leagueId}/news`
+  - Query
+    - `cursor` (`string`, optional) – 커서 기반 페이지네이션
+    - `limit` (`number`, default: `10`)
+    - `categoryId` (`string`, optional)
+    - `teamId` (`string`, optional)
+    - `tagIds` (`string[]`, optional)
+    - `search` (`string`, optional)
+    - `locale`
+    - `includeFeatured` (`boolean`, optional)
+  - Response: `NewsListResponse`
+    - `meta.pagination`에 `nextCursor`, `hasNext` 등 페이징 정보 포함
+
+### 13. 뉴스 상세
+
+- `GET /api/v1/leagues/{leagueId}/news/{slug}`
+  - Query
+    - `locale`
+    - `includeRelated` (`boolean`, default: `false`) – 관련 기사 목록 포함 여부
+  - Response: `NewsArticleResponse`
+    - `data.body`는 `NewsArticleBlock[]` 형태 (문단, 이미지, 리스트 등)
+
+### 14. 뉴스 하이라이트
+
+- `GET /api/v1/leagues/{leagueId}/news/highlights`
+  - Query
+    - `limit` (`number`, default: `3`)
+    - `categoryId` (`string`, optional)
+    - `locale`
+  - Response: `NewsHighlightsResponse` (`NewsArticlePreview[]`)
+
+### 15. 관련 뉴스
+
+- `GET /api/v1/leagues/{leagueId}/news/{slug}/related`
+  - Query
+    - `limit` (`number`, default: `4`)
+    - `categoryId` (`string`, optional) – 특정 카테고리 강제
+    - `excludeIds` (`string[]`, optional) – 중복 제외용
+    - `locale`
+  - Response: `NewsRelatedResponse`
+    - `meta.articleId`와 `meta.generatedAt` 포함
+
 ## Error Handling
 
 - 비정상 응답은 HTTP status code와 함께 JSON 본문을 포함
