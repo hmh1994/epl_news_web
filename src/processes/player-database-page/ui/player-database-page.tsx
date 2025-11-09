@@ -1,16 +1,16 @@
+import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import { PlayerDatabaseWidget } from "@/widgets/player-database/ui/player-database-widget";
-import {
-  PLAYER_DATABASE,
-  PLAYER_POSITIONS,
-  PLAYER_TEAMS,
-} from "@/shared/mocks/player-database";
 
-export const PlayerDatabasePage = () => {
-  return (
-    <PlayerDatabaseWidget
-      players={PLAYER_DATABASE}
-      positions={PLAYER_POSITIONS}
-      teams={PLAYER_TEAMS}
-    />
-  );
-};
+interface PlayerDatabasePageProps {
+  players: PlayerDatabaseEntry[];
+  positions: readonly string[];
+  teams: readonly string[];
+}
+
+export const PlayerDatabasePage = ({
+  players,
+  positions,
+  teams,
+}: PlayerDatabasePageProps) => (
+  <PlayerDatabaseWidget players={players} positions={positions} teams={teams} />
+);

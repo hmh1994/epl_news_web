@@ -1,18 +1,10 @@
-import { notFound } from "next/navigation";
-
+import { MatchDetail } from "@/entities/match/model/match-detail";
 import { MatchDetailWidget } from "@/widgets/match-detail/ui/match-detail-widget";
-import { getMatchDetail } from "@/shared/mocks/match-detail";
 
 interface MatchDetailPageProps {
-  matchId: string;
+  detail: MatchDetail;
 }
 
-export const MatchDetailPage = ({ matchId }: MatchDetailPageProps) => {
-  const detail = getMatchDetail(matchId);
-
-  if (!detail) {
-    notFound();
-  }
-
+export const MatchDetailPage = ({ detail }: MatchDetailPageProps) => {
   return <MatchDetailWidget detail={detail} />;
 };

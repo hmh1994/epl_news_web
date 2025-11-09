@@ -1,11 +1,11 @@
-import { NewsArticle } from "@/entities/news/model/news-article";
+import { NewsArticle, NewsArticlePreview } from "@/entities/news/model/news-article";
 import { NewsDetailHero } from "@/entities/news/ui/news-detail-hero";
 import { NewsRelatedList } from "@/features/news-detail";
-import { EPL_NEWS_ARTICLES } from "@/shared/mocks/news/articles";
 
 interface NewsDetailPageProps {
   article: NewsArticle;
   locale: string;
+  relatedArticles: NewsArticlePreview[];
 }
 
 const publishDateFormatter = new Intl.DateTimeFormat("ko-KR", {
@@ -16,21 +16,13 @@ const publishDateFormatter = new Intl.DateTimeFormat("ko-KR", {
   minute: "2-digit",
 });
 
-const buildRelatedArticles = (article: NewsArticle) => {
-  return EPL_NEWS_ARTICLES.filter(
-    (candidate) =>
-      candidate.id !== article.id && candidate.category === article.category
-  ).slice(0, 3);
-};
-
-export const NewsDetailPage = ({ article, locale }: NewsDetailPageProps) => {
+export const NewsDetailPage = ({
+  article,
+  locale,
+  relatedArticles,
+}: NewsDetailPageProps) => {
   const basePath = locale ? `/${locale}` : "";
-  const related = buildRelatedArticles(article);
-  const fallbackArticles = EPL_NEWS_ARTICLES.filter(
-    (candidate) => candidate.id !== article.id
-  ).slice(0, 4);
-  const relatedFeed = related.length > 0 ? related : fallbackArticles;
-  const resolveHref = (candidate: NewsArticle) =>
+  const resolveHref = (candidate: NewsArticlePreview) =>
     `${basePath}/news/${candidate.slug}`;
 
   const quickHighlights = article.content;
@@ -85,7 +77,7 @@ export const NewsDetailPage = ({ article, locale }: NewsDetailPageProps) => {
           <aside>
             <NewsRelatedList
               title='함께 보면 좋은 소식'
-              articles={relatedFeed}
+              articles={relatedArticles}
               resolveHref={resolveHref}
             />
           </aside>

@@ -4,7 +4,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { TeamProfile } from "@/entities/team/model/team-profile";
 import { PlayerProfile } from "@/entities/player/model/player-profile";
-import { TEAM_PROFILES, TEAM_PLAYERS } from "@/shared/mocks/team-info";
 import { TeamInfoHero } from "@/widgets/team-info/hero/ui/team-info-hero";
 import { TeamSelectionGrid } from "@/widgets/team-info/team-grid/ui/team-selection-grid";
 import { TeamDetailSection } from "@/widgets/team-info/detail/ui/team-detail-section";
@@ -20,9 +19,14 @@ import {
   filterPlayers,
 } from "@/widgets/team-info/model/helpers";
 
-export const TeamInfoWidget = () => {
+interface TeamInfoWidgetProps {
+  teams: TeamProfile[];
+  players: PlayerProfile[];
+}
+
+export const TeamInfoWidget = ({ teams, players }: TeamInfoWidgetProps) => {
   const [selectedTeam, setSelectedTeam] = useState<TeamProfile | null>(
-    TEAM_PROFILES[0] ?? null
+    teams[0] ?? null
   );
   const [sortBy, setSortBy] = useState<SquadSortKey>("number");
   const [filterPosition, setFilterPosition] = useState<PositionFilter>("all");
@@ -30,21 +34,18 @@ export const TeamInfoWidget = () => {
   const [activeTab, setActiveTab] = useState<TeamTab>("overview");
   const [teamSearchTerm, setTeamSearchTerm] = useState("");
 
-  const teamProfiles: TeamProfile[] = TEAM_PROFILES;
-  const teamPlayers: PlayerProfile[] = TEAM_PLAYERS;
-
   const filteredTeams = useMemo(() => {
     const query = teamSearchTerm.trim().toLowerCase();
     if (!query) {
-      return teamProfiles;
+      return teams;
     }
-    return teamProfiles.filter((team) =>
+    return teams.filter((team) =>
       [team.name, team.shortName, team.city, team.stadium]
         .join(" ")
         .toLowerCase()
         .includes(query)
     );
-  }, [teamProfiles, teamSearchTerm]);
+  }, [teams, teamSearchTerm]);
 
   useEffect(() => {
     if (filteredTeams.length === 0) {
@@ -60,13 +61,13 @@ export const TeamInfoWidget = () => {
   const filteredPlayers = useMemo(
     () =>
       filterPlayers({
-        players: teamPlayers,
+        players,
         team: selectedTeam,
         filterPosition,
         searchTerm,
         sortBy,
       }),
-    [teamPlayers, selectedTeam, filterPosition, searchTerm, sortBy]
+    [players, selectedTeam, filterPosition, searchTerm, sortBy]
   );
 
   const teamStats = useMemo(
@@ -75,8 +76,8 @@ export const TeamInfoWidget = () => {
   );
 
   const positionDistribution = useMemo(
-    () => calculatePositionDistribution(selectedTeam, teamPlayers),
-    [selectedTeam, teamPlayers]
+    () => calculatePositionDistribution(selectedTeam, players),
+    [selectedTeam, players]
   );
 
   return (
@@ -95,7 +96,7 @@ export const TeamInfoWidget = () => {
                   </p>
                 </div>
                 <div className='text-[11px] text-slate-400 bg-slate-800/40 px-2.5 py-1 rounded-lg border border-white/10'>
-                  {filteredTeams.length}/{teamProfiles.length}
+                  {filteredTeams.length}/{teams.length}
                 </div>
               </div>
 

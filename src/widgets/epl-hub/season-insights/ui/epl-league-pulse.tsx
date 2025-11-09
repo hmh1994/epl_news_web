@@ -1,55 +1,74 @@
 "use client";
 
-import { ComponentType } from "react";
+import { ComponentType, useMemo } from "react";
 import { Calendar, Shield, Square, Target, Trophy } from "lucide-react";
+import type { LeagueMetaMetric } from "@/shared/api/epl/model/types";
 
-type LeagueMetric = {
-  id: string;
-  label: string;
-  value: string;
-  description?: string;
-  icon: ComponentType<{ className?: string }>;
+const ICON_MAP: Record<string, ComponentType<{ className?: string }>> = {
+  trophy: Trophy,
+  target: Target,
+  shield: Shield,
+  square: Square,
+  calendar: Calendar,
 };
 
-const LEAGUE_METRICS: LeagueMetric[] = [
+const FALLBACK_METRICS: Array<
+  LeagueMetaMetric & { icon?: string }
+> = [
   {
     id: "total-goals",
     label: "시즌 총 골",
     value: "1,026",
     description: "지난 시즌 대비 +12%",
-    icon: Trophy,
+    icon: "trophy",
   },
   {
     id: "avg-goals",
     label: "경기당 평균 골",
     value: "2.7",
     description: "공격적인 흐름이 이어지고 있어요",
-    icon: Target,
+    icon: "target",
   },
   {
     id: "fouls",
     label: "누적 파울",
     value: "1,184",
     description: "경기당 평균 15.6회",
-    icon: Shield,
+    icon: "shield",
   },
   {
     id: "cards",
     label: "옐로/레드 카드",
     value: "142",
     description: "경고 134회 · 퇴장 8회",
-    icon: Square,
+    icon: "square",
   },
   {
     id: "matches",
     label: "치른 경기 수",
     value: "372",
     description: "정규 시즌 380경기 중",
-    icon: Calendar,
+    icon: "calendar",
   },
 ];
 
-export const EplLeaguePulse = () => {
+interface EplLeaguePulseProps {
+  metrics: LeagueMetaMetric[];
+}
+
+export const EplLeaguePulse = ({ metrics }: EplLeaguePulseProps) => {
+  const displayMetrics = useMemo(() => {
+    const source =
+      metrics.length > 0 ? metrics : (FALLBACK_METRICS as LeagueMetaMetric[]);
+
+    return source.map((metric) => {
+      const Icon =
+        ICON_MAP[(metric as LeagueMetaMetric & { icon?: string }).icon ?? "trophy"] ??
+        Trophy;
+      return { metric, Icon };
+    });
+  }, [metrics]);
+
   return (
     <section className='rounded-3xl border border-white/10 bg-slate-900/50 p-8 shadow-2xl backdrop-blur-2xl'>
       <header className='mb-8 flex flex-col gap-2'>
@@ -60,8 +79,7 @@ export const EplLeaguePulse = () => {
       </header>
 
       <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
-        {LEAGUE_METRICS.map((metric) => {
-          const Icon = metric.icon;
+        {displayMetrics.map(({ metric, Icon }) => {
           return (
             <article
               key={metric.id}

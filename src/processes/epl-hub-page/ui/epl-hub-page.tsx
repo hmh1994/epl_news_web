@@ -4,15 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { LeagueBriefTable } from "@/features/league-overview/table/ui/league-brief-table";
-import { EPL_BRIEF_TABLE } from "@/shared/mocks/league-overview";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
-import { EPL_PLAYER_RANKINGS } from "@/shared/mocks/epl-hub";
 import { PlayerRankingCard } from "@/entities/player/ui/player-ranking-card";
-import { EPL_MATCH_SCHEDULE } from "@/shared/mocks/match-schedule";
-import { MatchFixture } from "@/entities/match/model/match-schedule";
+import { MatchDaySchedule, MatchFixture } from "@/entities/match/model/match-schedule";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
 import { CalendarClock, Star, Trash2, Trophy } from "lucide-react";
 import { EplLeaguePulse } from "@/widgets/epl-hub/season-insights/ui/epl-league-pulse";
+import { LeagueTableRow } from "@/entities/league/model/league-overview";
+import { PlayerRanking } from "@/entities/player/model/player-ranking";
+import type { LeagueMetaMetric } from "@/shared/api/epl/model/types";
 
 const FAVORITE_TEAMS_STORAGE_KEY = "eplFavoriteTeams";
 const FAVORITE_MATCHES_STORAGE_KEY = "eplFavoriteMatches";
@@ -35,7 +35,19 @@ const getClubDisplay = (teamId: string) => {
   };
 };
 
-export const EPLHubPage = () => {
+interface EPLHubPageProps {
+  tableRows: LeagueTableRow[];
+  playerRankings: PlayerRanking[];
+  schedule: MatchDaySchedule[];
+  leagueMetrics: LeagueMetaMetric[];
+}
+
+export const EPLHubPage = ({
+  tableRows,
+  playerRankings,
+  schedule,
+  leagueMetrics,
+}: EPLHubPageProps) => {
   const [hoveredTeam, setHoveredTeam] = useState<number | null>(null);
   const [favoriteTeams, setFavoriteTeams] = useState<string[]>([]);
   const [favoriteMatches, setFavoriteMatches] = useState<string[]>([]);
@@ -96,8 +108,8 @@ export const EPLHubPage = () => {
   }, [favoriteMatches, storageReady]);
 
   const allFixtures = useMemo(
-    () => EPL_MATCH_SCHEDULE.flatMap((day) => day.fixtures),
-    []
+    () => schedule.flatMap((day) => day.fixtures),
+    [schedule]
   );
 
   const upcomingFixtures = useMemo(
@@ -196,7 +208,7 @@ export const EPLHubPage = () => {
                 </div>
                 <div className='scrollbar-slim overflow-x-auto'>
                   <LeagueBriefTable
-                    rows={EPL_BRIEF_TABLE}
+                    rows={tableRows}
                     hoveredTeam={hoveredTeam}
                     onHover={handleHoverTeam}
                     onHoverEnd={() => setHoveredTeam(null)}
@@ -399,7 +411,7 @@ export const EPLHubPage = () => {
                   </div>
                 </div>
                 <div className='mt-6 space-y-4'>
-                  {EPL_PLAYER_RANKINGS.map((player, index) => {
+                  {playerRankings.map((player, index) => {
                     const team = TEAMS_BY_ID[player.teamId];
                     return (
                       <PlayerRankingCard
@@ -426,7 +438,7 @@ export const EPLHubPage = () => {
               리그 전체 보기
             </Link>
           </div>
-          <EplLeaguePulse />
+          <EplLeaguePulse metrics={leagueMetrics} />
         </section>
 
         <section className='mx-auto w-full max-w-7xl px-6 pb-20 lg:px-12 xl:px-16'>

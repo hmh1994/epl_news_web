@@ -1,14 +1,14 @@
+import { MatchDaySchedule } from "@/entities/match/model/match-schedule";
 import { MatchScheduleWidget } from "@/widgets/match-schedule/ui/match-schedule-widget";
-import {
-  EPL_MATCH_SCHEDULE,
-  MATCHWEEK_OPTIONS,
-} from "@/shared/mocks/match-schedule";
 
-export const MatchSchedulePage = () => {
-  return (
-    <MatchScheduleWidget
-      schedule={EPL_MATCH_SCHEDULE}
-      matchweekOptions={MATCHWEEK_OPTIONS}
-    />
-  );
-};
+interface MatchSchedulePageProps {
+  schedule: MatchDaySchedule[];
+  matchweekOptions: number[];
+}
+
+export const MatchSchedulePage = ({
+  schedule,
+  matchweekOptions,
+}: MatchSchedulePageProps) => (
+  <MatchScheduleWidget schedule={schedule} matchweekOptions={matchweekOptions} />
+);

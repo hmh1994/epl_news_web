@@ -4,14 +4,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { NewsGrid } from "@/features/news";
 import { NewsRelatedList } from "@/features/news-detail";
 import { NewsArticlePreview } from "@/entities/news/model/news-article";
-import { EPL_NEWS_ARTICLES } from "@/shared/mocks/news/articles";
 
 interface NewsHubPageProps {
   locale: string;
+  articles: NewsArticlePreview[];
 }
 
-const getSortedArticles = (): NewsArticlePreview[] => {
-  return [...EPL_NEWS_ARTICLES].sort(
+const sortArticles = (articles: NewsArticlePreview[]): NewsArticlePreview[] => {
+  return [...articles].sort(
     (a, b) =>
       new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   );
@@ -23,8 +23,8 @@ const deriveTrendingArticles = (articles: NewsArticlePreview[]) => {
 
 const LOAD_STEP = 4;
 
-export const NewsHubPage = ({ locale }: NewsHubPageProps) => {
-  const sortedArticles = useMemo(() => getSortedArticles(), []);
+export const NewsHubPage = ({ locale, articles }: NewsHubPageProps) => {
+  const sortedArticles = useMemo(() => sortArticles(articles), [articles]);
   const totalArticles = sortedArticles.length;
   const [visibleCount, setVisibleCount] = useState(() =>
     Math.min(LOAD_STEP, totalArticles)

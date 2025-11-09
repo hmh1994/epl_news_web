@@ -2,7 +2,6 @@
 
 import React, { useMemo, useState } from "react";
 import { LeagueTableTeam } from "@/entities/team/model/league-table-team";
-import { PREMIER_LEAGUE_TABLE } from "@/shared/mocks/premium-epl-table";
 import { PremiumTableHero } from "@/widgets/premium-epl-table/hero/ui/premium-table-hero";
 import { PremiumTableControls } from "@/widgets/premium-epl-table/controls/ui/premium-table-controls";
 import { PremiumTableTable } from "@/widgets/premium-epl-table/table/ui/premium-table-table";
@@ -11,13 +10,15 @@ import { PremiumTableFooter } from "@/widgets/premium-epl-table/footer/ui/premiu
 import { SortColumn } from "@/widgets/premium-epl-table/model/types";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
-export const PremiumEPLTableWidget = () => {
+interface PremiumEPLTableWidgetProps {
+  teams: LeagueTableTeam[];
+}
+
+export const PremiumEPLTableWidget = ({ teams }: PremiumEPLTableWidgetProps) => {
   const [sortBy, setSortBy] = useState<SortColumn>("position");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [searchTerm, setSearchTerm] = useState("");
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
-
-  const teams: LeagueTableTeam[] = PREMIER_LEAGUE_TABLE;
 
   const sortedTeams = useMemo(() => {
     const term = searchTerm.toLowerCase();
