@@ -3,18 +3,20 @@
 import React from "react";
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
+import { useTranslations } from "next-intl";
 
 type PlayerComparisonMatrixProps = {
   players: PlayerDatabaseEntry[];
 };
 
-const SKILL_ORDER: Array<{ key: keyof PlayerDatabaseEntry["stats"]; label: string }> = [
-  { key: "shooting", label: "Shooting" },
-  { key: "passing", label: "Passing" },
-  { key: "defending", label: "Defending" },
+const SKILL_ORDER: Array<{ key: keyof PlayerDatabaseEntry["stats"]; labelKey: string }> = [
+  { key: "shooting", labelKey: "skills.labels.shooting" },
+  { key: "passing", labelKey: "skills.labels.passing" },
+  { key: "defending", labelKey: "skills.labels.defending" },
 ];
 
 export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps) => {
+  const t = useTranslations("player.comparison.matrix");
   const gridTemplateColumns = `200px repeat(${players.length}, minmax(0, 1fr))`;
 
   const renderRow = (
@@ -44,7 +46,7 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
         <div className='min-w-[720px]'>
           <div className='grid bg-slate-900/70' style={{ gridTemplateColumns }}>
             <div className='px-4 py-6 text-sm font-semibold uppercase tracking-widest text-slate-400 flex items-center'>
-              Players
+              {t("table.players")}
             </div>
             {players.map((player) => {
               const team = TEAMS_BY_ID[player.teamId];
@@ -62,7 +64,7 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
                       {team?.name ?? player.teamId.toUpperCase()}
                     </div>
                     <div className='text-xs text-slate-500'>
-                      {player.position} • {player.age}세
+                      {t("table.positionAge", { position: player.position, age: player.age })}
                     </div>
                   </div>
                 </div>
@@ -72,19 +74,19 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
 
           <section>
             <div className='grid bg-slate-900/40' style={{ gridTemplateColumns }}>
-              <div className='px-4 py-4 text-sm font-semibold text-white'>개요</div>
+              <div className='px-4 py-4 text-sm font-semibold text-white'>{t("overview.title")}</div>
               {players.map((player) => (
                 <div key={`overview-${player.id}`} className='border-l border-white/5 px-4 py-4 space-y-2 text-sm text-white'>
                   <div className='flex items-center justify-between text-slate-300'>
-                    <span>포지션</span>
+                    <span>{t("overview.position")}</span>
                     <span className='font-semibold text-white'>{player.position}</span>
                   </div>
                   <div className='flex items-center justify-between text-slate-300'>
-                    <span>나이</span>
-                    <span className='font-semibold text-white'>{player.age}세</span>
+                    <span>{t("overview.age")}</span>
+                    <span className='font-semibold text-white'>{t("overview.ageValue", { age: player.age })}</span>
                   </div>
                   <div className='flex items-center justify-between text-slate-300'>
-                    <span>국적</span>
+                    <span>{t("overview.nationality")}</span>
                     <span className='font-semibold text-white'>{player.nationality}</span>
                   </div>
                 </div>
@@ -92,29 +94,29 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
             </div>
 
             {renderRow(
-              "득점",
+              t("rows.goals"),
               (player) => <span className='font-semibold text-green-400 text-base'>{player.goals}</span>
             )}
             {renderRow(
-              "도움",
+              t("rows.assists"),
               (player) => <span className='font-semibold text-teal-400 text-base'>{player.assists}</span>
             )}
             {renderRow(
-              "공격포인트",
+              t("rows.goalInvolvements"),
               (player) => <span className='font-semibold text-emerald-400 text-base'>{player.goals + player.assists}</span>
             )}
             {renderRow(
-              "체격",
+              t("physical.title"),
               (player) => (
                 <div className='flex items-center gap-3 text-slate-300'>
                   <div className='flex flex-col text-xs'>
-                    <span className='uppercase tracking-wide text-slate-500'>Height</span>
-                    <span className='text-white font-semibold text-sm'>{player.height} cm</span>
+                    <span className='uppercase tracking-wide text-slate-500'>{t("physical.heightLabel")}</span>
+                    <span className='text-white font-semibold text-sm'>{t("physical.heightValue", { value: player.height })}</span>
                   </div>
                   <div className='w-px h-6 bg-white/10'></div>
                   <div className='flex flex-col text-xs'>
-                    <span className='uppercase tracking-wide text-slate-500'>Weight</span>
-                    <span className='text-white font-semibold text-sm'>{player.weight} kg</span>
+                    <span className='uppercase tracking-wide text-slate-500'>{t("physical.weightLabel")}</span>
+                    <span className='text-white font-semibold text-sm'>{t("physical.weightValue", { value: player.weight })}</span>
                   </div>
                 </div>
               ),
@@ -122,13 +124,13 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
             )}
 
             <div className='grid bg-slate-900/40 border-t border-white/10' style={{ gridTemplateColumns }}>
-              <div className='px-4 py-4 text-sm font-semibold text-white'>기술 지표</div>
+              <div className='px-4 py-4 text-sm font-semibold text-white'>{t("skills.title")}</div>
               {players.map((player) => (
                 <div key={`skills-${player.id}`} className='border-l border-white/5 px-4 py-4 space-y-4'>
-                  {SKILL_ORDER.map(({ key, label }) => (
+                  {SKILL_ORDER.map(({ key, labelKey }) => (
                     <div key={key} className='space-y-1'>
                       <div className='flex items-center justify-between text-xs text-slate-400'>
-                        <span>{label}</span>
+                        <span>{t(labelKey)}</span>
                         <span className='text-white font-semibold'>{player.stats[key]}</span>
                       </div>
                       <div className='w-full h-1.5 rounded-full bg-slate-700 overflow-hidden'>
@@ -144,7 +146,7 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
             </div>
 
             {renderRow(
-              "경험치",
+              t("experience.title"),
               (player) => {
                 const totals = player.career.reduce(
                   (acc, period) => {
@@ -156,20 +158,24 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
                 );
                 return (
                   <div className='flex items-center gap-3 text-slate-300 text-sm'>
-                    <span className='font-semibold text-white'>{totals.matches} matches</span>
+                    <span className='font-semibold text-white'>
+                      {t("experience.matches", { matches: totals.matches })}
+                    </span>
                     <span className='text-xs text-slate-500'>•</span>
-                    <span className='font-semibold text-emerald-400'>{totals.goals} goals</span>
+                    <span className='font-semibold text-emerald-400'>
+                      {t("experience.goals", { goals: totals.goals })}
+                    </span>
                   </div>
                 );
               }
             )}
 
             {renderRow(
-              "최근 커리어",
+              t("career.title"),
               (player) => {
                 const latestPeriod = player.career[0];
                 if (!latestPeriod) {
-                  return <span className='text-slate-500'>데이터 없음</span>;
+                  return <span className='text-slate-500'>{t("career.empty")}</span>;
                 }
                 const latestTeam = TEAMS_BY_ID[latestPeriod.teamId];
                 return (
@@ -178,7 +184,11 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
                       {latestTeam?.name ?? latestPeriod.teamId.toUpperCase()}
                     </div>
                     <div className='text-xs text-slate-400'>
-                      {latestPeriod.year} • {latestPeriod.matches}경기 {latestPeriod.goals}골
+                      {t("career.latestSummary", {
+                        year: latestPeriod.year,
+                        matches: latestPeriod.matches,
+                        goals: latestPeriod.goals,
+                      })}
                     </div>
                   </div>
                 );

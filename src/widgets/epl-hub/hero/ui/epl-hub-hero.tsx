@@ -1,6 +1,10 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { ArrowRight, Zap } from "lucide-react";
 
 export const EplHubHero = () => {
+  const t = useTranslations("eplHub.hero");
   return (
     <section className='relative min-h-screen flex items-center justify-center overflow-hidden'>
       <div className='absolute inset-0'>
@@ -16,19 +20,19 @@ export const EplHubHero = () => {
         <div className='mb-8'>
           <div className='inline-flex items-center space-x-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-6 py-3 text-sm font-medium text-white/90 mb-6'>
             <Zap className='w-4 h-4 text-[#169976]' />
-            <span>Real-time Premier League Analytics</span>
+            <span>{t("badge")}</span>
           </div>
           <h1 className='text-7xl md:text-8xl font-black mb-6 leading-tight'>
             <span className='bg-gradient-to-r from-white via-emerald-100 to-teal-100 bg-clip-text text-transparent'>
-              The Ultimate
+              {t("headlinePrimary")}
             </span>
             <br />
             <span className='bg-gradient-to-r from-[#169976] via-emerald-400 to-teal-400 bg-clip-text text-transparent'>
-              EPL Experience
+              {t("headlineSecondary")}
             </span>
           </h1>
           <p className='text-xl md:text-2xl text-slate-300 mb-10 max-w-3xl mx-auto leading-relaxed'>
-            실시간 데이터 분석과 AI 기반 인사이트로 프리미어리그의 모든 순간을 경험하세요
+            {t("description")}
           </p>
         </div>
 
@@ -36,14 +40,14 @@ export const EplHubHero = () => {
           <button className='group relative px-10 py-5 bg-gradient-to-r from-[#169976] via-emerald-600 to-teal-600 rounded-2xl text-white text-lg font-bold shadow-2xl hover:scale-105 transform transition-all duration-300 overflow-hidden'>
             <div className='absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000'></div>
             <div className='relative flex items-center space-x-2'>
-              <span>데이터 허브 살펴보기</span>
+              <span>{t("primaryCta")}</span>
               <ArrowRight className='w-5 h-5 group-hover:translate-x-1 transition-transform' />
             </div>
           </button>
 
           <button className='group px-10 py-5 border-2 border-white/20 rounded-2xl text-white text-lg font-bold hover:bg-white/10 transition-all duration-300 backdrop-blur-xl'>
             <div className='flex items-center space-x-2'>
-              <span>팀 비교하기</span>
+              <span>{t("secondaryCta")}</span>
             </div>
           </button>
         </div>

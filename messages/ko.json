@@ -1,6 +1,344 @@
 {
+  "header": {
+    "brand": "Infootball",
+    "tagline": "프리미어리그 허브",
+    "playerCta": "선수 DB",
+    "nav": {
+      "home": "홈",
+      "news": "뉴스",
+      "matches": "경기",
+      "players": "선수",
+      "table": "순위",
+      "teams": "팀 정보",
+      "overview": "리그 개요"
+    }
+  },
+  "common": {
+    "loading": {
+      "label": "Loading",
+      "title": "데이터를 불러오는 중",
+      "message": "최신 정보를 준비하고 있으니 잠시만 기다려주세요."
+    },
+    "error": {
+      "title": "문제가 발생했습니다",
+      "message": "잠시 후 다시 시도하거나, 문제가 지속되면 관리자에게 문의해주세요.",
+      "action": "다시 시도"
+    }
+  },
+  "errors": {
+    "root": {
+      "message": "잠시 후 다시 시도해주세요. 문제가 계속되면 운영팀에 문의 부탁드립니다.",
+      "codeLabel": "오류 코드"
+    }
+  },
   "home": {
-    "title": "메인페이지에 어서오세요",
-    "description": "하이"
+    "intro": {
+      "description": "리그 순위, 주요 선수, 다가오는 경기를 먼저 살펴보고 관심 팀과 경기를 즐겨찾기에 저장해 효율적으로 확인하세요."
+    },
+    "leagueTable": {
+      "title": "리그 순위",
+      "description": "팀 옆의 즐겨찾기 버튼을 눌러 관심 팀을 등록해 보세요.",
+      "viewAll": "전체 순위 보기",
+      "favoritesCount": "{count}팀 즐겨찾음",
+      "favoritesReady": "즐겨찾기 준비됨"
+    },
+    "favoriteTeamFixtures": {
+      "title": "관심 팀 경기 일정",
+      "description": "즐겨찾기한 팀이 포함된 다음 {count}경기를 미리 체크하세요.",
+      "viewAll": "전체 일정 보기"
+    },
+    "favoriteTeams": {
+      "title": "즐겨찾는 팀",
+      "description": "자주 확인하고 싶은 팀을 관리하세요.",
+      "viewTeamInfo": "팀 정보 보기",
+      "clear": "초기화",
+      "empty": "아직 즐겨찾기한 팀이 없습니다. 순위표에서 관심 팀을 선택하면 이곳에 모아볼 수 있어요.",
+      "remove": "해제"
+    },
+    "favoriteMatches": {
+      "title": "즐겨찾는 경기",
+      "description": "저장한 경기 일정은 홈에서 바로 확인할 수 있어요.",
+      "viewAll": "전체 경기 보기",
+      "clearAll": "전체 해제"
+    },
+    "topScorers": {
+      "title": "득점왕 경쟁",
+      "description": "올 시즌을 빛내고 있는 공격수들을 확인하세요.",
+      "viewPlayers": "선수 데이터 보기"
+    },
+    "leagueInsights": {
+      "title": "리그 인사이트",
+      "cardTitle": "리그 핵심 지표",
+      "description": "한눈에 보는 프리미어리그 시즌 트렌드",
+      "viewAll": "리그 전체 보기",
+      "fallbackMetrics": {
+        "totalGoals": {
+          "label": "시즌 총 골",
+          "description": "지난 시즌 대비 +12%"
+        },
+        "avgGoals": {
+          "label": "경기당 평균 골",
+          "description": "공격적인 흐름이 이어지고 있어요"
+        },
+        "fouls": {
+          "label": "누적 파울",
+          "description": "경기당 평균 15.6회"
+        },
+        "cards": {
+          "label": "옐로/레드 카드",
+          "description": "경고 134회 · 퇴장 8회"
+        },
+        "matches": {
+          "label": "치른 경기 수",
+          "description": "정규 시즌 380경기 중"
+        }
+      }
+    },
+    "upcomingMatches": {
+      "title": "다가오는 경기",
+      "description": "즐겨찾기한 경기는 카드 오른쪽 상단에서 확인할 수 있어요.",
+      "viewSchedule": "전체 경기 일정"
+    }
+  },
+  "news": {
+    "card": {
+      "readMore": "자세히 보기",
+      "readingTime": "{minutes}분 소요"
+    },
+    "grid": {
+      "empty": "현재 표시할 뉴스가 없습니다."
+    },
+    "hub": {
+      "badge": "최신 뉴스 하이라이트",
+      "headline": "오늘의 프리미어리그 이슈를 한눈에 만나보세요",
+      "loading": "뉴스를 불러오는 중…",
+      "completed": "최신 뉴스를 모두 확인했습니다.",
+      "keywords": {
+        "title": "오늘의 키워드",
+        "items": {
+          "competition": "우승 경쟁 구도와 전술 변화",
+          "returns": "복귀 선수들의 영향력 점검",
+          "prospects": "유망주 발탁과 구단 철학 분석"
+        }
+      },
+      "trendingTitle": "많이 찾는 소식"
+    },
+    "detail": {
+      "quickLookTitle": "기사 한눈에 보기",
+      "quickLookReadingTime": "{minutes}분 소요",
+      "heroReadingTime": "{minutes}분 읽기",
+      "externalLink": "원문 기사 바로가기",
+      "relatedTitle": "함께 보면 좋은 소식"
+    }
+  },
+  "widgets": {
+    "matchSchedule": {
+      "hero": {
+        "description": "경기 주차별 킥오프 시간, 경기장, 방송 정보를 한 곳에서 확인하세요. 맞춤 필터로 보고 싶은 경기를 빠르게 찾아보세요.",
+        "teamLink": "팀 순위 보기",
+        "playerLink": "선수 기록 살펴보기",
+        "leagueLink": "리그 인사이트"
+      },
+      "spotlight": {
+        "title": "이번 라운드 하이라이트",
+        "description": "파워 지수가 높은 빅매치를 확인하세요.",
+        "kickoff": "킥오프",
+        "ranking": "순위"
+      },
+      "headToHead": {
+        "title": "맞대결 기록"
+      },
+      "empty": {
+        "title": "조건에 맞는 경기가 없습니다",
+        "description": "다른 검색어나 필터를 선택해보세요."
+      }
+    }
+  },
+  "eplHub": {
+    "header": {
+      "title": "EPL Hub",
+      "subtitle": "풋볼 데이터 허브"
+    },
+    "nav": {
+      "home": "홈",
+      "teams": "팀정보",
+      "players": "선수정보",
+      "league": "리그정보",
+      "stats": "통계"
+    },
+    "hero": {
+      "badge": "실시간 프리미어리그 애널리틱스",
+      "headlinePrimary": "The Ultimate",
+      "headlineSecondary": "EPL Experience",
+      "description": "실시간 데이터 분석과 AI 기반 인사이트로 프리미어리그의 모든 순간을 경험하세요",
+      "primaryCta": "데이터 허브 살펴보기",
+      "secondaryCta": "팀 비교하기"
+    },
+    "standings": {
+      "title": "프리미어리그 순위",
+      "description": "실시간 업데이트되는 최신 순위",
+      "viewAll": "전체보기",
+      "columns": {
+        "position": "순위",
+        "team": "팀",
+        "matches": "경기",
+        "points": "승점",
+        "goalDifference": "골득실",
+        "form": "최근 폼"
+      }
+    },
+    "playerRankings": {
+      "title": "톱 스코러",
+      "description": "이번 시즌 득점 순위"
+    },
+    "liveUpdates": {
+      "title": "실시간 업데이트",
+      "description": "최신 소식과 알림"
+    },
+    "stats": {
+      "title": "시즌 하이라이트",
+      "description": "데이터로 보는 프리미어리그의 생생한 순간들"
+    },
+    "footer": {
+      "title": "EPL Hub",
+      "description": "프리미어리그의 모든 순간을 놓치지 마세요. 실시간 분석과 전문가 인사이트로 더 깊은 축구 경험을 만들어보세요.",
+      "copyright": "© 2024 EPL Hub. Football Analytics Playground."
+    }
+  },
+  "league": {
+    "row": {
+      "favorite": "즐겨찾기"
+    }
+  },
+  "match": {
+    "fixtureCard": {
+      "status": {
+        "upcoming": "경기 예정",
+        "live": "진행 중",
+        "finished": "경기 종료"
+      },
+      "favorite": {
+        "save": "저장",
+        "saved": "관심"
+      },
+      "matchweek": "MW {week}",
+      "center": {
+        "kickoff": "킥오프",
+        "final": "FT"
+      },
+      "details": {
+        "venue": "경기장",
+        "position": "{position}위"
+      }
+    },
+    "filters": {
+      "searchPlaceholder": "팀 이름, 경기장, 도시 검색",
+      "matchweekLabel": "매치위크",
+      "matchweekChip": "MW {week}"
+    }
+  },
+  "player": {
+    "listItem": {
+      "age": "{age}세",
+      "stats": {
+        "goals": "득점",
+        "assists": "도움",
+        "goalInvolvements": "공격포인트",
+        "passing": "패스"
+      }
+    },
+    "rankingCard": {
+      "goals": "{count}골",
+      "assists": "{count}도움",
+      "rating": "★{value}"
+    },
+    "comparison": {
+      "panel": {
+        "title": "선수 비교",
+        "selectedCount": "선택한 선수 {count}/{limit}",
+        "showButton": "비교 보기",
+        "hideButton": "비교 숨기기",
+        "clearButton": "전체 해제"
+      },
+      "matrix": {
+        "table": {
+          "players": "선수",
+          "positionAge": "{position} • {age}세"
+        },
+        "overview": {
+          "title": "개요",
+          "position": "포지션",
+          "age": "나이",
+          "ageValue": "{age}세",
+          "nationality": "국적"
+        },
+        "rows": {
+          "goals": "득점",
+          "assists": "도움",
+          "goalInvolvements": "공격포인트"
+        },
+        "physical": {
+          "title": "체격",
+          "heightLabel": "Height",
+          "heightValue": "{value} cm",
+          "weightLabel": "Weight",
+          "weightValue": "{value} kg"
+        },
+        "skills": {
+          "title": "기술 지표",
+          "labels": {
+            "shooting": "슈팅",
+            "passing": "패스",
+            "defending": "수비"
+          }
+        },
+        "experience": {
+          "title": "경험치",
+          "matches": "{matches}경기",
+          "goals": "{goals}골"
+        },
+        "career": {
+          "title": "최근 커리어",
+          "empty": "데이터 없음",
+          "latestSummary": "{year} • {matches}경기 {goals}골"
+        }
+      }
+    },
+    "search": {
+      "allTeams": "모든 팀",
+      "allPositions": "모든 포지션",
+      "searchPlaceholder": "선수 이름 검색...",
+      "clearAll": "전체 해제"
+    },
+    "results": {
+      "emptyTitle": "검색 결과가 없습니다",
+      "emptyDescription": "검색어 또는 필터를 변경해보세요"
+    },
+    "hero": {
+      "title": {
+        "primary": "Player",
+        "secondary": "Database"
+      },
+      "description": "프리미어리그 최고의 선수들을 검색하고 비교해보세요",
+      "cta": {
+        "teams": "팀 순위 보기",
+        "matches": "경기 일정 확인",
+        "league": "리그 인사이트"
+      },
+      "stats": {
+        "registeredPlayers": {
+          "label": "등록 선수",
+          "caption": "현재 데이터베이스"
+        },
+        "averageGoals": {
+          "label": "평균 득점",
+          "caption": "모든 선수 기준"
+        },
+        "topRating": {
+          "label": "톱 레이팅",
+          "caption": "최고 평점"
+        }
+      }
+    }
   }
 }

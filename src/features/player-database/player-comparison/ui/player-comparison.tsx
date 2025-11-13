@@ -1,7 +1,10 @@
+"use client";
+
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import { BarChart3, ArrowRight } from "lucide-react";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 import { PlayerComparisonMatrix } from "./player-comparison-matrix";
+import { useTranslations } from "next-intl";
 
 interface PlayerComparisonProps {
   players: PlayerDatabaseEntry[];
@@ -17,6 +20,9 @@ export const PlayerComparison = ({
   onClear,
 }: PlayerComparisonProps) => {
   if (players.length < 2) return null;
+  const t = useTranslations("player.comparison.panel");
+  const selectedLabel = t("selectedCount", { count: players.length, limit: 3 });
+  const toggleLabel = showComparison ? t("hideButton") : t("showButton");
 
   return (
     <div className='fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-3xl border-t border-white/10 shadow-2xl'>
@@ -25,8 +31,8 @@ export const PlayerComparison = ({
           <div className='flex items-center gap-3'>
             <BarChart3 className='w-6 h-6 text-emerald-400' />
             <div>
-              <h3 className='text-xl font-bold text-white'>Player Comparison</h3>
-              <span className='text-slate-400 text-sm'>선택한 선수 {players.length}/3</span>
+              <h3 className='text-xl font-bold text-white'>{t("title")}</h3>
+              <span className='text-slate-400 text-sm'>{selectedLabel}</span>
             </div>
           </div>
           <div className='flex items-center gap-3'>
@@ -35,7 +41,7 @@ export const PlayerComparison = ({
               onClick={onToggle}
               className='px-6 py-3 bg-[#169976] hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors flex items-center gap-2'
             >
-              <span>{showComparison ? "Hide" : "Show"} Comparison</span>
+              <span>{toggleLabel}</span>
               <ArrowRight className='w-4 h-4' />
             </button>
             <button
@@ -43,7 +49,7 @@ export const PlayerComparison = ({
               onClick={onClear}
               className='px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl transition-colors'
             >
-              Clear All
+              {t("clearButton")}
             </button>
           </div>
         </div>

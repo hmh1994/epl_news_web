@@ -1,15 +1,14 @@
-interface NavItem {
-  name: string;
-  icon: string;
-}
+"use client";
 
-const NAV_ITEMS: NavItem[] = [
-  { name: "홈", icon: "🏠" },
-  { name: "팀정보", icon: "🏆" },
-  { name: "선수정보", icon: "👤" },
-  { name: "리그정보", icon: "📊" },
-  { name: "통계", icon: "📈" },
-];
+import { useTranslations } from "next-intl";
+
+const NAV_ITEMS = [
+  { key: "home", icon: "🏠" },
+  { key: "teams", icon: "🏆" },
+  { key: "players", icon: "👤" },
+  { key: "league", icon: "📊" },
+  { key: "stats", icon: "📈" },
+] as const;
 
 interface EplHubNavProps {
   activeTab: string;
@@ -17,17 +16,20 @@ interface EplHubNavProps {
 }
 
 export const EplHubNav = ({ activeTab, onTabChange }: EplHubNavProps) => {
+  const t = useTranslations("eplHub.nav");
+
   return (
     <nav className='hidden md:flex space-x-1'>
       {NAV_ITEMS.map((item) => {
-        const isActive = activeTab === item.name;
+        const label = t(item.key);
+        const isActive = activeTab === item.key;
         return (
           <button
-            key={item.name}
+            key={item.key}
             className={`group relative px-6 py-3 rounded-xl transition-all duration-300 overflow-hidden ${
               isActive ? "text-white" : "text-slate-300 hover:text-white"
             }`}
-            onClick={() => onTabChange(item.name)}
+            onClick={() => onTabChange(item.key)}
             type='button'
           >
             <div
@@ -39,7 +41,7 @@ export const EplHubNav = ({ activeTab, onTabChange }: EplHubNavProps) => {
             ></div>
             <div className='relative flex items-center space-x-2 font-medium'>
               <span>{item.icon}</span>
-              <span>{item.name}</span>
+              <span>{label}</span>
             </div>
           </button>
         );

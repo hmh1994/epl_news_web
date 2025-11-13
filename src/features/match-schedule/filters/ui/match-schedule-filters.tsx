@@ -1,5 +1,8 @@
+"use client";
+
 import { ChangeEvent } from "react";
 import { Filter, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface MatchScheduleFiltersProps {
   matchweeks: number[];
@@ -16,6 +19,7 @@ export const MatchScheduleFilters = ({
   searchTerm,
   onSearchTermChange,
 }: MatchScheduleFiltersProps) => {
+  const t = useTranslations("match.filters");
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     onSearchTermChange(event.target.value);
   };
@@ -27,7 +31,7 @@ export const MatchScheduleFilters = ({
           <Search className='absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400' />
           <input
             type='text'
-            placeholder='팀 이름, 경기장, 도시 검색'
+            placeholder={t("searchPlaceholder")}
             className='w-full bg-slate-800/50 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20'
             value={searchTerm}
             onChange={handleSearch}
@@ -37,7 +41,7 @@ export const MatchScheduleFilters = ({
         <div className='lg:col-span-1'>
           <div className='flex items-center space-x-2 text-slate-400 text-sm mb-2'>
             <Filter className='w-4 h-4' />
-            <span>Matchweek</span>
+            <span>{t("matchweekLabel")}</span>
           </div>
           <div className='relative'>
             <div
@@ -56,7 +60,7 @@ export const MatchScheduleFilters = ({
                         : "bg-slate-800/50 text-slate-400 hover:text-white"
                     }`}
                   >
-                    MW {matchweek}
+                    {t("matchweekChip", { week: matchweek })}
                   </button>
                 );
               })}

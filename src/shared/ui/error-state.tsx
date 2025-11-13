@@ -3,6 +3,7 @@
 import { AlertTriangle, RefreshCcw } from "lucide-react";
 import { ReactNode } from "react";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 
 interface ErrorStateProps {
   title?: string;
@@ -14,13 +15,17 @@ interface ErrorStateProps {
 }
 
 export const ErrorState = ({
-  title = "문제가 발생했습니다",
-  message = "잠시 후 다시 시도하거나, 문제가 지속되면 관리자에게 문의해주세요.",
-  actionLabel = "다시 시도",
+  title,
+  message,
+  actionLabel,
   onRetry,
   footer,
   className,
 }: ErrorStateProps) => {
+  const t = useTranslations("common.error");
+  const resolvedTitle = title ?? t("title");
+  const resolvedMessage = message ?? t("message");
+  const resolvedAction = actionLabel ?? t("action");
   return (
     <div
       className={clsx(
@@ -31,8 +36,8 @@ export const ErrorState = ({
       <div className='mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-rose-500/10 text-rose-300'>
         <AlertTriangle className='h-8 w-8' />
       </div>
-      <h1 className='text-2xl font-semibold text-white'>{title}</h1>
-      <p className='mt-3 text-sm text-slate-400'>{message}</p>
+      <h1 className='text-2xl font-semibold text-white'>{resolvedTitle}</h1>
+      <p className='mt-3 text-sm text-slate-400'>{resolvedMessage}</p>
 
       {onRetry && (
         <button
@@ -41,7 +46,7 @@ export const ErrorState = ({
           className='mt-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-emerald-400/40 hover:text-white'
         >
           <RefreshCcw className='h-4 w-4' />
-          {actionLabel}
+          {resolvedAction}
         </button>
       )}
 

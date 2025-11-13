@@ -1,4 +1,7 @@
+"use client";
+
 import { PlayerRanking } from "../model/player-ranking";
+import { useTranslations } from "next-intl";
 
 interface PlayerRankingCardProps {
   player: PlayerRanking;
@@ -7,6 +10,7 @@ interface PlayerRankingCardProps {
 }
 
 export const PlayerRankingCard = ({ player, rank, teamName }: PlayerRankingCardProps) => {
+  const t = useTranslations("player.rankingCard");
   return (
     <div className='group relative p-5 rounded-2xl hover:bg-white/5 cursor-pointer transition-all duration-300 border border-transparent hover:border-white/10'>
       <div className='flex items-center space-x-4'>
@@ -25,9 +29,15 @@ export const PlayerRankingCard = ({ player, rank, teamName }: PlayerRankingCardP
           </h4>
           <p className='text-slate-400 text-sm mb-1'>{teamName}</p>
           <div className='flex items-center space-x-4 text-sm'>
-            <span className='text-green-400 font-semibold'>{player.goals}골</span>
-            <span className='text-[#169976] font-semibold'>{player.assists}도움</span>
-            <span className='text-yellow-400 font-semibold'>★{player.rating}</span>
+            <span className='text-green-400 font-semibold'>
+              {t("goals", { count: player.goals })}
+            </span>
+            <span className='text-[#169976] font-semibold'>
+              {t("assists", { count: player.assists })}
+            </span>
+            <span className='text-yellow-400 font-semibold'>
+              {t("rating", { value: player.rating })}
+            </span>
           </div>
         </div>
       </div>

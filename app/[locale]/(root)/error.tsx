@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { ErrorState } from "@/shared/ui/error-state";
+import { useTranslations } from "next-intl";
 
 interface RootErrorProps {
   error: Error & { digest?: string };
@@ -9,6 +10,7 @@ interface RootErrorProps {
 }
 
 export default function RootError({ error, reset }: RootErrorProps) {
+  const t = useTranslations("errors.root");
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -16,12 +18,12 @@ export default function RootError({ error, reset }: RootErrorProps) {
   return (
     <div className='flex min-h-screen items-center justify-center bg-slate-950 px-6 py-16 text-white'>
       <ErrorState
-        message='잠시 후 다시 시도해주세요. 문제가 계속되면 운영팀에 문의 부탁드립니다.'
+        message={t("message")}
         onRetry={reset}
         footer={
           error.digest ? (
             <span className='font-mono text-xs text-slate-500'>
-              오류 코드: {error.digest}
+              {t("codeLabel")}: {error.digest}
             </span>
           ) : null
         }

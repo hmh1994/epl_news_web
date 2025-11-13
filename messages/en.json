@@ -1,6 +1,344 @@
 {
+  "header": {
+    "brand": "Infootball",
+    "tagline": "Premier League Hub",
+    "playerCta": "Player DB",
+    "nav": {
+      "home": "Home",
+      "news": "News",
+      "matches": "Matches",
+      "players": "Players",
+      "table": "Table",
+      "teams": "Teams",
+      "overview": "Overview"
+    }
+  },
+  "common": {
+    "loading": {
+      "label": "Loading",
+      "title": "Loading data",
+      "message": "Hold tight while we fetch the latest information."
+    },
+    "error": {
+      "title": "Something went wrong",
+      "message": "Please try again in a moment or contact support if the issue persists.",
+      "action": "Retry"
+    }
+  },
+  "errors": {
+    "root": {
+      "message": "Please try again shortly. If the problem continues, reach out to the operations team.",
+      "codeLabel": "Error code"
+    }
+  },
   "home": {
-    "title": "Welcome to the Main Page",
-    "description": "Welcome!"
+    "intro": {
+      "description": "Scan the standings, standout players, and upcoming fixtures first, then save your favorite clubs and matches for quick access."
+    },
+    "leagueTable": {
+      "title": "League table",
+      "description": "Use the star next to a club to save it for easy tracking.",
+      "viewAll": "View full table",
+      "favoritesCount": "{count} clubs saved",
+      "favoritesReady": "Favorites ready"
+    },
+    "favoriteTeamFixtures": {
+      "title": "Fixtures for your clubs",
+      "description": "Preview the next {count} fixtures featuring your saved teams.",
+      "viewAll": "View full schedule"
+    },
+    "favoriteTeams": {
+      "title": "Saved clubs",
+      "description": "Manage the teams you check most often.",
+      "viewTeamInfo": "View team info",
+      "clear": "Clear list",
+      "empty": "No saved clubs yet. Pick favorites in the table to collect them here.",
+      "remove": "Remove"
+    },
+    "favoriteMatches": {
+      "title": "Saved matches",
+      "description": "Pinned fixtures show up here for instant access.",
+      "viewAll": "View all matches",
+      "clearAll": "Clear all"
+    },
+    "topScorers": {
+      "title": "Golden Boot race",
+      "description": "See the forwards lighting up the season.",
+      "viewPlayers": "Open player data"
+    },
+    "leagueInsights": {
+      "title": "League insights",
+      "cardTitle": "Key league metrics",
+      "description": "Spot key Premier League season trends at a glance.",
+      "viewAll": "Explore league overview",
+      "fallbackMetrics": {
+        "totalGoals": {
+          "label": "Season goals",
+          "description": "+12% vs last year"
+        },
+        "avgGoals": {
+          "label": "Goals per match",
+          "description": "Attacking rhythm stays high"
+        },
+        "fouls": {
+          "label": "Total fouls",
+          "description": "15.6 on average per match"
+        },
+        "cards": {
+          "label": "Cards issued",
+          "description": "134 yellows · 8 reds"
+        },
+        "matches": {
+          "label": "Matches played",
+          "description": "Out of 380 regular fixtures"
+        }
+      }
+    },
+    "upcomingMatches": {
+      "title": "Upcoming fixtures",
+      "description": "Favorite games show a star in the card's corner.",
+      "viewSchedule": "See match calendar"
+    }
+  },
+  "news": {
+    "card": {
+      "readMore": "Read more",
+      "readingTime": "{minutes} min read"
+    },
+    "grid": {
+      "empty": "No news to show right now."
+    },
+    "hub": {
+      "badge": "Latest news spotlight",
+      "headline": "Catch today's Premier League storylines at a glance",
+      "loading": "Loading more news…",
+      "completed": "You're up to date with the latest stories.",
+      "keywords": {
+        "title": "Today's keywords",
+        "items": {
+          "competition": "Title race and tactical shifts",
+          "returns": "Impact of returning players",
+          "prospects": "Prospects and club philosophy"
+        }
+      },
+      "trendingTitle": "Trending now"
+    },
+    "detail": {
+      "quickLookTitle": "Story at a glance",
+      "quickLookReadingTime": "{minutes} min read",
+      "heroReadingTime": "{minutes} min read",
+      "externalLink": "Open original article",
+      "relatedTitle": "Recommended reads"
+    }
+  },
+  "widgets": {
+    "matchSchedule": {
+      "hero": {
+        "description": "Track kickoff times, venues, and broadcasts by matchweek, then use the filters to jump to the fixtures you care about.",
+        "teamLink": "View standings",
+        "playerLink": "See player records",
+        "leagueLink": "League insights"
+      },
+      "spotlight": {
+        "title": "Round highlights",
+        "description": "Check the highest power-index clashes.",
+        "kickoff": "Kickoff",
+        "ranking": "Ranking"
+      },
+      "headToHead": {
+        "title": "Head-to-head record"
+      },
+      "empty": {
+        "title": "No fixtures match your filters",
+        "description": "Try different search terms or filters."
+      }
+    }
+  },
+  "eplHub": {
+    "header": {
+      "title": "EPL Hub",
+      "subtitle": "Football Data Hub"
+    },
+    "nav": {
+      "home": "Home",
+      "teams": "Teams",
+      "players": "Players",
+      "league": "League",
+      "stats": "Stats"
+    },
+    "hero": {
+      "badge": "Real-time Premier League Analytics",
+      "headlinePrimary": "The Ultimate",
+      "headlineSecondary": "EPL Experience",
+      "description": "Experience every Premier League moment with real-time data and AI-driven insights.",
+      "primaryCta": "Explore the data hub",
+      "secondaryCta": "Compare teams"
+    },
+    "standings": {
+      "title": "Premier League table",
+      "description": "Live standings with instant updates",
+      "viewAll": "View all",
+      "columns": {
+        "position": "Pos",
+        "team": "Team",
+        "matches": "Played",
+        "points": "Points",
+        "goalDifference": "Goal diff",
+        "form": "Form"
+      }
+    },
+    "playerRankings": {
+      "title": "Top scorers",
+      "description": "Season goal leaderboard"
+    },
+    "liveUpdates": {
+      "title": "Live updates",
+      "description": "Latest alerts and breaking news"
+    },
+    "stats": {
+      "title": "Season highlights",
+      "description": "Premier League moments brought to life through data"
+    },
+    "footer": {
+      "title": "EPL Hub",
+      "description": "Never miss a Premier League moment. Deeper insights with real-time analysis and expert context.",
+      "copyright": "© 2024 EPL Hub. Football Analytics Playground."
+    }
+  },
+  "league": {
+    "row": {
+      "favorite": "Favorite"
+    }
+  },
+  "match": {
+    "fixtureCard": {
+      "status": {
+        "upcoming": "Upcoming",
+        "live": "Live",
+        "finished": "Full time"
+      },
+      "favorite": {
+        "save": "Save",
+        "saved": "Saved"
+      },
+      "matchweek": "MW {week}",
+      "center": {
+        "kickoff": "Kickoff",
+        "final": "FT"
+      },
+      "details": {
+        "venue": "Venue",
+        "position": "Rank {position}"
+      }
+    },
+    "filters": {
+      "searchPlaceholder": "Search club, stadium, or city",
+      "matchweekLabel": "Matchweek",
+      "matchweekChip": "MW {week}"
+    }
+  },
+  "player": {
+    "listItem": {
+      "age": "{age} yrs",
+      "stats": {
+        "goals": "Goals",
+        "assists": "Assists",
+        "goalInvolvements": "Goal involvements",
+        "passing": "Passing"
+      }
+    },
+    "rankingCard": {
+      "goals": "{count} goals",
+      "assists": "{count} assists",
+      "rating": "★{value}"
+    },
+    "comparison": {
+      "panel": {
+        "title": "Player comparison",
+        "selectedCount": "Selected players {count}/{limit}",
+        "showButton": "Show comparison",
+        "hideButton": "Hide comparison",
+        "clearButton": "Clear all"
+      },
+      "matrix": {
+        "table": {
+          "players": "Players",
+          "positionAge": "{position} • {age} yrs"
+        },
+        "overview": {
+          "title": "Overview",
+          "position": "Position",
+          "age": "Age",
+          "ageValue": "{age} yrs",
+          "nationality": "Nationality"
+        },
+        "rows": {
+          "goals": "Goals",
+          "assists": "Assists",
+          "goalInvolvements": "Goal involvements"
+        },
+        "physical": {
+          "title": "Physicals",
+          "heightLabel": "Height",
+          "heightValue": "{value} cm",
+          "weightLabel": "Weight",
+          "weightValue": "{value} kg"
+        },
+        "skills": {
+          "title": "Skill metrics",
+          "labels": {
+            "shooting": "Shooting",
+            "passing": "Passing",
+            "defending": "Defending"
+          }
+        },
+        "experience": {
+          "title": "Experience",
+          "matches": "{matches} matches",
+          "goals": "{goals} goals"
+        },
+        "career": {
+          "title": "Recent career",
+          "empty": "No data",
+          "latestSummary": "{year} • {matches} matches {goals} goals"
+        }
+      }
+    },
+    "search": {
+      "allTeams": "All teams",
+      "allPositions": "All positions",
+      "searchPlaceholder": "Search player name...",
+      "clearAll": "Clear all"
+    },
+    "results": {
+      "emptyTitle": "No results found",
+      "emptyDescription": "Try adjusting your keywords or filters"
+    },
+    "hero": {
+      "title": {
+        "primary": "Player",
+        "secondary": "Database"
+      },
+      "description": "Search and compare the Premier League's best players.",
+      "cta": {
+        "teams": "View standings",
+        "matches": "Check fixtures",
+        "league": "League insights"
+      },
+      "stats": {
+        "registeredPlayers": {
+          "label": "Players tracked",
+          "caption": "In the database"
+        },
+        "averageGoals": {
+          "label": "Avg. goals",
+          "caption": "Across all players"
+        },
+        "topRating": {
+          "label": "Top rating",
+          "caption": "Peak score"
+        }
+      }
+    }
   }
 }

@@ -1,6 +1,9 @@
+"use client";
+
 import { ReactNode } from "react";
 import { Bookmark } from "lucide-react";
 import { MatchFixture } from "@/entities/match/model/match-schedule";
+import { useTranslations } from "next-intl";
 
 interface MatchFixtureCardProps {
   fixture: MatchFixture;
@@ -18,19 +21,10 @@ interface ClubDisplay {
   crest?: ReactNode;
 }
 
-const statusStyles: Record<MatchFixture["status"], { label: string; classes: string }> = {
-  upcoming: {
-    label: "Upcoming",
-    classes: "bg-emerald-500/20 text-emerald-300 border-emerald-400/30",
-  },
-  live: {
-    label: "Live",
-    classes: "bg-red-500/20 text-red-300 border-red-400/30 animate-pulse",
-  },
-  finished: {
-    label: "Full Time",
-    classes: "bg-slate-500/20 text-slate-200 border-slate-400/30",
-  },
+const statusClasses: Record<MatchFixture["status"], string> = {
+  upcoming: "bg-emerald-500/20 text-emerald-300 border-emerald-400/30",
+  live: "bg-red-500/20 text-red-300 border-red-400/30 animate-pulse",
+  finished: "bg-slate-500/20 text-slate-200 border-slate-400/30",
 };
 
 const kickoffFormatter = new Intl.DateTimeFormat("en-GB", {
@@ -56,8 +50,16 @@ export const MatchFixtureCard = ({
   onSelect,
   isSelected = false,
 }: MatchFixtureCardProps) => {
+  const t = useTranslations("match.fixtureCard");
   const kickoff = new Date(fixture.kickoff);
-  const status = statusStyles[fixture.status];
+  const statusLabel = t(`status.${fixture.status}`);
+  const statusClassName = statusClasses[fixture.status];
+  const matchweekLabel = t("matchweek", { week: fixture.matchweek });
+  const centerLabel =
+    fixture.home.score !== undefined && fixture.away.score !== undefined
+      ? t("center.final")
+      : t("center.kickoff");
+  const favoriteLabel = isFavorite ? t("favorite.saved") : t("favorite.save");
 
   return (
     <article
@@ -69,7 +71,7 @@ export const MatchFixtureCard = ({
       <div className='flex flex-col gap-3'>
         <div className='flex items-center justify-between text-xs text-slate-400'>
           <div className='flex items-center gap-3'>
-            <span className='uppercase tracking-[0.25em] text-slate-500'>MW {fixture.matchweek}</span>
+            <span className='uppercase tracking-[0.25em] text-slate-500'>{matchweekLabel}</span>
             <span className='text-white font-semibold text-sm'>{kickoffFormatter.format(kickoff)}</span>
             <span>{dayFormatter.format(kickoff)}</span>
           </div>
@@ -94,11 +96,11 @@ export const MatchFixtureCard = ({
                   strokeWidth={isFavorite ? 2.5 : 2}
                   fill={isFavorite ? "currentColor" : "none"}
                 />
-                {isFavorite ? "관심" : "저장"}
+                {favoriteLabel}
               </button>
             )}
-            <span className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold border ${status.classes}`}>
-              {status.label}
+            <span className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold border ${statusClassName}`}>
+              {statusLabel}
             </span>
           </div>
         </div>
@@ -108,14 +110,14 @@ export const MatchFixtureCard = ({
           <div className='flex flex-col items-center gap-1 text-center text-xs text-slate-400'>
             {fixture.home.score !== undefined && fixture.away.score !== undefined ? (
               <>
-                <span className='uppercase tracking-[0.3em]'>FT</span>
+                <span className='uppercase tracking-[0.3em]'>{centerLabel}</span>
                 <span className='text-xl font-black text-white'>
                   {fixture.home.score} - {fixture.away.score}
                 </span>
               </>
             ) : (
               <>
-                <span className='uppercase tracking-[0.3em]'>Kickoff</span>
+                <span className='uppercase tracking-[0.3em]'>{centerLabel}</span>
                 <span className='text-sm text-slate-200'>{kickoffFormatter.format(kickoff)}</span>
               </>
             )}
@@ -125,7 +127,7 @@ export const MatchFixtureCard = ({
 
         <div className='flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400'>
           <div className='flex items-center gap-2'>
-            <span className='uppercase tracking-[0.25em] text-slate-500'>Venue</span>
+            <span className='uppercase tracking-[0.25em] text-slate-500'>{t("details.venue")}</span>
             <span className='text-slate-200 font-semibold'>{fixture.venue}</span>
             <span>•</span>
             <span>{fixture.city}</span>
@@ -145,6 +147,7 @@ const ClubColumn = ({
   display?: ClubDisplay;
   alignment: "left" | "right";
 }) => {
+  const t = useTranslations("match.fixtureCard");
   const shortName = display?.shortName ?? club.teamId.toUpperCase();
   const fullName = display?.name ?? club.teamId.toUpperCase();
   const isHome = alignment === "right";
@@ -164,7 +167,7 @@ const ClubColumn = ({
         </p>
         {club.leaguePosition && (
           <span className='text-[10px] font-semibold text-emerald-300'>
-            {club.leaguePosition}위
+            {t("details.position", { position: club.leaguePosition })}
           </span>
         )}
       </div>

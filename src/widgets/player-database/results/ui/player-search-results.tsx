@@ -6,6 +6,7 @@ import { PlayerGridCard } from "@/entities/player/ui/player-grid-card";
 import { PlayerListItem } from "@/entities/player/ui/player-list-item";
 import { ViewMode } from "@/features/player-database/types";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
+import { useTranslations } from "next-intl";
 
 type PlayerSearchResultsProps = {
   players: PlayerDatabaseEntry[];
@@ -24,12 +25,13 @@ export const PlayerSearchResults = ({
   onView,
   canSelect,
 }: PlayerSearchResultsProps) => {
+  const t = useTranslations("player.results");
   if (players.length === 0) {
     return (
       <div className='text-center py-20'>
         <div className='text-6xl mb-4'>🔍</div>
-        <h3 className='text-2xl font-bold text-white mb-2'>검색 결과가 없습니다</h3>
-        <p className='text-slate-400'>검색어 또는 필터를 변경해보세요</p>
+        <h3 className='text-2xl font-bold text-white mb-2'>{t("emptyTitle")}</h3>
+        <p className='text-slate-400'>{t("emptyDescription")}</p>
       </div>
     );
   }

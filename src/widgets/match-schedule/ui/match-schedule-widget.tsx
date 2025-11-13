@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { MatchScheduleFilters } from "@/features/match-schedule/filters/ui/match-schedule-filters";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
 import { MatchDaySchedule, MatchFixture } from "@/entities/match/model/match-schedule";
@@ -204,6 +205,7 @@ export const MatchScheduleWidget = ({
 };
 
 const ScheduleHero = ({ matchweek }: { matchweek: number }) => {
+  const t = useTranslations("widgets.matchSchedule.hero");
   const pathname = usePathname();
   const [, locale] = pathname?.split("/") ?? [];
   const basePath = locale ? `/${locale}` : "";
@@ -225,29 +227,26 @@ const ScheduleHero = ({ matchweek }: { matchweek: number }) => {
             Match Schedule
           </span>
         </h1>
-        <p className='text-lg text-slate-300 max-w-2xl mx-auto'>
-          경기 주차별 킥오프 시간, 경기장, 방송 정보를 한 곳에서 확인하세요.
-          맞춤 필터로 보고 싶은 경기를 빠르게 찾아보세요.
-        </p>
+        <p className='text-lg text-slate-300 max-w-2xl mx-auto'>{t("description")}</p>
 
         <div className='mt-6 flex flex-wrap items-center justify-center gap-4 text-sm font-semibold'>
           <Link
             href={`${basePath}/teams`}
             className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
           >
-            팀 순위 보기
+            {t("teamLink")}
           </Link>
           <Link
             href={`${basePath}/players`}
             className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
           >
-            선수 기록 살펴보기
+            {t("playerLink")}
           </Link>
           <Link
             href={`${basePath}/league`}
             className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
           >
-            리그 인사이트
+            {t("leagueLink")}
           </Link>
         </div>
 
@@ -399,6 +398,7 @@ const MatchweekSpotlight = ({
 }: {
   fixtures: Array<{ fixture: MatchFixture; score: number }>;
 }) => {
+  const t = useTranslations("widgets.matchSchedule.spotlight");
   if (fixtures.length === 0) return null;
 
   return (
@@ -406,9 +406,9 @@ const MatchweekSpotlight = ({
       <div className='px-8 py-6 border-b border-white/10 flex flex-wrap items-center justify-between gap-4'>
         <div>
           <p className='text-xs uppercase tracking-[0.3em] text-emerald-200/80 mb-1'>EPL spotlight</p>
-          <h2 className='text-2xl font-bold text-white'>이번 라운드 하이라이트</h2>
+          <h2 className='text-2xl font-bold text-white'>{t("title")}</h2>
         </div>
-        <p className='text-sm text-slate-300'>파워 지수가 높은 빅매치를 확인하세요.</p>
+        <p className='text-sm text-slate-300'>{t("description")}</p>
       </div>
       <div className='px-8 py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {fixtures.map(({ fixture, score }, index) => {
@@ -432,10 +432,13 @@ const MatchweekSpotlight = ({
               )}
               <div className='text-xs text-slate-400 space-y-1'>
                 <div>
-                  킥오프 · {new Date(fixture.kickoff).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}
+                  {t("kickoff")} · {new Date(fixture.kickoff).toLocaleTimeString("ko-KR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </div>
                 <div>
-                  순위 · {(fixture.home.leaguePosition ?? "-")} vs {(fixture.away.leaguePosition ?? "-")}
+                  {t("ranking")} · {(fixture.home.leaguePosition ?? "-")} vs {(fixture.away.leaguePosition ?? "-")}
                 </div>
               </div>
             </div>
@@ -483,6 +486,7 @@ const HeadToHeadList = ({
 }: {
   selectedFixture?: MatchFixture | null;
 }) => {
+  const t = useTranslations("widgets.matchSchedule.headToHead");
   if (!selectedFixture) return null;
 
   const home = TEAMS_BY_ID[selectedFixture.home.teamId];
@@ -493,7 +497,7 @@ const HeadToHeadList = ({
 
   return (
     <div className='space-y-3'>
-      <p className='text-xs uppercase tracking-[0.3em] text-slate-500'>맞대결 기록</p>
+      <p className='text-xs uppercase tracking-[0.3em] text-slate-500'>{t("title")}</p>
       <div className='bg-slate-800/40 border border-white/10 rounded-2xl px-4 py-4 space-y-2'>
         <div className='text-sm font-semibold text-white'>
           {(home?.shortName ?? selectedFixture.home.teamId.toUpperCase())} vs {(
@@ -514,10 +518,13 @@ const HeadToHeadList = ({
   );
 };
 
-const EmptyState = () => (
-  <div className='bg-slate-900/40 border border-white/10 rounded-3xl p-16 text-center text-slate-300'>
-    <div className='text-6xl mb-4'>📅</div>
-    <h3 className='text-2xl font-bold text-white mb-2'>조건에 맞는 경기가 없습니다</h3>
-    <p className='text-slate-400'>다른 검색어나 필터를 선택해보세요.</p>
-  </div>
-);
+const EmptyState = () => {
+  const t = useTranslations("widgets.matchSchedule.empty");
+  return (
+    <div className='bg-slate-900/40 border border-white/10 rounded-3xl p-16 text-center text-slate-300'>
+      <div className='text-6xl mb-4'>📅</div>
+      <h3 className='text-2xl font-bold text-white mb-2'>{t("title")}</h3>
+      <p className='text-slate-400'>{t("description")}</p>
+    </div>
+  );
+};

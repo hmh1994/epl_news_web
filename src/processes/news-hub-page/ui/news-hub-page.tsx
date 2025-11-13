@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { NewsGrid } from "@/features/news";
 import { NewsRelatedList } from "@/features/news-detail";
 import { NewsArticlePreview } from "@/entities/news/model/news-article";
+import { useTranslations } from "next-intl";
 
 interface NewsHubPageProps {
   locale: string;
@@ -24,6 +25,9 @@ const deriveTrendingArticles = (articles: NewsArticlePreview[]) => {
 const LOAD_STEP = 4;
 
 export const NewsHubPage = ({ locale, articles }: NewsHubPageProps) => {
+  const hubT = useTranslations("news.hub");
+  const gridT = useTranslations("news.grid");
+  const cardT = useTranslations("news.card");
   const sortedArticles = useMemo(() => sortArticles(articles), [articles]);
   const totalArticles = sortedArticles.length;
   const [visibleCount, setVisibleCount] = useState(() =>
@@ -110,20 +114,28 @@ export const NewsHubPage = ({ locale, articles }: NewsHubPageProps) => {
     <div className='mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-12 xl:px-16'>
       <div className='mb-10 space-y-4'>
         <p className='inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-emerald-200'>
-          최신 뉴스 하이라이트
+          {hubT("badge")}
         </p>
         <h1 className='text-3xl font-bold text-white sm:text-4xl lg:text-5xl'>
-          오늘의 프리미어리그 이슈를 한눈에 만나보세요
+          {hubT("headline")}
         </h1>
       </div>
 
       <div className='grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]'>
         <section className='space-y-8'>
-          <NewsGrid articles={visibleArticles} resolveHref={resolveHref} />
+          <NewsGrid
+            articles={visibleArticles}
+            resolveHref={resolveHref}
+            emptyLabel={gridT("empty")}
+            readMoreLabel={cardT("readMore")}
+            formatReadingTime={(minutes) =>
+              cardT("readingTime", { minutes })
+            }
+          />
           {isLoading && (
             <div className='flex items-center justify-center gap-3 text-sm text-slate-400'>
               <span className='inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-emerald-400' />
-              <span>뉴스를 불러오는 중…</span>
+              <span>{hubT("loading")}</span>
             </div>
           )}
           <div
@@ -133,23 +145,23 @@ export const NewsHubPage = ({ locale, articles }: NewsHubPageProps) => {
           />
           {!hasMore && !isLoading && (
             <p className='text-center text-sm text-slate-500'>
-              최신 뉴스를 모두 확인했습니다.
+              {hubT("completed")}
             </p>
           )}
         </section>
 
         <aside className='space-y-8'>
           <div className='rounded-3xl border border-white/10 bg-slate-900/40 p-6 text-sm text-slate-300'>
-            <h2 className='text-lg font-semibold text-white'>오늘의 키워드</h2>
+            <h2 className='text-lg font-semibold text-white'>{hubT("keywords.title")}</h2>
             <ul className='mt-4 space-y-2 text-sm'>
-              <li>· 우승 경쟁 구도와 전술 변화</li>
-              <li>· 복귀 선수들의 영향력 점검</li>
-              <li>· 유망주 발탁과 구단 철학 분석</li>
+              {["competition", "returns", "prospects"].map((key) => (
+                <li key={key}>· {hubT(`keywords.items.${key}`)}</li>
+              ))}
             </ul>
           </div>
 
           <NewsRelatedList
-            title='많이 찾는 소식'
+            title={hubT("trendingTitle")}
             articles={trendingArticles}
             resolveHref={resolveHref}
           />

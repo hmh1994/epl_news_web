@@ -14,9 +14,11 @@ const newsDateFormatter = new Intl.DateTimeFormat("ko-KR", {
 interface NewsCardProps {
   article: NewsArticlePreview;
   href: string;
+  readMoreLabel: string;
+  readingTimeLabel?: string;
 }
 
-export const NewsCard = ({ article, href }: NewsCardProps) => {
+export const NewsCard = ({ article, href, readMoreLabel, readingTimeLabel }: NewsCardProps) => {
   const showImage = Boolean(article.imageUrl);
 
   return (
@@ -54,9 +56,7 @@ export const NewsCard = ({ article, href }: NewsCardProps) => {
           </span>
           {article.author && <span>{article.author}</span>}
           <span>{newsDateFormatter.format(new Date(article.publishedAt))}</span>
-          {article.readingTimeMinutes && (
-            <span>{`${article.readingTimeMinutes}분 소요`}</span>
-          )}
+          {readingTimeLabel && <span>{readingTimeLabel}</span>}
           <span className='text-emerald-500'>{article.source}</span>
         </div>
 
@@ -83,7 +83,7 @@ export const NewsCard = ({ article, href }: NewsCardProps) => {
         )}
 
         <span className='mt-auto inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition group-hover:gap-3'>
-          자세히 보기
+          {readMoreLabel}
           <span aria-hidden className='transition-transform group-hover:translate-x-1'>
             →
           </span>

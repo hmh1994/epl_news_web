@@ -1,4 +1,7 @@
+"use client";
+
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
+import { useTranslations } from "next-intl";
 
 interface PlayerListItemProps {
   player: PlayerDatabaseEntry;
@@ -7,6 +10,8 @@ interface PlayerListItemProps {
 }
 
 export const PlayerListItem = ({ player, onView, teamName }: PlayerListItemProps) => {
+  const t = useTranslations("player.listItem");
+  const ageLabel = t("age", { age: player.age });
   return (
     <div
       className='group bg-slate-900/60 backdrop-blur-3xl rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-xl cursor-pointer'
@@ -24,7 +29,7 @@ export const PlayerListItem = ({ player, onView, teamName }: PlayerListItemProps
             <div className='flex items-center space-x-4 text-sm text-slate-400'>
               <span>{teamName}</span>
               <span>•</span>
-              <span>{player.age}세</span>
+              <span>{ageLabel}</span>
               <span>•</span>
               <span>{player.nationality}</span>
             </div>
@@ -34,23 +39,23 @@ export const PlayerListItem = ({ player, onView, teamName }: PlayerListItemProps
         <div className='flex items-center space-x-8 text-center'>
           <div>
             <div className='text-2xl font-bold text-green-400'>{player.goals}</div>
-            <div className='text-xs text-slate-400'>Goals</div>
+            <div className='text-xs text-slate-400'>{t("stats.goals")}</div>
           </div>
           <div>
             <div className='text-2xl font-bold text-teal-400'>{player.assists}</div>
-            <div className='text-xs text-slate-400'>Assists</div>
+            <div className='text-xs text-slate-400'>{t("stats.assists")}</div>
           </div>
           <div className='w-20'>
             <div className='text-2xl font-bold text-emerald-400'>
               {player.goals + player.assists}
             </div>
             <div className='text-xs text-slate-400 leading-tight whitespace-normal'>
-              Goal Involvements
+              {t("stats.goalInvolvements")}
             </div>
           </div>
           <div>
             <div className='text-lg font-semibold text-white'>{player.stats.passing}</div>
-            <div className='text-xs text-slate-400'>Passing</div>
+            <div className='text-xs text-slate-400'>{t("stats.passing")}</div>
           </div>
         </div>
       </div>

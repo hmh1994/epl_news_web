@@ -1,5 +1,8 @@
+"use client";
+
 import { LeagueTableRow } from "@/entities/league/model/league-overview";
 import { Star } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface LeagueBriefRowProps {
   row: LeagueTableRow;
@@ -44,6 +47,7 @@ export const LeagueBriefRow = ({
   isFavorite,
 }: LeagueBriefRowProps) => {
   const positionStyle = getPositionStyle(row.pos);
+  const t = useTranslations("league.row");
 
   return (
     <tr
@@ -98,7 +102,7 @@ export const LeagueBriefRow = ({
                 strokeWidth={isFavorite ? 2.5 : 2}
                 fill={isFavorite ? "currentColor" : "none"}
               />
-              즐겨찾기
+              {t("favorite")}
             </button>
           )}
         </div>

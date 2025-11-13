@@ -1,7 +1,8 @@
 "use client";
 
-import { ComponentType, useMemo } from "react";
+import { ComponentType, useCallback, useMemo } from "react";
 import { Calendar, Shield, Square, Target, Trophy } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { LeagueMetaMetric } from "@/shared/api/epl/model/types";
 
 const ICON_MAP: Record<string, ComponentType<{ className?: string }>> = {
@@ -12,70 +13,112 @@ const ICON_MAP: Record<string, ComponentType<{ className?: string }>> = {
   calendar: Calendar,
 };
 
+type LocalizableMetric = LeagueMetaMetric & {
+  translationKey?: string;
+};
+
 const FALLBACK_METRICS: Array<
-  LeagueMetaMetric & { icon?: string }
+  Omit<LocalizableMetric, "label" | "description">
 > = [
   {
     id: "total-goals",
-    label: "시즌 총 골",
     value: "1,026",
-    description: "지난 시즌 대비 +12%",
     icon: "trophy",
+    translationKey: "totalGoals",
   },
   {
     id: "avg-goals",
-    label: "경기당 평균 골",
     value: "2.7",
-    description: "공격적인 흐름이 이어지고 있어요",
     icon: "target",
+    translationKey: "avgGoals",
   },
   {
     id: "fouls",
-    label: "누적 파울",
     value: "1,184",
-    description: "경기당 평균 15.6회",
     icon: "shield",
+    translationKey: "fouls",
   },
   {
     id: "cards",
-    label: "옐로/레드 카드",
     value: "142",
-    description: "경고 134회 · 퇴장 8회",
     icon: "square",
+    translationKey: "cards",
   },
   {
     id: "matches",
-    label: "치른 경기 수",
     value: "372",
-    description: "정규 시즌 380경기 중",
     icon: "calendar",
+    translationKey: "matches",
   },
 ];
+
+const TRANSLATION_KEY_BY_ID = FALLBACK_METRICS.reduce<Record<string, string>>(
+  (result, metric) => {
+    if (metric.translationKey) {
+      result[metric.id] = metric.translationKey;
+    }
+    return result;
+  },
+  {}
+);
 
 interface EplLeaguePulseProps {
   metrics: LeagueMetaMetric[];
 }
 
 export const EplLeaguePulse = ({ metrics }: EplLeaguePulseProps) => {
+  const t = useTranslations("home.leagueInsights");
+
+  const localizeMetric = useCallback(
+    (metric: LocalizableMetric) => {
+      const translationKey =
+        metric.translationKey ?? TRANSLATION_KEY_BY_ID[metric.id];
+
+      if (!translationKey) {
+        return metric;
+      }
+
+      const localizedLabel = t(`fallbackMetrics.${translationKey}.label`);
+      const localizedDescription = t(
+        `fallbackMetrics.${translationKey}.description`
+      );
+
+      return {
+        ...metric,
+        translationKey,
+        label: localizedLabel,
+        description: metric.description ?? localizedDescription,
+      };
+    },
+    [t]
+  );
+
+  const localizedFallbackMetrics = useMemo(() => {
+    return FALLBACK_METRICS.map((metric) =>
+      localizeMetric(metric as LocalizableMetric)
+    );
+  }, [localizeMetric]);
+
   const displayMetrics = useMemo(() => {
     const source =
-      metrics.length > 0 ? metrics : (FALLBACK_METRICS as LeagueMetaMetric[]);
+      metrics.length > 0 ? metrics : localizedFallbackMetrics;
 
     return source.map((metric) => {
-      const Icon =
-        ICON_MAP[(metric as LeagueMetaMetric & { icon?: string }).icon ?? "trophy"] ??
-        Trophy;
-      return { metric, Icon };
+      const localizedMetric = localizeMetric(metric as LocalizableMetric);
+      const iconKey = (localizedMetric.icon ?? "trophy") as keyof typeof ICON_MAP;
+      const Icon = ICON_MAP[iconKey] ?? Trophy;
+
+      return { metric: localizedMetric, Icon };
     });
-  }, [metrics]);
+  }, [metrics, localizedFallbackMetrics, localizeMetric]);
 
   return (
     <section className='rounded-3xl border border-white/10 bg-slate-900/50 p-8 shadow-2xl backdrop-blur-2xl'>
       <header className='mb-8 flex flex-col gap-2'>
-        <h2 className='text-2xl font-semibold text-white'>리그 핵심 지표</h2>
-        <p className='text-sm text-slate-400'>
-          한눈에 보는 프리미어리그 시즌 트렌드
-        </p>
+        <h2 className='text-2xl font-semibold text-white'>
+          {t("cardTitle", { defaultValue: t("title") })}
+        </h2>
+        <p className='text-sm text-slate-400'>{t("description")}</p>
       </header>
 
       <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>

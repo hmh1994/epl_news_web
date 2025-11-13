@@ -16,7 +16,7 @@ import {
 } from "@/shared/mocks/epl-hub";
 
 export const EplHubWidget = () => {
-  const [activeTab, setActiveTab] = useState("홈");
+  const [activeTab, setActiveTab] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {

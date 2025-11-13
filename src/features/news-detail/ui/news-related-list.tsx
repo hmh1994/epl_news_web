@@ -4,13 +4,13 @@ import { NewsSidebarCard } from "@/entities/news/ui/news-sidebar-card";
 interface NewsRelatedListProps {
   articles: NewsArticlePreview[];
   resolveHref: (article: NewsArticlePreview) => string;
-  title?: string;
+  title: string;
 }
 
 export const NewsRelatedList = ({
   articles,
   resolveHref,
-  title = "최신 소식",
+  title,
 }: NewsRelatedListProps) => {
   if (articles.length === 0) {
     return null;

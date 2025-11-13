@@ -4,6 +4,8 @@ import { routing } from "@/shared/config/i18n/routing";
 import { notFound } from "next/navigation";
 import { AppHeader } from "@/widgets/app-header/ui/app-header";
 import { nanumSquare } from "../../fonts";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -39,7 +41,7 @@ export default async function RootLayout({
   if (!routing.locales.includes(locale)) {
     notFound();
   }
-  // const messages = await getMessages();
+  const messages = await getMessages();
   return (
     <html
       lang={locale}
@@ -57,12 +59,10 @@ export default async function RootLayout({
         />
       </head>
       <body className='bg-slate-950 font-nanum-square text-white'>
-        <AppHeader />
-        <main>{children}</main>
-        {/* <NextIntlClientProvider messages={messages}>
-          <Header />
-          <Footer />
-        </NextIntlClientProvider> */}
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          <AppHeader />
+          <main>{children}</main>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

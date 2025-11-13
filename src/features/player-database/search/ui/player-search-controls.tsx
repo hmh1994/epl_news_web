@@ -1,6 +1,9 @@
+"use client";
+
 import { ChangeEvent } from "react";
 import { Search, Grid, List, X } from "lucide-react";
 import { PlayerFilter, ViewMode } from "@/features/player-database/types";
+import { useTranslations } from "next-intl";
 
 interface PlayerSearchControlsProps {
   searchTerm: string;
@@ -35,13 +38,14 @@ export const PlayerSearchControls = ({
   onFilterRemove,
   onClearFilters,
 }: PlayerSearchControlsProps) => {
+  const t = useTranslations("player.search");
   const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
     onSearchChange(event.target.value);
   };
 
   const renderTeamOption = (team: string) => {
     if (team === "all") {
-      return "모든 팀";
+      return t("allTeams");
     }
     return formatTeamOption ? formatTeamOption(team) : team;
   };
@@ -57,7 +61,7 @@ export const PlayerSearchControls = ({
           >
             {positionOptions.map((pos) => (
               <option key={pos} value={pos}>
-                {pos === "all" ? "모든 포지션" : pos}
+                {pos === "all" ? t("allPositions") : pos}
               </option>
             ))}
           </select>
@@ -81,7 +85,7 @@ export const PlayerSearchControls = ({
           <Search className='absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400' />
           <input
             type='text'
-            placeholder='선수 이름 검색...'
+            placeholder={t("searchPlaceholder")}
             className='w-full bg-slate-800/50 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20'
             value={searchTerm}
             onChange={handleSearchInput}
@@ -144,7 +148,7 @@ export const PlayerSearchControls = ({
             onClick={onClearFilters}
             className='text-slate-400 hover:text-white text-sm font-medium px-4 py-2 rounded-xl hover:bg-slate-800/50'
           >
-            Clear All
+            {t("clearAll")}
           </button>
         </div>
       )}

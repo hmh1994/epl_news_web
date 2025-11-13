@@ -1,4 +1,7 @@
+"use client";
+
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 
 interface LoadingStateProps {
   title?: string;
@@ -7,10 +10,15 @@ interface LoadingStateProps {
 }
 
 export const LoadingState = ({
-  title = "데이터를 불러오는 중",
-  message = "최신 정보를 준비하고 있으니 잠시만 기다려주세요.",
+  title,
+  message,
   className,
 }: LoadingStateProps) => {
+  const t = useTranslations("common.loading");
+  const resolvedTitle = title ?? t("title");
+  const resolvedMessage = message ?? t("message");
+  const statusLabel = t("label");
+
   return (
     <div
       className={clsx(
@@ -21,11 +29,11 @@ export const LoadingState = ({
       <div className='flex items-center gap-4 text-emerald-300'>
         <span className='inline-flex h-3 w-3 animate-ping rounded-full bg-emerald-400' />
         <span className='text-sm font-medium uppercase tracking-wide'>
-          Loading
+          {statusLabel}
         </span>
       </div>
-      <h1 className='mt-6 text-2xl font-semibold text-white'>{title}</h1>
-      <p className='mt-3 text-sm text-slate-400'>{message}</p>
+      <h1 className='mt-6 text-2xl font-semibold text-white'>{resolvedTitle}</h1>
+      <p className='mt-3 text-sm text-slate-400'>{resolvedMessage}</p>
     </div>
   );
 };

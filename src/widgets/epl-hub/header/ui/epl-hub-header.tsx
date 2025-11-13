@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { EplHubNav } from "@/features/epl-hub-nav/ui/epl-hub-nav";
 
 interface EplHubHeaderProps {
@@ -11,6 +14,7 @@ export const EplHubHeader = ({
   onTabChange,
   isScrolled,
 }: EplHubHeaderProps) => {
+  const t = useTranslations("eplHub.header");
   return (
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${
@@ -30,10 +34,10 @@ export const EplHubHeader = ({
             </div>
             <div>
               <span className='text-3xl font-black bg-gradient-to-r from-white via-emerald-100 to-teal-100 bg-clip-text text-transparent'>
-                EPL Hub
+                {t("title")}
               </span>
               <div className='text-xs text-slate-400 font-medium'>
-                Football Data Hub
+                {t("subtitle")}
               </div>
             </div>
           </div>
