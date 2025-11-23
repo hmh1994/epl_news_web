@@ -132,9 +132,6 @@ const buildMockPlayerDatabase = (
   };
 };
 
-const toApiPlayerRanking = (
-  ranking: (typeof EPL_PLAYER_RANKINGS)[number]
-) => {
-  const { value: _omitValue, ...rest } = ranking;
-  return rest;
-};
+const toApiPlayerRanking = (ranking: (typeof EPL_PLAYER_RANKINGS)[number]) => ({
+  ...ranking,
+});

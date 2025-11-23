@@ -2130,6 +2130,8 @@
 - mock는 `data.team`과 `data.squad`가 프런트 타입(숫자 ID, `PlayerProfile` enum)을 그대로 사용
 - <span style="color:#d00">실제 스쿼드 `position` 값</span>은 `GOALKEEPER` 등 다른 문자열이고 `rating` 값도 없음
 - 실제 응답 루트도 `{ team, squad, meta }`로 다르며 `lastUpdated` 없음
+- <span style="color:#d00">일부 응답은 `teamId` 요청값을 비워서 반환</span>하므로 프런트가 기본 팀으로 보정해야 함
+- <span style="color:#d00">백엔드가 빈 `teamId`로 응답하는 케이스가 존재</span>해, 프런트는 기본 팀으로 보정해야 함
 
 **누락 필드 & 의미**
 
@@ -2140,6 +2142,8 @@
 | `PlayerProfile.rating` | `팀 상세 > 스쿼드 테이블` 내 폼 점수 컬럼 |
 | `PlayerProfile.teamId` / `nationalityName` | `스쿼드 테이블`의 팀 링크 및 국기 라벨 |
 | `meta.lastUpdated` | `팀 상세 > 스쿼드 헤더`의 데이터 기준 시각 |
+| (요청 파라미터) `teamId` | 빈 문자열로 내려오면 특정 팀 식별 불가 → mock fallback 필요 |
+| (요청 파라미터) `teamId` | 빈 문자열로 내려오면 특정 팀을 식별할 수 없어 mock fallback 필요 |
 ## 4. 리그 메타데이터 (League Metadata)
 
 **fetchLeagueMetadata (USE_MOCK_API)**
