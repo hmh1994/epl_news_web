@@ -1,11 +1,15 @@
 import { apiClient } from "@/shared/api/client";
-import { USE_MOCK_API, MOCK_LOCALE, MOCK_SEASON } from "@/shared/config/mock-api";
+import {
+  USE_MOCK_API,
+  MOCK_LOCALE,
+  MOCK_SEASON,
+} from "@/shared/config/mock-api";
 import type {
   TeamProfilesResponse,
   TeamSquadResponse,
   TeamsInfoResponse,
 } from "@/shared/api/epl/model/types";
-import { API_ROOT, RequestOptions, teamPath, leaguePath } from "./base";
+import { RequestOptions, leaguePath } from "./base";
 import { MOCK_TEAMS } from "@/shared/mocks/data/teams";
 import { TEAM_PLAYERS, TEAM_PROFILES } from "@/shared/mocks/team-info";
 
@@ -16,6 +20,7 @@ export interface TeamsInfoParams {
 }
 
 export const fetchTeamsInfo = async (
+  leagueId: string,
   params?: TeamsInfoParams,
   options?: RequestOptions
 ): Promise<TeamsInfoResponse> => {
@@ -46,7 +51,7 @@ export const fetchTeamsInfo = async (
     };
   }
 
-  return apiClient.get<TeamsInfoResponse>(`${API_ROOT}/teams`, {
+  return apiClient.get<TeamsInfoResponse>(leaguePath(leagueId, `/teams`), {
     ...options,
     params: {
       leagueId: params?.leagueId,
@@ -113,6 +118,7 @@ export interface TeamSquadParams {
 }
 
 export const fetchTeamSquad = async (
+  leagueId: string,
   teamId: string,
   params?: TeamSquadParams,
   options?: RequestOptions
@@ -121,13 +127,16 @@ export const fetchTeamSquad = async (
     return buildMockTeamSquad(teamId, params);
   }
 
-  return apiClient.get<TeamSquadResponse>(teamPath(teamId, "/squad"), {
-    ...options,
-    params: {
-      season: params?.season,
-      locale: params?.locale,
-    },
-  });
+  return apiClient.get<TeamSquadResponse>(
+    leaguePath(leagueId, `/teams/${teamId}/squad`),
+    {
+      ...options,
+      params: {
+        season: params?.season,
+        locale: params?.locale,
+      },
+    }
+  );
 };
 
 const findTeamProfile = (teamId: string) => {
@@ -138,7 +147,8 @@ const findTeamProfile = (teamId: string) => {
         team.shortName.toLowerCase() === normalized ||
         String(team.id) === normalized ||
         team.name.toLowerCase() === normalized
-    ) ?? TEAM_PROFILES.find((team) => team.shortName.toLowerCase() === normalized)
+    ) ??
+    TEAM_PROFILES.find((team) => team.shortName.toLowerCase() === normalized)
   );
 };
 
