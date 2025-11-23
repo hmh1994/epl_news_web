@@ -379,8 +379,8 @@
 | 필드 | 의미/용도 |
 | --- | --- |
 | `data` 래핑 | `ApiListResponse<T>` 계약 준수를 위한 컨테이너. 공통 에러/캐싱 로직이 이 형태를 기대함 |
-| `TeamSummary.crest` | 팀 엠블럼/이미지. 리스트·카드 컴포넌트에서 필수 시각 요소 |
-| `meta.lastUpdated` | 응답 기준 시각. 캐싱 무효화 및 “업데이트 시간” UI에 사용 |
+| `TeamSummary.crest` | `Teams > 탐색 리스트` 카드 썸네일 이미지 |
+| `meta.lastUpdated` | `Teams > 상단 알림 배지`의 “업데이트 시간” 표기 및 캐싱 기준 |
 ## 2. 팀 프로필 (Team Profiles)
 
 **fetchTeamProfiles (USE_MOCK_API)**
@@ -1667,13 +1667,13 @@
 | 필드 | 의미/용도 |
 | --- | --- |
 | `data` 래핑 | 공통 API 클라이언트에서 사용하는 표준 응답 포맷 |
-| `filters.positions` | UI 필터 패널에서 제공할 포지션 옵션 목록 |
-| `TeamProfile.colors.primary` / `TeamProfile.colors.secondary` | 홈/원정 컬러 코드. 카드·그래프 색상 지정에 사용 |
-| `TeamProfile.avgAge` / `trophies` | 구단 평균 나이, 우승 기록 등 핵심 지표 |
-| `TeamProfile.form` | 최근 경기 결과 5개. 하이라이트/폼 가이드에 사용 |
-| `TeamProfile.description` / `keyStats`(`possession`, `passAccuracy`, `shotsPerGame`, `cleanSheets`) | 상세 소개 및 핵심 통계. 디테일 패널 콘텐츠 |
-| `TeamProfile.nationality` | 감독/팀 국적 표시 텍스트 |
-| `meta.lastUpdated`, `meta.locale` | 데이터 기준 시각 및 응답 언어 정보 |
+| `filters.positions` | `팀 프로필 페이지 > 좌측 필터 패널`의 포지션 드롭다운 |
+| `TeamProfile.colors.primary` / `TeamProfile.colors.secondary` | `팀 프로필 > Hero 배경 & 컬러 배지` |
+| `TeamProfile.avgAge` / `trophies` | `팀 프로필 > 핵심 지표 카드` (평균 나이/우승 기록) |
+| `TeamProfile.form` | `팀 프로필 > 최근 경기 폼` 슬라이더 |
+| `TeamProfile.description` / `keyStats`(`possession`, `passAccuracy`, `shotsPerGame`, `cleanSheets`) | `팀 프로필 > 소개 섹션` 및 `Key Stats` 카드 |
+| `TeamProfile.nationality` | `팀 프로필 > 감독 정보 배지` |
+| `meta.lastUpdated`, `meta.locale` | `팀 프로필 > 데이터 스탬프` 및 i18n fallback |
 ## 3. 팀 스쿼드 (Team Squad)
 
 **fetchTeamSquad (USE_MOCK_API, teamId=1)**
@@ -2136,10 +2136,10 @@
 | 필드 | 의미/용도 |
 | --- | --- |
 | `data` 래핑 | `ApiResourceResponse` 규약. 프런트 공통 훅이 요구 |
-| `TeamProfile`(`colors.primary/secondary`, `form`, `avgAge`, `trophies`, `description`, `keyStats.possession/passAccuracy/shotsPerGame/cleanSheets`, `nationality`) | 팀 프로필 화면과 동일한 확장 정보를 재사용. 상세 패널/배경 연동 컴포넌트가 의존 |
-| `PlayerProfile.rating` | 선수 폼 지표. 스쿼드 테이블 보조 정보 |
-| `PlayerProfile.teamId` / `nationalityName` | 연관 팀 ID와 국적 이름(국기·국적명 분리) |
-| `meta.lastUpdated` | 스쿼드 정보의 최신화 시점 |
+| `TeamProfile`(`colors.primary/secondary`, `form`, `avgAge`, `trophies`, `description`, `keyStats.possession/passAccuracy/shotsPerGame/cleanSheets`, `nationality`) | `팀 상세 페이지 > Hero & 개요 패널` 재사용 데이터 |
+| `PlayerProfile.rating` | `팀 상세 > 스쿼드 테이블` 내 폼 점수 컬럼 |
+| `PlayerProfile.teamId` / `nationalityName` | `스쿼드 테이블`의 팀 링크 및 국기 라벨 |
+| `meta.lastUpdated` | `팀 상세 > 스쿼드 헤더`의 데이터 기준 시각 |
 ## 4. 리그 메타데이터 (League Metadata)
 
 **fetchLeagueMetadata (USE_MOCK_API)**
@@ -2342,8 +2342,8 @@
 | 필드 | 의미/용도 |
 | --- | --- |
 | `data` 래핑 | 리소스형 응답 공통 컨테이너 |
-| `overviewStats[]` (`id`, `icon`, `value`, `label`, `change`, `color`) | 허브 요약 카드 데이터. 각 항목이 동일 스키마를 가져야 UI가 바로 매핑 가능 |
-| `highlightMetrics[]` (`id`, `icon`, `value`, `label`, `change`, `gradient.from/to`) | 메트릭 하이라이트 슬라이더. 그라디언트 컬러를 사용해 카드 배경을 렌더링 |
+| `overviewStats[]` (`id`, `icon`, `value`, `label`, `change`, `color`) | `리그 허브 > Overview KPI 카드` |
+| `highlightMetrics[]` (`id`, `icon`, `value`, `label`, `change`, `gradient.from/to`) | `리그 허브 > Highlights 슬라이더` |
 | `meta.season` (문자열) | UI가 요구하는 시즌명. 실제 `seasonId`는 사용자 표시용이 아님 |
 | `meta.locale` | 응답 언어. 현행 실제 응답에는 없거나 변형됨 |
 ## 5. 리그 순위표 (League Standings)
@@ -3541,10 +3541,10 @@
 | 필드 | 의미/용도 |
 | --- | --- |
 | `data` 래핑 | 리스트 응답 표준화 |
-| `LeagueStandingsRow.form` | 최근 5경기 결과. 테이블 내 폼 칩에 사용 |
-| `LeagueStandingsRow.trend` | 순위 변동(↑/↓) 표시 값 |
-| `LeagueStandingsRow.advancedMetrics` (`xG`, `xGA`, `possession`, `passAccuracy`, `cleanSheets`, `bigChances`) | 심화 지표 카드/차트. “Advanced” 토글을 켰을 때 바로 노출 |
-| `meta.lastUpdated`, `meta.locale` | 순위표 기준 시각과 언어 정보 |
+| `LeagueStandingsRow.form` | `리그 순위 페이지 > 테이블`의 폼 칩 |
+| `LeagueStandingsRow.trend` | `리그 순위 페이지 > 테이블`의 상승/하락 화살표 |
+| `LeagueStandingsRow.advancedMetrics` (`xG`, `xGA`, `possession`, `passAccuracy`, `cleanSheets`, `bigChances`) | `리그 순위 페이지 > Advanced Metrics` 토글 섹션 |
+| `meta.lastUpdated`, `meta.locale` | `리그 순위 헤더`의 데이터 기준 시각 & 다국어 컨텍스트 |
 ## 6. 리그 메타 지표 (League Meta)
 
 **fetchLeagueMeta (USE_MOCK_API)**
@@ -3630,9 +3630,9 @@
 | 필드 | 의미/용도 |
 | --- | --- |
 | `data`(배열) | 여러 지표를 동시에 노출하는 UI 섹션 |
-| `label` / `value` | 지표 제목·값. 카드 텍스트 그대로 사용 |
-| `description` | 증감/설명 텍스트. 서브 텍스트 |
-| `icon` (camelCase) | 아이콘 키. 디자인 시스템에서 바로 매핑 |
+| `label` / `value` | `리그 Pulse 위젯`의 타이틀/값 |
+| `description` | `리그 Pulse 위젯` 하단 증감 텍스트 |
+| `icon` (camelCase) | `리그 Pulse 위젯` 아이콘 매핑 키 |
 | `meta.lastUpdated` | 메타 지표 생성 시점 |
 ## 7. 선수 랭킹 (Player Rankings)
 
@@ -3783,10 +3783,10 @@
 | 필드 | 의미/용도 |
 | --- | --- |
 | `data` 래핑 | 리스트 응답 표준화 |
-| `PlayerRanking.avatar` | 선수 이미지/국기. 리스트 썸네일 |
-| `PlayerRanking.rating` | 폼 지수. 순위표 보조 지표 |
-| `meta.source` | 데이터 출처 표기 (“Opta” 등) |
-| `meta.locale` | 언어 정보 |
+| `PlayerRanking.avatar` | `선수 랭킹 페이지 > 카드 썸네일` |
+| `PlayerRanking.rating` | `선수 랭킹 카드`의 폼 게이지 |
+| `meta.source` | `선수 랭킹 헤더`의 데이터 출처 표기 |
+| `meta.locale` | `선수 랭킹` 모듈 내 언어 라벨 |
 ## 8. 선수 데이터베이스 (Player Database)
 
 **fetchPlayerDatabase (USE_MOCK_API)**
@@ -10090,7 +10090,7 @@
 | 필드 | 의미/용도 |
 | --- | --- |
 | `data` 래핑 | 리스트 + 필터 세트를 하나의 리소스로 반환하는 계약 |
-| `PlayerDatabaseEntry.stats` (`pace`, `shooting`, `passing`, `dribbling`, `defending`, `physical`) | 능력치 레이더/바 차트 데이터 |
-| `PlayerDatabaseEntry.career[]` (`year`, `teamId`, `matches`, `goals`) | 연도별 기록. 히스토리 섹션 |
-| `filters.positions` (배열) | 프론트 필터 옵션 그대로 사용. 문자열 형태는 파싱이 어려움 |
-| `meta.lastUpdated`, `meta.locale` | 데이터 기준 시각 및 언어 |
+| `PlayerDatabaseEntry.stats` (`pace`, `shooting`, `passing`, `dribbling`, `defending`, `physical`) | `선수 데이터베이스 > 능력치 차트` |
+| `PlayerDatabaseEntry.career[]` (`year`, `teamId`, `matches`, `goals`) | `선수 데이터베이스 > 커리어 타임라인` |
+| `filters.positions` (배열) | `선수 데이터베이스 > 필터 패널` 포지션 선택 |
+| `meta.lastUpdated`, `meta.locale` | `선수 데이터베이스 > 헤더`의 업데이트 정보/언어 |
