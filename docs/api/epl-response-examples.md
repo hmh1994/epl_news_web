@@ -374,6 +374,13 @@
 - <span style="color:#d00">`crest` 필드가 없음</span> → UI 기본값 필요
 - mock `meta`에는 `total`, `locale`이 있지만 실제 `meta`엔 `lastUpdated`가 전혀 내려오지 않음
 
+**누락 필드 & 의미**
+
+| 필드 | 의미/용도 |
+| --- | --- |
+| `data` 래핑 | `ApiListResponse<T>` 계약 준수를 위한 컨테이너. 공통 에러/캐싱 로직이 이 형태를 기대함 |
+| `TeamSummary.crest` | 팀 엠블럼/이미지. 리스트·카드 컴포넌트에서 필수 시각 요소 |
+| `meta.lastUpdated` | 응답 기준 시각. 캐싱 무효화 및 “업데이트 시간” UI에 사용 |
 ## 2. 팀 프로필 (Team Profiles)
 
 **fetchTeamProfiles (USE_MOCK_API)**
@@ -414,7 +421,6 @@
           "W",
           "W"
         ],
-        "value": "€1.26B",
         "avgAge": 28.2,
         "trophies": 10,
         "description": "현재 프리미어리그 최강팀으로 펩 과르디올라의 혁신적인 전술과 세계 최고 수준의 선수들을 보유한 맨체스터의 자존심",
@@ -454,7 +460,6 @@
           "W",
           "D"
         ],
-        "value": "€2.26B",
         "avgAge": 25.8,
         "trophies": 13,
         "description": "런던 북부의 전통 강호로 젊은 재능들과 아르테타의 현대적 전술이 만나 새로운 황금기를 준비하는 거너스",
@@ -494,7 +499,6 @@
           "W",
           "W"
         ],
-        "value": "€6.55B",
         "avgAge": 26.9,
         "trophies": 20,
         "description": "영국 축구의 전설적인 클럽으로 전 세계 6억 팬들의 사랑을 받으며 텐 하흐 감독과 함께 부활을 꿈꾸는 레드 데빌스",
@@ -534,7 +538,6 @@
           "L",
           "W"
         ],
-        "value": "€3.10B",
         "avgAge": 23.4,
         "trophies": 6,
         "description": "런던 서부의 블루스로 젊은 선수단과 함께 새로운 도전을 시작하며 재건을 위해 노력하는 전통의 강호",
@@ -574,7 +577,6 @@
           "D",
           "L"
         ],
-        "value": "€4.45B",
         "avgAge": 28.7,
         "trophies": 19,
         "description": "안필드의 열정과 YNWA 정신으로 유명한 머지사이드의 레즈로 클롭과 함께 황금기를 구가했던 전설적인 팀",
@@ -614,7 +616,6 @@
           "D",
           "W"
         ],
-        "value": "€2.35B",
         "avgAge": 26.1,
         "trophies": 2,
         "description": "런던 북부 스퍼스로 공격적인 축구 철학과 아름다운 경기 운영으로 팬들을 매혹시키는 라일라화이트",
@@ -654,7 +655,6 @@
           "L",
           "W"
         ],
-        "value": "€1.15B",
         "avgAge": 26.7,
         "trophies": 4,
         "description": "세인트 제임스 파크의 열정을 바탕으로 상위권 경쟁에 합류한 막강한 화력을 자랑하는 매그파이즈",
@@ -694,7 +694,6 @@
           "W",
           "D"
         ],
-        "value": "€650M",
         "avgAge": 26.4,
         "trophies": 7,
         "description": "버밍엄을 대표하는 전통 명문으로 에메리 감독의 전술 아래 유럽 대회 복귀를 노리는 빌런즈",
@@ -734,7 +733,6 @@
           "W",
           "L"
         ],
-        "value": "€520M",
         "avgAge": 25.2,
         "trophies": 0,
         "description": "강한 압박과 유연한 빌드업으로 유명한 해변의 클럽, 젊은 선수들의 잠재력을 꽃피우는 시걸스",
@@ -774,7 +772,6 @@
           "W",
           "L"
         ],
-        "value": "€430M",
         "avgAge": 28.5,
         "trophies": 3,
         "description": "동런던의 해머스로 최근 유럽 무대에서 존재감을 드러내며 탄탄한 수비와 세트피스를 무기로 삼는 팀",
@@ -814,7 +811,6 @@
           "L",
           "D"
         ],
-        "value": "€380M",
         "avgAge": 26.8,
         "trophies": 1,
         "description": "데이터 기반 운영과 유연한 전술로 주목받는 런던의 다크호스, 탄탄한 조직력을 자랑하는 비즈",
@@ -854,7 +850,6 @@
           "L",
           "W"
         ],
-        "value": "€310M",
         "avgAge": 26.3,
         "trophies": 0,
         "description": "열정적인 홈 분위기로 유명한 사우스 런던의 이글스로 빠른 역습과 측면 돌파를 강점으로 삼는 팀",
@@ -894,7 +889,6 @@
           "D",
           "W"
         ],
-        "value": "€360M",
         "avgAge": 26.9,
         "trophies": 3,
         "description": "견고한 수비와 빠른 전환을 기반으로 승점을 쌓는 울브스로 포르투갈 색채가 짙은 스쿼드가 특징",
@@ -934,7 +928,6 @@
           "D",
           "L"
         ],
-        "value": "€305M",
         "avgAge": 27.4,
         "trophies": 0,
         "description": "템스 강변의 전통 클럽으로 촘촘한 수비와 세련된 패싱으로 잔류에 성공한 코티저",
@@ -974,7 +967,6 @@
           "L",
           "D"
         ],
-        "value": "€410M",
         "avgAge": 27.1,
         "trophies": 9,
         "description": "머지사이드의 전통 명문으로 강인한 피지컬과 투지를 바탕으로 잔류 경쟁을 이어가는 토피즈",
@@ -1014,7 +1006,6 @@
           "L",
           "W"
         ],
-        "value": "€280M",
         "avgAge": 25.9,
         "trophies": 0,
         "description": "작지만 빠른 역습을 강점으로 하는 체리스로 유연한 포메이션 변화를 통해 프리미어리그에 적응 중인 팀",
@@ -1054,7 +1045,6 @@
           "L",
           "D"
         ],
-        "value": "€300M",
         "avgAge": 26,
         "trophies": 2,
         "description": "유럽 컵 우승의 전통을 지닌 팀으로 다수의 신입 선수를 조합하며 프리미어리그 생존에 도전하는 트리키 트리즈",
@@ -1094,7 +1084,6 @@
           "W",
           "L"
         ],
-        "value": "€210M",
         "avgAge": 24.8,
         "trophies": 2,
         "description": "콤파니 감독의 공격적인 철학으로 재정비된 클라렛으로 높은 라인과 패싱 플레이를 시도하는 팀",
@@ -1134,7 +1123,6 @@
           "W",
           "L"
         ],
-        "value": "€95M",
         "avgAge": 27.3,
         "trophies": 0,
         "description": "열정적인 팬과 독특한 홈구장을 자랑하는 햇츠로 투지 넘치는 플레이와 긴 패스를 즐겨 사용하는 팀",
@@ -1174,7 +1162,6 @@
           "L",
           "W"
         ],
-        "value": "€160M",
         "avgAge": 27.6,
         "trophies": 1,
         "description": "전통적인 수비 조직력과 투쟁심으로 승부하는 블레이즈, 승격 첫 해 생존을 위해 분투하는 팀",
@@ -1665,9 +1652,21 @@
 
 **차이 요약**
 - <span style="color:#d00">mock는 `data.teams` + `filters` 래핑</span>인데 실제 응답은 `teams` 배열만 존재
-- <span style="color:#d00">TeamProfile 필드</span>(colors, value, keyStats 등) 상당수가 실제 응답에 없음
+- <span style="color:#d00">TeamProfile 필드</span>(colors, keyStats 등) 상당수가 실제 응답에 없음
 - `meta` 구조도 다르고 mock은 season, locale, lastUpdated를 포함하지만 실제는 leagueId/Name 정도만 전달
 
+**누락 필드 & 의미**
+
+| 필드 | 의미/용도 |
+| --- | --- |
+| `data` 래핑 | 공통 API 클라이언트에서 사용하는 표준 응답 포맷 |
+| `filters.positions` | UI 필터 패널에서 제공할 포지션 옵션 목록 |
+| `TeamProfile.colors` | 팀 컬러(메인/서브). 카드·그래프 색상 지정에 사용 |
+| `TeamProfile.avgAge` / `trophies` | 구단 평균 나이, 우승 기록 등 핵심 지표 |
+| `TeamProfile.form` | 최근 경기 결과 5개. 하이라이트/폼 가이드에 사용 |
+| `TeamProfile.description` / `keyStats` | 상세 소개 및 핵심 통계. 디테일 패널 콘텐츠 |
+| `TeamProfile.nationality` | 감독/팀 국적 표시 텍스트 |
+| `meta.lastUpdated`, `meta.locale` | 데이터 기준 시각 및 응답 언어 정보 |
 ## 3. 팀 스쿼드 (Team Squad)
 
 **fetchTeamSquad (USE_MOCK_API, teamId=1)**
@@ -1707,7 +1706,6 @@
         "W",
         "W"
       ],
-      "value": "€1.26B",
       "avgAge": 28.2,
       "trophies": 10,
       "description": "현재 프리미어리그 최강팀으로 펩 과르디올라의 혁신적인 전술과 세계 최고 수준의 선수들을 보유한 맨체스터의 자존심",
@@ -1728,12 +1726,10 @@
         "nationality": "🇳🇴",
         "nationalityName": "노르웨이",
         "teamId": 1,
-        "value": "€180M",
         "rating": 9.2,
         "goals": 36,
         "assists": 8,
         "appearances": 35,
-        "marketValue": 180
       },
       {
         "id": 2,
@@ -1744,12 +1740,10 @@
         "nationality": "🇧🇪",
         "nationalityName": "벨기에",
         "teamId": 1,
-        "value": "€85M",
         "rating": 8.9,
         "goals": 7,
         "assists": 16,
         "appearances": 32,
-        "marketValue": 85
       },
       {
         "id": 3,
@@ -1760,12 +1754,10 @@
         "nationality": "🇵🇹",
         "nationalityName": "포르투갈",
         "teamId": 1,
-        "value": "€80M",
         "rating": 8.7,
         "goals": 2,
         "assists": 1,
         "appearances": 34,
-        "marketValue": 80
       },
       {
         "id": 4,
@@ -1776,12 +1768,10 @@
         "nationality": "🇧🇷",
         "nationalityName": "브라질",
         "teamId": 1,
-        "value": "€40M",
         "rating": 8.5,
         "goals": 0,
         "assists": 0,
         "appearances": 30,
-        "marketValue": 40
       },
       {
         "id": 5,
@@ -1792,12 +1782,10 @@
         "nationality": "🇩🇿",
         "nationalityName": "알제리",
         "teamId": 1,
-        "value": "€30M",
         "rating": 8.3,
         "goals": 15,
         "assists": 11,
         "appearances": 35,
-        "marketValue": 30
       },
       {
         "id": 6,
@@ -1808,12 +1796,10 @@
         "nationality": "🇬🇧",
         "nationalityName": "잉글랜드",
         "teamId": 1,
-        "value": "€70M",
         "rating": 8.1,
         "goals": 8,
         "assists": 12,
         "appearances": 36,
-        "marketValue": 70
       }
     ]
   },
@@ -2135,9 +2121,18 @@
 
 **차이 요약**
 - mock는 `data.team`과 `data.squad`가 프런트 타입(숫자 ID, `PlayerProfile` enum)을 그대로 사용
-- <span style="color:#d00">실제 스쿼드 `position` 값</span>은 `GOALKEEPER` 등 다른 문자열이고 `value`/`rating`/`marketValue` 누락
+- <span style="color:#d00">실제 스쿼드 `position` 값</span>은 `GOALKEEPER` 등 다른 문자열이고 `rating` 값도 없음
 - 실제 응답 루트도 `{ team, squad, meta }`로 다르며 `lastUpdated` 없음
 
+**누락 필드 & 의미**
+
+| 필드 | 의미/용도 |
+| --- | --- |
+| `data` 래핑 | `ApiResourceResponse` 규약. 프런트 공통 훅이 요구 |
+| `TeamProfile` 세부 필드 | 위 팀 프로필과 동일한 확장 정보를 재사용. 상세 화면 공통 컴포넌트가 의존 |
+| `PlayerProfile.rating` | 선수 폼 지표. 스쿼드 테이블 보조 정보 |
+| `PlayerProfile.teamId` / `nationalityName` | 연관 팀 ID와 국적 이름(국기·국적명 분리) |
+| `meta.lastUpdated` | 스쿼드 정보의 최신화 시점 |
 ## 4. 리그 메타데이터 (League Metadata)
 
 **fetchLeagueMetadata (USE_MOCK_API)**
@@ -2154,7 +2149,6 @@
       "teams": 20,
       "totalGoals": 1213,
       "avgAttendance": 38181,
-      "marketValue": "€8.46B",
       "color": "from-[#169976] to-teal-500",
       "logo": "⚽"
     },
@@ -2336,6 +2330,14 @@
 - <span style="color:#d00">실제 응답은 루트에 각각을 노출</span>하고 `overviewStats`/`highlightMetrics`가 아예 없음
 - mock `meta`는 season/locale이지만 실제는 `seasonId`만 포함
 
+**누락 필드 & 의미**
+
+| 필드 | 의미/용도 |
+| --- | --- |
+| `data` 래핑 | 리소스형 응답 공통 컨테이너 |
+| `overviewStats`, `highlightMetrics` | 홈/허브 화면에서 노출되는 지표 카드 데이터 |
+| `meta.season` (문자열) | UI가 요구하는 시즌명. 실제 `seasonId`는 사용자 표시용이 아님 |
+| `meta.locale` | 응답 언어. 현행 실제 응답에는 없거나 변형됨 |
 ## 5. 리그 순위표 (League Standings)
 
 **fetchLeagueStandings (USE_MOCK_API)**
@@ -2381,7 +2383,6 @@
         "passAccuracy": 91.2,
         "cleanSheets": 18,
         "bigChances": 127,
-        "marketValue": "€1.26B"
       }
     },
     {
@@ -2419,7 +2420,6 @@
         "passAccuracy": 88.7,
         "cleanSheets": 16,
         "bigChances": 119,
-        "marketValue": "€2.26B"
       }
     },
     {
@@ -2457,7 +2457,6 @@
         "passAccuracy": 87.9,
         "cleanSheets": 20,
         "bigChances": 108,
-        "marketValue": "€4.45B"
       }
     },
     {
@@ -2495,7 +2494,6 @@
         "passAccuracy": 82.3,
         "cleanSheets": 11,
         "bigChances": 89,
-        "marketValue": "€1.15B"
       }
     },
     {
@@ -2533,7 +2531,6 @@
         "passAccuracy": 86.1,
         "cleanSheets": 13,
         "bigChances": 92,
-        "marketValue": "€2.35B"
       }
     },
     {
@@ -2571,7 +2568,6 @@
         "passAccuracy": 83.2,
         "cleanSheets": 9,
         "bigChances": 98,
-        "marketValue": "€3.10B"
       }
     },
     {
@@ -2609,7 +2605,6 @@
         "passAccuracy": 81.4,
         "cleanSheets": 12,
         "bigChances": 78,
-        "marketValue": "€1.85B"
       }
     },
     {
@@ -2647,7 +2642,6 @@
         "passAccuracy": 85.4,
         "cleanSheets": 17,
         "bigChances": 71,
-        "marketValue": "€6.55B"
       }
     },
     {
@@ -2685,7 +2679,6 @@
         "passAccuracy": 79.8,
         "cleanSheets": 8,
         "bigChances": 65,
-        "marketValue": "€850M"
       }
     },
     {
@@ -2723,7 +2716,6 @@
         "passAccuracy": 78.4,
         "cleanSheets": 10,
         "bigChances": 59,
-        "marketValue": "€720M"
       }
     },
     {
@@ -2761,7 +2753,6 @@
         "passAccuracy": 84.1,
         "cleanSheets": 9,
         "bigChances": 72,
-        "marketValue": "€950M"
       }
     },
     {
@@ -2799,7 +2790,6 @@
         "passAccuracy": 76.7,
         "cleanSheets": 7,
         "bigChances": 58,
-        "marketValue": "€520M"
       }
     },
     {
@@ -2837,7 +2827,6 @@
         "passAccuracy": 80.3,
         "cleanSheets": 11,
         "bigChances": 62,
-        "marketValue": "€680M"
       }
     },
     {
@@ -2875,7 +2864,6 @@
         "passAccuracy": 77.9,
         "cleanSheets": 8,
         "bigChances": 55,
-        "marketValue": "€590M"
       }
     },
     {
@@ -2913,7 +2901,6 @@
         "passAccuracy": 75.6,
         "cleanSheets": 13,
         "bigChances": 47,
-        "marketValue": "€750M"
       }
     },
     {
@@ -2951,7 +2938,6 @@
         "passAccuracy": 74.2,
         "cleanSheets": 6,
         "bigChances": 61,
-        "marketValue": "€480M"
       }
     },
     {
@@ -2989,7 +2975,6 @@
         "passAccuracy": 73.8,
         "cleanSheets": 7,
         "bigChances": 52,
-        "marketValue": "€420M"
       }
     },
     {
@@ -3027,7 +3012,6 @@
         "passAccuracy": 69.7,
         "cleanSheets": 4,
         "bigChances": 43,
-        "marketValue": "€180M"
       }
     },
     {
@@ -3065,7 +3049,6 @@
         "passAccuracy": 71.3,
         "cleanSheets": 5,
         "bigChances": 38,
-        "marketValue": "€220M"
       }
     },
     {
@@ -3103,7 +3086,6 @@
         "passAccuracy": 68.2,
         "cleanSheets": 2,
         "bigChances": 29,
-        "marketValue": "€150M"
       }
     }
   ],
@@ -3546,6 +3528,15 @@
 - <span style="color:#d00">실제 응답 키가 `leagueStandingsRow`/`teamSummary`</span>로 다르고 `advancedMetrics`/`form` 없음
 - `meta`에서도 `lastUpdated`/`locale`이 빠짐
 
+**누락 필드 & 의미**
+
+| 필드 | 의미/용도 |
+| --- | --- |
+| `data` 래핑 | 리스트 응답 표준화 |
+| `LeagueStandingsRow.form` | 최근 5경기 결과. 테이블 내 폼 칩에 사용 |
+| `LeagueStandingsRow.trend` | 순위 변동(↑/↓) 표시 값 |
+| `LeagueStandingsRow.advancedMetrics` | xG, 점유율 등 심화 지표. “Advanced” 토글에 필요 |
+| `meta.lastUpdated`, `meta.locale` | 순위표 기준 시각과 언어 정보 |
 ## 6. 리그 메타 지표 (League Meta)
 
 **fetchLeagueMeta (USE_MOCK_API)**
@@ -3626,6 +3617,15 @@
 - <span style="color:#d00">실제는 `leagueMetaMetric` 단일 객체</span>이고 `label`/`value` 필드가 없음
 - `icon_url` 등 snake-case를 사용
 
+**누락 필드 & 의미**
+
+| 필드 | 의미/용도 |
+| --- | --- |
+| `data`(배열) | 여러 지표를 동시에 노출하는 UI 섹션 |
+| `label` / `value` | 지표 제목·값. 카드 텍스트 그대로 사용 |
+| `description` | 증감/설명 텍스트. 서브 텍스트 |
+| `icon` (camelCase) | 아이콘 키. 디자인 시스템에서 바로 매핑 |
+| `meta.lastUpdated` | 메타 지표 생성 시점 |
 ## 7. 선수 랭킹 (Player Rankings)
 
 **fetchPlayerRankings (USE_MOCK_API)**
@@ -3643,7 +3643,6 @@
       "assists": 8,
       "avatar": "🇳🇴",
       "rating": 9.2,
-      "value": "€180M"
     },
     {
       "name": "해리 케인",
@@ -3652,7 +3651,6 @@
       "assists": 3,
       "avatar": "🇬🇧",
       "rating": 8.8,
-      "value": "€100M"
     },
     {
       "name": "이반 토니",
@@ -3661,7 +3659,6 @@
       "assists": 5,
       "avatar": "🇬🇧",
       "rating": 8.1,
-      "value": "€40M"
     }
   ],
   "meta": {
@@ -3769,10 +3766,19 @@
 
 
 **차이 요약**
-- mock는 `PlayerRanking` 타입 전체(avatar, rating, value 포함)와 `meta.source`, `meta.locale`을 반환
+- mock는 `PlayerRanking` 타입 전체(avatar, rating 포함)와 `meta.source`, `meta.locale`을 반환
 - <span style="color:#d00">실제 응답은 `players` 배열</span>만 내려오고 스탯 필드가 대폭 누락
 - `meta`에는 leagueId/season/category만 포함
 
+**누락 필드 & 의미**
+
+| 필드 | 의미/용도 |
+| --- | --- |
+| `data` 래핑 | 리스트 응답 표준화 |
+| `PlayerRanking.avatar` | 선수 이미지/국기. 리스트 썸네일 |
+| `PlayerRanking.rating` | 폼 지수. 순위표 보조 지표 |
+| `meta.source` | 데이터 출처 표기 (“Opta” 등) |
+| `meta.locale` | 언어 정보 |
 ## 8. 선수 데이터베이스 (Player Database)
 
 **fetchPlayerDatabase (USE_MOCK_API)**
@@ -10070,3 +10076,13 @@
 - mock는 `data.players`가 상세 스탯(숫자 id, PlayerSkillSet, career)과 `filters` 배열을 모두 포함
 - <span style="color:#d00">실제 응답은 루트에 `players`/`filters`</span>를 두고 `id`가 UUID, `stats`/`career`가 비어 있음
 - `filters.positions`도 문자열 한 줄로 내려옴
+
+**누락 필드 & 의미**
+
+| 필드 | 의미/용도 |
+| --- | --- |
+| `data` 래핑 | 리스트 + 필터 세트를 하나의 리소스로 반환하는 계약 |
+| `PlayerDatabaseEntry.stats` 값 | Pace/Shooting 등 스킬 지표. 카드형 UI의 막대 그래프 |
+| `PlayerDatabaseEntry.career` | 연도별 기록. 히스토리 섹션 |
+| `filters.positions` (배열) | 프론트 필터 옵션 그대로 사용. 문자열 형태는 파싱이 어려움 |
+| `meta.lastUpdated`, `meta.locale` | 데이터 기준 시각 및 언어 |

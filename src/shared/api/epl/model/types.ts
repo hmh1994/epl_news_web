@@ -18,6 +18,10 @@ import type {
 } from "@/entities/player/model/player-profile";
 import type { TeamProfile } from "@/entities/team/model/team-profile";
 
+type ApiTeamProfile = Omit<TeamProfile, "value">;
+type ApiPlayerProfile = Omit<PlayerProfile, "value" | "marketValue">;
+type ApiPlayerRanking = Omit<PlayerRanking, "value">;
+
 export interface ApiResponseMeta {
   season?: string;
   lastUpdated?: number;
@@ -83,7 +87,6 @@ export interface LeagueStandingsRow {
     passAccuracy: number;
     cleanSheets: number;
     bigChances: number;
-    marketValue: string;
   };
 }
 
@@ -119,7 +122,8 @@ export interface LeagueMetadataResponse
   };
 }
 
-export interface PlayerRankingResponse extends ApiListResponse<PlayerRanking> {
+export interface PlayerRankingResponse
+  extends ApiListResponse<ApiPlayerRanking> {
   meta: ApiResponseMeta & {
     leagueId: string;
     season: string;
@@ -209,7 +213,7 @@ export interface PlayerDatabaseResponse extends ApiResourceResponse<{
 }
 
 export interface TeamProfilesResponse extends ApiResourceResponse<{
-  teams: TeamProfile[];
+  teams: ApiTeamProfile[];
   filters: {
     positions: PlayerPosition[];
   };
@@ -222,8 +226,8 @@ export interface TeamProfilesResponse extends ApiResourceResponse<{
 }
 
 export interface TeamSquadResponse extends ApiResourceResponse<{
-  team: TeamProfile;
-  squad: PlayerProfile[];
+  team: ApiTeamProfile;
+  squad: ApiPlayerProfile[];
 }> {
   meta: ApiResponseMeta & {
     teamId: string;

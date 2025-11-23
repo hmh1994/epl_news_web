@@ -202,7 +202,6 @@ const buildStandingsRows = (): LeagueStandingsRow[] =>
       passAccuracy: team.passAccuracy,
       cleanSheets: team.cleanSheets,
       bigChances: team.bigChances,
-      marketValue: team.value,
     },
   }));
 

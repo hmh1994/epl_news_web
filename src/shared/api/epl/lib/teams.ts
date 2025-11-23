@@ -9,6 +9,8 @@ import type {
   TeamSquadResponse,
   TeamsInfoResponse,
 } from "@/shared/api/epl/model/types";
+import type { TeamProfile } from "@/entities/team/model/team-profile";
+import type { PlayerProfile } from "@/entities/player/model/player-profile";
 import { RequestOptions, leaguePath } from "./base";
 import { MOCK_TEAMS } from "@/shared/mocks/data/teams";
 import { TEAM_PLAYERS, TEAM_PROFILES } from "@/shared/mocks/team-info";
@@ -81,7 +83,7 @@ export const fetchTeamProfiles = async (
             .join(" ")
             .toLowerCase()
             .includes(search)
-    );
+    ).map(toApiTeamProfile);
 
     return {
       data: {
@@ -139,6 +141,16 @@ export const fetchTeamSquad = async (
   );
 };
 
+const toApiTeamProfile = (team: TeamProfile) => {
+  const { value: _omitValue, ...rest } = team;
+  return rest;
+};
+
+const toApiPlayerProfile = (player: PlayerProfile) => {
+  const { value: _omitValue, marketValue: _omitMarketValue, ...rest } = player;
+  return rest;
+};
+
 const findTeamProfile = (teamId: string) => {
   const normalized = teamId.toLowerCase();
   return (
@@ -162,15 +174,18 @@ const buildMockTeamSquad = (
     throw new Error(`Unknown team id: ${teamId}`);
   }
 
-  const squad = TEAM_PLAYERS.filter((player) => player.teamId === team.id);
+  const sanitizedTeam = toApiTeamProfile(team);
+  const squad = TEAM_PLAYERS.filter((player) => player.teamId === team.id).map(
+    toApiPlayerProfile
+  );
 
   return {
     data: {
-      team,
+      team: sanitizedTeam,
       squad,
     },
     meta: {
-      teamId: String(team.id),
+      teamId: String(sanitizedTeam.id),
       season: params?.season ?? MOCK_SEASON,
       lastUpdated: Date.now(),
       locale: params?.locale ?? MOCK_LOCALE,

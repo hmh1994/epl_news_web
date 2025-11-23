@@ -22,7 +22,10 @@ export const fetchPlayerRankings = async (
 ): Promise<PlayerRankingResponse> => {
   if (USE_MOCK_API) {
     return {
-      data: EPL_PLAYER_RANKINGS.slice(0, params?.limit ?? EPL_PLAYER_RANKINGS.length),
+      data: EPL_PLAYER_RANKINGS.slice(
+        0,
+        params?.limit ?? EPL_PLAYER_RANKINGS.length
+      ).map(toApiPlayerRanking),
       meta: {
         leagueId,
         season: params?.season ?? MOCK_SEASON,
@@ -127,4 +130,11 @@ const buildMockPlayerDatabase = (
       locale: params?.locale ?? MOCK_LOCALE,
     },
   };
+};
+
+const toApiPlayerRanking = (
+  ranking: (typeof EPL_PLAYER_RANKINGS)[number]
+) => {
+  const { value: _omitValue, ...rest } = ranking;
+  return rest;
 };
