@@ -2,24 +2,33 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { NewsDetailPage } from "@/processes/news-detail-page";
-import {
-  fetchLeagueNewsArticle,
-  fetchLeagueNewsList,
-  fetchLeagueRelatedNews,
-} from "@/shared/api/epl/lib/news";
-import { mapNewsArticleFromApi, mapNewsPreviewFromApi } from "@/entities/news/model/news-mappers";
-import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
+import { EPL_MOCK_DATA } from "@/shared/mocks/epl-data";
+import type { NewsArticle, NewsArticlePreview } from "@/entities/news/model/news-article";
+import { getNewsArticleBySlug } from "@/entities/news/model/news-article";
+
+const ARTICLES = EPL_MOCK_DATA.news.articles;
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
 }
 
-export async function generateStaticParams() {
-  const response = await fetchLeagueNewsList(DEFAULT_LEAGUE_ID, {
-    limit: 50,
-  });
+const toPreview = (article: NewsArticle): NewsArticlePreview => ({
+  id: article.id,
+  slug: article.slug,
+  title: article.title,
+  summary: article.summary,
+  category: article.category,
+  tags: article.tags,
+  imageUrl: article.imageUrl,
+  publishedAt: article.publishedAt,
+  source: article.source,
+  author: article.author,
+  readingTimeMinutes: article.readingTimeMinutes,
+  externalUrl: article.externalUrl,
+});
 
-  return response.data.map((article) => ({
+export async function generateStaticParams() {
+  return ARTICLES.slice(0, 50).map((article) => ({
     slug: article.slug,
   }));
 }
@@ -28,52 +37,47 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  try {
-    const response = await fetchLeagueNewsArticle(DEFAULT_LEAGUE_ID, slug);
-    const article = mapNewsArticleFromApi(response.data);
+  const article = getNewsArticleBySlug(ARTICLES, slug);
 
-    return {
-      title: `${article.title} - Infootball 뉴스`,
-      description: article.summary,
-      openGraph: {
-        title: article.title,
-        description: article.summary,
-        type: "article",
-        publishedTime: article.publishedAt,
-        tags: article.tags,
-      },
-    };
-  } catch {
+  if (!article) {
     return {
       title: "뉴스",
     };
   }
+
+  return {
+    title: `${article.title} - Infootball 뉴스`,
+    description: article.summary,
+    openGraph: {
+      title: article.title,
+      description: article.summary,
+      type: "article",
+      publishedTime: article.publishedAt,
+      tags: article.tags,
+    },
+  };
 }
 
 export default async function NewsArticleRoute({ params }: PageProps) {
   const { locale, slug } = await params;
-  try {
-    const [articleResponse, relatedResponse] = await Promise.all([
-      fetchLeagueNewsArticle(DEFAULT_LEAGUE_ID, slug, { locale }),
-      fetchLeagueRelatedNews(DEFAULT_LEAGUE_ID, slug, {
-        limit: 4,
-        locale,
-      }),
-    ]);
+  const article = getNewsArticleBySlug(ARTICLES, slug);
 
-    const article = mapNewsArticleFromApi(articleResponse.data);
-    const relatedArticles = relatedResponse.data
-      .filter((candidate) => candidate.id !== article.id)
-      .map(mapNewsPreviewFromApi);
-
-    return (
-      <NewsDetailPage
-        article={article}
-        locale={locale}
-        relatedArticles={relatedArticles}
-      />
-    );
-  } catch {
+  if (!article) {
     notFound();
   }
+
+  const relatedArticles = ARTICLES.filter(
+    (candidate) =>
+      candidate.slug !== slug && candidate.category === article.category
+  )
+    .slice(0, 4)
+    .map(toPreview);
+
+  return (
+    <NewsDetailPage
+      article={article}
+      locale={locale}
+      relatedArticles={relatedArticles}
+    />
+  );
 }

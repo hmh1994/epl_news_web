@@ -2,20 +2,28 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { MatchDetailPage } from "@/processes/match-detail-page";
-import { fetchMatchDetail, fetchMatchSchedule } from "@/shared/api/epl/lib/matches";
+import { EPL_MOCK_DATA } from "@/shared/mocks/epl-data";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
-import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
+
+const MATCH_SCHEDULE = EPL_MOCK_DATA.matches.schedule;
+const MATCH_DETAILS = EPL_MOCK_DATA.matches.details;
 
 interface PageProps {
   params: Promise<{ matchId: string }>;
 }
 
+const getMatchDetail = (matchId: string) => {
+  const detail = MATCH_DETAILS[matchId];
+  if (!detail) {
+    throw new Error(`Match detail not found: ${matchId}`);
+  }
+  return detail;
+};
+
 export async function generateStaticParams() {
-  const response = await fetchMatchSchedule(DEFAULT_LEAGUE_ID);
-  const matchIds = response.data.schedule.flatMap((day) =>
+  return MATCH_SCHEDULE.flatMap((day) =>
     day.fixtures.map((fixture) => ({ matchId: fixture.id }))
   );
-  return matchIds;
 }
 
 export async function generateMetadata({
@@ -24,8 +32,8 @@ export async function generateMetadata({
   const { matchId } = await params;
 
   try {
-    const response = await fetchMatchDetail(matchId);
-    const { fixture, heroTagline } = response.data;
+    const detail = getMatchDetail(matchId);
+    const { fixture, heroTagline } = detail;
     const homeTeam =
       TEAMS_BY_ID[fixture.home.teamId]?.name ??
       fixture.home.teamId.toUpperCase();
@@ -52,8 +60,8 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   const { matchId } = await params;
   try {
-    const response = await fetchMatchDetail(matchId);
-    return <MatchDetailPage detail={response.data} />;
+    const detail = getMatchDetail(matchId);
+    return <MatchDetailPage detail={detail} />;
   } catch {
     notFound();
   }

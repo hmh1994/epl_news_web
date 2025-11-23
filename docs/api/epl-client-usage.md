@@ -1,10 +1,9 @@
 # EPL Frontend API Usage Guide
 
-`src/shared/api/epl/lib` 이하에 정의된 클라이언트 헬퍼는 [`docs/api/epl-api-spec.md`](./epl-api-spec.md)에 기재된 백엔드 스펙을 그대로 래핑합니다. 이 문서는 **어떤 헬퍼가 어떤 요청을 만들고, 어디서 사용되고 있는지**를 한눈에 확인할 수 있도록 정리했습니다.
+`src/shared/api/epl/lib` 이하에 정의된 클라이언트 헬퍼는 [`docs/api/epl-api-spec.md`](./epl-api-spec.md)에 기재된 백엔드 스펙과 동일한 형태의 **mock 데이터**를 반환합니다. 이 문서는 **어떤 헬퍼가 어떤 응답을 만들고, 어디서 사용되는지**를 한눈에 확인할 수 있도록 정리했습니다.
 
 > 표기 규칙  
-> - `Unused` : 현재 코드베이스 어디에서도 임포트되지 않음 (주로 목 데이터로 화면이 구성되어 있음)  
-> - `RequestOptions` : 모든 헬퍼에 공통으로 전달 가능 (`cache`, `signal`, `headers`)
+> - `Unused` : 현재 코드베이스 어디에서도 임포트되지 않음 (주로 목 데이터로 화면이 구성되어 있음)
 
 ## League APIs (`src/shared/api/epl/lib/league.ts`)
 
@@ -13,8 +12,8 @@
 | `fetchLeagueMetadata` | `GET /api/v1/leagues/{leagueId}/metadata` | `season`, `locale` | `LeagueMetadataResponse` | `app/[locale]/(root)/league/page.tsx` → `LeagueOverviewPage` |
 | `fetchLeagueStandings` | `GET /api/v1/leagues/{leagueId}/standings` | `season`, `locale`, `includeAdvanced` | `LeagueStandingsResponse` | Unused (hub & table 화면은 다른 엔드포인트로 대체) |
 | `fetchLeagueMeta` | `GET /api/v1/leagues/{leagueId}/meta` | `season`, `locale` | `LeagueMetaResponse` | Unused (인사이트는 `fetchHubOverview` 응답의 `leagueMeta` 사용) |
-| `fetchHubOverview` | `GET /api/v1/leagues/{leagueId}/hub-overview` | `season`, `locale`, `limitFixtures`, `limitRankings` | `HubOverviewResponse` | `app/[locale]/(root)/home/page.tsx` → `EPLHubPage` |
-| `fetchPremiumTable` | `GET /api/v1/leagues/{leagueId}/premium-table` | `season`, `locale`, `includeAnalytics` | `PremiumTableResponse` | `app/[locale]/(root)/teams/page.tsx` → `PremiumEPLTablePage` |
+| `fetchHubOverview` | `GET /api/v1/leagues/{leagueId}/hub-overview` | `season`, `locale`, `limitRankings` | `HubOverviewResponse` | `app/[locale]/(root)/home/page.tsx` → `EPLHubPage` |
+| `fetchPremiumTable` | `GET /api/v1/leagues/{leagueId}/premium-table` | `season`, `locale` | `PremiumTableResponse` | `app/[locale]/(root)/teams/page.tsx` → `PremiumEPLTablePage` |
 
 `fetchLeagueStandings`는 아직 직접 호출하지 않지만, 동일한 데이터가 `fetchHubOverview`·`fetchPremiumTable` 응답에 포함되어 있으므로 홈/테이블 화면은 이미 API 기반 렌더링을 수행합니다.
 
@@ -22,7 +21,7 @@
 
 | Function | Method & Path | Key Params | Response Type | Used By |
 | --- | --- | --- | --- | --- |
-| `fetchMatchSchedule` | `GET /api/v1/leagues/{leagueId}/schedule` | `season`, `locale`, `matchweek`, `includeFinished`, `includeAnalytics` | `MatchScheduleResponse` | `app/[locale]/(root)/matches/page.tsx`, `app/[locale]/(root)/matches/[matchId]/page.tsx`, `app/[locale]/(root)/home/page.tsx` (featured fixtures) |
+| `fetchMatchSchedule` | `GET /api/v1/leagues/{leagueId}/schedule` | `season`, `locale` | `MatchScheduleResponse` | `app/[locale]/(root)/matches/page.tsx`, `app/[locale]/(root)/matches/[matchId]/page.tsx`, `app/[locale]/(root)/home/page.tsx` (featured fixtures) |
 | `fetchMatchDetail` | `GET /api/v1/matches/{matchId}` | `locale` | `MatchDetailResponse` | `app/[locale]/(root)/matches/[matchId]/page.tsx` metadata + detail |
 
 ## Player APIs (`src/shared/api/epl/lib/players.ts`)
@@ -57,7 +56,7 @@
 
 ## 연동 가이드
 
-- **Mock ↔ Live 전환**: `.env`에서 `NEXT_PUBLIC_USE_MOCK_API=false`로 바꾸면 동일한 클라이언트가 즉시 실서버를 향해 호출됩니다. 기본값은 `true`라서 지금은 목 데이터가 API 응답 형태로 래핑되어 내려옵니다.
+- **단일 모크 소스**: 모든 헬퍼는 `src/shared/mocks/epl-data.ts`의 `EPL_MOCK_DATA`에서 파생되므로, 새로운 데이터 조각을 추가할 때도 해당 파일만 수정하면 됩니다.
 - **요청 공통값**: 레이아웃 루트에서 `DEFAULT_LEAGUE_ID`, `MOCK_SEASON`, `MOCK_LOCALE`을 가져다 쓰면 라우트마다 파라미터를 반복하지 않아도 됩니다.
 - **에러 처리**: 모든 App Route는 `try/catch`로 감싸 두었으니, 실제 백엔드 연결 시에도 동일한 흐름으로 `notFound()` 혹은 오류 UI를 노출하면 됩니다.
 - **병렬 호출**: `Promise.all` 패턴을 이미 홈/팀 상세 등 주요 페이지에서 사용 중이므로, 추가 API를 붙일 때도 동일한 구조로 확장하면 SSR 시간을 줄일 수 있습니다.

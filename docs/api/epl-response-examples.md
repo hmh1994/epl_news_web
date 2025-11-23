@@ -4,7 +4,7 @@
 
 ## 1. 팀 목록 (Teams Info)
 
-**fetchTeamsInfo (USE_MOCK_API)**
+**fetchTeamsInfo (Mock Data)**
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -383,7 +383,7 @@
 
 ## 2. 팀 프로필 (Team Profiles)
 
-**fetchTeamProfiles (USE_MOCK_API)**
+**fetchTeamProfiles (Mock Data)**
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -1544,7 +1544,7 @@
 
 ## 3. 팀 스쿼드 (Team Squad)
 
-**fetchTeamSquad (USE_MOCK_API, teamId=1)**
+**fetchTeamSquad (Mock Data, teamId=1)**
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -1552,39 +1552,6 @@
 ```json
 {
   "data": {
-    "team": {
-      "id": 1,
-      "name": "맨체스터 시티",
-      "shortName": "MCI",
-      "logo": "🏆",
-      "founded": 1880,
-      "stadium": "에티하드 스타디움",
-      "capacity": 55000,
-      "manager": "펩 과르디올라",
-      "nationality": "🇪🇸 스페인",
-      "colors": {
-        "primary": "#6CABDD",
-        "secondary": "#1C2C5B"
-      },
-      "rank": 1,
-      "points": 89,
-      "played": 38,
-      "won": 28,
-      "drawn": 5,
-      "lost": 5,
-      "goalsFor": 99,
-      "goalsAgainst": 31,
-      "form": ["W", "W", "D", "W", "W"],
-      "avgAge": 28.2,
-      "trophies": 10,
-      "description": "현재 프리미어리그 최강팀으로 펩 과르디올라의 혁신적인 전술과 세계 최고 수준의 선수들을 보유한 맨체스터의 자존심",
-      "keyStats": {
-        "possession": 68.5,
-        "passAccuracy": 91.2,
-        "shotsPerGame": 16.8,
-        "cleanSheets": 18
-      }
-    },
     "squad": [
       {
         "id": 1,
@@ -1987,27 +1954,24 @@
 
 **차이 요약**
 
-- mock는 `data.team`과 `data.squad`가 프런트 타입(숫자 ID, `PlayerProfile` enum)을 그대로 사용
-- <span style="color:#d00">실제 스쿼드 `position` 값</span>은 `GOALKEEPER` 등 다른 문자열이고 `rating` 값도 없음
+- mock는 `data` 래핑 안에서 `squad`만 제공하며 `PlayerProfile` 필수 필드(rating, teamId, nationalityName 등)를 모두 포함
+- <span style="color:#d00">실제 스쿼드 `position` 값</span>은 `GOALKEEPER` 등 다른 문자열이고 `rating`/`teamId`/`nationalityName` 값이 없음
 - 실제 응답 루트도 `{ team, squad, meta }`로 다르며 `lastUpdated` 없음
-- <span style="color:#d00">일부 응답은 `teamId` 요청값을 비워서 반환</span>하므로 프런트가 기본 팀으로 보정해야 함
-- <span style="color:#d00">백엔드가 빈 `teamId`로 응답하는 케이스가 존재</span>해, 프런트는 기본 팀으로 보정해야 함
+- <span style="color:#d00">백엔드가 빈 `teamId`로 응답하는 케이스</span>가 있어 프런트에서 fallback 처리가 필요
 
 **누락 필드 & 의미**
 
-| 필드                                                                                                                                                               | 의미/용도                                                        |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
-| `data` 래핑                                                                                                                                                        | `ApiResourceResponse` 규약. 프런트 공통 훅이 요구                |
-| `TeamProfile`(`colors.primary/secondary`, `form`, `avgAge`, `trophies`, `description`, `keyStats.possession/passAccuracy/shotsPerGame/cleanSheets`, `nationality`) | `팀 상세 페이지 > Hero & 개요 패널` 재사용 데이터                |
-| `PlayerProfile.rating`                                                                                                                                             | `팀 상세 > 스쿼드 테이블` 내 폼 점수 컬럼                        |
-| `PlayerProfile.teamId` / `nationalityName`                                                                                                                         | `스쿼드 테이블`의 팀 링크 및 국기 라벨                           |
-| `meta.lastUpdated`                                                                                                                                                 | `팀 상세 > 스쿼드 헤더`의 데이터 기준 시각                       |
-| (요청 파라미터) `teamId`                                                                                                                                           | 빈 문자열로 내려오면 특정 팀 식별 불가 → mock fallback 필요      |
-| (요청 파라미터) `teamId`                                                                                                                                           | 빈 문자열로 내려오면 특정 팀을 식별할 수 없어 mock fallback 필요 |
+| 필드                                  | 의미/용도                                      |
+| ------------------------------------- | ---------------------------------------------- |
+| `data` 래핑                          | `ApiResourceResponse` 규약. 공통 훅이 요구     |
+| `PlayerProfile.rating`               | `팀 상세 > 스쿼드 테이블` 내 폼 점수 컬럼      |
+| `PlayerProfile.teamId` / 국적 표기값 | `스쿼드 테이블`의 팀 링크 및 국기 라벨         |
+| `meta.lastUpdated`                   | `팀 상세 > 스쿼드 헤더`의 데이터 기준 시각     |
+| (요청 파라미터) `teamId`             | 빈 문자열로 내려오면 특정 팀 식별 불가 → 보정 |
 
 ## 4. 리그 메타데이터 (League Metadata)
 
-**fetchLeagueMetadata (USE_MOCK_API)**
+**fetchLeagueMetadata (Mock Data)**
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -2056,52 +2020,6 @@
         "label": "Clean Sheets",
         "change": "+15%",
         "color": "yellow"
-      }
-    ],
-    "highlightMetrics": [
-      {
-        "id": "season-goals",
-        "icon": "trophy",
-        "value": "1,026",
-        "label": "시즌 총 골",
-        "change": "+12%",
-        "gradient": {
-          "from": "#FACC15",
-          "to": "#F97316"
-        }
-      },
-      {
-        "id": "total-matches",
-        "icon": "users",
-        "value": "380",
-        "label": "총 경기 수",
-        "change": "+5%",
-        "gradient": {
-          "from": "#169976",
-          "to": "#059669"
-        }
-      },
-      {
-        "id": "participating-teams",
-        "icon": "globe",
-        "value": "20",
-        "label": "참가 팀",
-        "change": "0%",
-        "gradient": {
-          "from": "#22C55E",
-          "to": "#10B981"
-        }
-      },
-      {
-        "id": "avg-goals",
-        "icon": "target",
-        "value": "2.7",
-        "label": "경기당 평균 골",
-        "change": "+8%",
-        "gradient": {
-          "from": "#169976",
-          "to": "#0D9488"
-        }
       }
     ],
     "champions": [
@@ -2196,8 +2114,8 @@
 
 **차이 요약**
 
-- mock는 `data` 안에 `summary`, `overviewStats`, `highlightMetrics`, `champions`, `successfulClubs`를 모두 포함
-- <span style="color:#d00">실제 응답은 루트에 각각을 노출</span>하고 `overviewStats`/`highlightMetrics`가 아예 없음
+- mock는 `data` 안에 `summary`, `overviewStats`, `champions`, `successfulClubs`를 모두 포함
+- <span style="color:#d00">실제 응답은 루트에 각각을 노출</span>하고 `overviewStats`가 아예 없음
 - mock `meta`는 season/locale이지만 실제는 `seasonId`만 포함
 
 **누락 필드 & 의미**
@@ -2206,13 +2124,12 @@
 | ----------------------------------------------------------------------------------- | ------------------------------------------------------------ |
 | `data` 래핑                                                                         | 리소스형 응답 공통 컨테이너                                  |
 | `overviewStats[]` (`id`, `icon`, `value`, `label`, `change`, `color`)               | `리그 허브 > Overview KPI 카드`                              |
-| `highlightMetrics[]` (`id`, `icon`, `value`, `label`, `change`, `gradient.from/to`) | `리그 허브 > Highlights 슬라이더`                            |
 | `meta.season` (문자열)                                                              | UI가 요구하는 시즌명. 실제 `seasonId`는 사용자 표시용이 아님 |
 | `meta.locale`                                                                       | 응답 언어. 현행 실제 응답에는 없거나 변형됨                  |
 
 ## 5. 리그 순위표 (League Standings)
 
-**fetchLeagueStandings (USE_MOCK_API)**
+**fetchLeagueStandings (Mock Data)**
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -3290,7 +3207,7 @@
 
 ## 6. 리그 메타 지표 (League Meta)
 
-**fetchLeagueMeta (USE_MOCK_API)**
+**fetchLeagueMeta (Mock Data)**
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -3378,7 +3295,7 @@
 
 ## 7. 선수 랭킹 (Player Rankings)
 
-**fetchPlayerRankings (USE_MOCK_API)**
+**fetchPlayerRankings (Mock Data)**
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -3530,7 +3447,7 @@
 
 ## 8. 선수 데이터베이스 (Player Database)
 
-**fetchPlayerDatabase (USE_MOCK_API)**
+**fetchPlayerDatabase (Mock Data)**
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -9808,7 +9725,7 @@
 
 **차이 요약**
 
-- mock는 `data.players`가 상세 스탯(숫자 id, PlayerSkillSet, career)과 `filters` 배열을 모두 포함
+- mock는 `data.players`가 상세 스탯(숫자 id, PlayerSkillSet, career)과 `filters.positions/teamIds`를 배열로 제공
 - <span style="color:#d00">실제 응답은 루트에 `players`/`filters`</span>를 두고 `id`가 UUID, `stats`/`career`가 비어 있음
 - `filters.positions`도 문자열 한 줄로 내려옴
 
@@ -9819,5 +9736,5 @@
 | `data` 래핑                                                                                       | 리스트 + 필터 세트를 하나의 리소스로 반환하는 계약 |
 | `PlayerDatabaseEntry.stats` (`pace`, `shooting`, `passing`, `dribbling`, `defending`, `physical`) | `선수 데이터베이스 > 능력치 차트`                  |
 | `PlayerDatabaseEntry.career[]` (`year`, `teamId`, `matches`, `goals`)                             | `선수 데이터베이스 > 커리어 타임라인`              |
-| `filters.positions` (배열)                                                                        | `선수 데이터베이스 > 필터 패널` 포지션 선택        |
+| `filters.positions` (배열) / `filters.teamIds`                                                    | `선수 데이터베이스 > 필터 패널` 포지션/클럽 선택   |
 | `meta.lastUpdated`, `meta.locale`                                                                 | `선수 데이터베이스 > 헤더`의 업데이트 정보/언어    |
