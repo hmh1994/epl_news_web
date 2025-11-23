@@ -144,15 +144,9 @@ export const fetchTeamSquad = async (
   );
 };
 
-const toApiTeamProfile = (team: TeamProfile) => {
-  const { value: _omitValue, ...rest } = team;
-  return rest;
-};
+const toApiTeamProfile = (team: TeamProfile) => team;
 
-const toApiPlayerProfile = (player: PlayerProfile) => {
-  const { value: _omitValue, marketValue: _omitMarketValue, ...rest } = player;
-  return rest;
-};
+const toApiPlayerProfile = (player: PlayerProfile) => player;
 
 const buildAvailablePositions = (): PlayerPosition[] => {
   const unique = new Set<PlayerPosition>();
