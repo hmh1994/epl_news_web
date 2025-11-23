@@ -1174,7 +1174,14 @@
       }
     ],
     "filters": {
-      "positions": []
+      "positions": [
+        "ST",
+        "CAM",
+        "CB",
+        "GK",
+        "RW",
+        "LW"
+      ]
     }
   },
   "meta": {
@@ -1661,10 +1668,10 @@
 | --- | --- |
 | `data` 래핑 | 공통 API 클라이언트에서 사용하는 표준 응답 포맷 |
 | `filters.positions` | UI 필터 패널에서 제공할 포지션 옵션 목록 |
-| `TeamProfile.colors` | 팀 컬러(메인/서브). 카드·그래프 색상 지정에 사용 |
+| `TeamProfile.colors.primary` / `TeamProfile.colors.secondary` | 홈/원정 컬러 코드. 카드·그래프 색상 지정에 사용 |
 | `TeamProfile.avgAge` / `trophies` | 구단 평균 나이, 우승 기록 등 핵심 지표 |
 | `TeamProfile.form` | 최근 경기 결과 5개. 하이라이트/폼 가이드에 사용 |
-| `TeamProfile.description` / `keyStats` | 상세 소개 및 핵심 통계. 디테일 패널 콘텐츠 |
+| `TeamProfile.description` / `keyStats`(`possession`, `passAccuracy`, `shotsPerGame`, `cleanSheets`) | 상세 소개 및 핵심 통계. 디테일 패널 콘텐츠 |
 | `TeamProfile.nationality` | 감독/팀 국적 표시 텍스트 |
 | `meta.lastUpdated`, `meta.locale` | 데이터 기준 시각 및 응답 언어 정보 |
 ## 3. 팀 스쿼드 (Team Squad)
@@ -2129,7 +2136,7 @@
 | 필드 | 의미/용도 |
 | --- | --- |
 | `data` 래핑 | `ApiResourceResponse` 규약. 프런트 공통 훅이 요구 |
-| `TeamProfile` 세부 필드 | 위 팀 프로필과 동일한 확장 정보를 재사용. 상세 화면 공통 컴포넌트가 의존 |
+| `TeamProfile`(`colors.primary/secondary`, `form`, `avgAge`, `trophies`, `description`, `keyStats.possession/passAccuracy/shotsPerGame/cleanSheets`, `nationality`) | 팀 프로필 화면과 동일한 확장 정보를 재사용. 상세 패널/배경 연동 컴포넌트가 의존 |
 | `PlayerProfile.rating` | 선수 폼 지표. 스쿼드 테이블 보조 정보 |
 | `PlayerProfile.teamId` / `nationalityName` | 연관 팀 ID와 국적 이름(국기·국적명 분리) |
 | `meta.lastUpdated` | 스쿼드 정보의 최신화 시점 |
@@ -2335,7 +2342,8 @@
 | 필드 | 의미/용도 |
 | --- | --- |
 | `data` 래핑 | 리소스형 응답 공통 컨테이너 |
-| `overviewStats`, `highlightMetrics` | 홈/허브 화면에서 노출되는 지표 카드 데이터 |
+| `overviewStats[]` (`id`, `icon`, `value`, `label`, `change`, `color`) | 허브 요약 카드 데이터. 각 항목이 동일 스키마를 가져야 UI가 바로 매핑 가능 |
+| `highlightMetrics[]` (`id`, `icon`, `value`, `label`, `change`, `gradient.from/to`) | 메트릭 하이라이트 슬라이더. 그라디언트 컬러를 사용해 카드 배경을 렌더링 |
 | `meta.season` (문자열) | UI가 요구하는 시즌명. 실제 `seasonId`는 사용자 표시용이 아님 |
 | `meta.locale` | 응답 언어. 현행 실제 응답에는 없거나 변형됨 |
 ## 5. 리그 순위표 (League Standings)
@@ -3535,7 +3543,7 @@
 | `data` 래핑 | 리스트 응답 표준화 |
 | `LeagueStandingsRow.form` | 최근 5경기 결과. 테이블 내 폼 칩에 사용 |
 | `LeagueStandingsRow.trend` | 순위 변동(↑/↓) 표시 값 |
-| `LeagueStandingsRow.advancedMetrics` | xG, 점유율 등 심화 지표. “Advanced” 토글에 필요 |
+| `LeagueStandingsRow.advancedMetrics` (`xG`, `xGA`, `possession`, `passAccuracy`, `cleanSheets`, `bigChances`) | 심화 지표 카드/차트. “Advanced” 토글을 켰을 때 바로 노출 |
 | `meta.lastUpdated`, `meta.locale` | 순위표 기준 시각과 언어 정보 |
 ## 6. 리그 메타 지표 (League Meta)
 
@@ -10082,7 +10090,7 @@
 | 필드 | 의미/용도 |
 | --- | --- |
 | `data` 래핑 | 리스트 + 필터 세트를 하나의 리소스로 반환하는 계약 |
-| `PlayerDatabaseEntry.stats` 값 | Pace/Shooting 등 스킬 지표. 카드형 UI의 막대 그래프 |
-| `PlayerDatabaseEntry.career` | 연도별 기록. 히스토리 섹션 |
+| `PlayerDatabaseEntry.stats` (`pace`, `shooting`, `passing`, `dribbling`, `defending`, `physical`) | 능력치 레이더/바 차트 데이터 |
+| `PlayerDatabaseEntry.career[]` (`year`, `teamId`, `matches`, `goals`) | 연도별 기록. 히스토리 섹션 |
 | `filters.positions` (배열) | 프론트 필터 옵션 그대로 사용. 문자열 형태는 파싱이 어려움 |
 | `meta.lastUpdated`, `meta.locale` | 데이터 기준 시각 및 언어 |

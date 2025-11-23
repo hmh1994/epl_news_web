@@ -10,7 +10,10 @@ import type {
   TeamsInfoResponse,
 } from "@/shared/api/epl/model/types";
 import type { TeamProfile } from "@/entities/team/model/team-profile";
-import type { PlayerProfile } from "@/entities/player/model/player-profile";
+import type {
+  PlayerProfile,
+  PlayerPosition,
+} from "@/entities/player/model/player-profile";
 import { RequestOptions, leaguePath } from "./base";
 import { MOCK_TEAMS } from "@/shared/mocks/data/teams";
 import { TEAM_PLAYERS, TEAM_PROFILES } from "@/shared/mocks/team-info";
@@ -89,7 +92,7 @@ export const fetchTeamProfiles = async (
       data: {
         teams,
         filters: {
-          positions: [],
+          positions: buildAvailablePositions(),
         },
       },
       meta: {
@@ -149,6 +152,14 @@ const toApiTeamProfile = (team: TeamProfile) => {
 const toApiPlayerProfile = (player: PlayerProfile) => {
   const { value: _omitValue, marketValue: _omitMarketValue, ...rest } = player;
   return rest;
+};
+
+const buildAvailablePositions = (): PlayerPosition[] => {
+  const unique = new Set<PlayerPosition>();
+  TEAM_PLAYERS.forEach((player) => {
+    unique.add(player.position);
+  });
+  return Array.from(unique);
 };
 
 const findTeamProfile = (teamId: string) => {
