@@ -148,6 +148,104 @@ export interface TeamSquadResponse
   };
 }
 
+export interface TeamDetailSummary {
+  id: number;
+  name: string;
+  shortName: string;
+  logo: string;
+  manager: string;
+  description: string;
+}
+
+export interface TeamDetailMeta {
+  rank: number;
+  points: number;
+  played: number;
+  won: number;
+  drawn: number;
+  lost: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  avgAge: number;
+  trophies: number;
+}
+
+export interface TeamDetailStatic {
+  founded: number;
+  stadium: string;
+  capacity: number;
+  colors: TeamProfile["colors"];
+  keyStats: TeamProfile["keyStats"];
+}
+
+export interface TeamDetailResponse
+  extends ApiResourceResponse<{
+    team: {
+      summary: TeamDetailSummary;
+      meta: TeamDetailMeta;
+      static: TeamDetailStatic;
+      squad: ApiPlayerProfile[];
+    };
+  }> {
+  meta: ApiResponseMeta & {
+    leagueId: string;
+    teamId: string;
+    season: string;
+    lastUpdated: number;
+  };
+}
+
+export interface PlayerDetailSummary {
+  id: number;
+  name: string;
+  teamId: string | number;
+  position: PlayerPosition;
+  photo: string;
+  nationality: string;
+  age: number;
+  height: number;
+  weight: number;
+}
+
+export interface PlayerDetailAttributes {
+  pace: number;
+  shooting: number;
+  passing: number;
+  dribbling: number;
+  defending: number;
+  physical: number;
+}
+
+export interface PlayerDetailPerformance {
+  goals: number;
+  assists: number;
+  pace: number;
+}
+
+export interface PlayerCareerEntry {
+  year: string;
+  teamId: string;
+  matches: number;
+  goals: number;
+}
+
+export interface PlayerDetailResponse
+  extends ApiResourceResponse<{
+    player: {
+      summary: PlayerDetailSummary;
+      attributes: PlayerDetailAttributes;
+      performance: PlayerDetailPerformance;
+      career: PlayerCareerEntry[];
+    };
+  }> {
+  meta: ApiResponseMeta & {
+    leagueId: string;
+    playerId: string | number;
+    season: string;
+    lastUpdated: number;
+  };
+}
+
 export interface PremiumTableResponse
   extends ApiResourceResponse<{
     standings: LeagueStandingsRow[];

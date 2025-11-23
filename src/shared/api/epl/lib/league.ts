@@ -8,7 +8,9 @@ import type {
 import { leaguePath, RequestOptions } from "./base";
 
 const {
-  league: { premiumTable: PREMIUM_TABLE_SOURCE },
+  league: {
+    premiumTable: PREMIUM_TABLE_SOURCE,
+  },
   teams: { byId: TEAMS_BY_ID },
 } = EPL_MOCK_DATA;
 
