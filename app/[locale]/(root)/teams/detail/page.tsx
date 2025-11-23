@@ -8,7 +8,7 @@ export default async function TeamInfoRoute() {
   const teams = profilesResponse.data.teams;
 
   const squadResponses = await Promise.all(
-    teams.map((team) => fetchTeamSquad(String(team.id)))
+    teams.map((team) => fetchTeamSquad("epl", String(team.id)))
   );
 
   const players = squadResponses.flatMap((response) => response.data.squad);

@@ -139,12 +139,13 @@ export interface LeagueMetaResponse extends ApiListResponse<LeagueMetaMetric> {
   };
 }
 
-export interface HubOverviewResponse extends ApiResourceResponse<{
-  standings: LeagueStandingsRow[];
-  featuredFixtures: MatchFixture[];
-  playerRankings: PlayerRanking[];
-  leagueMeta: LeagueMetaMetric[];
-}> {
+export interface HubOverviewResponse
+  extends ApiResourceResponse<{
+    standings: LeagueStandingsRow[];
+    featuredFixtures: MatchFixture[];
+    playerRankings: PlayerRanking[];
+    leagueMeta: LeagueMetaMetric[];
+  }> {
   meta: ApiResponseMeta & {
     leagueId: string;
     season: string;
@@ -169,12 +170,13 @@ export interface MatchScheduleAnalytics {
   }>;
 }
 
-export interface MatchScheduleResponse extends ApiResourceResponse<{
-  matchweeks: number[];
-  schedule: MatchDaySchedule[];
-  spotlightFixtureIds: string[];
-  analytics: MatchScheduleAnalytics;
-}> {
+export interface MatchScheduleResponse
+  extends ApiResourceResponse<{
+    matchweeks: number[];
+    schedule: MatchDaySchedule[];
+    spotlightFixtureIds: string[];
+    analytics: MatchScheduleAnalytics;
+  }> {
   meta: ApiResponseMeta & {
     leagueId: string;
     season: string;
@@ -201,10 +203,11 @@ export interface PlayerFilters {
   };
 }
 
-export interface PlayerDatabaseResponse extends ApiResourceResponse<{
-  players: PlayerDatabaseEntry[];
-  filters: PlayerFilters;
-}> {
+export interface PlayerDatabaseResponse
+  extends ApiResourceResponse<{
+    players: PlayerDatabaseEntry[];
+    filters: PlayerFilters;
+  }> {
   meta: ApiResponseMeta & {
     leagueId: string;
     season: string;
@@ -212,12 +215,10 @@ export interface PlayerDatabaseResponse extends ApiResourceResponse<{
   };
 }
 
-export interface TeamProfilesResponse extends ApiResourceResponse<{
-  teams: ApiTeamProfile[];
-  filters: {
-    positions: PlayerPosition[];
-  };
-}> {
+export interface TeamProfilesResponse
+  extends ApiResourceResponse<{
+    teams: ApiTeamProfile[];
+  }> {
   meta: ApiResponseMeta & {
     leagueId: string;
     season: string;
@@ -225,10 +226,11 @@ export interface TeamProfilesResponse extends ApiResourceResponse<{
   };
 }
 
-export interface TeamSquadResponse extends ApiResourceResponse<{
-  team: ApiTeamProfile;
-  squad: ApiPlayerProfile[];
-}> {
+export interface TeamSquadResponse
+  extends ApiResourceResponse<{
+    team: ApiTeamProfile;
+    squad: ApiPlayerProfile[];
+  }> {
   meta: ApiResponseMeta & {
     teamId: string;
     season: string;
@@ -236,19 +238,20 @@ export interface TeamSquadResponse extends ApiResourceResponse<{
   };
 }
 
-export interface PremiumTableResponse extends ApiResourceResponse<{
-  standings: LeagueStandingsRow[];
-  analytics: {
-    formGuide: Array<{
-      teamId: string;
-      form: string[];
-    }>;
-    valueBands: Array<{
-      tier: string;
-      teams: string[];
-    }>;
-  };
-}> {
+export interface PremiumTableResponse
+  extends ApiResourceResponse<{
+    standings: LeagueStandingsRow[];
+    analytics: {
+      formGuide: Array<{
+        teamId: string;
+        form: string[];
+      }>;
+      valueBands: Array<{
+        tier: string;
+        teams: string[];
+      }>;
+    };
+  }> {
   meta: ApiResponseMeta & {
     leagueId: string;
     season: string;

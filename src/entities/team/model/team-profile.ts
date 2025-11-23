@@ -30,7 +30,6 @@ export interface TeamProfile {
   goalsFor: number;
   goalsAgainst: number;
   form: string[];
-  value: string;
   avgAge: number;
   trophies: number;
   description: string;

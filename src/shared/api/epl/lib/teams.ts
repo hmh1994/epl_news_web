@@ -91,9 +91,6 @@ export const fetchTeamProfiles = async (
     return {
       data: {
         teams,
-        filters: {
-          positions: buildAvailablePositions(),
-        },
       },
       meta: {
         leagueId,
@@ -321,18 +318,9 @@ const normalizeTeamProfilesResponse = (
     ? apiResponse.teams.map((team) => adaptExternalTeamProfile(team))
     : [];
 
-  const positions =
-    Array.isArray(apiResponse?.filters?.positions) &&
-    apiResponse.filters?.positions.every((pos) => typeof pos === "string")
-      ? (apiResponse.filters.positions as PlayerPosition[])
-      : buildAvailablePositions();
-
   return {
     data: {
       teams,
-      filters: {
-        positions,
-      },
     },
     meta: {
       leagueId,
@@ -360,7 +348,9 @@ const normalizeTeamSquadResponse = (
   const apiResponse = raw as ExternalTeamSquadApiResponse;
   const team = adaptExternalTeamProfile(apiResponse?.team);
   const squad = Array.isArray(apiResponse?.squad)
-    ? apiResponse.squad.map((player) => adaptExternalPlayerProfile(player, team.id))
+    ? apiResponse.squad.map((player) =>
+        adaptExternalPlayerProfile(player, team.id)
+      )
     : [];
 
   return {
@@ -392,8 +382,7 @@ const adaptExternalTeamProfile = (
   const matched = findMockTeamProfile(team);
   const numericId =
     matched?.id ?? toNumericId(team.id ?? team.shortNameEn ?? team.nameEn);
-  const name =
-    team.nameKr ?? team.nameEn ?? matched?.name ?? "알 수 없는 팀";
+  const name = team.nameKr ?? team.nameEn ?? matched?.name ?? "알 수 없는 팀";
   const shortName =
     team.shortNameKr ??
     team.shortNameEn ??
@@ -421,15 +410,13 @@ const adaptExternalTeamProfile = (
     shortName,
     logo: team.logo ?? matched?.logo ?? "⚽",
     founded: safeNumber(team.founded, matched?.founded ?? 0),
-    stadium: team.stadiumKr ?? team.stadiumEn ?? matched?.stadium ?? "정보 없음",
+    stadium:
+      team.stadiumKr ?? team.stadiumEn ?? matched?.stadium ?? "정보 없음",
     capacity: safeNumber(team.capacity, matched?.capacity ?? 0),
     manager:
       team.managerKr ?? team.managerEn ?? matched?.manager ?? "정보 없음",
     nationality:
-      team.countryKr ??
-      team.countryEn ??
-      matched?.nationality ??
-      "정보 없음",
+      team.countryKr ?? team.countryEn ?? matched?.nationality ?? "정보 없음",
     colors,
     rank: safeNumber(team.rank, matched?.rank ?? 0),
     points: safeNumber(team.points, matched?.points ?? 0),
@@ -461,9 +448,7 @@ const adaptExternalPlayerProfile = (
     number: player.number ?? matched?.number ?? 0,
     name: player.nameKr ?? player.nameEn ?? matched?.name ?? "알 수 없는 선수",
     position:
-      normalizePlayerPosition(player.position) ??
-      matched?.position ??
-      "CM",
+      normalizePlayerPosition(player.position) ?? matched?.position ?? "CM",
     age: safeNumber(player.age, matched?.age ?? 0),
     nationality:
       player.nationalityKr ??

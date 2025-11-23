@@ -1,4 +1,5 @@
 # EPL API Response 예시 vs 실서비스 비교
+
 > 각 섹션은 현재 프런트에서 사용하는 mock 응답과 `https://infootball.kr/openapi.json` 기반 실제 서버 응답(`curl`)을 나란히 보여줍니다.
 
 ## 1. 팀 목록 (Teams Info)
@@ -205,9 +206,7 @@
 
 </details>
 
-
 **실서비스 curl** — `curl -s "https://infootball.kr/api/v1/leagues/epl/teams?locale=en-US"`
-
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -368,19 +367,20 @@
 
 </details>
 
-
 **차이 요약**
+
 - <span style="color:#d00">실서비스는 `teams` 루트를 사용</span>해 `{ data, meta }` 래핑이 없음
 - <span style="color:#d00">`crest` 필드가 없음</span> → UI 기본값 필요
 - mock `meta`에는 `total`, `locale`이 있지만 실제 `meta`엔 `lastUpdated`가 전혀 내려오지 않음
 
 **누락 필드 & 의미**
 
-| 필드 | 의미/용도 |
-| --- | --- |
-| `data` 래핑 | `ApiListResponse<T>` 계약 준수를 위한 컨테이너. 공통 에러/캐싱 로직이 이 형태를 기대함 |
-| `TeamSummary.crest` | `Teams > 탐색 리스트` 카드 썸네일 이미지 |
-| `meta.lastUpdated` | `Teams > 상단 알림 배지`의 “업데이트 시간” 표기 및 캐싱 기준 |
+| 필드                | 의미/용도                                                                              |
+| ------------------- | -------------------------------------------------------------------------------------- |
+| `data` 래핑         | `ApiListResponse<T>` 계약 준수를 위한 컨테이너. 공통 에러/캐싱 로직이 이 형태를 기대함 |
+| `TeamSummary.crest` | `Teams > 탐색 리스트` 카드 썸네일 이미지                                               |
+| `meta.lastUpdated`  | `Teams > 상단 알림 배지`의 “업데이트 시간” 표기 및 캐싱 기준                           |
+
 ## 2. 팀 프로필 (Team Profiles)
 
 **fetchTeamProfiles (USE_MOCK_API)**
@@ -414,13 +414,7 @@
         "lost": 5,
         "goalsFor": 99,
         "goalsAgainst": 31,
-        "form": [
-          "W",
-          "W",
-          "D",
-          "W",
-          "W"
-        ],
+        "form": ["W", "W", "D", "W", "W"],
         "avgAge": 28.2,
         "trophies": 10,
         "description": "현재 프리미어리그 최강팀으로 펩 과르디올라의 혁신적인 전술과 세계 최고 수준의 선수들을 보유한 맨체스터의 자존심",
@@ -453,13 +447,7 @@
         "lost": 6,
         "goalsFor": 88,
         "goalsAgainst": 43,
-        "form": [
-          "W",
-          "L",
-          "W",
-          "W",
-          "D"
-        ],
+        "form": ["W", "L", "W", "W", "D"],
         "avgAge": 25.8,
         "trophies": 13,
         "description": "런던 북부의 전통 강호로 젊은 재능들과 아르테타의 현대적 전술이 만나 새로운 황금기를 준비하는 거너스",
@@ -492,13 +480,7 @@
         "lost": 9,
         "goalsFor": 58,
         "goalsAgainst": 43,
-        "form": [
-          "D",
-          "W",
-          "L",
-          "W",
-          "W"
-        ],
+        "form": ["D", "W", "L", "W", "W"],
         "avgAge": 26.9,
         "trophies": 20,
         "description": "영국 축구의 전설적인 클럽으로 전 세계 6억 팬들의 사랑을 받으며 텐 하흐 감독과 함께 부활을 꿈꾸는 레드 데빌스",
@@ -531,13 +513,7 @@
         "lost": 16,
         "goalsFor": 38,
         "goalsAgainst": 47,
-        "form": [
-          "W",
-          "D",
-          "W",
-          "L",
-          "W"
-        ],
+        "form": ["W", "D", "W", "L", "W"],
         "avgAge": 23.4,
         "trophies": 6,
         "description": "런던 서부의 블루스로 젊은 선수단과 함께 새로운 도전을 시작하며 재건을 위해 노력하는 전통의 강호",
@@ -570,13 +546,7 @@
         "lost": 9,
         "goalsFor": 75,
         "goalsAgainst": 28,
-        "form": [
-          "L",
-          "D",
-          "W",
-          "D",
-          "L"
-        ],
+        "form": ["L", "D", "W", "D", "L"],
         "avgAge": 28.7,
         "trophies": 19,
         "description": "안필드의 열정과 YNWA 정신으로 유명한 머지사이드의 레즈로 클롭과 함께 황금기를 구가했던 전설적인 팀",
@@ -609,13 +579,7 @@
         "lost": 14,
         "goalsFor": 66,
         "goalsAgainst": 40,
-        "form": [
-          "W",
-          "W",
-          "L",
-          "D",
-          "W"
-        ],
+        "form": ["W", "W", "L", "D", "W"],
         "avgAge": 26.1,
         "trophies": 2,
         "description": "런던 북부 스퍼스로 공격적인 축구 철학과 아름다운 경기 운영으로 팬들을 매혹시키는 라일라화이트",
@@ -648,13 +612,7 @@
         "lost": 9,
         "goalsFor": 68,
         "goalsAgainst": 33,
-        "form": [
-          "W",
-          "W",
-          "D",
-          "L",
-          "W"
-        ],
+        "form": ["W", "W", "D", "L", "W"],
         "avgAge": 26.7,
         "trophies": 4,
         "description": "세인트 제임스 파크의 열정을 바탕으로 상위권 경쟁에 합류한 막강한 화력을 자랑하는 매그파이즈",
@@ -687,13 +645,7 @@
         "lost": 12,
         "goalsFor": 59,
         "goalsAgainst": 46,
-        "form": [
-          "W",
-          "L",
-          "W",
-          "W",
-          "D"
-        ],
+        "form": ["W", "L", "W", "W", "D"],
         "avgAge": 26.4,
         "trophies": 7,
         "description": "버밍엄을 대표하는 전통 명문으로 에메리 감독의 전술 아래 유럽 대회 복귀를 노리는 빌런즈",
@@ -726,13 +678,7 @@
         "lost": 14,
         "goalsFor": 72,
         "goalsAgainst": 53,
-        "form": [
-          "L",
-          "W",
-          "D",
-          "W",
-          "L"
-        ],
+        "form": ["L", "W", "D", "W", "L"],
         "avgAge": 25.2,
         "trophies": 0,
         "description": "강한 압박과 유연한 빌드업으로 유명한 해변의 클럽, 젊은 선수들의 잠재력을 꽃피우는 시걸스",
@@ -765,13 +711,7 @@
         "lost": 15,
         "goalsFor": 42,
         "goalsAgainst": 45,
-        "form": [
-          "W",
-          "D",
-          "L",
-          "W",
-          "L"
-        ],
+        "form": ["W", "D", "L", "W", "L"],
         "avgAge": 28.5,
         "trophies": 3,
         "description": "동런던의 해머스로 최근 유럽 무대에서 존재감을 드러내며 탄탄한 수비와 세트피스를 무기로 삼는 팀",
@@ -804,13 +744,7 @@
         "lost": 14,
         "goalsFor": 58,
         "goalsAgainst": 46,
-        "form": [
-          "D",
-          "W",
-          "W",
-          "L",
-          "D"
-        ],
+        "form": ["D", "W", "W", "L", "D"],
         "avgAge": 26.8,
         "trophies": 1,
         "description": "데이터 기반 운영과 유연한 전술로 주목받는 런던의 다크호스, 탄탄한 조직력을 자랑하는 비즈",
@@ -843,13 +777,7 @@
         "lost": 17,
         "goalsFor": 40,
         "goalsAgainst": 49,
-        "form": [
-          "L",
-          "D",
-          "W",
-          "L",
-          "W"
-        ],
+        "form": ["L", "D", "W", "L", "W"],
         "avgAge": 26.3,
         "trophies": 0,
         "description": "열정적인 홈 분위기로 유명한 사우스 런던의 이글스로 빠른 역습과 측면 돌파를 강점으로 삼는 팀",
@@ -882,13 +810,7 @@
         "lost": 18,
         "goalsFor": 41,
         "goalsAgainst": 50,
-        "form": [
-          "W",
-          "L",
-          "L",
-          "D",
-          "W"
-        ],
+        "form": ["W", "L", "L", "D", "W"],
         "avgAge": 26.9,
         "trophies": 3,
         "description": "견고한 수비와 빠른 전환을 기반으로 승점을 쌓는 울브스로 포르투갈 색채가 짙은 스쿼드가 특징",
@@ -921,13 +843,7 @@
         "lost": 17,
         "goalsFor": 46,
         "goalsAgainst": 53,
-        "form": [
-          "D",
-          "L",
-          "W",
-          "D",
-          "L"
-        ],
+        "form": ["D", "L", "W", "D", "L"],
         "avgAge": 27.4,
         "trophies": 0,
         "description": "템스 강변의 전통 클럽으로 촘촘한 수비와 세련된 패싱으로 잔류에 성공한 코티저",
@@ -960,13 +876,7 @@
         "lost": 18,
         "goalsFor": 34,
         "goalsAgainst": 51,
-        "form": [
-          "L",
-          "D",
-          "W",
-          "L",
-          "D"
-        ],
+        "form": ["L", "D", "W", "L", "D"],
         "avgAge": 27.1,
         "trophies": 9,
         "description": "머지사이드의 전통 명문으로 강인한 피지컬과 투지를 바탕으로 잔류 경쟁을 이어가는 토피즈",
@@ -999,13 +909,7 @@
         "lost": 17,
         "goalsFor": 39,
         "goalsAgainst": 54,
-        "form": [
-          "W",
-          "D",
-          "L",
-          "L",
-          "W"
-        ],
+        "form": ["W", "D", "L", "L", "W"],
         "avgAge": 25.9,
         "trophies": 0,
         "description": "작지만 빠른 역습을 강점으로 하는 체리스로 유연한 포메이션 변화를 통해 프리미어리그에 적응 중인 팀",
@@ -1038,13 +942,7 @@
         "lost": 18,
         "goalsFor": 38,
         "goalsAgainst": 61,
-        "form": [
-          "W",
-          "D",
-          "L",
-          "L",
-          "D"
-        ],
+        "form": ["W", "D", "L", "L", "D"],
         "avgAge": 26,
         "trophies": 2,
         "description": "유럽 컵 우승의 전통을 지닌 팀으로 다수의 신입 선수를 조합하며 프리미어리그 생존에 도전하는 트리키 트리즈",
@@ -1077,13 +975,7 @@
         "lost": 20,
         "goalsFor": 37,
         "goalsAgainst": 65,
-        "form": [
-          "D",
-          "L",
-          "L",
-          "W",
-          "L"
-        ],
+        "form": ["D", "L", "L", "W", "L"],
         "avgAge": 24.8,
         "trophies": 2,
         "description": "콤파니 감독의 공격적인 철학으로 재정비된 클라렛으로 높은 라인과 패싱 플레이를 시도하는 팀",
@@ -1116,13 +1008,7 @@
         "lost": 22,
         "goalsFor": 35,
         "goalsAgainst": 63,
-        "form": [
-          "L",
-          "D",
-          "L",
-          "W",
-          "L"
-        ],
+        "form": ["L", "D", "L", "W", "L"],
         "avgAge": 27.3,
         "trophies": 0,
         "description": "열정적인 팬과 독특한 홈구장을 자랑하는 햇츠로 투지 넘치는 플레이와 긴 패스를 즐겨 사용하는 팀",
@@ -1155,13 +1041,7 @@
         "lost": 23,
         "goalsFor": 30,
         "goalsAgainst": 69,
-        "form": [
-          "L",
-          "L",
-          "D",
-          "L",
-          "W"
-        ],
+        "form": ["L", "L", "D", "L", "W"],
         "avgAge": 27.6,
         "trophies": 1,
         "description": "전통적인 수비 조직력과 투쟁심으로 승부하는 블레이즈, 승격 첫 해 생존을 위해 분투하는 팀",
@@ -1172,17 +1052,7 @@
           "cleanSheets": 4
         }
       }
-    ],
-    "filters": {
-      "positions": [
-        "ST",
-        "CAM",
-        "CB",
-        "GK",
-        "RW",
-        "LW"
-      ]
-    }
+    ]
   },
   "meta": {
     "leagueId": "epl",
@@ -1195,9 +1065,7 @@
 
 </details>
 
-
 **실서비스 curl** — `curl -s "https://infootball.kr/api/v1/leagues/epl/teams/profiles?locale=en-US"`
-
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -1656,24 +1524,24 @@
 
 </details>
 
-
 **차이 요약**
-- <span style="color:#d00">mock는 `data.teams` + `filters` 래핑</span>인데 실제 응답은 `teams` 배열만 존재
+
+- <span style="color:#d00">mock는 `data.teams` 래핑</span>인데 실제 응답은 `teams` 배열만 존재
 - <span style="color:#d00">TeamProfile 필드</span>(colors, keyStats 등) 상당수가 실제 응답에 없음
 - `meta` 구조도 다르고 mock은 season, locale, lastUpdated를 포함하지만 실제는 leagueId/Name 정도만 전달
 
 **누락 필드 & 의미**
 
-| 필드 | 의미/용도 |
-| --- | --- |
-| `data` 래핑 | 공통 API 클라이언트에서 사용하는 표준 응답 포맷 |
-| `filters.positions` | `팀 프로필 페이지 > 좌측 필터 패널`의 포지션 드롭다운 |
-| `TeamProfile.colors.primary` / `TeamProfile.colors.secondary` | `팀 프로필 > Hero 배경 & 컬러 배지` |
-| `TeamProfile.avgAge` / `trophies` | `팀 프로필 > 핵심 지표 카드` (평균 나이/우승 기록) |
-| `TeamProfile.form` | `팀 프로필 > 최근 경기 폼` 슬라이더 |
-| `TeamProfile.description` / `keyStats`(`possession`, `passAccuracy`, `shotsPerGame`, `cleanSheets`) | `팀 프로필 > 소개 섹션` 및 `Key Stats` 카드 |
-| `TeamProfile.nationality` | `팀 프로필 > 감독 정보 배지` |
-| `meta.lastUpdated`, `meta.locale` | `팀 프로필 > 데이터 스탬프` 및 i18n fallback |
+| 필드                                                                                                | 의미/용도                                          |
+| --------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `data` 래핑                                                                                         | 공통 API 클라이언트에서 사용하는 표준 응답 포맷    |
+| `TeamProfile.colors.primary` / `TeamProfile.colors.secondary`                                       | `팀 프로필 > Hero 배경 & 컬러 배지`                |
+| `TeamProfile.avgAge` / `trophies`                                                                   | `팀 프로필 > 핵심 지표 카드` (평균 나이/우승 기록) |
+| `TeamProfile.form`                                                                                  | `팀 프로필 > 최근 경기 폼` 슬라이더                |
+| `TeamProfile.description` / `keyStats`(`possession`, `passAccuracy`, `shotsPerGame`, `cleanSheets`) | `팀 프로필 > 소개 섹션` 및 `Key Stats` 카드        |
+| `TeamProfile.nationality`                                                                           | `팀 프로필 > 감독 정보 배지`                       |
+| `meta.lastUpdated`, `meta.locale`                                                                   | `팀 프로필 > 데이터 스탬프` 및 i18n fallback       |
+
 ## 3. 팀 스쿼드 (Team Squad)
 
 **fetchTeamSquad (USE_MOCK_API, teamId=1)**
@@ -1706,13 +1574,7 @@
       "lost": 5,
       "goalsFor": 99,
       "goalsAgainst": 31,
-      "form": [
-        "W",
-        "W",
-        "D",
-        "W",
-        "W"
-      ],
+      "form": ["W", "W", "D", "W", "W"],
       "avgAge": 28.2,
       "trophies": 10,
       "description": "현재 프리미어리그 최강팀으로 펩 과르디올라의 혁신적인 전술과 세계 최고 수준의 선수들을 보유한 맨체스터의 자존심",
@@ -1736,7 +1598,7 @@
         "rating": 9.2,
         "goals": 36,
         "assists": 8,
-        "appearances": 35,
+        "appearances": 35
       },
       {
         "id": 2,
@@ -1750,7 +1612,7 @@
         "rating": 8.9,
         "goals": 7,
         "assists": 16,
-        "appearances": 32,
+        "appearances": 32
       },
       {
         "id": 3,
@@ -1764,7 +1626,7 @@
         "rating": 8.7,
         "goals": 2,
         "assists": 1,
-        "appearances": 34,
+        "appearances": 34
       },
       {
         "id": 4,
@@ -1778,7 +1640,7 @@
         "rating": 8.5,
         "goals": 0,
         "assists": 0,
-        "appearances": 30,
+        "appearances": 30
       },
       {
         "id": 5,
@@ -1792,7 +1654,7 @@
         "rating": 8.3,
         "goals": 15,
         "assists": 11,
-        "appearances": 35,
+        "appearances": 35
       },
       {
         "id": 6,
@@ -1806,7 +1668,7 @@
         "rating": 8.1,
         "goals": 8,
         "assists": 12,
-        "appearances": 36,
+        "appearances": 36
       }
     ]
   },
@@ -1821,9 +1683,7 @@
 
 </details>
 
-
 **실서비스 curl** — `curl -s "https://infootball.kr/api/v1/leagues/epl/teams/0bfdd7f3-42fb-49b4-9807-44b4d830cdcb/squad?locale=en-US"`
-
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -2125,8 +1985,8 @@
 
 </details>
 
-
 **차이 요약**
+
 - mock는 `data.team`과 `data.squad`가 프런트 타입(숫자 ID, `PlayerProfile` enum)을 그대로 사용
 - <span style="color:#d00">실제 스쿼드 `position` 값</span>은 `GOALKEEPER` 등 다른 문자열이고 `rating` 값도 없음
 - 실제 응답 루트도 `{ team, squad, meta }`로 다르며 `lastUpdated` 없음
@@ -2135,15 +1995,16 @@
 
 **누락 필드 & 의미**
 
-| 필드 | 의미/용도 |
-| --- | --- |
-| `data` 래핑 | `ApiResourceResponse` 규약. 프런트 공통 훅이 요구 |
-| `TeamProfile`(`colors.primary/secondary`, `form`, `avgAge`, `trophies`, `description`, `keyStats.possession/passAccuracy/shotsPerGame/cleanSheets`, `nationality`) | `팀 상세 페이지 > Hero & 개요 패널` 재사용 데이터 |
-| `PlayerProfile.rating` | `팀 상세 > 스쿼드 테이블` 내 폼 점수 컬럼 |
-| `PlayerProfile.teamId` / `nationalityName` | `스쿼드 테이블`의 팀 링크 및 국기 라벨 |
-| `meta.lastUpdated` | `팀 상세 > 스쿼드 헤더`의 데이터 기준 시각 |
-| (요청 파라미터) `teamId` | 빈 문자열로 내려오면 특정 팀 식별 불가 → mock fallback 필요 |
-| (요청 파라미터) `teamId` | 빈 문자열로 내려오면 특정 팀을 식별할 수 없어 mock fallback 필요 |
+| 필드                                                                                                                                                               | 의미/용도                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| `data` 래핑                                                                                                                                                        | `ApiResourceResponse` 규약. 프런트 공통 훅이 요구                |
+| `TeamProfile`(`colors.primary/secondary`, `form`, `avgAge`, `trophies`, `description`, `keyStats.possession/passAccuracy/shotsPerGame/cleanSheets`, `nationality`) | `팀 상세 페이지 > Hero & 개요 패널` 재사용 데이터                |
+| `PlayerProfile.rating`                                                                                                                                             | `팀 상세 > 스쿼드 테이블` 내 폼 점수 컬럼                        |
+| `PlayerProfile.teamId` / `nationalityName`                                                                                                                         | `스쿼드 테이블`의 팀 링크 및 국기 라벨                           |
+| `meta.lastUpdated`                                                                                                                                                 | `팀 상세 > 스쿼드 헤더`의 데이터 기준 시각                       |
+| (요청 파라미터) `teamId`                                                                                                                                           | 빈 문자열로 내려오면 특정 팀 식별 불가 → mock fallback 필요      |
+| (요청 파라미터) `teamId`                                                                                                                                           | 빈 문자열로 내려오면 특정 팀을 식별할 수 없어 mock fallback 필요 |
+
 ## 4. 리그 메타데이터 (League Metadata)
 
 **fetchLeagueMetadata (USE_MOCK_API)**
@@ -2309,9 +2170,7 @@
 
 </details>
 
-
 **실서비스 curl** — `curl -s "https://infootball.kr/api/v1/leagues/epl/metadata?locale=en-US"`
-
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -2335,21 +2194,22 @@
 
 </details>
 
-
 **차이 요약**
+
 - mock는 `data` 안에 `summary`, `overviewStats`, `highlightMetrics`, `champions`, `successfulClubs`를 모두 포함
 - <span style="color:#d00">실제 응답은 루트에 각각을 노출</span>하고 `overviewStats`/`highlightMetrics`가 아예 없음
 - mock `meta`는 season/locale이지만 실제는 `seasonId`만 포함
 
 **누락 필드 & 의미**
 
-| 필드 | 의미/용도 |
-| --- | --- |
-| `data` 래핑 | 리소스형 응답 공통 컨테이너 |
-| `overviewStats[]` (`id`, `icon`, `value`, `label`, `change`, `color`) | `리그 허브 > Overview KPI 카드` |
-| `highlightMetrics[]` (`id`, `icon`, `value`, `label`, `change`, `gradient.from/to`) | `리그 허브 > Highlights 슬라이더` |
-| `meta.season` (문자열) | UI가 요구하는 시즌명. 실제 `seasonId`는 사용자 표시용이 아님 |
-| `meta.locale` | 응답 언어. 현행 실제 응답에는 없거나 변형됨 |
+| 필드                                                                                | 의미/용도                                                    |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `data` 래핑                                                                         | 리소스형 응답 공통 컨테이너                                  |
+| `overviewStats[]` (`id`, `icon`, `value`, `label`, `change`, `color`)               | `리그 허브 > Overview KPI 카드`                              |
+| `highlightMetrics[]` (`id`, `icon`, `value`, `label`, `change`, `gradient.from/to`) | `리그 허브 > Highlights 슬라이더`                            |
+| `meta.season` (문자열)                                                              | UI가 요구하는 시즌명. 실제 `seasonId`는 사용자 표시용이 아님 |
+| `meta.locale`                                                                       | 응답 언어. 현행 실제 응답에는 없거나 변형됨                  |
+
 ## 5. 리그 순위표 (League Standings)
 
 **fetchLeagueStandings (USE_MOCK_API)**
@@ -2380,13 +2240,7 @@
         "goalDifference": 62,
         "points": 89
       },
-      "form": [
-        "W",
-        "W",
-        "D",
-        "W",
-        "W"
-      ],
+      "form": ["W", "W", "D", "W", "W"],
       "trend": 0,
       "advancedMetrics": {
         "xG": 84.3,
@@ -2394,7 +2248,7 @@
         "possession": 68.5,
         "passAccuracy": 91.2,
         "cleanSheets": 18,
-        "bigChances": 127,
+        "bigChances": 127
       }
     },
     {
@@ -2417,13 +2271,7 @@
         "goalDifference": 62,
         "points": 89
       },
-      "form": [
-        "W",
-        "L",
-        "W",
-        "W",
-        "D"
-      ],
+      "form": ["W", "L", "W", "W", "D"],
       "trend": 1,
       "advancedMetrics": {
         "xG": 82.7,
@@ -2431,7 +2279,7 @@
         "possession": 61.3,
         "passAccuracy": 88.7,
         "cleanSheets": 16,
-        "bigChances": 119,
+        "bigChances": 119
       }
     },
     {
@@ -2454,13 +2302,7 @@
         "goalDifference": 45,
         "points": 82
       },
-      "form": [
-        "W",
-        "D",
-        "W",
-        "W",
-        "L"
-      ],
+      "form": ["W", "D", "W", "W", "L"],
       "trend": 2,
       "advancedMetrics": {
         "xG": 79.4,
@@ -2468,7 +2310,7 @@
         "possession": 62.1,
         "passAccuracy": 87.9,
         "cleanSheets": 20,
-        "bigChances": 108,
+        "bigChances": 108
       }
     },
     {
@@ -2491,13 +2333,7 @@
         "goalDifference": 15,
         "points": 68
       },
-      "form": [
-        "W",
-        "W",
-        "L",
-        "D",
-        "W"
-      ],
+      "form": ["W", "W", "L", "D", "W"],
       "trend": 3,
       "advancedMetrics": {
         "xG": 69.2,
@@ -2505,7 +2341,7 @@
         "possession": 54.8,
         "passAccuracy": 82.3,
         "cleanSheets": 11,
-        "bigChances": 89,
+        "bigChances": 89
       }
     },
     {
@@ -2528,13 +2364,7 @@
         "goalDifference": 13,
         "points": 66
       },
-      "form": [
-        "W",
-        "W",
-        "L",
-        "D",
-        "W"
-      ],
+      "form": ["W", "W", "L", "D", "W"],
       "trend": -1,
       "advancedMetrics": {
         "xG": 71.8,
@@ -2542,7 +2372,7 @@
         "possession": 59.4,
         "passAccuracy": 86.1,
         "cleanSheets": 13,
-        "bigChances": 92,
+        "bigChances": 92
       }
     },
     {
@@ -2565,13 +2395,7 @@
         "goalDifference": 14,
         "points": 63
       },
-      "form": [
-        "W",
-        "D",
-        "W",
-        "L",
-        "W"
-      ],
+      "form": ["W", "D", "W", "L", "W"],
       "trend": 2,
       "advancedMetrics": {
         "xG": 73.5,
@@ -2579,7 +2403,7 @@
         "possession": 55.7,
         "passAccuracy": 83.2,
         "cleanSheets": 9,
-        "bigChances": 98,
+        "bigChances": 98
       }
     },
     {
@@ -2602,13 +2426,7 @@
         "goalDifference": 23,
         "points": 60
       },
-      "form": [
-        "L",
-        "W",
-        "D",
-        "W",
-        "L"
-      ],
+      "form": ["L", "W", "D", "W", "L"],
       "trend": -3,
       "advancedMetrics": {
         "xG": 67.3,
@@ -2616,7 +2434,7 @@
         "possession": 51.2,
         "passAccuracy": 81.4,
         "cleanSheets": 12,
-        "bigChances": 78,
+        "bigChances": 78
       }
     },
     {
@@ -2639,13 +2457,7 @@
         "goalDifference": -1,
         "points": 60
       },
-      "form": [
-        "D",
-        "W",
-        "L",
-        "W",
-        "W"
-      ],
+      "form": ["D", "W", "L", "W", "W"],
       "trend": -2,
       "advancedMetrics": {
         "xG": 61.4,
@@ -2653,7 +2465,7 @@
         "possession": 58.9,
         "passAccuracy": 85.4,
         "cleanSheets": 17,
-        "bigChances": 71,
+        "bigChances": 71
       }
     },
     {
@@ -2676,13 +2488,7 @@
         "goalDifference": -14,
         "points": 52
       },
-      "form": [
-        "L",
-        "D",
-        "W",
-        "L",
-        "D"
-      ],
+      "form": ["L", "D", "W", "L", "D"],
       "trend": 1,
       "advancedMetrics": {
         "xG": 58.9,
@@ -2690,7 +2496,7 @@
         "possession": 48.7,
         "passAccuracy": 79.8,
         "cleanSheets": 8,
-        "bigChances": 65,
+        "bigChances": 65
       }
     },
     {
@@ -2713,13 +2519,7 @@
         "goalDifference": -1,
         "points": 49
       },
-      "form": [
-        "W",
-        "L",
-        "D",
-        "W",
-        "L"
-      ],
+      "form": ["W", "L", "D", "W", "L"],
       "trend": 0,
       "advancedMetrics": {
         "xG": 52.7,
@@ -2727,7 +2527,7 @@
         "possession": 47.3,
         "passAccuracy": 78.4,
         "cleanSheets": 10,
-        "bigChances": 59,
+        "bigChances": 59
       }
     },
     {
@@ -2750,13 +2550,7 @@
         "goalDifference": -7,
         "points": 48
       },
-      "form": [
-        "D",
-        "W",
-        "L",
-        "D",
-        "W"
-      ],
+      "form": ["D", "W", "L", "D", "W"],
       "trend": -4,
       "advancedMetrics": {
         "xG": 58.3,
@@ -2764,7 +2558,7 @@
         "possession": 56.8,
         "passAccuracy": 84.1,
         "cleanSheets": 9,
-        "bigChances": 72,
+        "bigChances": 72
       }
     },
     {
@@ -2787,13 +2581,7 @@
         "goalDifference": -13,
         "points": 48
       },
-      "form": [
-        "L",
-        "W",
-        "W",
-        "L",
-        "D"
-      ],
+      "form": ["L", "W", "W", "L", "D"],
       "trend": 1,
       "advancedMetrics": {
         "xG": 51.4,
@@ -2801,7 +2589,7 @@
         "possession": 45.9,
         "passAccuracy": 76.7,
         "cleanSheets": 7,
-        "bigChances": 58,
+        "bigChances": 58
       }
     },
     {
@@ -2824,13 +2612,7 @@
         "goalDifference": -6,
         "points": 47
       },
-      "form": [
-        "W",
-        "D",
-        "L",
-        "W",
-        "L"
-      ],
+      "form": ["W", "D", "L", "W", "L"],
       "trend": -1,
       "advancedMetrics": {
         "xG": 49.8,
@@ -2838,7 +2620,7 @@
         "possession": 49.2,
         "passAccuracy": 80.3,
         "cleanSheets": 11,
-        "bigChances": 62,
+        "bigChances": 62
       }
     },
     {
@@ -2861,13 +2643,7 @@
         "goalDifference": -15,
         "points": 46
       },
-      "form": [
-        "L",
-        "L",
-        "W",
-        "D",
-        "L"
-      ],
+      "form": ["L", "L", "W", "D", "L"],
       "trend": -2,
       "advancedMetrics": {
         "xG": 48.2,
@@ -2875,7 +2651,7 @@
         "possession": 46.8,
         "passAccuracy": 77.9,
         "cleanSheets": 8,
-        "bigChances": 55,
+        "bigChances": 55
       }
     },
     {
@@ -2898,13 +2674,7 @@
         "goalDifference": -17,
         "points": 40
       },
-      "form": [
-        "D",
-        "L",
-        "W",
-        "L",
-        "D"
-      ],
+      "form": ["D", "L", "W", "L", "D"],
       "trend": 0,
       "advancedMetrics": {
         "xG": 44.7,
@@ -2912,7 +2682,7 @@
         "possession": 44.1,
         "passAccuracy": 75.6,
         "cleanSheets": 13,
-        "bigChances": 47,
+        "bigChances": 47
       }
     },
     {
@@ -2935,13 +2705,7 @@
         "goalDifference": -9,
         "points": 39
       },
-      "form": [
-        "W",
-        "L",
-        "L",
-        "D",
-        "W"
-      ],
+      "form": ["W", "L", "L", "D", "W"],
       "trend": 1,
       "advancedMetrics": {
         "xG": 50.1,
@@ -2949,7 +2713,7 @@
         "possession": 42.7,
         "passAccuracy": 74.2,
         "cleanSheets": 6,
-        "bigChances": 61,
+        "bigChances": 61
       }
     },
     {
@@ -2972,13 +2736,7 @@
         "goalDifference": -18,
         "points": 32
       },
-      "form": [
-        "L",
-        "D",
-        "W",
-        "L",
-        "L"
-      ],
+      "form": ["L", "D", "W", "L", "L"],
       "trend": -1,
       "advancedMetrics": {
         "xG": 45.3,
@@ -2986,7 +2744,7 @@
         "possession": 41.9,
         "passAccuracy": 73.8,
         "cleanSheets": 7,
-        "bigChances": 52,
+        "bigChances": 52
       }
     },
     {
@@ -3009,13 +2767,7 @@
         "goalDifference": -33,
         "points": 26
       },
-      "form": [
-        "L",
-        "L",
-        "D",
-        "L",
-        "W"
-      ],
+      "form": ["L", "L", "D", "L", "W"],
       "trend": 0,
       "advancedMetrics": {
         "xG": 41.8,
@@ -3023,7 +2775,7 @@
         "possession": 38.4,
         "passAccuracy": 69.7,
         "cleanSheets": 4,
-        "bigChances": 43,
+        "bigChances": 43
       }
     },
     {
@@ -3046,13 +2798,7 @@
         "goalDifference": -37,
         "points": 24
       },
-      "form": [
-        "L",
-        "L",
-        "L",
-        "D",
-        "L"
-      ],
+      "form": ["L", "L", "L", "D", "L"],
       "trend": -1,
       "advancedMetrics": {
         "xG": 39.4,
@@ -3060,7 +2806,7 @@
         "possession": 40.2,
         "passAccuracy": 71.3,
         "cleanSheets": 5,
-        "bigChances": 38,
+        "bigChances": 38
       }
     },
     {
@@ -3083,13 +2829,7 @@
         "goalDifference": -69,
         "points": 16
       },
-      "form": [
-        "L",
-        "L",
-        "L",
-        "L",
-        "D"
-      ],
+      "form": ["L", "L", "L", "L", "D"],
       "trend": 0,
       "advancedMetrics": {
         "xG": 34.7,
@@ -3097,7 +2837,7 @@
         "possession": 37.1,
         "passAccuracy": 68.2,
         "cleanSheets": 2,
-        "bigChances": 29,
+        "bigChances": 29
       }
     }
   ],
@@ -3113,9 +2853,7 @@
 
 </details>
 
-
 **실서비스 curl** — `curl -s "https://infootball.kr/api/v1/leagues/epl/standings?locale=en-US"`
-
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -3534,21 +3272,22 @@
 
 </details>
 
-
 **차이 요약**
+
 - mock는 `data` 배열과 `LeagueStandingsRow` 스키마(advancedMetrics 포함)를 준수
 - <span style="color:#d00">실제 응답 키가 `leagueStandingsRow`/`teamSummary`</span>로 다르고 `advancedMetrics`/`form` 없음
 - `meta`에서도 `lastUpdated`/`locale`이 빠짐
 
 **누락 필드 & 의미**
 
-| 필드 | 의미/용도 |
-| --- | --- |
-| `data` 래핑 | 리스트 응답 표준화 |
-| `LeagueStandingsRow.form` | `리그 순위 페이지 > 테이블`의 폼 칩 |
-| `LeagueStandingsRow.trend` | `리그 순위 페이지 > 테이블`의 상승/하락 화살표 |
-| `LeagueStandingsRow.advancedMetrics` (`xG`, `xGA`, `possession`, `passAccuracy`, `cleanSheets`, `bigChances`) | `리그 순위 페이지 > Advanced Metrics` 토글 섹션 |
-| `meta.lastUpdated`, `meta.locale` | `리그 순위 헤더`의 데이터 기준 시각 & 다국어 컨텍스트 |
+| 필드                                                                                                          | 의미/용도                                             |
+| ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `data` 래핑                                                                                                   | 리스트 응답 표준화                                    |
+| `LeagueStandingsRow.form`                                                                                     | `리그 순위 페이지 > 테이블`의 폼 칩                   |
+| `LeagueStandingsRow.trend`                                                                                    | `리그 순위 페이지 > 테이블`의 상승/하락 화살표        |
+| `LeagueStandingsRow.advancedMetrics` (`xG`, `xGA`, `possession`, `passAccuracy`, `cleanSheets`, `bigChances`) | `리그 순위 페이지 > Advanced Metrics` 토글 섹션       |
+| `meta.lastUpdated`, `meta.locale`                                                                             | `리그 순위 헤더`의 데이터 기준 시각 & 다국어 컨텍스트 |
+
 ## 6. 리그 메타 지표 (League Meta)
 
 **fetchLeagueMeta (USE_MOCK_API)**
@@ -3598,9 +3337,7 @@
 
 </details>
 
-
 **실서비스 curl** — `curl -s "https://infootball.kr/api/v1/leagues/epl/meta?locale=en-US"`
-
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -3623,21 +3360,22 @@
 
 </details>
 
-
 **차이 요약**
+
 - mock는 `data`가 여러 `LeagueMetaMetric` 항목으로 구성 (id, label, value, description, icon)
 - <span style="color:#d00">실제는 `leagueMetaMetric` 단일 객체</span>이고 `label`/`value` 필드가 없음
 - `icon_url` 등 snake-case를 사용
 
 **누락 필드 & 의미**
 
-| 필드 | 의미/용도 |
-| --- | --- |
-| `data`(배열) | 여러 지표를 동시에 노출하는 UI 섹션 |
-| `label` / `value` | `리그 Pulse 위젯`의 타이틀/값 |
-| `description` | `리그 Pulse 위젯` 하단 증감 텍스트 |
-| `icon` (camelCase) | `리그 Pulse 위젯` 아이콘 매핑 키 |
-| `meta.lastUpdated` | 메타 지표 생성 시점 |
+| 필드               | 의미/용도                           |
+| ------------------ | ----------------------------------- |
+| `data`(배열)       | 여러 지표를 동시에 노출하는 UI 섹션 |
+| `label` / `value`  | `리그 Pulse 위젯`의 타이틀/값       |
+| `description`      | `리그 Pulse 위젯` 하단 증감 텍스트  |
+| `icon` (camelCase) | `리그 Pulse 위젯` 아이콘 매핑 키    |
+| `meta.lastUpdated` | 메타 지표 생성 시점                 |
+
 ## 7. 선수 랭킹 (Player Rankings)
 
 **fetchPlayerRankings (USE_MOCK_API)**
@@ -3654,7 +3392,7 @@
       "goals": 36,
       "assists": 8,
       "avatar": "🇳🇴",
-      "rating": 9.2,
+      "rating": 9.2
     },
     {
       "name": "해리 케인",
@@ -3662,7 +3400,7 @@
       "goals": 30,
       "assists": 3,
       "avatar": "🇬🇧",
-      "rating": 8.8,
+      "rating": 8.8
     },
     {
       "name": "이반 토니",
@@ -3670,7 +3408,7 @@
       "goals": 20,
       "assists": 5,
       "avatar": "🇬🇧",
-      "rating": 8.1,
+      "rating": 8.1
     }
   ],
   "meta": {
@@ -3685,9 +3423,7 @@
 
 </details>
 
-
 **실서비스 curl** — `curl -s "https://infootball.kr/api/v1/leagues/epl/player-rankings?locale=en-US"`
-
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -3776,21 +3512,22 @@
 
 </details>
 
-
 **차이 요약**
+
 - mock는 `PlayerRanking` 타입 전체(avatar, rating 포함)와 `meta.source`, `meta.locale`을 반환
 - <span style="color:#d00">실제 응답은 `players` 배열</span>만 내려오고 스탯 필드가 대폭 누락
 - `meta`에는 leagueId/season/category만 포함
 
 **누락 필드 & 의미**
 
-| 필드 | 의미/용도 |
-| --- | --- |
-| `data` 래핑 | 리스트 응답 표준화 |
-| `PlayerRanking.avatar` | `선수 랭킹 페이지 > 카드 썸네일` |
-| `PlayerRanking.rating` | `선수 랭킹 카드`의 폼 게이지 |
-| `meta.source` | `선수 랭킹 헤더`의 데이터 출처 표기 |
-| `meta.locale` | `선수 랭킹` 모듈 내 언어 라벨 |
+| 필드                   | 의미/용도                           |
+| ---------------------- | ----------------------------------- |
+| `data` 래핑            | 리스트 응답 표준화                  |
+| `PlayerRanking.avatar` | `선수 랭킹 페이지 > 카드 썸네일`    |
+| `PlayerRanking.rating` | `선수 랭킹 카드`의 폼 게이지        |
+| `meta.source`          | `선수 랭킹 헤더`의 데이터 출처 표기 |
+| `meta.locale`          | `선수 랭킹` 모듈 내 언어 라벨       |
+
 ## 8. 선수 데이터베이스 (Player Database)
 
 **fetchPlayerDatabase (USE_MOCK_API)**
@@ -3938,20 +3675,8 @@
       }
     ],
     "filters": {
-      "positions": [
-        "all",
-        "GK",
-        "DF",
-        "MF",
-        "FW"
-      ],
-      "teamIds": [
-        "all",
-        "mci",
-        "ars",
-        "liv",
-        "che"
-      ]
+      "positions": ["all", "GK", "DF", "MF", "FW"],
+      "teamIds": ["all", "mci", "ars", "liv", "che"]
     }
   },
   "meta": {
@@ -3965,9 +3690,7 @@
 
 </details>
 
-
 **실서비스 curl** — `curl -s "https://infootball.kr/api/v1/leagues/epl/players/database?locale=en-US"`
-
 
 <details>
 <summary>전체 JSON 보기</summary>
@@ -10083,18 +9806,18 @@
 
 </details>
 
-
 **차이 요약**
+
 - mock는 `data.players`가 상세 스탯(숫자 id, PlayerSkillSet, career)과 `filters` 배열을 모두 포함
 - <span style="color:#d00">실제 응답은 루트에 `players`/`filters`</span>를 두고 `id`가 UUID, `stats`/`career`가 비어 있음
 - `filters.positions`도 문자열 한 줄로 내려옴
 
 **누락 필드 & 의미**
 
-| 필드 | 의미/용도 |
-| --- | --- |
-| `data` 래핑 | 리스트 + 필터 세트를 하나의 리소스로 반환하는 계약 |
-| `PlayerDatabaseEntry.stats` (`pace`, `shooting`, `passing`, `dribbling`, `defending`, `physical`) | `선수 데이터베이스 > 능력치 차트` |
-| `PlayerDatabaseEntry.career[]` (`year`, `teamId`, `matches`, `goals`) | `선수 데이터베이스 > 커리어 타임라인` |
-| `filters.positions` (배열) | `선수 데이터베이스 > 필터 패널` 포지션 선택 |
-| `meta.lastUpdated`, `meta.locale` | `선수 데이터베이스 > 헤더`의 업데이트 정보/언어 |
+| 필드                                                                                              | 의미/용도                                          |
+| ------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `data` 래핑                                                                                       | 리스트 + 필터 세트를 하나의 리소스로 반환하는 계약 |
+| `PlayerDatabaseEntry.stats` (`pace`, `shooting`, `passing`, `dribbling`, `defending`, `physical`) | `선수 데이터베이스 > 능력치 차트`                  |
+| `PlayerDatabaseEntry.career[]` (`year`, `teamId`, `matches`, `goals`)                             | `선수 데이터베이스 > 커리어 타임라인`              |
+| `filters.positions` (배열)                                                                        | `선수 데이터베이스 > 필터 패널` 포지션 선택        |
+| `meta.lastUpdated`, `meta.locale`                                                                 | `선수 데이터베이스 > 헤더`의 업데이트 정보/언어    |
