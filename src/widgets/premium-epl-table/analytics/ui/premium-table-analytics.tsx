@@ -42,13 +42,14 @@ const FALLBACK_METRICS: SeasonAnalyticsMetric[] = [
 export const PremiumTableAnalytics = ({
   metrics,
 }: PremiumTableAnalyticsProps) => {
-  const resolvedMetrics =
-    metrics.length > 0 ? metrics : FALLBACK_METRICS;
+  const resolvedMetrics = metrics.length > 0 ? metrics : FALLBACK_METRICS;
 
   return (
     <div className='mt-20'>
       <div className='text-center mb-12'>
-        <h2 className='text-4xl font-black text-white mb-4'>Season Analytics</h2>
+        <h2 className='text-4xl font-black text-white mb-4'>
+          Season Analytics
+        </h2>
         <p className='text-slate-400 text-lg'>심층 통계와 성과 지표</p>
       </div>
 
