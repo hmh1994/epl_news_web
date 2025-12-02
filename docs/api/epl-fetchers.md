@@ -225,6 +225,58 @@
 
 ---
 
+## 6. 뉴스 목록 – `fetchNewsList`
+
+- **Endpoint**: `GET /api/v1/news`
+- **Params**: `cursor`, `limit`, `categoryId`, `tagIds`, `teamId`, `search`, `locale`, `includeFeatured`
+- **Response**: `NewsListResponse`
+
+```jsonc
+{
+  "data": [
+    {
+      "id": "mcfc-title-race-analytics",
+      "slug": "city-title-race-analytics",
+      "title": "맨시티, 4연패 도전 속 승점 추격 로드맵 공개",
+      "summary": "펩 과르디올라 감독이 이끄는 맨체스터 시티가 막판 스퍼트를 위해 체력 배분과 맞춤형 전술을 도입했다.",
+      "category": { "id": "premier-league", "slug": "premier-league", "label": "프리미어리그" },
+      "tags": [
+        { "id": "맨시티", "slug": "맨시티", "label": "맨시티" },
+        { "id": "우승경쟁", "slug": "우승경쟁", "label": "우승경쟁" }
+      ],
+      "heroImage": { "url": "https://images.unsplash.com/photo.jpg" },
+      "thumbnail": { "url": "https://images.unsplash.com/photo.jpg" },
+      "publishedAt": "2024-03-10T09:00:00Z",
+      "readingTimeMinutes": 5,
+      "author": { "name": "정현석 기자" },
+      "source": { "name": "infootball 데이터랩", "type": "external" },
+      "externalUrl": "https://infootball.kr/news/city-title-race-analytics",
+      "isFeatured": false
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "total": 120,
+      "pageSize": 24,
+      "hasNext": true,
+      "hasPrevious": false,
+      "nextCursor": "eyJpZCI6ICJtY2ZjLXRpdGxlLXJhY2UtYW5hbHl0aWNzIn0="
+    },
+    "locale": "ko-KR",
+    "lastUpdated": 1700000000000,
+    "filters": { "categoryId": "premier-league", "search": "title race" }
+  }
+}
+```
+
+**의미**
+- `data[*]` : 뉴스 카드/리스트에 바로 바인딩 가능한 프리뷰 형태.
+- `category`, `tags` : 필터/배지 노출용. slug/label 포함.
+- `pagination` : 무한스크롤/페이지네이션 구현 시 사용.
+- `isFeatured` : 홈 상단 하이라이트, 섹션 구분 등에 활용.
+
+---
+
 ## 참고
 
 - 모든 fetch 함수는 실패 시 mock 데이터로 폴백하도록 구현돼 있으므로, 개발/로컬 환경에서 BFF 가용성 없이도 동일한 구조로 데이터를 확인할 수 있습니다.
