@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -25,7 +26,14 @@ export const AppHeader = () => {
     <header className='sticky top-0 z-50 border-b border-white/10 bg-slate-950/95 backdrop-blur-2xl'>
       <div className='mx-auto flex max-w-7xl items-center justify-between px-6 py-4 text-sm text-slate-200'>
         <Link href={base || "/"} className='flex items-center gap-2 text-base font-bold tracking-wide text-white'>
-          <span className='flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#169976] to-teal-500 text-lg shadow-lg'>⚽</span>
+          <Image
+            src='/resource/logo.png'
+            alt={t("brand")}
+            width={32}
+            height={32}
+            className='h-8 w-8'
+            priority
+          />
           <span>{t("brand")}</span>
         </Link>
 
