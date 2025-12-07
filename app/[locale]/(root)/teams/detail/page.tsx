@@ -81,8 +81,19 @@ export default async function TeamInfoRoute() {
       fallbackTeam ?? undefined
     );
   });
-  const players: PlayerProfile[] = teamResponses.flatMap(
-    (response) => response.data.team.squad
+  const players: PlayerProfile[] = teamResponses.flatMap((response) =>
+    response.data.team.squad.map((player) => {
+      const fallbackPlayer = EPL_MOCK_DATA.teams.squadPlayers.find(
+        (candidate) => candidate.id === player.id
+      );
+
+      return {
+        ...player,
+        value: fallbackPlayer?.value ?? "—",
+        marketValue: fallbackPlayer?.marketValue ?? 0,
+        nationalityName: player.nationalityName ?? fallbackPlayer?.nationalityName ?? "",
+      };
+    })
   );
 
   return <TeamInfoPage teams={teams} players={players} />;
