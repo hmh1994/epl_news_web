@@ -2,7 +2,7 @@ import { apiClient } from "@/shared/api/client";
 import { MOCK_LOCALE } from "@/shared/config/mock-api";
 import { EPL_MOCK_DATA } from "@/shared/mocks/epl-data";
 import type {
-  NewsArticlePreview,
+  NewsListItem,
   NewsListParams,
   NewsListResponse,
 } from "@/shared/api/epl/model/news";
@@ -68,44 +68,13 @@ const buildMockNewsList = (params?: NewsListParams): NewsListResponse => {
   };
 };
 
-const toApiPreview = (article: (typeof NEWS_ARTICLES)[number]): NewsArticlePreview => ({
+const toApiPreview = (article: (typeof NEWS_ARTICLES)[number]): NewsListItem => ({
   id: article.id,
-  slug: article.slug,
   title: article.title,
   summary: article.summary,
-  category: {
-    id: article.category,
-    slug: article.category,
-    label: article.category,
-  },
-  tags: article.tags.map((tag) => ({
-    id: tag,
-    slug: tag,
-    label: tag,
-  })),
-  heroImage: article.imageUrl
-    ? {
-        url: article.imageUrl,
-      }
-    : undefined,
-  thumbnail: article.imageUrl
-    ? {
-        url: article.imageUrl,
-      }
-    : undefined,
+  thumbnail: article.imageUrl,
   publishedAt: article.publishedAt,
-  readingTimeMinutes: article.readingTimeMinutes,
-  author: article.author
-    ? {
-        name: article.author,
-      }
-    : undefined,
-  source: article.source
-    ? {
-        name: article.source,
-        type: "external",
-      }
-    : undefined,
-  externalUrl: article.externalUrl,
-  isFeatured: false,
+  author: article.author,
+  source: article.source,
+  newsUrl: article.externalUrl ?? article.slug,
 });

@@ -1,7 +1,7 @@
 import type {
   NewsArticle as ApiNewsArticle,
-  NewsArticlePreview as ApiNewsArticlePreview,
   NewsArticleBlock,
+  NewsListItem,
 } from "@/shared/api/epl/model/news";
 import type {
   NewsArticle,
@@ -22,26 +22,35 @@ const extractParagraphText = (block: NewsArticleBlock): string | null => {
 };
 
 export const mapNewsPreviewFromApi = (
-  article: ApiNewsArticlePreview
+  article: NewsListItem
 ): NewsArticlePreview => ({
   id: article.id,
-  slug: article.slug,
+  slug: article.newsUrl ?? article.id,
   title: article.title,
   summary: article.summary,
-  category: article.category.label,
-  tags: article.tags.map((tag) => tag.label),
-  imageUrl: article.heroImage?.url ?? article.thumbnail?.url,
+  category: "뉴스",
+  tags: [],
+  imageUrl: article.thumbnail,
   publishedAt: article.publishedAt,
-  source: article.source?.name ?? "Infootball",
-  author: article.author?.name,
-  readingTimeMinutes: article.readingTimeMinutes,
-  externalUrl: article.externalUrl,
+  source: article.source ?? "Infootball",
+  author: article.author,
+  readingTimeMinutes: undefined,
+  externalUrl: article.newsUrl,
 });
 
 export const mapNewsArticleFromApi = (
   article: ApiNewsArticle
 ): NewsArticle => {
-  const preview = mapNewsPreviewFromApi(article);
+  const preview = mapNewsPreviewFromApi({
+    id: article.id,
+    title: article.title,
+    summary: article.summary,
+    thumbnail: article.heroImage?.url ?? article.thumbnail?.url,
+    publishedAt: article.publishedAt,
+    author: article.author?.name,
+    source: article.source?.name,
+    newsUrl: article.slug ?? article.externalUrl,
+  });
   const content = article.body
     .map((block) => extractParagraphText(block))
     .filter((text): text is string => Boolean(text && text.trim().length > 0));
