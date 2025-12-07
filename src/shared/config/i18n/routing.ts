@@ -5,7 +5,7 @@ export const routing = defineRouting({
   locales: ["en", "ko"],
 
   // 기본 언어 설정
-  defaultLocale: "en",
+  defaultLocale: "ko",
 });
 
 // Lightweight wrappers around Next.js' navigation APIs
