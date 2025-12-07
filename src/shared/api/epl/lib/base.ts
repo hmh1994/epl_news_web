@@ -3,10 +3,13 @@ import { API_VERSION } from "@/shared/config/api-version";
 
 export const API_ROOT = `/api/${API_VERSION}`;
 
-export type RequestOptions = Pick<ApiRequestOptions, "cache" | "signal" | "headers">;
+export type RequestOptions = Pick<
+  ApiRequestOptions,
+  "cache" | "signal" | "headers"
+>;
 
 export const leaguePath = (leagueId: string, suffix: string) =>
-  `${API_ROOT}/leagues/${leagueId}${suffix}`;
+  `${API_ROOT}/league/${leagueId}${suffix}`;
 
 export const teamPath = (teamId: string, suffix: string) =>
   `${API_ROOT}/teams/${teamId}${suffix}`;

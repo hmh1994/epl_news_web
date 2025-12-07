@@ -12,13 +12,13 @@ interface PlayerRankingCardProps {
 export const PlayerRankingCard = ({ player, rank, teamName }: PlayerRankingCardProps) => {
   const t = useTranslations("player.rankingCard");
   return (
-    <div className='group relative p-5 rounded-2xl hover:bg-white/5 cursor-pointer transition-all duration-300 border border-transparent hover:border-white/10'>
-      <div className='flex items-center space-x-4'>
+    <div className='group relative p-4 rounded-2xl hover:bg-white/5 cursor-pointer transition-all duration-300 border border-transparent hover:border-white/10'>
+      <div className='flex items-center space-x-3.5'>
         <div className='relative'>
-          <div className='w-14 h-14 bg-gradient-to-br from-[#169976] via-emerald-600 to-teal-600 rounded-2xl flex items-center justify-center text-2xl shadow-xl'>
+          <div className='w-12 h-12 bg-gradient-to-br from-[#169976] via-emerald-600 to-teal-600 rounded-2xl flex items-center justify-center text-xl shadow-xl'>
             {player.avatar}
           </div>
-          <div className='absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-xs font-bold text-white'>
+          <div className='absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-[10px] font-bold text-white'>
             {rank}
           </div>
         </div>

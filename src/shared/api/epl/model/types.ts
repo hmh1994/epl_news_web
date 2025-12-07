@@ -1,15 +1,5 @@
-import type {
-  LeagueChampion,
-  LeagueStat as OverviewLeagueStat,
-  LeagueSummary,
-  SuccessfulClub,
-} from "@/entities/league/model/league-overview";
-import type { LeagueStat as HighlightLeagueStat } from "@/entities/stat/model/league-stat";
 import type { MatchDetail } from "@/entities/match/model/match-detail";
-import type {
-  MatchDaySchedule,
-  MatchFixture,
-} from "@/entities/match/model/match-schedule";
+import type { MatchDaySchedule } from "@/entities/match/model/match-schedule";
 import type { PlayerRanking } from "@/entities/player/model/player-ranking";
 import type { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import type {
@@ -57,14 +47,6 @@ export interface LeagueMetaMetric {
   icon: string;
 }
 
-export interface FixtureHeadToHeadRecord {
-  season: string;
-  date: string;
-  venue: string;
-  result: string;
-  note?: string;
-}
-
 export interface LeagueStandingsRow {
   team: TeamSummary;
   position: number;
@@ -90,35 +72,9 @@ export interface LeagueStandingsRow {
   };
 }
 
-export interface LeagueStandingsResponse
-  extends ApiListResponse<LeagueStandingsRow> {
-  meta: ApiResponseMeta & {
-    leagueId: string;
-    leagueName: string;
-    season: string;
-    lastUpdated: number;
-  };
-}
-
 export interface TeamsInfoResponse extends ApiListResponse<TeamSummary> {
   meta: ApiResponseMeta & {
     total: number;
-  };
-}
-
-export interface LeagueMetadataPayload {
-  summary: LeagueSummary;
-  overviewStats: OverviewLeagueStat[];
-  highlightMetrics: HighlightLeagueStat[];
-  champions: LeagueChampion[];
-  successfulClubs: SuccessfulClub[];
-}
-
-export interface LeagueMetadataResponse
-  extends ApiResourceResponse<LeagueMetadataPayload> {
-  meta: ApiResponseMeta & {
-    leagueId: string;
-    season: string;
   };
 }
 
@@ -132,50 +88,10 @@ export interface PlayerRankingResponse
   };
 }
 
-export interface LeagueMetaResponse extends ApiListResponse<LeagueMetaMetric> {
-  meta: ApiResponseMeta & {
-    leagueId: string;
-    season: string;
-  };
-}
-
-export interface HubOverviewResponse
-  extends ApiResourceResponse<{
-    standings: LeagueStandingsRow[];
-    featuredFixtures: MatchFixture[];
-    playerRankings: PlayerRanking[];
-    leagueMeta: LeagueMetaMetric[];
-  }> {
-  meta: ApiResponseMeta & {
-    leagueId: string;
-    season: string;
-    generatedAt: number;
-  };
-}
-
-export interface MatchScheduleAnalytics {
-  rivalryPairs: Array<{
-    teams: [string, string];
-    label?: string;
-    intensity: number;
-  }>;
-  teamPowerIndex: Array<{
-    teamId: string;
-    attack: number;
-    defense?: number;
-  }>;
-  headToHead: Array<{
-    fixtureKey: string;
-    records: FixtureHeadToHeadRecord[];
-  }>;
-}
-
 export interface MatchScheduleResponse
   extends ApiResourceResponse<{
     matchweeks: number[];
     schedule: MatchDaySchedule[];
-    spotlightFixtureIds: string[];
-    analytics: MatchScheduleAnalytics;
   }> {
   meta: ApiResponseMeta & {
     leagueId: string;
@@ -196,11 +112,6 @@ export interface MatchDetailResponse extends ApiResourceResponse<MatchDetail> {
 export interface PlayerFilters {
   positions: PlayerPosition[];
   teamIds: string[];
-  nationalities?: string[];
-  ageRange?: {
-    min: number;
-    max: number;
-  };
 }
 
 export interface PlayerDatabaseResponse
@@ -228,7 +139,6 @@ export interface TeamProfilesResponse
 
 export interface TeamSquadResponse
   extends ApiResourceResponse<{
-    team: ApiTeamProfile;
     squad: ApiPlayerProfile[];
   }> {
   meta: ApiResponseMeta & {
@@ -238,19 +148,107 @@ export interface TeamSquadResponse
   };
 }
 
+export interface TeamDetailSummary {
+  id: number;
+  name: string;
+  shortName: string;
+  logo: string;
+  manager: string;
+  description: string;
+}
+
+export interface TeamDetailMeta {
+  rank: number;
+  points: number;
+  played: number;
+  won: number;
+  drawn: number;
+  lost: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  avgAge: number;
+  trophies: number;
+}
+
+export interface TeamDetailStatic {
+  founded: number;
+  stadium: string;
+  capacity: number;
+  colors: TeamProfile["colors"];
+  keyStats: TeamProfile["keyStats"];
+}
+
+export interface TeamDetailResponse
+  extends ApiResourceResponse<{
+    team: {
+      summary: TeamDetailSummary;
+      meta: TeamDetailMeta;
+      static: TeamDetailStatic;
+      squad: ApiPlayerProfile[];
+    };
+  }> {
+  meta: ApiResponseMeta & {
+    leagueId: string;
+    teamId: string;
+    season: string;
+    lastUpdated: number;
+  };
+}
+
+export interface PlayerDetailSummary {
+  id: number;
+  name: string;
+  teamId: string | number;
+  position: PlayerPosition;
+  photo: string;
+  nationality: string;
+  age: number;
+  height: number;
+  weight: number;
+}
+
+export interface PlayerDetailAttributes {
+  pace: number;
+  shooting: number;
+  passing: number;
+  dribbling: number;
+  defending: number;
+  physical: number;
+}
+
+export interface PlayerDetailPerformance {
+  goals: number;
+  assists: number;
+  pace: number;
+}
+
+export interface PlayerCareerEntry {
+  year: string;
+  teamId: string;
+  matches: number;
+  goals: number;
+}
+
+export interface PlayerDetailResponse
+  extends ApiResourceResponse<{
+    player: {
+      summary: PlayerDetailSummary;
+      attributes: PlayerDetailAttributes;
+      performance: PlayerDetailPerformance;
+      career: PlayerCareerEntry[];
+    };
+  }> {
+  meta: ApiResponseMeta & {
+    leagueId: string;
+    playerId: string | number;
+    season: string;
+    lastUpdated: number;
+  };
+}
+
 export interface PremiumTableResponse
   extends ApiResourceResponse<{
     standings: LeagueStandingsRow[];
-    analytics: {
-      formGuide: Array<{
-        teamId: string;
-        form: string[];
-      }>;
-      valueBands: Array<{
-        tier: string;
-        teams: string[];
-      }>;
-    };
   }> {
   meta: ApiResponseMeta & {
     leagueId: string;

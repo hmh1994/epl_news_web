@@ -19,8 +19,8 @@ export const PlayerComparison = ({
   onToggle,
   onClear,
 }: PlayerComparisonProps) => {
-  if (players.length < 2) return null;
   const t = useTranslations("player.comparison.panel");
+  if (players.length < 2) return null;
   const selectedLabel = t("selectedCount", { count: players.length, limit: 3 });
   const toggleLabel = showComparison ? t("hideButton") : t("showButton");
 

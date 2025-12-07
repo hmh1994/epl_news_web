@@ -1,9 +1,11 @@
 export * from "./model/types";
 export * from "./model/news";
+export * from "./model/season-analytics";
 export type { RequestOptions } from "./lib/base";
 export { API_ROOT } from "./lib/base";
 export * from "./lib/league";
-export * from "./lib/teams";
-export * from "./lib/matches";
-export * from "./lib/players";
 export * from "./lib/news";
+export * from "./lib/season-analytics";
+export * from "./lib/team-detail";
+export * from "./lib/player-detail";
+export * from "./lib/scoring-race";

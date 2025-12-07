@@ -143,7 +143,18 @@ export interface NewsArticle extends NewsArticlePreview {
   };
 }
 
-export interface NewsListResponse extends ApiListResponse<NewsArticlePreview> {
+export interface NewsListItem {
+  id: string;
+  title: string;
+  summary: string;
+  thumbnail?: string;
+  publishedAt: string;
+  author?: string;
+  source?: string;
+  newsUrl?: string;
+}
+
+export interface NewsListResponse extends ApiListResponse<NewsListItem> {
   meta: ApiResponseMeta & {
     pagination: NewsPaginationMeta;
     filters?: {

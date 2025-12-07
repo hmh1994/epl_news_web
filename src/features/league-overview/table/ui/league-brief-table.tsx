@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { LeagueTableRow } from "@/entities/league/model/league-overview";
 import { LeagueBriefRow } from "@/entities/league/ui/league-brief-row";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
@@ -21,7 +20,17 @@ export const LeagueBriefTable = ({
   favoriteTeamIds,
 }: LeagueBriefTableProps) => {
   return (
-    <table className='w-full'>
+    <table className='w-full table-fixed'>
+      <colgroup>
+        <col className='w-20' />
+        <col className='w-[32rem]' />
+        <col className='w-16' />
+        <col className='w-16' />
+        <col className='w-16' />
+        <col className='w-16' />
+        <col className='w-20' />
+        <col className='w-20' />
+      </colgroup>
       <thead className='bg-slate-800/30'>
         <tr>
           <th className='py-4 px-8 text-left text-xs font-semibold tracking-wider text-slate-400 uppercase'>
@@ -51,28 +60,20 @@ export const LeagueBriefTable = ({
         </tr>
       </thead>
       <tbody>
-        {rows.map((row, index) => {
+        {rows.map((row) => {
           const team = TEAMS_BY_ID[row.teamId];
           return (
-            <Fragment key={row.teamId}>
-              <LeagueBriefRow
-                row={row}
-                isHovered={hoveredTeam === row.pos}
-                onHover={onHover}
-                onHoverEnd={onHoverEnd}
-                teamName={team?.name ?? row.teamId.toUpperCase()}
-                teamCrest={team?.crest ?? "⚽"}
-                onFavorite={onFavorite}
-                isFavorite={favoriteTeamIds?.includes(row.teamId)}
-              />
-              {index === 4 && (
-                <tr>
-                  <td colSpan={8} className='py-2 text-center'>
-                    <div className='text-slate-500 text-sm'>• • •</div>
-                  </td>
-                </tr>
-              )}
-            </Fragment>
+            <LeagueBriefRow
+              key={row.teamId}
+              row={row}
+              isHovered={hoveredTeam === row.pos}
+              onHover={onHover}
+              onHoverEnd={onHoverEnd}
+              teamName={team?.name ?? row.teamId.toUpperCase()}
+              teamCrest={team?.crest ?? "⚽"}
+              onFavorite={onFavorite}
+              isFavorite={favoriteTeamIds?.includes(row.teamId)}
+            />
           );
         })}
       </tbody>

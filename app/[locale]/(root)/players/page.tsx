@@ -1,14 +1,13 @@
 import { PlayerDatabasePage } from "@/processes/player-database-page";
-import { fetchPlayerDatabase } from "@/shared/api/epl/lib/players";
-import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
+import { EPL_MOCK_DATA } from "@/shared/mocks/epl-data";
 
 export default async function PlayerDatabaseRoute() {
-  const response = await fetchPlayerDatabase(DEFAULT_LEAGUE_ID);
+  const { database, positions, teamOptions } = EPL_MOCK_DATA.players;
   return (
     <PlayerDatabasePage
-      players={response.data.players}
-      positions={response.data.filters.positions}
-      teams={response.data.filters.teamIds}
+      players={database}
+      positions={positions as unknown as string[]}
+      teams={teamOptions as unknown as string[]}
     />
   );
 }

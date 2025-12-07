@@ -29,15 +29,13 @@ export class ApiClientError extends Error {
   }
 }
 
-async function request<T>(method: HttpMethod, path: string, options: ApiRequestOptions = {}): Promise<T> {
-  const {
-    params,
-    data,
-    headers,
-    body: providedBody,
-    cache,
-    ...rest
-  } = options;
+async function request<T>(
+  method: HttpMethod,
+  path: string,
+  options: ApiRequestOptions = {}
+): Promise<T> {
+  const { params, data, headers, body: providedBody, cache, ...rest } =
+    options;
 
   const url = buildRequestUrl(path, params);
   const { body, isJsonBody } = resolveRequestBody(data, providedBody);
@@ -58,13 +56,19 @@ function buildRequestUrl(path: string, params?: QueryParams): string {
   const url = new URL(path, baseUrl);
 
   if (params) {
-    Object.entries(params).forEach(([key, value]) => appendQueryParam(url.searchParams, key, value));
+    Object.entries(params).forEach(([key, value]) =>
+      appendQueryParam(url.searchParams, key, value)
+    );
   }
 
   return url.toString();
 }
 
-function appendQueryParam(searchParams: URLSearchParams, key: string, value: QueryValue): void {
+function appendQueryParam(
+  searchParams: URLSearchParams,
+  key: string,
+  value: QueryValue
+): void {
   if (value === null || value === undefined) {
     return;
   }
@@ -77,7 +81,10 @@ function appendQueryParam(searchParams: URLSearchParams, key: string, value: Que
   searchParams.append(key, String(value));
 }
 
-function resolveRequestBody(data: unknown, providedBody: RequestInit["body"]): {
+function resolveRequestBody(
+  data: unknown,
+  providedBody: RequestInit["body"]
+): {
   body?: BodyInit | null;
   isJsonBody: boolean;
 } {

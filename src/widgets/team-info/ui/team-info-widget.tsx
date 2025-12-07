@@ -40,7 +40,7 @@ export const TeamInfoWidget = ({ teams, players }: TeamInfoWidgetProps) => {
       return teams;
     }
     return teams.filter((team) =>
-      [team.name, team.shortName, team.city, team.stadium]
+      [team.name, team.shortName, team.stadium, team.manager, team.nationality]
         .join(" ")
         .toLowerCase()
         .includes(query)

@@ -1,7 +1,6 @@
 import { NewsHubPage } from "@/processes/news-hub-page";
-import { fetchLeagueNewsList } from "@/shared/api/epl/lib/news";
 import { mapNewsPreviewFromApi } from "@/entities/news/model/news-mappers";
-import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
+import { fetchNewsList } from "@/shared/api/epl/lib/news";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -9,12 +8,12 @@ interface PageProps {
 
 export default async function NewsRoute({ params }: PageProps) {
   const { locale } = await params;
-  const response = await fetchLeagueNewsList(DEFAULT_LEAGUE_ID, {
+  const newsResponse = await fetchNewsList({
     locale,
-    includeFeatured: true,
     limit: 24,
+    includeFeatured: true,
   });
-  const articles = response.data.map(mapNewsPreviewFromApi);
+  const articles = newsResponse.data.map(mapNewsPreviewFromApi);
 
   return <NewsHubPage locale={locale} articles={articles} />;
 }

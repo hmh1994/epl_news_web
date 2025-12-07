@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import { LeagueTableTeam } from "@/entities/team/model/league-table-team";
+import type { SeasonAnalyticsMetric } from "@/shared/api/epl/model/season-analytics";
 import { PremiumTableHero } from "@/widgets/premium-epl-table/hero/ui/premium-table-hero";
 import { PremiumTableControls } from "@/widgets/premium-epl-table/controls/ui/premium-table-controls";
 import { PremiumTableTable } from "@/widgets/premium-epl-table/table/ui/premium-table-table";
@@ -12,9 +13,13 @@ import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 interface PremiumEPLTableWidgetProps {
   teams: LeagueTableTeam[];
+  metrics: SeasonAnalyticsMetric[];
 }
 
-export const PremiumEPLTableWidget = ({ teams }: PremiumEPLTableWidgetProps) => {
+export const PremiumEPLTableWidget = ({
+  teams,
+  metrics,
+}: PremiumEPLTableWidgetProps) => {
   const [sortBy, setSortBy] = useState<SortColumn>("position");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [searchTerm, setSearchTerm] = useState("");
@@ -78,7 +83,7 @@ export const PremiumEPLTableWidget = ({ teams }: PremiumEPLTableWidgetProps) => 
           onHoverEnd={() => setHoveredRow(null)}
         />
 
-        <PremiumTableAnalytics />
+        <PremiumTableAnalytics metrics={metrics} />
       </main>
 
       <PremiumTableFooter />
