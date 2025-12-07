@@ -13,7 +13,7 @@ const NAV_ITEMS: Array<{ segment: string; labelKey: string }> = [
   { segment: "players", labelKey: "nav.players" },
   { segment: "teams", labelKey: "nav.table" },
   { segment: "teams/detail", labelKey: "nav.teams" },
-  { segment: "league", labelKey: "nav.overview" },
+  // { segment: "league", labelKey: "nav.overview" },
 ];
 
 export const AppHeader = () => {
@@ -25,7 +25,10 @@ export const AppHeader = () => {
   return (
     <header className='sticky top-0 z-50 border-b border-white/10 bg-slate-950/95 backdrop-blur-2xl'>
       <div className='mx-auto flex max-w-7xl items-center justify-between px-6 py-4 text-sm text-slate-200'>
-        <Link href={base || "/"} className='flex items-center gap-2 text-base font-bold tracking-wide text-white'>
+        <Link
+          href={base || "/"}
+          className='flex items-center gap-2 text-base font-bold tracking-wide text-white'
+        >
           <Image
             src='/resource/logo.png'
             alt={t("brand")}
@@ -40,8 +43,15 @@ export const AppHeader = () => {
         <nav className='hidden items-center gap-2 md:flex'>
           {NAV_ITEMS.map((item) => {
             const href = `${base}/${item.segment}`;
-            const isActive =
+            const isTeamsDetailPath =
+              pathname === `${base}/teams/detail` ||
+              pathname?.startsWith(`${base}/teams/detail/`);
+            const matchesHref =
               pathname === href || pathname?.startsWith(`${href}/`);
+            const isActive =
+              item.segment === "teams"
+                ? matchesHref && !isTeamsDetailPath
+                : matchesHref;
             return (
               <Link
                 key={item.segment}
@@ -59,7 +69,7 @@ export const AppHeader = () => {
           })}
         </nav>
 
-        <div className='flex items-center gap-3 text-xs text-slate-400'>
+        {/* <div className='flex items-center gap-3 text-xs text-slate-400'>
           <span className='hidden md:inline'>{t("tagline")}</span>
           <Link
             href={`${base}/players`}
@@ -67,7 +77,7 @@ export const AppHeader = () => {
           >
             {t("playerCta")}
           </Link>
-        </div>
+        </div> */}
       </div>
     </header>
   );
