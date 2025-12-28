@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent } from "react";
+import { ChangeEvent, ReactNode } from "react";
 import { Search, Grid, List, X } from "lucide-react";
 import { PlayerFilter, ViewMode } from "@/features/player-database/types";
 import { useTranslations } from "next-intl";
@@ -20,6 +20,9 @@ interface PlayerSearchControlsProps {
   activeFilters: PlayerFilter[];
   onFilterRemove: (filter: PlayerFilter) => void;
   onClearFilters: () => void;
+  children?: ReactNode;
+  onSearchSubmit: () => void;
+  isSearching?: boolean;
 }
 
 export const PlayerSearchControls = ({
@@ -37,6 +40,9 @@ export const PlayerSearchControls = ({
   activeFilters,
   onFilterRemove,
   onClearFilters,
+  children,
+  onSearchSubmit,
+  isSearching = false,
 }: PlayerSearchControlsProps) => {
   const t = useTranslations("player.search");
   const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -52,10 +58,10 @@ export const PlayerSearchControls = ({
 
   return (
     <div className='bg-slate-900/40 backdrop-blur-3xl rounded-3xl p-6 border border-white/10 shadow-2xl mb-8'>
-      <div className='grid grid-cols-1 lg:grid-cols-12 gap-4'>
-        <div className='lg:col-span-3'>
+      <div className='flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:items-center'>
+        <div className='lg:flex-[0_0_220px]'>
           <select
-            className='w-full bg-slate-800/50 border border-white/10 rounded-2xl px-4 py-4 text-white focus:outline-none focus:border-emerald-400'
+            className='w-full h-12 bg-slate-800/50 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-emerald-400'
             value={selectedPosition}
             onChange={(event) => onPositionChange(event.target.value)}
           >
@@ -67,9 +73,9 @@ export const PlayerSearchControls = ({
           </select>
         </div>
 
-        <div className='lg:col-span-3'>
+        <div className='lg:flex-[0_0_220px]'>
           <select
-            className='w-full bg-slate-800/50 border border-white/10 rounded-2xl px-4 py-4 text-white focus:outline-none focus:border-emerald-400'
+            className='w-full h-12 bg-slate-800/50 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-emerald-400'
             value={selectedTeam}
             onChange={(event) => onTeamChange(event.target.value)}
           >
@@ -81,22 +87,40 @@ export const PlayerSearchControls = ({
           </select>
         </div>
 
-        <div className='lg:col-span-5 relative'>
+        <div className='relative lg:flex-1 min-w-[200px]'>
           <Search className='absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400' />
           <input
             type='text'
             placeholder={t("searchPlaceholder")}
-            className='w-full bg-slate-800/50 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20'
+            className='w-full h-12 bg-slate-800/50 border border-white/10 rounded-2xl pl-12 pr-4 text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20'
             value={searchTerm}
             onChange={handleSearchInput}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+                onSearchSubmit();
+              }
+            }}
           />
         </div>
 
-        <div className='lg:col-span-1 flex items-center justify-start lg:justify-end gap-2 lg:pl-2'>
+        <div className='flex items-center gap-3 lg:ml-auto'>
+          <button
+            type='button'
+            onClick={onSearchSubmit}
+            disabled={isSearching}
+            className={`h-12 rounded-2xl px-4 text-sm font-semibold whitespace-nowrap transition-all ${
+              isSearching
+                ? "bg-slate-700/60 text-slate-400 cursor-not-allowed"
+                : "bg-[#169976] text-white hover:bg-emerald-600"
+            }`}
+          >
+            {isSearching ? "조회중" : "조회"}
+          </button>
           <button
             type='button'
             onClick={() => onViewModeChange("grid")}
-            className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl transition-all ${
+            className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-all ${
               viewMode === "grid"
                 ? "bg-[#169976] text-white"
                 : "bg-slate-800/50 text-slate-400 hover:text-white"
@@ -107,7 +131,7 @@ export const PlayerSearchControls = ({
           <button
             type='button'
             onClick={() => onViewModeChange("list")}
-            className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl transition-all ${
+            className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-all ${
               viewMode === "list"
                 ? "bg-[#169976] text-white"
                 : "bg-slate-800/50 text-slate-400 hover:text-white"
@@ -151,6 +175,10 @@ export const PlayerSearchControls = ({
             {t("clearAll")}
           </button>
         </div>
+      )}
+
+      {children && (
+        <div className='mt-6 pt-6 border-t border-white/10'>{children}</div>
       )}
     </div>
   );
