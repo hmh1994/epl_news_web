@@ -15,7 +15,10 @@ const POSITION_GROUPS: Record<Exclude<PositionFilter, "all">, string[]> = {
   FW: ["ST", "CF", "LW", "RW"],
 };
 
-const SQUAD_SORTERS: Record<SquadSortKey, (a: PlayerProfile, b: PlayerProfile) => number> = {
+const SQUAD_SORTERS: Record<
+  SquadSortKey,
+  (a: PlayerProfile, b: PlayerProfile) => number
+> = {
   number: (a, b) => a.number - b.number,
   name: (a, b) => a.name.localeCompare(b.name),
   age: (a, b) => a.age - b.age,
@@ -76,7 +79,9 @@ export const calculateTeamStats = (
   const cleanSheetRate = matchesPlayed
     ? ((team.keyStats.cleanSheets / matchesPlayed) * 100).toFixed(1) + "%"
     : "0.0%";
-  const shotsPerGame = team.keyStats.shotsPerGame.toFixed(1);
+  const shotsPerGame = team.keyStats.shotsPerGame
+    ? team.keyStats.shotsPerGame.toFixed(1)
+    : "0";
 
   return {
     matchesPlayed,
@@ -130,9 +135,13 @@ export const calculatePositionDistribution = (
   squad.forEach((player) => {
     if (player.position === "GK") {
       distribution.GK.count += 1;
-    } else if (POSITION_GROUPS.DF.some((code) => player.position.includes(code))) {
+    } else if (
+      POSITION_GROUPS.DF.some((code) => player.position.includes(code))
+    ) {
       distribution.DF.count += 1;
-    } else if (POSITION_GROUPS.MF.some((code) => player.position.includes(code))) {
+    } else if (
+      POSITION_GROUPS.MF.some((code) => player.position.includes(code))
+    ) {
       distribution.MF.count += 1;
     } else {
       distribution.FW.count += 1;

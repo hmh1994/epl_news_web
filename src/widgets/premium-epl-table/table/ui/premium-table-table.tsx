@@ -11,7 +11,6 @@ import {
 import { LeagueTableTeam } from "@/entities/team/model/league-table-team";
 import { LeagueTableRow } from "@/entities/team/ui/league-table-row";
 import { SortColumn } from "@/widgets/premium-epl-table/model/types";
-import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 type PremiumTableTableProps = {
   teams: LeagueTableTeam[];
@@ -64,7 +63,6 @@ export const PremiumTableTable = ({
         <div className='flex items-center space-x-4 text-sm text-slate-400'>
           <div className='flex items-center space-x-2'>
             <Award className='w-4 h-4' />
-            <span>Matchday 38</span>
           </div>
           <div className='flex items-center space-x-2'>
             <Target className='w-4 h-4' />
@@ -207,7 +205,6 @@ export const PremiumTableTable = ({
 
         <tbody className='divide-y divide-white/5'>
           {teams.map((team) => {
-            const teamInfo = TEAMS_BY_ID[team.teamId];
             return (
               <LeagueTableRow
                 key={team.teamId}
@@ -215,9 +212,9 @@ export const PremiumTableTable = ({
                 isHovered={hoveredRow === team.position}
                 onHover={onHover}
                 onHoverEnd={onHoverEnd}
-                teamName={teamInfo?.name ?? team.teamId.toUpperCase()}
-                teamShortName={teamInfo?.shortName ?? team.teamId.toUpperCase()}
-                teamCrest={teamInfo?.crest ?? "⚽"}
+                teamName={team.teamName.toUpperCase()}
+                teamShortName={team.teamShortName.toUpperCase()}
+                teamLogo={team.logo}
               />
             );
           })}

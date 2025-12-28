@@ -1,4 +1,8 @@
-import type { ApiListResponse, ApiResourceResponse, ApiResponseMeta } from "./types";
+import type {
+  ApiListResponse,
+  ApiResourceResponse,
+  ApiResponseMeta,
+} from "./types";
 
 export interface NewsPaginationMeta {
   total?: number;
@@ -10,14 +14,10 @@ export interface NewsPaginationMeta {
 }
 
 export interface NewsListParams {
-  cursor?: string;
-  limit?: number;
-  categoryId?: string;
-  tagIds?: string[];
-  teamId?: string;
+  pageCnt?: number;
+  pageSize?: number;
   search?: string;
   locale?: string;
-  includeFeatured?: boolean;
 }
 
 export interface NewsHighlightsParams {
@@ -175,14 +175,16 @@ export interface NewsArticleResponse extends ApiResourceResponse<NewsArticle> {
   };
 }
 
-export interface NewsHighlightsResponse extends ApiListResponse<NewsArticlePreview> {
+export interface NewsHighlightsResponse
+  extends ApiListResponse<NewsArticlePreview> {
   meta: ApiResponseMeta & {
     generatedAt: number;
     categoryId?: string;
   };
 }
 
-export interface NewsRelatedResponse extends ApiListResponse<NewsArticlePreview> {
+export interface NewsRelatedResponse
+  extends ApiListResponse<NewsArticlePreview> {
   meta: ApiResponseMeta & {
     articleId: string;
     generatedAt: number;

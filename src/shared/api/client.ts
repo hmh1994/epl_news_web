@@ -1,6 +1,6 @@
 const FALLBACK_BASE_URL = "https://infootball.kr";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? FALLBACK_BASE_URL;
+const baseUrl = FALLBACK_BASE_URL;
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -34,8 +34,7 @@ async function request<T>(
   path: string,
   options: ApiRequestOptions = {}
 ): Promise<T> {
-  const { params, data, headers, body: providedBody, cache, ...rest } =
-    options;
+  const { params, data, headers, body: providedBody, cache, ...rest } = options;
 
   const url = buildRequestUrl(path, params);
   const { body, isJsonBody } = resolveRequestBody(data, providedBody);
@@ -120,18 +119,27 @@ function isBodyInit(value: unknown): value is BodyInit {
     return true;
   }
 
-  if (typeof URLSearchParams !== "undefined" && value instanceof URLSearchParams) {
+  if (
+    typeof URLSearchParams !== "undefined" &&
+    value instanceof URLSearchParams
+  ) {
     return true;
   }
 
-  if (typeof ReadableStream !== "undefined" && value instanceof ReadableStream) {
+  if (
+    typeof ReadableStream !== "undefined" &&
+    value instanceof ReadableStream
+  ) {
     return true;
   }
 
   return false;
 }
 
-function createHeaders(headers: HeadersInit | undefined, ensureJson: boolean): Headers {
+function createHeaders(
+  headers: HeadersInit | undefined,
+  ensureJson: boolean
+): Headers {
   const merged = new Headers(headers ?? {});
 
   if (ensureJson && !merged.has("Content-Type")) {

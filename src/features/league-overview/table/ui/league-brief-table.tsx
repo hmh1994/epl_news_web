@@ -1,6 +1,5 @@
 import { LeagueTableRow } from "@/entities/league/model/league-overview";
 import { LeagueBriefRow } from "@/entities/league/ui/league-brief-row";
-import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 interface LeagueBriefTableProps {
   rows: LeagueTableRow[];
@@ -61,7 +60,6 @@ export const LeagueBriefTable = ({
       </thead>
       <tbody>
         {rows.map((row) => {
-          const team = TEAMS_BY_ID[row.teamId];
           return (
             <LeagueBriefRow
               key={row.teamId}
@@ -69,8 +67,8 @@ export const LeagueBriefTable = ({
               isHovered={hoveredTeam === row.pos}
               onHover={onHover}
               onHoverEnd={onHoverEnd}
-              teamName={team?.name ?? row.teamId.toUpperCase()}
-              teamCrest={team?.crest ?? "⚽"}
+              teamName={row.team.toUpperCase()}
+              teamLogo={row.logo}
               onFavorite={onFavorite}
               isFavorite={favoriteTeamIds?.includes(row.teamId)}
             />

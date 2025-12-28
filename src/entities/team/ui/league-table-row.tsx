@@ -1,10 +1,6 @@
 import { LeagueTableTeam } from "@/entities/team/model/league-table-team";
-import {
-  TrendingDown,
-  TrendingUp,
-  Trophy,
-} from "lucide-react";
-
+import { TrendingDown, TrendingUp, Trophy } from "lucide-react";
+import Image from "next/image";
 interface LeagueTableRowProps {
   team: LeagueTableTeam;
   isHovered: boolean;
@@ -12,22 +8,20 @@ interface LeagueTableRowProps {
   onHoverEnd: () => void;
   teamName: string;
   teamShortName: string;
-  teamCrest: string;
+  teamLogo: string;
 }
 
 const getPositionStyle = (position: number) => {
   if (position <= 4) {
     return {
-      container:
-        "bg-green-400/20 border-green-400/40 shadow-green-400/20",
+      container: "bg-green-400/20 border-green-400/40 shadow-green-400/20",
       text: "text-green-400",
     };
   }
 
   if (position <= 6) {
     return {
-      container:
-        "bg-[#169976]/20 border-emerald-400/40 shadow-emerald-400/20",
+      container: "bg-[#169976]/20 border-emerald-400/40 shadow-emerald-400/20",
       text: "text-teal-400",
     };
   }
@@ -78,10 +72,9 @@ export const LeagueTableRow = ({
   onHoverEnd,
   teamName,
   teamShortName,
-  teamCrest,
+  teamLogo,
 }: LeagueTableRowProps) => {
   const positionStyle = getPositionStyle(team.position);
-
   return (
     <tr
       className='border-b border-white/10 transition-all duration-300 hover:bg-white/5'
@@ -89,9 +82,7 @@ export const LeagueTableRow = ({
       onMouseLeave={onHoverEnd}
     >
       <td className='py-4 px-5'>
-        <div
-          className={`flex items-center space-x-3`}
-        >
+        <div className={`flex items-center space-x-3`}>
           <div
             className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-base border-2 shadow-lg transition-all duration-300 ${
               positionStyle.container
@@ -109,11 +100,17 @@ export const LeagueTableRow = ({
       <td className='py-4 px-5'>
         <div className='flex items-center space-x-3'>
           <div
-            className={`w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-2xl flex items-center justify-center text-xl shadow-xl transition-all duration-300 ${
+            className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-lg overflow-hidden ${
               isHovered ? "scale-110 rotate-3" : ""
-            }`}
+            } transition-all`}
           >
-            {teamCrest}
+            <Image
+              src={teamLogo}
+              alt={teamName}
+              width={40}
+              height={40}
+              className='w-10 h-10 object-contain'
+            />
           </div>
           <div>
             <div
@@ -123,13 +120,17 @@ export const LeagueTableRow = ({
             >
               {teamName}
             </div>
-            <div className='text-slate-400 text-xs font-medium'>{teamShortName}</div>
+            <div className='text-slate-400 text-xs font-medium'>
+              {teamShortName}
+            </div>
           </div>
         </div>
       </td>
       <td className='py-4 px-3 text-center'>
         <div className='bg-slate-700/30 rounded-lg px-2.5 py-1 inline-block'>
-          <span className='text-slate-300 font-semibold text-sm'>{team.played}</span>
+          <span className='text-slate-300 font-semibold text-sm'>
+            {team.played}
+          </span>
         </div>
       </td>
       <td className='py-4 px-3 text-center text-green-400 font-semibold text-sm'>
@@ -169,7 +170,9 @@ export const LeagueTableRow = ({
       </td>
       <td className='py-4 px-3 text-center'>
         <div className='space-y-1.5'>
-          <div className='text-white font-semibold text-sm'>{team.passAccuracy}%</div>
+          <div className='text-white font-semibold text-sm'>
+            {team.passAccuracy}%
+          </div>
           <div className='w-full bg-slate-600 rounded-full h-1.5'>
             <div
               className='bg-gradient-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-1000'
@@ -180,20 +183,21 @@ export const LeagueTableRow = ({
       </td>
       <td className='py-4 px-4'>
         <div className='flex justify-center space-x-1.5'>
-          {team.form.map((result, index) => (
-            <div
-              key={index}
-              className={`w-8 h-8 rounded-xl flex items-center justify-center text-[11px] font-bold shadow-lg transition-all duration-300 hover:scale-110 ${
-                result === "W"
-                  ? "bg-green-500 text-white shadow-green-500/50"
-                  : result === "D"
-                  ? "bg-yellow-500 text-white shadow-yellow-500/50"
-                  : "bg-red-500 text-white shadow-red-500/50"
-              }`}
-            >
-              {result}
-            </div>
-          ))}
+          {team.form !== null &&
+            team.form.map((result, index) => (
+              <div
+                key={index}
+                className={`w-8 h-8 rounded-xl flex items-center justify-center text-[11px] font-bold shadow-lg transition-all duration-300 hover:scale-110 ${
+                  result === "W"
+                    ? "bg-green-500 text-white shadow-green-500/50"
+                    : result === "D"
+                    ? "bg-yellow-500 text-white shadow-yellow-500/50"
+                    : "bg-red-500 text-white shadow-red-500/50"
+                }`}
+              >
+                {result}
+              </div>
+            ))}
         </div>
       </td>
       <td className='py-4 px-3 text-center'>

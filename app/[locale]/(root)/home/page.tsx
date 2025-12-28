@@ -12,11 +12,10 @@ export default async function HomeRoute() {
     fetchPremiumTable(leagueId),
     fetchScoringRace(leagueId, { limit: 5 }),
   ]);
-  const tableRows = premiumTable.data.standings.map(toLeagueTableRow);
-  const playerRankings: PlayerRanking[] = scoringRace.data.map((player) => ({
-    ...player,
-    value: "N/A",
-  }));
+  console.log(scoringRace);
+  const tableRows = premiumTable.data.map(toLeagueTableRow);
+  const playerRankings: PlayerRanking[] = scoringRace.data;
+
   const schedule = EPL_MOCK_DATA.matches.schedule;
   const leagueMetrics = EPL_MOCK_DATA.hub.metaMetrics;
 

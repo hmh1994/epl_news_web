@@ -5,13 +5,12 @@ import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 import { toLeagueTableTeam } from "@/shared/lib/mappers/league";
 
 export default async function PremiumEPLTableRoute() {
-  const [tableResponse, analyticsResponse] = await Promise.all([
+  const [tableResponse, _analyticsResponse] = await Promise.all([
     fetchPremiumTable(DEFAULT_LEAGUE_ID),
     fetchSeasonAnalytics(DEFAULT_LEAGUE_ID),
   ]);
 
-  const teams = tableResponse.data.standings.map(toLeagueTableTeam);
-  const metrics = analyticsResponse.data.metrics;
-
-  return <PremiumEPLTablePage teams={teams} metrics={metrics} />;
+  const teams = tableResponse.data.map(toLeagueTableTeam);
+  // const metrics = analyticsResponse.data.metrics;
+  return <PremiumEPLTablePage teams={teams} metrics={[]} />;
 }

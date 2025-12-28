@@ -1,25 +1,26 @@
 import type { LeagueTableRow } from "@/entities/league/model/league-overview";
-import type { TeamStanding } from "@/entities/team/model/team-standing";
+import type {
+  TeamFormResult,
+  TeamStanding,
+} from "@/entities/team/model/team-standing";
 import type { LeagueTableTeam } from "@/entities/team/model/league-table-team";
 import type { LeagueStandingsRow } from "@/shared/api/epl/model/types";
 
-export const toTeamStanding = (
-  row: LeagueStandingsRow
-): TeamStanding => ({
+export const toTeamStanding = (row: LeagueStandingsRow): TeamStanding => ({
   position: row.position,
   teamId: row.team.id,
   matches: row.record.played,
   points: row.record.points,
   goalDifference: row.record.goalDifference,
   trend: row.trend ?? 0,
-  form: row.form,
+  form: row.form as TeamFormResult[],
 });
 
-export const toLeagueTableRow = (
-  row: LeagueStandingsRow
-): LeagueTableRow => ({
+export const toLeagueTableRow = (row: LeagueStandingsRow): LeagueTableRow => ({
   pos: row.position,
   teamId: row.team.id,
+  team: row.team.name,
+  logo: row.team.logo,
   played: row.record.played,
   won: row.record.won,
   drawn: row.record.drawn,
@@ -31,8 +32,11 @@ export const toLeagueTableRow = (
 export const toLeagueTableTeam = (
   row: LeagueStandingsRow
 ): LeagueTableTeam => ({
+  logo: row.team.logo,
   position: row.position,
   teamId: row.team.id,
+  teamName: row.team.name,
+  teamShortName: row.team.shortName,
   played: row.record.played,
   won: row.record.won,
   drawn: row.record.drawn,
@@ -49,5 +53,4 @@ export const toLeagueTableTeam = (
   passAccuracy: row.advancedMetrics?.passAccuracy ?? 0,
   cleanSheets: row.advancedMetrics?.cleanSheets ?? 0,
   bigChances: row.advancedMetrics?.bigChances ?? 0,
-  value: row.advancedMetrics?.marketValue ?? "—",
 });

@@ -1,7 +1,6 @@
 import { TeamInfoPage } from "@/processes/team-info-page";
 import { fetchTeamDetail } from "@/shared/api/epl/lib/team-detail";
 import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
-import { EPL_MOCK_DATA } from "@/shared/mocks/epl-data";
 import type { TeamProfile } from "@/entities/team/model/team-profile";
 import type { PlayerProfile } from "@/entities/player/model/player-profile";
 
@@ -62,39 +61,28 @@ const toTeamProfile = (
 
 export default async function TeamInfoRoute() {
   const leagueId = DEFAULT_LEAGUE_ID;
-  const teamIds = EPL_MOCK_DATA.teams.profiles.map((team) =>
-    String(team.id)
-  );
-
+  const teamId = "e3dda0ea-a653-43f7-b3e1-6adf7a49e83f";
+  // const teamIds = EPL_MOCK_DATA.teams.profiles.map((team) =>
+  //   String(team.id)
+  // );
+  const teamIds = [teamId];
   const teamResponses = await Promise.all(
     teamIds.map((teamId) => fetchTeamDetail(leagueId, teamId))
   );
 
   const teams: TeamProfile[] = teamResponses.map((response) => {
-    const fallbackTeam = EPL_MOCK_DATA.teams.profiles.find(
-      (candidate) => candidate.id === response.data.team.summary.id
-    );
     return toTeamProfile(
-      response.data.team.summary,
-      response.data.team.meta,
-      response.data.team.static,
-      fallbackTeam ?? undefined
+      response.data.summary,
+      response.data.meta,
+      response.data.static
     );
   });
   const players: PlayerProfile[] = teamResponses.flatMap((response) =>
-    response.data.team.squad.map((player) => {
-      const fallbackPlayer = EPL_MOCK_DATA.teams.squadPlayers.find(
-        (candidate) => candidate.id === player.id
-      );
-
+    response.data.squad.map((player) => {
       return {
         ...player,
-        value: fallbackPlayer?.value ?? "—",
-        marketValue: fallbackPlayer?.marketValue ?? 0,
-        nationalityName: player.nationalityName ?? fallbackPlayer?.nationalityName ?? "",
       };
     })
   );
-
   return <TeamInfoPage teams={teams} players={players} />;
 }

@@ -3,6 +3,7 @@
 import React from "react";
 import { Trophy, Target, MapPin } from "lucide-react";
 import { TeamProfile } from "@/entities/team/model/team-profile";
+import Image from "next/image";
 
 type TeamSelectionGridProps = {
   teams: TeamProfile[];
@@ -18,7 +19,10 @@ const CompactList = ({
   selectedTeam,
   onSelect,
   searchTerm,
-}: Pick<TeamSelectionGridProps, "teams" | "selectedTeam" | "onSelect" | "searchTerm">) => {
+}: Pick<
+  TeamSelectionGridProps,
+  "teams" | "selectedTeam" | "onSelect" | "searchTerm"
+>) => {
   if (teams.length === 0) {
     return (
       <div className='rounded-xl border border-dashed border-white/10 bg-white/5 px-3 py-4 text-xs text-slate-400 text-center'>
@@ -51,8 +55,16 @@ const CompactList = ({
               }`}
             >
               <div className='flex min-w-0 items-center gap-2.5'>
-                <div className='flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-br from-[#169976] to-teal-500 text-base text-white shadow-inner'>
-                  {team.logo}
+                <div
+                  className={`w-8 h-8 rounded-2xl flex items-center justify-center text-xl shadow-lg overflow-hidden  transition-all`}
+                >
+                  <Image
+                    src={team.logo}
+                    alt={team.logo}
+                    width={40}
+                    height={40}
+                    className='w-8 h-8 object-contain'
+                  />
                 </div>
                 <div className='min-w-0'>
                   <p className='truncate text-[13px] font-semibold text-white'>
@@ -97,7 +109,9 @@ export const TeamSelectionGrid = ({
       {showHeader && (
         <div className='mb-6 flex items-center justify-between'>
           <div>
-            <h2 className='mb-1 text-3xl font-black text-white'>프리미어리그 클럽</h2>
+            <h2 className='mb-1 text-3xl font-black text-white'>
+              프리미어리그 클럽
+            </h2>
             <p className='text-sm text-slate-400 md:text-base'>
               세계 최고 수준의 축구 클럽들을 선택하세요
             </p>
@@ -118,6 +132,7 @@ export const TeamSelectionGrid = ({
         <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
           {teams.map((team) => {
             const isSelected = selectedTeam?.id === team.id;
+
             return (
               <button
                 key={team.id}
@@ -145,15 +160,25 @@ export const TeamSelectionGrid = ({
 
                 <div className='mb-6 text-center'>
                   <div className='relative mx-auto mb-4 transition-transform duration-300 group-hover:scale-110'>
-                    <div className='flex h-24 w-24 items-center justify-center rounded-3xl bg-gradient-to-br from-[#169976] to-teal-500 text-5xl text-white shadow-2xl'>
-                      {team.logo}
+                    <div
+                      className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-lg overflow-hidden transition-all`}
+                    >
+                      <Image
+                        src={team.logo}
+                        alt={team.logo}
+                        width={40}
+                        height={40}
+                        className='w-10 h-10 object-contain'
+                      />
                     </div>
                     <div className='absolute -inset-3 rounded-3xl bg-gradient-to-br from-[#169976]/30 to-teal-500/30 opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-100'></div>
                   </div>
                   <h3 className='text-2xl font-bold text-white transition-colors group-hover:text-emerald-300'>
                     {team.name}
                   </h3>
-                  <p className='text-sm font-medium text-slate-400'>{team.shortName}</p>
+                  <p className='text-sm font-medium text-slate-400'>
+                    {team.shortName}
+                  </p>
                 </div>
 
                 <div className='mb-6 space-y-4'>
@@ -162,7 +187,9 @@ export const TeamSelectionGrid = ({
                       <Trophy className='h-4 w-4' />
                       <span className='text-sm'>승점</span>
                     </div>
-                    <span className='text-lg font-bold text-white'>{team.points}</span>
+                    <span className='text-lg font-bold text-white'>
+                      {team.points}
+                    </span>
                   </div>
                   <div className='flex items-center justify-between rounded-xl border border-white/5 bg-slate-800/30 p-3'>
                     <div className='flex items-center space-x-2 text-slate-400'>
@@ -179,12 +206,16 @@ export const TeamSelectionGrid = ({
                       <MapPin className='h-4 w-4' />
                       <span className='text-sm'>홈구장</span>
                     </div>
-                    <span className='text-sm font-semibold text-white'>{team.stadium}</span>
+                    <span className='text-sm font-semibold text-white'>
+                      {team.stadium}
+                    </span>
                   </div>
                 </div>
 
                 <div className='flex items-center justify-between'>
-                  <span className='text-sm font-medium text-slate-400'>최근 폼</span>
+                  <span className='text-sm font-medium text-slate-400'>
+                    최근 폼
+                  </span>
                   <div className='flex space-x-1'>
                     {team.form.map((result, index) => (
                       <div

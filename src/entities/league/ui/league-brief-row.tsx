@@ -3,6 +3,7 @@
 import { LeagueTableRow } from "@/entities/league/model/league-overview";
 import { Star } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 interface LeagueBriefRowProps {
   row: LeagueTableRow;
@@ -10,7 +11,7 @@ interface LeagueBriefRowProps {
   onHover: (pos: number) => void;
   onHoverEnd: () => void;
   teamName: string;
-  teamCrest: string;
+  teamLogo: string;
   onFavorite?: (teamId: string) => void;
   isFavorite?: boolean;
 }
@@ -42,7 +43,7 @@ export const LeagueBriefRow = ({
   onHover,
   onHoverEnd,
   teamName,
-  teamCrest,
+  teamLogo,
   onFavorite,
   isFavorite,
 }: LeagueBriefRowProps) => {
@@ -68,11 +69,17 @@ export const LeagueBriefRow = ({
         <div className='flex items-center justify-between gap-4'>
           <div className='flex items-center space-x-4'>
             <div
-              className={`w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-2xl flex items-center justify-center text-xl shadow-lg ${
+              className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-lg overflow-hidden ${
                 isHovered ? "scale-110 rotate-3" : ""
               } transition-all`}
             >
-              {teamCrest}
+              <Image
+                src={teamLogo}
+                alt={teamName}
+                width={40}
+                height={40}
+                className='w-10 h-10 object-contain'
+              />
             </div>
             <span
               className={`text-lg font-bold transition-colors ${
@@ -110,11 +117,15 @@ export const LeagueBriefRow = ({
       <td className='py-6 px-4 text-center text-slate-300 font-medium'>
         {row.played}
       </td>
-      <td className='py-6 px-4 text-center text-green-400 font-bold'>{row.won}</td>
+      <td className='py-6 px-4 text-center text-green-400 font-bold'>
+        {row.won}
+      </td>
       <td className='py-6 px-4 text-center text-yellow-400 font-bold'>
         {row.drawn}
       </td>
-      <td className='py-6 px-4 text-center text-red-400 font-bold'>{row.lost}</td>
+      <td className='py-6 px-4 text-center text-red-400 font-bold'>
+        {row.lost}
+      </td>
       <td className='py-6 px-4 text-center'>
         <span
           className={`font-bold ${

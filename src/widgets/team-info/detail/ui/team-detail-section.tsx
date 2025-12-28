@@ -23,6 +23,7 @@ import {
   TeamStats,
   TeamTab,
 } from "@/widgets/team-info/model/types";
+import Image from "next/image";
 
 const TAB_ITEMS: Array<{ id: TeamTab; name: string; icon: string }> = [
   { id: "overview", name: "개요", icon: "📋" },
@@ -63,8 +64,12 @@ export const TeamDetailSection = ({
     return (
       <div className='text-center py-20'>
         <div className='text-8xl mb-8'>⚽</div>
-        <h3 className='text-3xl font-bold text-white mb-4'>팀을 선택해주세요</h3>
-        <p className='text-slate-400 text-lg'>위에서 원하는 팀을 클릭하여 상세 정보를 확인하세요</p>
+        <h3 className='text-3xl font-bold text-white mb-4'>
+          팀을 선택해주세요
+        </h3>
+        <p className='text-slate-400 text-lg'>
+          위에서 원하는 팀을 클릭하여 상세 정보를 확인하세요
+        </p>
       </div>
     );
   }
@@ -78,16 +83,27 @@ export const TeamDetailSection = ({
           <div className='flex flex-col lg:flex-row items-start lg:items-center space-y-6 lg:space-y-0 lg:space-x-10 mb-10'>
             <div className='flex items-center space-x-6'>
               <div className='relative'>
-                <div className='w-32 h-32 bg-gradient-to-br from-[#169976] to-teal-500 rounded-3xl flex items-center justify-center text-6xl shadow-2xl'>
-                  {team.logo}
+                <div
+                  className={`w-32 h-32 rounded-2xl flex items-center justify-center text-xl shadow-lg overflow-hidden  transition-all`}
+                >
+                  <Image
+                    src={team.logo}
+                    alt={team.logo}
+                    width={40}
+                    height={40}
+                    className='w-28 h-28 object-contain'
+                  />
                 </div>
-                <div className='absolute -inset-2 bg-gradient-to-br from-[#169976]/40 to-teal-500/40 rounded-3xl blur-xl'></div>
               </div>
 
               <div>
                 <div className='flex items-center space-x-4 mb-2'>
-                  <h2 className='text-5xl font-black text-white'>{team.name}</h2>
-                  {team.rank === 1 && <Crown className='w-8 h-8 text-yellow-400' />}
+                  <h2 className='text-5xl font-black text-white'>
+                    {team.name}
+                  </h2>
+                  {team.rank === 1 && (
+                    <Crown className='w-8 h-8 text-yellow-400' />
+                  )}
                 </div>
                 <div className='flex items-center space-x-4 mb-4'>
                   <div
@@ -101,7 +117,9 @@ export const TeamDetailSection = ({
                   >
                     프리미어리그 {team.rank}위
                   </div>
-                  <div className='text-slate-400 text-lg font-medium'>{team.shortName}</div>
+                  <div className='text-slate-400 text-lg font-medium'>
+                    {team.shortName}
+                  </div>
                 </div>
                 <p className='text-slate-300 text-lg leading-relaxed max-w-2xl'>
                   {team.description}
@@ -113,17 +131,23 @@ export const TeamDetailSection = ({
           <div className='grid grid-cols-2 md:grid-cols-4 gap-6'>
             <div className='bg-slate-800/40 backdrop-blur-xl rounded-2xl p-6 border border-white/10 text-center'>
               <Trophy className='w-8 h-8 text-yellow-400 mx-auto mb-3' />
-              <div className='text-3xl font-black text-white mb-1'>{team.points}</div>
+              <div className='text-3xl font-black text-white mb-1'>
+                {team.points}
+              </div>
               <div className='text-slate-400 text-sm font-medium'>승점</div>
             </div>
             <div className='bg-slate-800/40 backdrop-blur-xl rounded-2xl p-6 border border-white/10 text-center'>
               <Target className='w-8 h-8 text-green-400 mx-auto mb-3' />
-              <div className='text-3xl font-black text-white mb-1'>{team.goalsFor}</div>
+              <div className='text-3xl font-black text-white mb-1'>
+                {team.goalsFor}
+              </div>
               <div className='text-slate-400 text-sm font-medium'>득점</div>
             </div>
             <div className='bg-slate-800/40 backdrop-blur-xl rounded-2xl p-6 border border-white/10 text-center'>
               <Shield className='w-8 h-8 text-teal-400 mx-auto mb-3' />
-              <div className='text-3xl font-black text-white mb-1'>{team.goalsAgainst}</div>
+              <div className='text-3xl font-black text-white mb-1'>
+                {team.goalsAgainst}
+              </div>
               <div className='text-slate-400 text-sm font-medium'>실점</div>
             </div>
             <div className='bg-slate-800/40 backdrop-blur-xl rounded-2xl p-6 border border-white/10 text-center'>
@@ -168,7 +192,9 @@ export const TeamDetailSection = ({
                   <Calendar className='w-5 h-5 text-emerald-400' />
                   <span className='text-slate-300'>창단연도</span>
                 </div>
-                <span className='text-white font-bold text-lg'>{team.founded}</span>
+                <span className='text-white font-bold text-lg'>
+                  {team.founded}
+                </span>
               </div>
 
               <div className='flex items-center justify-between p-4 bg-slate-800/30 rounded-xl border border-white/5'>
@@ -191,7 +217,9 @@ export const TeamDetailSection = ({
                 </div>
                 <div className='text-right'>
                   <div className='text-white font-bold'>{team.manager}</div>
-                  <div className='text-slate-400 text-sm'>{team.nationality}</div>
+                  <div className='text-slate-400 text-sm'>
+                    {team.nationality}
+                  </div>
                 </div>
               </div>
 
@@ -200,7 +228,9 @@ export const TeamDetailSection = ({
                   <Trophy className='w-5 h-5 text-yellow-400' />
                   <span className='text-slate-300'>PL 타이틀</span>
                 </div>
-                <span className='text-white font-bold text-lg'>{team.trophies}회</span>
+                <span className='text-white font-bold text-lg'>
+                  {team.trophies}회
+                </span>
               </div>
 
               <div className='p-4 bg-slate-800/30 rounded-xl border border-white/5'>
@@ -210,33 +240,33 @@ export const TeamDetailSection = ({
                     style={{ backgroundColor: team.colors.primary }}
                   ></div>
                   <span className='text-slate-300'>팀 컬러</span>
-              </div>
-              <div className='flex space-x-3'>
-                <div
-                  className='flex-1 h-4 rounded-lg'
-                  style={{ backgroundColor: team.colors.primary }}
-                ></div>
-                <div
-                  className='flex-1 h-4 rounded-lg'
-                  style={{ backgroundColor: team.colors.secondary }}
-                ></div>
-              </div>
-              <div className='mt-3 grid grid-cols-2 gap-3 text-[11px] uppercase text-slate-400'>
-                <div className='flex items-center justify-between'>
-                  <span>Primary</span>
-                  <span className='font-mono text-white text-xs normal-case'>
-                    {team.colors.primary}
-                  </span>
                 </div>
-                <div className='flex items-center justify-between'>
-                  <span>Secondary</span>
-                  <span className='font-mono text-white text-xs normal-case'>
-                    {team.colors.secondary}
-                  </span>
+                <div className='flex space-x-3'>
+                  <div
+                    className='flex-1 h-4 rounded-lg'
+                    style={{ backgroundColor: team.colors.primary }}
+                  ></div>
+                  <div
+                    className='flex-1 h-4 rounded-lg'
+                    style={{ backgroundColor: team.colors.secondary }}
+                  ></div>
+                </div>
+                <div className='mt-3 grid grid-cols-2 gap-3 text-[11px] uppercase text-slate-400'>
+                  <div className='flex items-center justify-between'>
+                    <span>Primary</span>
+                    <span className='font-mono text-white text-xs normal-case'>
+                      {team.colors.primary}
+                    </span>
+                  </div>
+                  <div className='flex items-center justify-between'>
+                    <span>Secondary</span>
+                    <span className='font-mono text-white text-xs normal-case'>
+                      {team.colors.secondary}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
           </div>
 
           <div className='bg-slate-900/60 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 shadow-2xl'>
@@ -248,15 +278,21 @@ export const TeamDetailSection = ({
             <div className='space-y-6'>
               <div className='grid grid-cols-3 gap-4'>
                 <div className='text-center p-4 bg-slate-800/30 rounded-xl border border-white/5'>
-                  <div className='text-2xl font-bold text-green-400 mb-1'>{team.won}</div>
+                  <div className='text-2xl font-bold text-green-400 mb-1'>
+                    {team.won}
+                  </div>
                   <div className='text-slate-400 text-sm'>승</div>
                 </div>
                 <div className='text-center p-4 bg-slate-800/30 rounded-xl border border-white/5'>
-                  <div className='text-2xl font-bold text-yellow-400 mb-1'>{team.drawn}</div>
+                  <div className='text-2xl font-bold text-yellow-400 mb-1'>
+                    {team.drawn}
+                  </div>
                   <div className='text-slate-400 text-sm'>무</div>
                 </div>
                 <div className='text-center p-4 bg-slate-800/30 rounded-xl border border-white/5'>
-                  <div className='text-2xl font-bold text-red-400 mb-1'>{team.lost}</div>
+                  <div className='text-2xl font-bold text-red-400 mb-1'>
+                    {team.lost}
+                  </div>
                   <div className='text-slate-400 text-sm'>패</div>
                 </div>
               </div>
@@ -299,7 +335,9 @@ export const TeamDetailSection = ({
                   </span>
                 </div>
                 <div className='text-slate-400 text-sm'>
-                  전체 경기의 {((team.keyStats.cleanSheets / team.played) * 100).toFixed(1)}%
+                  전체 경기의{" "}
+                  {((team.keyStats.cleanSheets / team.played) * 100).toFixed(1)}
+                  %
                 </div>
               </div>
             </div>
@@ -315,7 +353,7 @@ export const TeamDetailSection = ({
                 <Search className='absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400' />
                 <input
                   type='text'
-                  placeholder='선수 검색 (이름)' 
+                  placeholder='선수 검색 (이름)'
                   className='w-full bg-slate-800/50 border border-white/10 rounded-2xl pl-14 pr-5 py-4 text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all'
                   value={searchTerm}
                   onChange={(event) => onSearchTermChange(event.target.value)}
@@ -380,7 +418,6 @@ export const TeamDetailSection = ({
                       {player.position}
                     </div>
                   </div>
-                  <div className='text-2xl'>{player.nationality}</div>
                 </div>
 
                 <div className='mb-4'>
@@ -388,28 +425,36 @@ export const TeamDetailSection = ({
                     {player.name}
                   </h4>
                   <p className='text-slate-400 text-sm'>
-                    {player.nationalityName} • {player.age}세
+                    {player.nationality} • {player.age}세
                   </p>
                 </div>
 
                 <div className='grid grid-cols-3 gap-3 mb-4'>
                   <div className='text-center'>
-                    <div className='text-lg font-bold text-white'>{player.goals}</div>
+                    <div className='text-lg font-bold text-white'>
+                      {player.goals}
+                    </div>
                     <div className='text-slate-400 text-xs'>골</div>
                   </div>
                   <div className='text-center'>
-                    <div className='text-lg font-bold text-white'>{player.assists}</div>
+                    <div className='text-lg font-bold text-white'>
+                      {player.assists}
+                    </div>
                     <div className='text-slate-400 text-xs'>도움</div>
                   </div>
                   <div className='text-center'>
-                    <div className='text-lg font-bold text-yellow-400'>{player.rating}</div>
+                    <div className='text-lg font-bold text-yellow-400'>
+                      {player.rating}
+                    </div>
                     <div className='text-slate-400 text-xs'>평점</div>
                   </div>
                 </div>
 
                 <div className='flex items-center justify-between pt-4 border-t border-white/10'>
                   <div className='text-slate-400 text-sm'>시즌 출전</div>
-                  <div className='text-white font-bold'>{player.appearances}경기</div>
+                  <div className='text-white font-bold'>
+                    {player.appearances}경기
+                  </div>
                 </div>
               </div>
             ))}
@@ -418,8 +463,12 @@ export const TeamDetailSection = ({
           {filteredPlayers.length === 0 && (
             <div className='text-center py-16 bg-slate-900/60 backdrop-blur-2xl rounded-3xl border border-white/10'>
               <div className='text-6xl mb-4'>🔍</div>
-              <h3 className='text-2xl font-bold text-white mb-2'>검색 결과가 없습니다</h3>
-              <p className='text-slate-400'>다른 검색어나 필터를 시도해보세요</p>
+              <h3 className='text-2xl font-bold text-white mb-2'>
+                검색 결과가 없습니다
+              </h3>
+              <p className='text-slate-400'>
+                다른 검색어나 필터를 시도해보세요
+              </p>
             </div>
           )}
         </div>
@@ -507,12 +556,18 @@ export const TeamDetailSection = ({
                 <div key={pos.position} className='space-y-2'>
                   <div className='flex items-center justify-between'>
                     <div className='flex items-center space-x-3'>
-                      <div className={`w-6 h-6 rounded-xl bg-gradient-to-r ${pos.color}`}></div>
+                      <div
+                        className={`w-6 h-6 rounded-xl bg-gradient-to-r ${pos.color}`}
+                      ></div>
                       <span className='text-white font-bold'>{pos.label}</span>
                     </div>
                     <div className='flex items-center space-x-2'>
-                      <span className='text-slate-300 font-semibold'>{pos.count}명</span>
-                      <span className='text-slate-400 text-sm'>({pos.percentage}%)</span>
+                      <span className='text-slate-300 font-semibold'>
+                        {pos.count}명
+                      </span>
+                      <span className='text-slate-400 text-sm'>
+                        ({pos.percentage}%)
+                      </span>
                     </div>
                   </div>
 

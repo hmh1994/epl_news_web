@@ -10,9 +10,9 @@ export default async function NewsRoute({ params }: PageProps) {
   const { locale } = await params;
   const newsResponse = await fetchNewsList({
     locale,
-    limit: 24,
-    includeFeatured: true,
+    pageSize: 24,
   });
+  console.log(newsResponse);
   const articles = newsResponse.data.map(mapNewsPreviewFromApi);
 
   return <NewsHubPage locale={locale} articles={articles} />;

@@ -34,7 +34,7 @@ export interface TeamSummary {
   id: string;
   name: string;
   shortName: string;
-  crest: string;
+  logo: string;
   city?: string;
   stadium?: string;
 }
@@ -180,12 +180,10 @@ export interface TeamDetailStatic {
 
 export interface TeamDetailResponse
   extends ApiResourceResponse<{
-    team: {
-      summary: TeamDetailSummary;
-      meta: TeamDetailMeta;
-      static: TeamDetailStatic;
-      squad: ApiPlayerProfile[];
-    };
+    summary: TeamDetailSummary;
+    meta: TeamDetailMeta;
+    static: TeamDetailStatic;
+    squad: ApiPlayerProfile[];
   }> {
   meta: ApiResponseMeta & {
     leagueId: string;
@@ -247,9 +245,7 @@ export interface PlayerDetailResponse
 }
 
 export interface PremiumTableResponse
-  extends ApiResourceResponse<{
-    standings: LeagueStandingsRow[];
-  }> {
+  extends ApiResourceResponse<LeagueStandingsRow[]> {
   meta: ApiResponseMeta & {
     leagueId: string;
     season: string;

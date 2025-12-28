@@ -9,7 +9,7 @@ export type RequestOptions = Pick<
 >;
 
 export const leaguePath = (leagueId: string, suffix: string) =>
-  `${API_ROOT}/league/${leagueId}${suffix}`;
+  `${API_ROOT}/leagues/${leagueId}${suffix}`;
 
 export const teamPath = (teamId: string, suffix: string) =>
   `${API_ROOT}/teams/${teamId}${suffix}`;
