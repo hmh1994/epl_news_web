@@ -5,6 +5,22 @@ import type {
 } from "@/shared/api/epl/model/news";
 import { API_ROOT, RequestOptions } from "./base";
 
+const mapLocaleToApi = (locale?: string) => {
+  if (!locale) {
+    return undefined;
+  }
+
+  if (locale === "ko") {
+    return "ko-KR";
+  }
+
+  if (locale === "en") {
+    return "en-US";
+  }
+
+  return locale;
+};
+
 export const fetchNewsList = async (
   params?: NewsListParams,
   options?: RequestOptions
@@ -14,7 +30,7 @@ export const fetchNewsList = async (
       ...options,
       params: {
         search: params?.search,
-        locale: params?.locale,
+        locale: mapLocaleToApi(params?.locale),
         pageCnt: params?.pageCnt,
         pageSize: params?.pageSize,
       },
