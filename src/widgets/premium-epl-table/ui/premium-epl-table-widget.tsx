@@ -23,7 +23,11 @@ export const PremiumEPLTableWidget = ({
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [searchTerm, setSearchTerm] = useState("");
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
-
+  const tt = teams.map((t) => ({
+    teamId: t.teamId,
+    teamShortName: t.teamShortName,
+  }));
+  console.log(tt);
   const sortedTeams = useMemo(() => {
     const term = searchTerm.toLowerCase();
     const filtered = teams.filter((team) => {

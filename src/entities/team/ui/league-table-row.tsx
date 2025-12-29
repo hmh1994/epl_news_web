@@ -75,6 +75,7 @@ export const LeagueTableRow = ({
   teamLogo,
 }: LeagueTableRowProps) => {
   const positionStyle = getPositionStyle(team.position);
+
   return (
     <tr
       className='border-b border-white/10 transition-all duration-300 hover:bg-white/5'
