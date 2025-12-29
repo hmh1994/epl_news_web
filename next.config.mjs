@@ -14,32 +14,16 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: [
-      "resources.premierleague.com",
-      "thumbnews.nateimg.co.kr",
-      "images.unsplash.com",
-    ],
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "resources.premierleague.com",
-        port: "",
+        hostname: "**",
         pathname: "/**",
-        search: "",
       },
       {
-        protocol: "https",
-        hostname: "thumbnews.nateimg.co.kr",
-        port: "",
+        protocol: "http",
+        hostname: "**",
         pathname: "/**",
-        search: "",
-      },
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        port: "",
-        pathname: "/**",
-        search: "",
       },
     ],
   },

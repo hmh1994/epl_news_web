@@ -1,12 +1,12 @@
-import { NewsArticlePreview } from "@/entities/news/model/news-article";
-import { NewsRelatedList } from "@/features/news-detail";
+import { NewsListItem } from "@/shared/api/epl/model/news";
+import { NewsListSidebarCard } from "@/entities/news/ui/news-list-sidebar-card";
 
 interface NewsSidebarProps {
   keywordsTitle: string;
   keywords: string[];
   trendingTitle: string;
-  trendingArticles: NewsArticlePreview[];
-  resolveHref: (article: NewsArticlePreview) => string;
+  trendingArticles: NewsListItem[];
+  resolveHref: (article: NewsListItem) => string;
 }
 
 export const NewsSidebar = ({
@@ -27,11 +27,22 @@ export const NewsSidebar = ({
         </ul>
       </div>
 
-      <NewsRelatedList
-        title={trendingTitle}
-        articles={trendingArticles}
-        resolveHref={resolveHref}
-      />
+      {trendingArticles.length > 0 && (
+        <section className='space-y-4'>
+          <h3 className='text-sm font-semibold uppercase tracking-wide text-slate-300'>
+            {trendingTitle}
+          </h3>
+          <div className='space-y-4'>
+            {trendingArticles.map((article) => (
+              <NewsListSidebarCard
+                key={article.id}
+                article={article}
+                href={resolveHref(article)}
+              />
+            ))}
+          </div>
+        </section>
+      )}
     </aside>
   );
 };

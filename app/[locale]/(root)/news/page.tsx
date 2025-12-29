@@ -1,5 +1,4 @@
 import { NewsHubPage } from "@/processes/news-hub-page";
-import { mapNewsPreviewFromApi } from "@/entities/news/model/news-mappers";
 import { fetchNewsList } from "@/shared/api/epl/lib/news";
 
 interface PageProps {
@@ -12,8 +11,7 @@ export default async function NewsRoute({ params }: PageProps) {
     locale,
     pageSize: 24,
   });
-  console.log(newsResponse);
-  const articles = newsResponse.data.map(mapNewsPreviewFromApi);
+  const articles = newsResponse.data;
 
-  return <NewsHubPage locale={locale} articles={articles} />;
+  return <NewsHubPage articles={articles} />;
 }

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { NewsArticlePreview } from "@/entities/news/model/news-article";
+import { NewsListItem } from "@/shared/api/epl/model/news";
 import {
   buildArticleHref,
   deriveTrendingArticles,
@@ -9,11 +9,10 @@ import {
 const LOAD_STEP = 4;
 
 interface UseNewsFeedParams {
-  locale: string;
-  articles: NewsArticlePreview[];
+  articles: NewsListItem[];
 }
 
-export const useNewsFeed = ({ locale, articles }: UseNewsFeedParams) => {
+export const useNewsFeed = ({ articles }: UseNewsFeedParams) => {
   const sortedArticles = useMemo(() => sortArticles(articles), [articles]);
   const totalArticles = sortedArticles.length;
   const [visibleCount, setVisibleCount] = useState(() =>
@@ -93,8 +92,8 @@ export const useNewsFeed = ({ locale, articles }: UseNewsFeedParams) => {
   );
 
   const resolveHref = useCallback(
-    (article: NewsArticlePreview) => buildArticleHref(locale, article.slug),
-    [locale]
+    (article: NewsListItem) => buildArticleHref(article),
+    []
   );
 
   return {

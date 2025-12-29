@@ -1,18 +1,17 @@
-import { NewsArticlePreview } from "@/entities/news/model/news-article";
+import { NewsListItem } from "@/shared/api/epl/model/news";
 
 export const sortArticles = (
-  articles: NewsArticlePreview[]
-): NewsArticlePreview[] =>
+  articles: NewsListItem[]
+): NewsListItem[] =>
   [...articles].sort(
     (a, b) =>
-      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+      new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()
   );
 
 export const deriveTrendingArticles = (
-  articles: NewsArticlePreview[]
-): NewsArticlePreview[] => articles.slice(0, 5);
+  articles: NewsListItem[]
+): NewsListItem[] => articles.slice(0, 5);
 
-export const buildArticleHref = (locale: string, slug: string) => {
-  const basePath = locale ? `/${locale}` : "";
-  return `${basePath}/news/${slug}`;
+export const buildArticleHref = (article: NewsListItem) => {
+  return article.url;
 };

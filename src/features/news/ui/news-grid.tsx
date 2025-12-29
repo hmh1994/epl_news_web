@@ -1,12 +1,11 @@
-import { NewsArticlePreview } from "@/entities/news/model/news-article";
+import { NewsListItem } from "@/shared/api/epl/model/news";
 import { NewsCard } from "@/entities/news/ui/news-card";
 
 interface NewsGridProps {
-  articles: NewsArticlePreview[];
-  resolveHref: (article: NewsArticlePreview) => string;
+  articles: NewsListItem[];
+  resolveHref: (article: NewsListItem) => string;
   emptyLabel: string;
   readMoreLabel: string;
-  formatReadingTime?: (minutes: number) => string;
 }
 
 export const NewsGrid = ({
@@ -14,7 +13,6 @@ export const NewsGrid = ({
   resolveHref,
   emptyLabel,
   readMoreLabel,
-  formatReadingTime,
 }: NewsGridProps) => {
   if (articles.length === 0) {
     return (
@@ -32,11 +30,6 @@ export const NewsGrid = ({
           article={article}
           href={resolveHref(article)}
           readMoreLabel={readMoreLabel}
-          readingTimeLabel={
-            article.readingTimeMinutes && formatReadingTime
-              ? formatReadingTime(article.readingTimeMinutes)
-              : undefined
-          }
         />
       ))}
     </div>

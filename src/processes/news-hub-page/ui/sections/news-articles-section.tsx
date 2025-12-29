@@ -1,13 +1,12 @@
 import { ForwardedRef, forwardRef } from "react";
-import { NewsArticlePreview } from "@/entities/news/model/news-article";
+import { NewsListItem } from "@/shared/api/epl/model/news";
 import { NewsGrid } from "@/features/news";
 
 interface NewsArticlesSectionProps {
-  articles: NewsArticlePreview[];
-  resolveHref: (article: NewsArticlePreview) => string;
+  articles: NewsListItem[];
+  resolveHref: (article: NewsListItem) => string;
   emptyLabel: string;
   readMoreLabel: string;
-  formatReadingTime: (minutes: number) => string;
   loadingLabel: string;
   completedLabel: string;
   isLoading: boolean;
@@ -20,7 +19,6 @@ export const NewsArticlesSection = forwardRef(function NewsArticlesSection(
     resolveHref,
     emptyLabel,
     readMoreLabel,
-    formatReadingTime,
     loadingLabel,
     completedLabel,
     isLoading,
@@ -35,7 +33,6 @@ export const NewsArticlesSection = forwardRef(function NewsArticlesSection(
         resolveHref={resolveHref}
         emptyLabel={emptyLabel}
         readMoreLabel={readMoreLabel}
-        formatReadingTime={formatReadingTime}
       />
 
       {isLoading && (

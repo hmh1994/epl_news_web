@@ -5,12 +5,13 @@ import type {
 } from "./types";
 
 export interface NewsPaginationMeta {
-  total?: number;
-  pageSize?: number;
-  nextCursor?: string;
-  previousCursor?: string;
-  hasNext?: boolean;
-  hasPrevious?: boolean;
+  total: number;
+  pageSize: number;
+  pageCnt: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+  locale?: string;
+  lastUpdated?: string;
 }
 
 export interface NewsListParams {
@@ -146,23 +147,23 @@ export interface NewsArticle extends NewsArticlePreview {
 export interface NewsListItem {
   id: string;
   title: string;
-  summary: string;
-  thumbnail?: string;
-  publishedAt: string;
-  author?: string;
-  source?: string;
-  newsUrl?: string;
+  content: string;
+  thumbnailUrl?: string;
+  publishDate: string;
+  author: string[];
+  source: string;
+  url: string;
 }
 
 export interface NewsListResponse extends ApiListResponse<NewsListItem> {
-  meta: ApiResponseMeta & {
-    pagination: NewsPaginationMeta;
-    filters?: {
-      categoryId?: string;
-      tagIds?: string[];
-      teamId?: string;
-      search?: string;
-    };
+  meta: Omit<ApiResponseMeta, "lastUpdated"> & {
+    total: number;
+    pageSize: number;
+    pageCnt: number;
+    hasNext: boolean;
+    hasPrevious: boolean;
+    locale?: string;
+    lastUpdated?: string;
   };
 }
 

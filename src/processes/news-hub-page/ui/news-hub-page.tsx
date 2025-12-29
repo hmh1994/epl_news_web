@@ -1,6 +1,6 @@
 "use client";
 
-import { NewsArticlePreview } from "@/entities/news/model/news-article";
+import { NewsListItem } from "@/shared/api/epl/model/news";
 import { useTranslations } from "next-intl";
 import { useNewsFeed } from "../lib/use-news-feed";
 import { NewsArticlesSection } from "./sections/news-articles-section";
@@ -8,11 +8,10 @@ import { NewsHeroSection } from "./sections/news-hero-section";
 import { NewsSidebar } from "./sections/news-sidebar";
 
 interface NewsHubPageProps {
-  locale: string;
-  articles: NewsArticlePreview[];
+  articles: NewsListItem[];
 }
 
-export const NewsHubPage = ({ locale, articles }: NewsHubPageProps) => {
+export const NewsHubPage = ({ articles }: NewsHubPageProps) => {
   const hubT = useTranslations("news.hub");
   const gridT = useTranslations("news.grid");
   const cardT = useTranslations("news.card");
@@ -23,7 +22,7 @@ export const NewsHubPage = ({ locale, articles }: NewsHubPageProps) => {
     hasMore,
     sentinelRef,
     resolveHref,
-  } = useNewsFeed({ locale, articles });
+  } = useNewsFeed({ articles });
 
   return (
     <div className='mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-12 xl:px-16'>
@@ -36,7 +35,6 @@ export const NewsHubPage = ({ locale, articles }: NewsHubPageProps) => {
           resolveHref={resolveHref}
           emptyLabel={gridT("empty")}
           readMoreLabel={cardT("readMore")}
-          formatReadingTime={(minutes) => cardT("readingTime", { minutes })}
           loadingLabel={hubT("loading")}
           completedLabel={hubT("completed")}
           isLoading={isLoading}
