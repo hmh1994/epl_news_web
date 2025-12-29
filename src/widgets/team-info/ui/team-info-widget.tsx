@@ -53,7 +53,10 @@ export const TeamInfoWidget = ({ teams, players }: TeamInfoWidgetProps) => {
       return;
     }
 
-    if (!selectedTeam || !filteredTeams.some((team) => team.id === selectedTeam.id)) {
+    if (
+      !selectedTeam ||
+      !filteredTeams.some((team) => team.id === selectedTeam.id)
+    ) {
       setSelectedTeam(filteredTeams[0]);
     }
   }, [filteredTeams, selectedTeam]);
@@ -87,7 +90,7 @@ export const TeamInfoWidget = ({ teams, players }: TeamInfoWidgetProps) => {
       <main className='max-w-7xl mx-auto px-6 pb-20'>
         <div className='flex flex-col gap-12 lg:grid lg:grid-cols-[240px,1fr] lg:items-start lg:gap-8'>
           <aside className='space-y-5 lg:sticky lg:top-28'>
-            <div className='rounded-2xl border border-white/10 bg-slate-900/50 p-5 shadow-2xl backdrop-blur-2xl'>
+            <div className='rounded-2xl border border-white/10 bg-slate-900/50 p-5 shadow-2xl backdrop-blur-2xl mt-10'>
               <div className='flex items-center justify-between gap-3'>
                 <div>
                   <h2 className='text-xl font-bold text-white'>클럽 선택</h2>
