@@ -3,6 +3,7 @@ import { fetchTeamDetail } from "@/shared/api/epl/lib/team-detail";
 import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 import type { TeamProfile } from "@/entities/team/model/team-profile";
 import type { PlayerProfile } from "@/entities/player/model/player-profile";
+import teams from "@/shared/constants/teams";
 
 const toTeamProfile = (
   summary: {
@@ -61,16 +62,13 @@ const toTeamProfile = (
 
 export default async function TeamInfoRoute() {
   const leagueId = DEFAULT_LEAGUE_ID;
-  const teamId = "e3dda0ea-a653-43f7-b3e1-6adf7a49e83f";
-  // const teamIds = EPL_MOCK_DATA.teams.profiles.map((team) =>
-  //   String(team.id)
-  // );
-  const teamIds = [teamId];
+
+  const teamIds = teams.map((t) => t.teamId);
   const teamResponses = await Promise.all(
     teamIds.map((teamId) => fetchTeamDetail(leagueId, teamId))
   );
 
-  const teams: TeamProfile[] = teamResponses.map((response) => {
+  const _teams: TeamProfile[] = teamResponses.map((response) => {
     return toTeamProfile(
       response.data.summary,
       response.data.meta,
@@ -84,5 +82,5 @@ export default async function TeamInfoRoute() {
       };
     })
   );
-  return <TeamInfoPage teams={teams} players={players} />;
+  return <TeamInfoPage teams={_teams} players={players} />;
 }
