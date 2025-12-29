@@ -360,31 +360,55 @@ export const TeamDetailSection = ({
                 />
               </div>
               <div className='flex flex-wrap gap-4'>
-                <select
-                  className='bg-slate-800/50 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all'
-                  value={filterPosition}
-                  onChange={(event) =>
-                    onFilterPositionChange(event.target.value as PositionFilter)
-                  }
-                >
-                  <option value='all'>모든 포지션</option>
-                  <option value='GK'>골키퍼</option>
-                  <option value='DF'>수비수</option>
-                  <option value='MF'>미드필더</option>
-                  <option value='FW'>공격수</option>
-                </select>
-                <select
-                  className='bg-slate-800/50 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all'
-                  value={sortBy}
-                  onChange={(event) =>
-                    onSortChange(event.target.value as SquadSortKey)
-                  }
-                >
-                  <option value='number'>등번호순</option>
-                  <option value='name'>이름순</option>
-                  <option value='age'>나이순</option>
-                  <option value='rating'>평점순</option>
-                </select>
+                <div className='relative'>
+                  <select
+                    className='appearance-none bg-slate-800/50 border border-white/10 rounded-2xl pl-6 pr-12 py-4 text-white focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all'
+                    value={filterPosition}
+                    onChange={(event) =>
+                      onFilterPositionChange(event.target.value as PositionFilter)
+                    }
+                  >
+                    <option value='all'>모든 포지션</option>
+                    <option value='GK'>골키퍼</option>
+                    <option value='DF'>수비수</option>
+                    <option value='MF'>미드필더</option>
+                    <option value='FW'>공격수</option>
+                  </select>
+                  <span className='pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-300'>
+                    <svg
+                      className='h-4 w-4'
+                      viewBox='0 0 20 20'
+                      fill='currentColor'
+                      aria-hidden='true'
+                    >
+                      <path d='M5.25 7.5 10 12.25 14.75 7.5h-9.5Z' />
+                    </svg>
+                  </span>
+                </div>
+                <div className='relative'>
+                  <select
+                    className='appearance-none bg-slate-800/50 border border-white/10 rounded-2xl pl-6 pr-12 py-4 text-white focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all'
+                    value={sortBy}
+                    onChange={(event) =>
+                      onSortChange(event.target.value as SquadSortKey)
+                    }
+                  >
+                    <option value='number'>등번호순</option>
+                    <option value='name'>이름순</option>
+                    <option value='age'>나이순</option>
+                    <option value='rating'>평점순</option>
+                  </select>
+                  <span className='pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-300'>
+                    <svg
+                      className='h-4 w-4'
+                      viewBox='0 0 20 20'
+                      fill='currentColor'
+                      aria-hidden='true'
+                    >
+                      <path d='M5.25 7.5 10 12.25 14.75 7.5h-9.5Z' />
+                    </svg>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
