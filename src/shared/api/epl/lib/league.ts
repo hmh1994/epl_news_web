@@ -1,6 +1,6 @@
 import { apiClient } from "@/shared/api/client";
 import type { PremiumTableResponse } from "@/shared/api/epl/model/types";
-import { leaguePath, RequestOptions } from "./base";
+import { leaguePath, mapLocaleToApi, RequestOptions } from "./base";
 
 export interface PremiumTableParams {
   season?: string;
@@ -19,7 +19,7 @@ export const fetchPremiumTable = async (
         ...options,
         params: {
           season: params?.season,
-          locale: params?.locale,
+          locale: mapLocaleToApi(params?.locale),
         },
       }
     );

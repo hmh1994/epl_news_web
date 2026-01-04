@@ -12,6 +12,7 @@ export interface TeamKeyStats {
 
 export interface TeamProfile {
   id: number;
+  teamId?: string;
   name: string;
   shortName: string;
   logo: string;

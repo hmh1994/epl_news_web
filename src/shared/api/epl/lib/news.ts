@@ -3,23 +3,7 @@ import type {
   NewsListParams,
   NewsListResponse,
 } from "@/shared/api/epl/model/news";
-import { API_ROOT, RequestOptions } from "./base";
-
-const mapLocaleToApi = (locale?: string) => {
-  if (!locale) {
-    return undefined;
-  }
-
-  if (locale === "ko") {
-    return "ko-KR";
-  }
-
-  if (locale === "en") {
-    return "en-US";
-  }
-
-  return locale;
-};
+import { API_ROOT, mapLocaleToApi, RequestOptions } from "./base";
 
 export const fetchNewsList = async (
   params?: NewsListParams,

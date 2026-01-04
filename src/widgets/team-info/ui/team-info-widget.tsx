@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Search } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { TeamProfile } from "@/entities/team/model/team-profile";
 import { PlayerProfile } from "@/entities/player/model/player-profile";
 import { TeamInfoHero } from "@/widgets/team-info/hero/ui/team-info-hero";
@@ -22,17 +23,45 @@ import {
 interface TeamInfoWidgetProps {
   teams: TeamProfile[];
   players: PlayerProfile[];
+  initialTeamIndex?: number;
 }
 
-export const TeamInfoWidget = ({ teams, players }: TeamInfoWidgetProps) => {
+export const TeamInfoWidget = ({
+  teams,
+  players,
+  initialTeamIndex,
+}: TeamInfoWidgetProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const initialTeam =
+    typeof initialTeamIndex === "number" &&
+    initialTeamIndex >= 0 &&
+    initialTeamIndex < teams.length
+      ? teams[initialTeamIndex]
+      : teams[0] ?? null;
   const [selectedTeam, setSelectedTeam] = useState<TeamProfile | null>(
-    teams[0] ?? null
+    initialTeam
   );
   const [sortBy, setSortBy] = useState<SquadSortKey>("number");
   const [filterPosition, setFilterPosition] = useState<PositionFilter>("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState<TeamTab>("overview");
   const [teamSearchTerm, setTeamSearchTerm] = useState("");
+
+  const updateTeamParam = useCallback(
+    (team: TeamProfile) => {
+      if (!team.teamId) {
+        return;
+      }
+
+      const nextParams = new URLSearchParams(searchParams?.toString());
+      nextParams.set("teamId", team.teamId);
+      const nextUrl = `${pathname}?${nextParams.toString()}`;
+      router.replace(nextUrl, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
 
   const filteredTeams = useMemo(() => {
     const query = teamSearchTerm.trim().toLowerCase();
@@ -124,7 +153,10 @@ export const TeamInfoWidget = ({ teams, players }: TeamInfoWidgetProps) => {
                 <TeamSelectionGrid
                   teams={filteredTeams}
                   selectedTeam={selectedTeam}
-                  onSelect={setSelectedTeam}
+                  onSelect={(team) => {
+                    setSelectedTeam(team);
+                    updateTeamParam(team);
+                  }}
                   showHeader={false}
                   variant='compact'
                   searchTerm={teamSearchTerm}

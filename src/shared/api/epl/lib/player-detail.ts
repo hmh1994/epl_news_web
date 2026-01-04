@@ -8,7 +8,7 @@ import type {
   PlayerDetailAttributes,
   PlayerDetailPerformance,
 } from "@/shared/api/epl/model/types";
-import { leaguePath, RequestOptions } from "./base";
+import { leaguePath, mapLocaleToApi, RequestOptions } from "./base";
 
 const {
   players: { database: PLAYER_DATABASE },
@@ -32,7 +32,7 @@ export const fetchPlayerDetail = async (
         ...options,
         params: {
           season: params?.season,
-          locale: params?.locale,
+          locale: mapLocaleToApi(params?.locale),
         },
       }
     );
@@ -113,7 +113,7 @@ const buildMockPlayerDetail = (
       playerId: player.id,
       season: params?.season ?? MOCK_SEASON,
       lastUpdated: Date.now(),
-      locale: params?.locale ?? MOCK_LOCALE,
+      locale: mapLocaleToApi(params?.locale) ?? MOCK_LOCALE,
     },
   };
 };

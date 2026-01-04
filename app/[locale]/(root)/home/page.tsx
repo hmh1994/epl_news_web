@@ -17,14 +17,12 @@ export default async function HomeRoute() {
   const playerRankings: PlayerRanking[] = scoringRace.data;
 
   const schedule = EPL_MOCK_DATA.matches.schedule;
-  const leagueMetrics = EPL_MOCK_DATA.hub.metaMetrics;
 
   return (
     <EPLHubPage
       tableRows={tableRows}
       playerRankings={playerRankings}
       schedule={schedule}
-      leagueMetrics={leagueMetrics}
     />
   );
 }

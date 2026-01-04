@@ -6,6 +6,7 @@ import type { PlayerProfile } from "@/entities/player/model/player-profile";
 import teams from "@/shared/constants/teams";
 
 const toTeamProfile = (
+  teamId: string,
   summary: {
     id: number;
     name: string;
@@ -36,6 +37,7 @@ const toTeamProfile = (
   fallback?: TeamProfile
 ): TeamProfile => ({
   id: summary.id,
+  teamId,
   name: summary.name,
   shortName: summary.shortName,
   logo: summary.logo,
@@ -60,16 +62,42 @@ const toTeamProfile = (
   keyStats: staticInfo.keyStats,
 });
 
-export default async function TeamInfoRoute() {
+interface TeamInfoRouteProps {
+  searchParams?:
+    | {
+        teamId?: string | string[];
+      }
+    | Promise<{
+        teamId?: string | string[];
+      }>;
+}
+
+const normalizeSearchParam = (value?: string | string[]) => {
+  if (!value) {
+    return undefined;
+  }
+
+  return Array.isArray(value) ? value[0] : value;
+};
+
+export default async function TeamInfoRoute({
+  searchParams,
+}: TeamInfoRouteProps) {
   const leagueId = DEFAULT_LEAGUE_ID;
 
   const teamIds = teams.map((t) => t.teamId);
+  const resolvedSearchParams = await Promise.resolve(searchParams);
+  const requestedTeamId = normalizeSearchParam(resolvedSearchParams?.teamId);
+  const initialTeamIndex = requestedTeamId
+    ? teamIds.indexOf(requestedTeamId)
+    : -1;
   const teamResponses = await Promise.all(
     teamIds.map((teamId) => fetchTeamDetail(leagueId, teamId))
   );
 
-  const _teams: TeamProfile[] = teamResponses.map((response) => {
+  const _teams: TeamProfile[] = teamResponses.map((response, index) => {
     return toTeamProfile(
+      teamIds[index],
       response.data.summary,
       response.data.meta,
       response.data.static
@@ -82,5 +110,11 @@ export default async function TeamInfoRoute() {
       };
     })
   );
-  return <TeamInfoPage teams={_teams} players={players} />;
+  return (
+    <TeamInfoPage
+      teams={_teams}
+      players={players}
+      initialTeamIndex={initialTeamIndex}
+    />
+  );
 }

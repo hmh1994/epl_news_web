@@ -1,6 +1,7 @@
 import { LeagueTableTeam } from "@/entities/team/model/league-table-team";
 import { TrendingDown, TrendingUp, Trophy } from "lucide-react";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 interface LeagueTableRowProps {
   team: LeagueTableTeam;
   isHovered: boolean;
@@ -74,13 +75,22 @@ export const LeagueTableRow = ({
   teamShortName,
   teamLogo,
 }: LeagueTableRowProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [, locale] = pathname?.split("/") ?? [];
+  const basePath = locale ? `/${locale}` : "";
   const positionStyle = getPositionStyle(team.position);
 
   return (
     <tr
-      className='border-b border-white/10 transition-all duration-300 hover:bg-white/5'
+      className='cursor-pointer border-b border-white/10 transition-all duration-300 hover:bg-white/5'
       onMouseEnter={() => onHover(team.position)}
       onMouseLeave={onHoverEnd}
+      onClick={() =>
+        router.push(
+          `${basePath}/teams/detail?teamId=${encodeURIComponent(team.teamId)}`
+        )
+      }
     >
       <td className='py-4 px-5'>
         <div className={`flex items-center space-x-3`}>

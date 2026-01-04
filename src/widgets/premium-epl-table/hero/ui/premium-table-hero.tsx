@@ -1,16 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React from "react";
 import { BarChart3, Zap } from "lucide-react";
-import { HERO_STATS } from "@/widgets/premium-epl-table/model/constants";
 
 export const PremiumTableHero = () => {
-  const pathname = usePathname();
-  const [, locale] = pathname?.split("/") ?? [];
-  const basePath = locale ? `/${locale}` : "";
-
   return (
     <section className='relative pt-28 pb-20 overflow-hidden'>
       <div className='absolute inset-0'>
@@ -43,41 +36,6 @@ export const PremiumTableHero = () => {
           <p className='text-2xl text-slate-300 mb-10 max-w-4xl mx-auto leading-relaxed'>
             실시간 xG, 패스 정확도, 점유율까지 포함한 차세대 축구 데이터 분석
           </p>
-
-          <div className='flex flex-wrap items-center justify-center gap-4 text-sm font-semibold mb-12'>
-            <Link
-              href={`${basePath}/players`}
-              className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
-            >
-              선수 데이터 탐색
-            </Link>
-            <Link
-              href={`${basePath}/matches`}
-              className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
-            >
-              경기 일정 분석
-            </Link>
-            <Link
-              href={`${basePath}/teams/detail`}
-              className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
-            >
-              팀 리포트 보기
-            </Link>
-          </div>
-
-          <div className='grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto'>
-            {HERO_STATS.map((stat) => (
-              <div
-                key={stat.label}
-                className='bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10'
-              >
-                <div className={`text-3xl font-black text-white mb-2 ${stat.valueClass}`}>
-                  {stat.value}
-                </div>
-                <div className='text-slate-400 text-sm'>{stat.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>

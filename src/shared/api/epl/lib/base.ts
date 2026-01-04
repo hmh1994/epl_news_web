@@ -8,6 +8,22 @@ export type RequestOptions = Pick<
   "cache" | "signal" | "headers"
 >;
 
+export const mapLocaleToApi = (locale?: string) => {
+  if (!locale) {
+    return "ko-KR";
+  }
+
+  if (locale === "ko") {
+    return "ko-KR";
+  }
+
+  if (locale === "en") {
+    return "en-US";
+  }
+
+  return locale;
+};
+
 export const leaguePath = (leagueId: string, suffix: string) =>
   `${API_ROOT}/leagues/${leagueId}${suffix}`;
 

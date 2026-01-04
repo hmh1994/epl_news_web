@@ -7,7 +7,7 @@ import type {
   TeamDetailMeta,
   TeamDetailStatic,
 } from "@/shared/api/epl/model/types";
-import { leaguePath, RequestOptions } from "./base";
+import { leaguePath, mapLocaleToApi, RequestOptions } from "./base";
 
 const {
   teams: { profiles: TEAM_PROFILES, squadPlayers: TEAM_PLAYERS },
@@ -31,7 +31,7 @@ export const fetchTeamDetail = async (
         ...options,
         params: {
           season: params?.season,
-          locale: params?.locale,
+          locale: mapLocaleToApi(params?.locale),
         },
       }
     );
@@ -131,7 +131,7 @@ const buildMockTeamDetail = (
       teamId: String(team.id),
       season: params?.season ?? MOCK_SEASON,
       lastUpdated: Date.now(),
-      locale: params?.locale ?? MOCK_LOCALE,
+      locale: mapLocaleToApi(params?.locale) ?? MOCK_LOCALE,
     },
   };
 };

@@ -1,6 +1,14 @@
 "use client";
 
 import React from "react";
+import {
+  Activity,
+  AlertTriangle,
+  BarChart3,
+  RefreshCcw,
+  Target,
+  Trophy,
+} from "lucide-react";
 import type { SeasonAnalyticsMetric } from "@/shared/api/epl/model/season-analytics";
 import { ANALYTICS_CARD_STYLES } from "@/widgets/premium-epl-table/model/constants";
 
@@ -8,41 +16,107 @@ interface PremiumTableAnalyticsProps {
   metrics: SeasonAnalyticsMetric[];
 }
 
-const FALLBACK_METRICS: SeasonAnalyticsMetric[] = [
-  {
-    id: "total-goals",
-    title: "Total Goals",
-    value: "1,213",
-    delta: "+8.2%",
-    description: "시즌 총 득점수",
-  },
-  {
-    id: "goals-per-match",
-    title: "Goals per Match",
-    value: "3.19",
-    delta: "+5.1%",
-    description: "경기당 평균 골",
-  },
-  {
-    id: "pass-accuracy",
-    title: "Pass Accuracy",
-    value: "82.4%",
-    delta: "+2.8%",
-    description: "평균 패스 성공률",
-  },
-  {
-    id: "clean-sheets",
-    title: "Clean Sheets",
-    value: "216",
-    delta: "+12.3%",
-    description: "시즌 총 클린시트",
-  },
-];
-
 export const PremiumTableAnalytics = ({
   metrics,
 }: PremiumTableAnalyticsProps) => {
-  const resolvedMetrics = metrics.length > 0 ? metrics : FALLBACK_METRICS;
+  const resolvedMetrics = metrics.length > 0 ? metrics : [];
+
+  const metricStylesByKey = {
+    PER_MATCH_XG: {
+      ...ANALYTICS_CARD_STYLES[0],
+      icon: Trophy,
+      iconClass: "text-green-400",
+      valueClass: "group-hover:text-green-400",
+      deltaClass: "text-green-400",
+      progressGradient: "from-green-400 to-emerald-500",
+      hoverShadowClass: "hover:shadow-green-400/20",
+    },
+    PER_MATCH_PASS_ACCURACY: {
+      ...ANALYTICS_CARD_STYLES[1],
+      icon: BarChart3,
+      iconClass: "text-teal-400",
+      valueClass: "group-hover:text-teal-400",
+      deltaClass: "text-teal-400",
+      progressGradient: "from-emerald-400 to-teal-500",
+      hoverShadowClass: "hover:shadow-emerald-400/20",
+    },
+    PER_MATCH_GOALS: {
+      ...ANALYTICS_CARD_STYLES[2],
+      icon: Target,
+      iconClass: "text-emerald-400",
+      valueClass: "group-hover:text-emerald-400",
+      deltaClass: "text-emerald-400",
+      progressGradient: "from-emerald-400 to-teal-500",
+      hoverShadowClass: "hover:shadow-emerald-400/20",
+    },
+    TOTAL_RED_CARDS: {
+      ...ANALYTICS_CARD_STYLES[3],
+      icon: AlertTriangle,
+      iconClass: "text-amber-400",
+      valueClass: "group-hover:text-amber-400",
+      deltaClass: "text-amber-400",
+      progressGradient: "from-amber-400 to-orange-500",
+      hoverShadowClass: "hover:shadow-amber-400/20",
+    },
+    TOTAL_GOALS: {
+      ...ANALYTICS_CARD_STYLES[0],
+      icon: Trophy,
+      iconClass: "text-green-400",
+      valueClass: "group-hover:text-green-400",
+      deltaClass: "text-green-400",
+      progressGradient: "from-green-400 to-emerald-500",
+      hoverShadowClass: "hover:shadow-green-400/20",
+    },
+    PER_MATCH_SUBSTITUTIONS: {
+      ...ANALYTICS_CARD_STYLES[1],
+      icon: RefreshCcw,
+      iconClass: "text-teal-400",
+      valueClass: "group-hover:text-teal-400",
+      deltaClass: "text-teal-400",
+      progressGradient: "from-emerald-400 to-teal-500",
+      hoverShadowClass: "hover:shadow-emerald-400/20",
+    },
+    PER_MATCH_YELLOW_CARDS: {
+      ...ANALYTICS_CARD_STYLES[2],
+      icon: Activity,
+      iconClass: "text-emerald-400",
+      valueClass: "group-hover:text-emerald-400",
+      deltaClass: "text-emerald-400",
+      progressGradient: "from-emerald-400 to-teal-500",
+      hoverShadowClass: "hover:shadow-emerald-400/20",
+    },
+  } as const;
+
+  const metricRanges = {
+    PER_MATCH_PASS_ACCURACY: { min: 0, max: 100 },
+  } as const;
+
+  const integerOnlyKeys = new Set(["TOTAL_GOALS", "TOTAL_RED_CARDS"]);
+
+  const getMetricStyle = (key: string, index: number) =>
+    metricStylesByKey[key as keyof typeof metricStylesByKey] ??
+    ANALYTICS_CARD_STYLES[index % ANALYTICS_CARD_STYLES.length];
+
+  const getProgress = (key: string, value: number) => {
+    const range = metricRanges[key as keyof typeof metricRanges];
+    if (!range) {
+      return null;
+    }
+
+    const normalized =
+      range.max === range.min
+        ? 0
+        : (value - range.min) / (range.max - range.min);
+    return Math.min(Math.max(normalized, 0), 1);
+  };
+
+  const formatMetricNumber = (key: string, value: number) => {
+    if (integerOnlyKeys.has(key)) {
+      return Math.round(value).toString();
+    }
+
+    return value.toFixed(2);
+  };
 
   return (
     <div className='mt-20'>
@@ -55,10 +129,13 @@ export const PremiumTableAnalytics = ({
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
         {resolvedMetrics.map((metric, index) => {
-          const style =
-            ANALYTICS_CARD_STYLES[index % ANALYTICS_CARD_STYLES.length];
+          const style = getMetricStyle(metric.key, index);
           const Icon = style.icon;
-          const progress = Math.min(Math.max(0.65 + index * 0.08, 0), 1);
+          const numericValue = Number(metric.value);
+          const safeValue = Number.isFinite(numericValue) ? numericValue : 0;
+          const numericDelta = Number(metric.delta);
+          const safeDelta = Number.isFinite(numericDelta) ? numericDelta : 0;
+          const progress = getProgress(metric.key, safeValue);
 
           return (
             <div
@@ -73,10 +150,10 @@ export const PremiumTableAnalytics = ({
                   <div
                     className={`text-3xl font-black text-white transition-colors ${style.valueClass}`}
                   >
-                    {metric.value}
+                    {formatMetricNumber(metric.key, safeValue)}
                   </div>
                   <div className={`${style.deltaClass} text-sm font-semibold`}>
-                    {metric.delta}
+                    {formatMetricNumber(metric.key, safeDelta)}%
                   </div>
                 </div>
               </div>
@@ -85,12 +162,14 @@ export const PremiumTableAnalytics = ({
                 <div className='text-slate-500 text-sm'>
                   {metric.description ?? "시즌 기준 핵심 지표"}
                 </div>
-                <div className='w-full bg-slate-700 rounded-full h-2'>
-                  <div
-                    className={`bg-gradient-to-r ${style.progressGradient} h-2 rounded-full`}
-                    style={{ width: `${progress * 100}%` }}
-                  />
-                </div>
+                {progress !== null && (
+                  <div className='w-full bg-slate-700 rounded-full h-2'>
+                    <div
+                      className={`bg-gradient-to-r ${style.progressGradient} h-2 rounded-full`}
+                      style={{ width: `${progress * 100}%` }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           );

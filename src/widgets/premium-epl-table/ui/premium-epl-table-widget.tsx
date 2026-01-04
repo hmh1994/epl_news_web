@@ -23,16 +23,12 @@ export const PremiumEPLTableWidget = ({
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [searchTerm, setSearchTerm] = useState("");
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
-  const tt = teams.map((t) => ({
-    teamId: t.teamId,
-    teamShortName: t.teamShortName,
-  }));
-  console.log(tt);
+
   const sortedTeams = useMemo(() => {
     const term = searchTerm.toLowerCase();
     const filtered = teams.filter((team) => {
-      const teamName = team.teamId.toUpperCase();
-      const shortName = team.teamId.toUpperCase();
+      const teamName = team.teamName.toUpperCase();
+      const shortName = team.teamShortName.toUpperCase();
       return (
         teamName.toLowerCase().includes(term) ||
         shortName.toLowerCase().includes(term)
@@ -68,7 +64,7 @@ export const PremiumEPLTableWidget = ({
     <div className='min-h-screen bg-slate-950 text-white'>
       <PremiumTableHero />
 
-      <main className='max-w-7xl mx-auto px-6 pb-20'>
+      <main className='max-w-7xl mx-auto px-6 pb-20 -mt-6 sm:-mt-10'>
         <PremiumTableControls
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}

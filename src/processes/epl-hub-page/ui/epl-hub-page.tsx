@@ -5,14 +5,12 @@ import { useMemo } from "react";
 import { MatchDaySchedule } from "@/entities/match/model/match-schedule";
 import { LeagueTableRow } from "@/entities/league/model/league-overview";
 import { PlayerRanking } from "@/entities/player/model/player-ranking";
-import type { LeagueMetaMetric } from "@/shared/api/epl/model/types";
 import { useTranslations } from "next-intl";
 import { useFavorites } from "../lib/use-favorites";
 import { FavoriteMatchesPanel } from "./sections/favorite-matches-panel";
 import { FavoriteTeamFixturesSection } from "./sections/favorite-team-fixtures-section";
 import { FavoriteTeamsPanel } from "./sections/favorite-teams-panel";
 import { FeaturedMatchesSection } from "./sections/featured-matches-section";
-import { LeagueInsightsSection } from "./sections/league-insights-section";
 import { LeagueTableSection } from "./sections/league-table-section";
 import { TopScorersPanel } from "./sections/top-scorers-panel";
 
@@ -20,14 +18,12 @@ interface EPLHubPageProps {
   tableRows: LeagueTableRow[];
   playerRankings: PlayerRanking[];
   schedule: MatchDaySchedule[];
-  leagueMetrics: LeagueMetaMetric[];
 }
 
 export const EPLHubPage = ({
   tableRows,
   playerRankings,
   schedule,
-  leagueMetrics,
 }: EPLHubPageProps) => {
   const {
     favoriteTeams,
@@ -123,8 +119,6 @@ export const EPLHubPage = ({
             </div>
           </div>
         </section>
-
-        <LeagueInsightsSection basePath={basePath} metrics={leagueMetrics} />
 
         <FeaturedMatchesSection
           basePath={basePath}

@@ -6,6 +6,7 @@ import type { ApiResourceResponse, ApiResponseMeta } from "./types";
  */
 export interface SeasonAnalyticsMetric {
   id: string;
+  key: string;
   title: string;
   value: string;
   delta: string;
@@ -13,9 +14,7 @@ export interface SeasonAnalyticsMetric {
 }
 
 export interface SeasonAnalyticsResponse
-  extends ApiResourceResponse<{
-    metrics: SeasonAnalyticsMetric[];
-  }> {
+  extends ApiResourceResponse<SeasonAnalyticsMetric[]> {
   meta: ApiResponseMeta & {
     leagueId: string;
     season: string;

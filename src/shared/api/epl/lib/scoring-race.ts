@@ -1,6 +1,6 @@
 import { apiClient } from "@/shared/api/client";
 import type { PlayerRankingResponse } from "@/shared/api/epl/model/types";
-import { leaguePath, RequestOptions } from "./base";
+import { leaguePath, mapLocaleToApi, RequestOptions } from "./base";
 
 export interface ScoringRaceParams {
   season?: string;
@@ -20,7 +20,7 @@ export const fetchScoringRace = async (
         ...options,
         params: {
           season: params?.season,
-          locale: params?.locale,
+          locale: mapLocaleToApi(params?.locale),
           limit: params?.limit,
         },
       }
