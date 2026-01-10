@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import { Activity, Award, Target, Users } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import {
   PlayerFilter,
@@ -9,7 +10,6 @@ import {
   ViewMode,
 } from "@/features/player-database/types";
 import { PlayerSearchControls } from "@/features/player-database/search/ui/player-search-controls";
-import { PlayerDetail } from "@/features/player-database/player-detail/ui/player-detail";
 import { PlayerComparison } from "@/features/player-database/player-comparison/ui/player-comparison";
 import { PlayerDatabaseHero } from "@/widgets/player-database/hero/ui/player-database-hero";
 import { PlayerResultsSummary } from "@/widgets/player-database/summary/ui/player-results-summary";
@@ -28,6 +28,10 @@ export const PlayerDatabaseWidget = ({
   positions,
   teams,
 }: PlayerDatabaseWidgetProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [, locale] = pathname?.split("/") ?? [];
+  const basePath = locale ? `/${locale}` : "";
   const defaultPosition = positions[0] ?? "all";
   const defaultTeam = teams[0] ?? "all";
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
@@ -41,8 +45,6 @@ export const PlayerDatabaseWidget = ({
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
   const [searchResults, setSearchResults] = useState<PlayerDatabaseEntry[]>([]);
-  const [detailPlayer, setDetailPlayer] =
-    useState<PlayerDatabaseEntry | null>(null);
 
   const showSearchResults = hasSearched;
 
@@ -184,6 +186,10 @@ export const PlayerDatabaseWidget = ({
     setShowComparison(false);
   };
 
+  const handlePlayerView = (player: PlayerDatabaseEntry) => {
+    router.push(`${basePath}/players/${player.id}`);
+  };
+
   const isSelectable = (isSelected: boolean) =>
     isSelected || selectedPlayers.length < COMPARISON_LIMIT;
 
@@ -236,7 +242,7 @@ export const PlayerDatabaseWidget = ({
                     viewMode={viewMode}
                     selectedPlayers={selectedPlayers}
                     onSelect={handlePlayerSelect}
-                    onView={setDetailPlayer}
+                    onView={handlePlayerView}
                     canSelect={isSelectable}
                   />
                 </>
@@ -337,8 +343,6 @@ export const PlayerDatabaseWidget = ({
           </div>
         </div>
       </main>
-
-      <PlayerDetail player={detailPlayer} onClose={() => setDetailPlayer(null)} />
 
       <PlayerComparison
         players={selectedPlayers}
