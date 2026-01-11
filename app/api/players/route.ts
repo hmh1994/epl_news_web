@@ -1,27 +1,22 @@
 import { NextResponse } from "next/server";
-import { EPL_MOCK_DATA } from "@/shared/mocks/epl-data";
+import { fetchPlayerList } from "@/shared/api/epl/lib/player-list";
+import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const search = searchParams.get("search")?.toLowerCase() ?? "";
-  const position = searchParams.get("position");
-  const team = searchParams.get("team");
+  const search = searchParams.get("search") ?? undefined;
+  const rawPosition = searchParams.get("position");
+  const rawTeamId = searchParams.get("teamId");
+  const position = rawPosition && rawPosition !== "all" ? rawPosition : undefined;
+  const teamId = rawTeamId && rawTeamId !== "all" ? rawTeamId : undefined;
 
-  const players = EPL_MOCK_DATA.players.database.filter((player) => {
-    const matchesSearch = search
-      ? player.name.toLowerCase().includes(search)
-      : true;
-    const matchesPosition =
-      position && position !== "all"
-        ? player.position.includes(position)
-        : true;
-    const matchesTeam =
-      team && team !== "all" ? player.teamId === team : true;
-
-    return matchesSearch && matchesPosition && matchesTeam;
+  const response = await fetchPlayerList(DEFAULT_LEAGUE_ID, {
+    search,
+    position,
+    teamId,
   });
 
-  return NextResponse.json({ players });
+  return NextResponse.json({ players: response.data });
 }

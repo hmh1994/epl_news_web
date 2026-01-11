@@ -6,7 +6,10 @@ import React, { useEffect, useMemo, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { MatchScheduleFilters } from "@/features/match-schedule/filters/ui/match-schedule-filters";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
-import { MatchDaySchedule, MatchFixture } from "@/entities/match/model/match-schedule";
+import {
+  MatchDaySchedule,
+  MatchFixture,
+} from "@/entities/match/model/match-schedule";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 import { LoadingState } from "@/shared/ui/loading-state";
 
@@ -30,9 +33,11 @@ const calculatePowerScore = (fixture: MatchFixture): number => {
   const { home, away } = fixture;
   const homeRank = home.leaguePosition ?? 15;
   const awayRank = away.leaguePosition ?? 15;
-  const baseRankScore = (22 - homeRank) + (22 - awayRank);
+  const baseRankScore = 22 - homeRank + (22 - awayRank);
 
-  const rivalryBonus = RIVALRIES.has(createFixtureKey(home.teamId, away.teamId)) ? 15 : 0;
+  const rivalryBonus = RIVALRIES.has(createFixtureKey(home.teamId, away.teamId))
+    ? 15
+    : 0;
 
   const attackScore =
     (TEAM_ATTACK_INDEX[home.teamId] ?? 60) +
@@ -67,26 +72,79 @@ const TEAM_ATTACK_INDEX: Record<string, number> = {
   bre: 66,
 };
 
-const HEAD_TO_HEAD_HISTORY: Record<FixtureKey, Array<{ season: string; date: string; venue: string; result: string }>> = {
+const HEAD_TO_HEAD_HISTORY: Record<
+  FixtureKey,
+  Array<{ season: string; date: string; venue: string; result: string }>
+> = {
   [createFixtureKey("mci", "ars")]: [
-    { season: "2024/25", date: "2024-08-10", venue: "Emirates", result: "ARS 1-1 MCI" },
-    { season: "2023/24", date: "2024-04-01", venue: "Etihad", result: "MCI 0-0 ARS" },
+    {
+      season: "2024/25",
+      date: "2024-08-10",
+      venue: "Emirates",
+      result: "ARS 1-1 MCI",
+    },
+    {
+      season: "2023/24",
+      date: "2024-04-01",
+      venue: "Etihad",
+      result: "MCI 0-0 ARS",
+    },
   ],
   [createFixtureKey("che", "tot")]: [
-    { season: "2024/25", date: "2024-10-18", venue: "Tottenham Hotspur Stadium", result: "TOT 2-2 CHE" },
-    { season: "2023/24", date: "2023-11-06", venue: "Tottenham Hotspur Stadium", result: "CHE 4-1 TOT" },
+    {
+      season: "2024/25",
+      date: "2024-10-18",
+      venue: "Tottenham Hotspur Stadium",
+      result: "TOT 2-2 CHE",
+    },
+    {
+      season: "2023/24",
+      date: "2023-11-06",
+      venue: "Tottenham Hotspur Stadium",
+      result: "CHE 4-1 TOT",
+    },
   ],
   [createFixtureKey("liv", "mun")]: [
-    { season: "2024/25", date: "2024-09-28", venue: "Old Trafford", result: "MUN 1-3 LIV" },
-    { season: "2023/24", date: "2024-04-07", venue: "Old Trafford", result: "MUN 2-2 LIV" },
+    {
+      season: "2024/25",
+      date: "2024-09-28",
+      venue: "Old Trafford",
+      result: "MUN 1-3 LIV",
+    },
+    {
+      season: "2023/24",
+      date: "2024-04-07",
+      venue: "Old Trafford",
+      result: "MUN 2-2 LIV",
+    },
   ],
   [createFixtureKey("new", "bha")]: [
-    { season: "2024/25", date: "2024-09-15", venue: "Amex Stadium", result: "BHA 1-2 NEW" },
-    { season: "2023/24", date: "2024-05-19", venue: "St James' Park", result: "NEW 1-1 BHA" },
+    {
+      season: "2024/25",
+      date: "2024-09-15",
+      venue: "Amex Stadium",
+      result: "BHA 1-2 NEW",
+    },
+    {
+      season: "2023/24",
+      date: "2024-05-19",
+      venue: "St James' Park",
+      result: "NEW 1-1 BHA",
+    },
   ],
   [createFixtureKey("ful", "bre")]: [
-    { season: "2024/25", date: "2024-08-30", venue: "Gtech Community Stadium", result: "BRE 0-0 FUL" },
-    { season: "2023/24", date: "2024-03-02", venue: "Craven Cottage", result: "FUL 3-2 BRE" },
+    {
+      season: "2024/25",
+      date: "2024-08-30",
+      venue: "Gtech Community Stadium",
+      result: "BRE 0-0 FUL",
+    },
+    {
+      season: "2023/24",
+      date: "2024-03-02",
+      venue: "Craven Cottage",
+      result: "FUL 3-2 BRE",
+    },
   ],
 };
 
@@ -115,7 +173,9 @@ export const MatchScheduleWidget = ({
   );
   const [isPending, startTransition] = useTransition();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedFixtureId, setSelectedFixtureId] = useState<string | null>(null);
+  const [selectedFixtureId, setSelectedFixtureId] = useState<string | null>(
+    null
+  );
 
   const scheduleMatchweeks = useMemo(() => {
     const weeks = new Set<number>();
@@ -159,10 +219,12 @@ export const MatchScheduleWidget = ({
       return haystack.includes(term);
     };
 
-    return schedule.map((day) => ({
-      ...day,
-      fixtures: day.fixtures.filter(filterFixture),
-    })).filter((day) => day.fixtures.length > 0);
+    return schedule
+      .map((day) => ({
+        ...day,
+        fixtures: day.fixtures.filter(filterFixture),
+      }))
+      .filter((day) => day.fixtures.length > 0);
   }, [schedule, searchTerm, selectedMatchweek]);
 
   const firstAvailableFixtureId = filteredSchedule[0]?.fixtures[0]?.id ?? null;
@@ -289,7 +351,9 @@ const ScheduleHero = ({ matchweek }: { matchweek: number }) => {
             Match Schedule
           </span>
         </h1>
-        <p className='text-lg text-slate-300 max-w-2xl mx-auto'>{t("description")}</p>
+        <p className='text-lg text-slate-300 max-w-2xl mx-auto'>
+          {t("description")}
+        </p>
 
         <div className='mt-6 flex flex-wrap items-center justify-center gap-4 text-sm font-semibold'>
           <Link
@@ -344,17 +408,21 @@ const ScheduleDay = ({
     .sort((a, b) => b.score - a.score);
   const selectedFixture =
     day.fixtures.find((fixture) => fixture.id === selectedFixtureId) ??
-    day.fixtures[0] ?? null;
+    day.fixtures[0] ??
+    null;
 
   return (
     <section className='bg-slate-900/50 border border-white/10 rounded-3xl backdrop-blur-3xl shadow-2xl'>
       <header className='px-8 py-6 border-b border-white/10 flex flex-wrap items-center justify-between gap-4'>
         <div>
-          <p className='text-xs uppercase tracking-[0.3em] text-slate-400'>Match Day</p>
+          <p className='text-xs uppercase tracking-[0.3em] text-slate-400'>
+            Match Day
+          </p>
           <h2 className='text-2xl font-bold text-white'>{dayTitle}</h2>
         </div>
         <div className='text-sm text-slate-400'>
-          {day.fixtures.length} {day.fixtures.length > 1 ? "fixtures" : "fixture"}
+          {day.fixtures.length}{" "}
+          {day.fixtures.length > 1 ? "fixtures" : "fixture"}
         </div>
       </header>
 
@@ -368,16 +436,20 @@ const ScheduleDay = ({
               <MatchFixtureCard
                 key={fixture.id}
                 fixture={fixture}
-                homeTeam={homeTeamInfo && {
-                  name: homeTeamInfo.name,
-                  shortName: homeTeamInfo.shortName,
-                  crest: homeTeamInfo.crest,
-                }}
-                awayTeam={awayTeamInfo && {
-                  name: awayTeamInfo.name,
-                  shortName: awayTeamInfo.shortName,
-                  crest: awayTeamInfo.crest,
-                }}
+                homeTeam={
+                  homeTeamInfo && {
+                    name: homeTeamInfo.name,
+                    shortName: homeTeamInfo.shortName,
+                    crest: homeTeamInfo.crest,
+                  }
+                }
+                awayTeam={
+                  awayTeamInfo && {
+                    name: awayTeamInfo.name,
+                    shortName: awayTeamInfo.shortName,
+                    crest: awayTeamInfo.crest,
+                  }
+                }
                 isSelected={fixture.id === selectedFixtureId}
                 onSelect={() => onSelectFixture(fixture.id)}
               />
@@ -415,12 +487,18 @@ const DayInsights = ({
   return (
     <div className='space-y-8'>
       <div className='space-y-2'>
-        <p className='text-xs uppercase tracking-[0.3em] text-slate-500'>Match Facts</p>
+        <p className='text-xs uppercase tracking-[0.3em] text-slate-500'>
+          Match Facts
+        </p>
         <div className='bg-slate-800/50 border border-white/10 rounded-2xl px-4 py-4 space-y-3 text-sm text-slate-300'>
           <div className='flex items-center justify-between text-white font-semibold'>
-            <span>{homeTeam?.shortName ?? fixture.home.teamId.toUpperCase()}</span>
+            <span>
+              {homeTeam?.shortName ?? fixture.home.teamId.toUpperCase()}
+            </span>
             <span>vs</span>
-            <span>{awayTeam?.shortName ?? fixture.away.teamId.toUpperCase()}</span>
+            <span>
+              {awayTeam?.shortName ?? fixture.away.teamId.toUpperCase()}
+            </span>
           </div>
           <div className='flex items-center justify-between'>
             <span>Kickoff</span>
@@ -438,13 +516,16 @@ const DayInsights = ({
             <span>Venue</span>
             <span className='text-white text-right'>
               {fixture.venue}
-              <span className='block text-xs text-slate-400'>{fixture.city}</span>
+              <span className='block text-xs text-slate-400'>
+                {fixture.city}
+              </span>
             </span>
           </div>
           <div className='flex items-center justify-between'>
             <span>League Rank</span>
             <span className='text-white'>
-              {(fixture.home.leaguePosition ?? "-")} vs {(fixture.away.leaguePosition ?? "-")}
+              {fixture.home.leaguePosition ?? "-"} vs{" "}
+              {fixture.away.leaguePosition ?? "-"}
             </span>
           </div>
         </div>
@@ -468,7 +549,9 @@ const MatchweekSpotlight = ({
     <section className='bg-gradient-to-br from-[#169976]/15 via-slate-900/60 to-slate-900/80 border border-white/10 rounded-3xl backdrop-blur-3xl shadow-2xl mb-12'>
       <div className='px-8 py-6 border-b border-white/10 flex flex-wrap items-center justify-between gap-4'>
         <div>
-          <p className='text-xs uppercase tracking-[0.3em] text-emerald-200/80 mb-1'>EPL spotlight</p>
+          <p className='text-xs uppercase tracking-[0.3em] text-emerald-200/80 mb-1'>
+            EPL spotlight
+          </p>
           <h2 className='text-2xl font-bold text-white'>{t("title")}</h2>
         </div>
         <p className='text-sm text-slate-300'>{t("description")}</p>
@@ -480,29 +563,33 @@ const MatchweekSpotlight = ({
           const key = `spotlight-${fixture.id}`;
 
           return (
-            <div key={key} className='bg-slate-900/70 border border-white/10 rounded-2xl px-5 py-4 space-y-3'>
+            <div
+              key={key}
+              className='bg-slate-900/70 border border-white/10 rounded-2xl px-5 py-4 space-y-3'
+            >
               <div className='flex items-center justify-between text-xs text-slate-500 uppercase tracking-[0.3em]'>
                 <span>#{index + 1}</span>
                 <span>Power {Math.round(score)}</span>
               </div>
               <div className='text-white font-semibold text-lg'>
-                {(homeTeam?.shortName ?? fixture.home.teamId.toUpperCase())} vs {(
-                  awayTeam?.shortName ?? fixture.away.teamId.toUpperCase()
-                )}
+                {homeTeam?.shortName ?? fixture.home.teamId.toUpperCase()} vs{" "}
+                {awayTeam?.shortName ?? fixture.away.teamId.toUpperCase()}
               </div>
               {fixture.headline && (
                 <p className='text-slate-300 text-sm'>{fixture.headline}</p>
               )}
               <div className='text-xs text-slate-400 space-y-1'>
                 <div>
-                  {t("kickoff")} · {new Date(fixture.kickoff).toLocaleTimeString("ko-KR", {
+                  {t("kickoff")} ·{" "}
+                  {new Date(fixture.kickoff).toLocaleTimeString("ko-KR", {
                     hour: "2-digit",
                     minute: "2-digit",
                     timeZone: TIMEZONE,
                   })}
                 </div>
                 <div>
-                  {t("ranking")} · {(fixture.home.leaguePosition ?? "-")} vs {(fixture.away.leaguePosition ?? "-")}
+                  {t("ranking")} · {fixture.home.leaguePosition ?? "-"} vs{" "}
+                  {fixture.away.leaguePosition ?? "-"}
                 </div>
               </div>
             </div>
@@ -522,7 +609,9 @@ const PowerRankingList = ({
 }) => {
   if (!selectedFixture) return null;
 
-  const active = ranking.find((entry) => entry.fixture.id === selectedFixture.id);
+  const active = ranking.find(
+    (entry) => entry.fixture.id === selectedFixture.id
+  );
   const homeTeam = TEAMS_BY_ID[selectedFixture.home.teamId];
   const awayTeam = TEAMS_BY_ID[selectedFixture.away.teamId];
   const score = active ? Math.round(active.score) : "-";
@@ -530,14 +619,22 @@ const PowerRankingList = ({
   return (
     <div className='space-y-3'>
       <div className='flex items-center justify-between'>
-        <p className='text-xs uppercase tracking-[0.3em] text-slate-500'>Power Ranking</p>
-        <span className='text-[10px] uppercase text-slate-500'>Higher is spicier</span>
+        <p className='text-xs uppercase tracking-[0.3em] text-slate-500'>
+          Power Ranking
+        </p>
+        <span className='text-[10px] uppercase text-slate-500'>
+          Higher is spicier
+        </span>
       </div>
       <div className='bg-slate-800/50 border border-white/10 rounded-2xl px-4 py-4 text-sm text-white flex items-center justify-between'>
         <div className='flex items-center gap-2'>
-          <span>{homeTeam?.shortName ?? selectedFixture.home.teamId.toUpperCase()}</span>
+          <span>
+            {homeTeam?.shortName ?? selectedFixture.home.teamId.toUpperCase()}
+          </span>
           <span className='text-slate-400'>vs</span>
-          <span>{awayTeam?.shortName ?? selectedFixture.away.teamId.toUpperCase()}</span>
+          <span>
+            {awayTeam?.shortName ?? selectedFixture.away.teamId.toUpperCase()}
+          </span>
         </div>
         <div className='text-emerald-400 font-bold text-base'>{score}</div>
       </div>
@@ -561,16 +658,20 @@ const HeadToHeadList = ({
 
   return (
     <div className='space-y-3'>
-      <p className='text-xs uppercase tracking-[0.3em] text-slate-500'>{t("title")}</p>
+      <p className='text-xs uppercase tracking-[0.3em] text-slate-500'>
+        {t("title")}
+      </p>
       <div className='bg-slate-800/40 border border-white/10 rounded-2xl px-4 py-4 space-y-2'>
         <div className='text-sm font-semibold text-white'>
-          {(home?.shortName ?? selectedFixture.home.teamId.toUpperCase())} vs {(
-            away?.shortName ?? selectedFixture.away.teamId.toUpperCase()
-          )}
+          {home?.shortName ?? selectedFixture.home.teamId.toUpperCase()} vs{" "}
+          {away?.shortName ?? selectedFixture.away.teamId.toUpperCase()}
         </div>
         <ul className='space-y-1 text-xs text-slate-300'>
           {history.slice(0, 3).map((match, idx) => (
-            <li key={`${selectedFixture.id}-history-${idx}`} className='flex items-center justify-between'>
+            <li
+              key={`${selectedFixture.id}-history-${idx}`}
+              className='flex items-center justify-between'
+            >
               <span>{match.season}</span>
               <span className='font-semibold'>{match.result}</span>
               <span className='text-slate-500'>{match.venue}</span>

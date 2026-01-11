@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PlayerDetail } from "@/features/player-database/player-detail/ui/player-detail";
-import { EPL_MOCK_DATA } from "@/shared/mocks/epl-data";
+import { fetchPlayerDetail } from "@/shared/api/epl/lib/player-detail";
+import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 
 interface PageProps {
   params: Promise<{
@@ -12,15 +13,18 @@ interface PageProps {
 
 export default async function PlayerDetailRoute({ params }: PageProps) {
   const { playerId, locale } = await params;
-  const player = EPL_MOCK_DATA.players.database.find(
-    (entry) => String(entry.id) === playerId
-  );
+  const response = await fetchPlayerDetail(DEFAULT_LEAGUE_ID, playerId, {
+    locale,
+  });
+  const player = response.data.player;
 
   if (!player) {
     notFound();
   }
 
   const basePath = locale ? `/${locale}` : "";
+  const summary = player.summary;
+  const isPhotoUrl = summary.photo.startsWith("http");
 
   return (
     <div className='min-h-screen bg-slate-950 text-white'>
@@ -40,21 +44,25 @@ export default async function PlayerDetailRoute({ params }: PageProps) {
           </Link>
           <div className='mt-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between'>
             <div className='flex items-center gap-5'>
-              <div className='flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-[#169976] to-teal-500 text-3xl shadow-xl'>
-                {player.photo}
+              <div className='flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-[#169976] to-teal-500 text-3xl shadow-xl overflow-hidden'>
+                {isPhotoUrl ? (
+                  <img
+                    src={summary.photo}
+                    alt={summary.name}
+                    className='h-full w-full object-cover'
+                  />
+                ) : (
+                  summary.photo
+                )}
               </div>
               <div>
                 <h1 className='mt-1 text-4xl md:text-6xl font-black text-white'>
-                  {player.name}
+                  {summary.name}
                 </h1>
                 <p className='mt-2 text-lg text-slate-300'>
-                  {player.nationality} · {player.position}
+                  {summary.nationality} · {summary.position}
                 </p>
               </div>
-            </div>
-            <div className='rounded-3xl border border-white/10 bg-slate-900/60 px-6 py-4 text-center shadow-2xl'>
-              <div className='text-xs text-slate-400'>선수 ID</div>
-              <div className='text-2xl font-bold text-white'>{player.id}</div>
             </div>
           </div>
         </div>

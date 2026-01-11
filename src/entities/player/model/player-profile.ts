@@ -13,7 +13,11 @@ export type PlayerPosition =
   | "ST"
   | "CF"
   | "LW"
-  | "RW";
+  | "RW"
+  | "GOALKEEPER"
+  | "DEFENDER"
+  | "MIDFIELDER"
+  | "FORWARD";
 
 export interface PlayerProfile {
   id: number;

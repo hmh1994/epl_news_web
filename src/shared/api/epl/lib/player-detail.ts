@@ -8,6 +8,7 @@ import type {
   PlayerDetailAttributes,
   PlayerDetailPerformance,
 } from "@/shared/api/epl/model/types";
+import type { PlayerPosition } from "@/entities/player/model/player-profile";
 import { leaguePath, mapLocaleToApi, RequestOptions } from "./base";
 
 const {
@@ -19,6 +20,21 @@ export interface PlayerDetailParams {
   locale?: string;
 }
 
+interface PlayerDetailApiResponse {
+  data: {
+    summary: PlayerDetailSummary;
+    attributes: Partial<PlayerDetailAttributes>;
+    performance: Partial<PlayerDetailPerformance> & { matches?: number | null };
+  };
+  meta?: {
+    leagueName?: string;
+    leagueId?: string;
+    season?: string;
+    locale?: string;
+    lastUpdated?: string;
+  };
+}
+
 export const fetchPlayerDetail = async (
   leagueId: string,
   playerId: string,
@@ -26,7 +42,7 @@ export const fetchPlayerDetail = async (
   options?: RequestOptions
 ): Promise<PlayerDetailResponse> => {
   try {
-    return await apiClient.get<PlayerDetailResponse>(
+    const response = await apiClient.get<PlayerDetailApiResponse>(
       leaguePath(leagueId, `/player/${playerId}`),
       {
         ...options,
@@ -36,6 +52,7 @@ export const fetchPlayerDetail = async (
         },
       }
     );
+    return mapPlayerDetailResponse(response, leagueId, params);
   } catch (error) {
     if (process.env.NODE_ENV === "production") {
       throw error;
@@ -90,6 +107,7 @@ const buildMockPlayerDetail = (
     goals: player.goals,
     assists: player.assists,
     pace: player.stats.pace,
+    matches: 0,
   };
 
   const career: PlayerCareerEntry[] = player.career.map((period) => ({
@@ -114,6 +132,52 @@ const buildMockPlayerDetail = (
       season: params?.season ?? MOCK_SEASON,
       lastUpdated: Date.now(),
       locale: mapLocaleToApi(params?.locale) ?? MOCK_LOCALE,
+    },
+  };
+};
+
+const mapPlayerDetailResponse = (
+  response: PlayerDetailApiResponse,
+  leagueId: string,
+  params?: PlayerDetailParams
+): PlayerDetailResponse => {
+  const summary = response.data.summary;
+  const attributes = response.data.attributes ?? {};
+  const performance = response.data.performance ?? {};
+
+  return {
+    data: {
+      player: {
+        summary: {
+          ...summary,
+          position: summary.position as PlayerPosition,
+        },
+        attributes: {
+          pace: attributes.pace ?? 0,
+          shooting: attributes.shooting ?? 0,
+          passing: attributes.passing ?? 0,
+          dribbling: attributes.dribbling ?? 0,
+          defending: attributes.defending ?? 0,
+          physical: attributes.physical ?? 0,
+        },
+        performance: {
+          goals: performance.goals ?? 0,
+          assists: performance.assists ?? 0,
+          pace: performance.pace ?? attributes.pace ?? 0,
+          matches: performance.matches ?? 0,
+        },
+        career: [],
+      },
+    },
+    meta: {
+      leagueId: response.meta?.leagueName ?? leagueId,
+      playerId: summary.id,
+      season: response.meta?.season ?? params?.season ?? MOCK_SEASON,
+      lastUpdated: response.meta?.lastUpdated
+        ? Date.parse(response.meta.lastUpdated)
+        : Date.now(),
+      locale:
+        response.meta?.locale ?? mapLocaleToApi(params?.locale) ?? MOCK_LOCALE,
     },
   };
 };

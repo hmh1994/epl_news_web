@@ -20,6 +20,7 @@ export const PlayerGridCard = ({
   teamName,
   teamCrest,
 }: PlayerGridCardProps) => {
+  const isPhotoUrl = player.photo.startsWith("http");
   return (
     <div
       className={`group relative bg-slate-900/60 backdrop-blur-3xl rounded-3xl p-6 border transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl cursor-pointer ${
@@ -36,12 +37,20 @@ export const PlayerGridCard = ({
       )}
 
       <div className='flex items-start justify-between mb-4'>
-        <div className='w-16 h-16 bg-gradient-to-br from-[#169976] to-teal-500 rounded-2xl flex items-center justify-center text-3xl shadow-xl'>
-          {player.photo}
+        <div className='w-16 h-16 bg-gradient-to-br from-[#169976] to-teal-500 rounded-2xl flex items-center justify-center text-3xl shadow-xl overflow-hidden'>
+          {isPhotoUrl ? (
+            <img
+              src={player.photo}
+              alt={player.name}
+              className='h-full w-full object-cover'
+            />
+          ) : (
+            player.photo
+          )}
         </div>
         <div
           className={`px-3 py-1 rounded-lg text-xs font-bold ${
-            player.position === "GK"
+            player.position === "GK" || player.position === "GOALKEEPER"
               ? "bg-yellow-400/20 text-yellow-400"
               : player.position.includes("D")
               ? "bg-teal-400/20 text-teal-400"

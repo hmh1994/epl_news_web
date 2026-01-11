@@ -270,6 +270,7 @@
           "position": "포지션",
           "age": "나이",
           "ageValue": "{age}세",
+          "matches": "출전",
           "nationality": "국적"
         },
         "rows": {
@@ -287,6 +288,7 @@
         "skills": {
           "title": "기술 지표",
           "labels": {
+            "pace": "스피드",
             "shooting": "슈팅",
             "passing": "패스",
             "defending": "수비"

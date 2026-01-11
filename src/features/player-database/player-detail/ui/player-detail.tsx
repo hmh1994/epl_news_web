@@ -1,10 +1,10 @@
-import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
+import type { PlayerDetailResponse } from "@/shared/api/epl/model/types";
 import { StatAccent, getStatStyles } from "@/entities/player/lib/stat-palette";
 import { X } from "lucide-react";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 
 interface PlayerDetailProps {
-  player: PlayerDatabaseEntry | null;
+  player: PlayerDetailResponse["data"]["player"] | null;
   onClose?: () => void;
   variant?: "modal" | "page";
 }
@@ -16,49 +16,68 @@ export const PlayerDetail = ({
 }: PlayerDetailProps) => {
   if (!player) return null;
 
-  const team = TEAMS_BY_ID[player.teamId];
+  const summary = player.summary;
+  const attributes = player.attributes ?? {};
+  const performance = player.performance ?? {};
+  const career = player.career ?? [];
+  const teamId = String(summary.teamId);
+  const team = TEAMS_BY_ID[teamId];
+  const teamName = team?.name ?? teamId;
+  const isPhotoUrl = summary.photo.startsWith("http");
+  const stats = {
+    pace: attributes.pace ?? 0,
+    shooting: attributes.shooting ?? 0,
+    passing: attributes.passing ?? 0,
+    dribbling: attributes.dribbling ?? 0,
+    defending: attributes.defending ?? 0,
+    physical: attributes.physical ?? 0,
+  };
   const showClose = variant === "modal" && Boolean(onClose);
   const overallRating = Math.round(
-    (player.stats.pace +
-      player.stats.shooting +
-      player.stats.passing +
-      player.stats.dribbling +
-      player.stats.defending +
-      player.stats.physical) /
+    (stats.pace +
+      stats.shooting +
+      stats.passing +
+      stats.dribbling +
+      stats.defending +
+      stats.physical) /
       6
   );
-  const goalInvolvements = player.goals + player.assists;
+  const goals = performance.goals ?? 0;
+  const assists = performance.assists ?? 0;
+  const matches = performance.matches ?? 0;
+  const goalInvolvements = goals + assists;
   const bmi =
-    player.height > 0
-      ? Math.round((player.weight / Math.pow(player.height / 100, 2)) * 10) / 10
+    summary.height > 0
+      ? Math.round((summary.weight / Math.pow(summary.height / 100, 2)) * 10) /
+        10
       : 0;
   const average = (...values: number[]) =>
     Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
   const attackIndex = average(
-    player.stats.pace,
-    player.stats.shooting,
-    player.stats.dribbling
+    stats.pace,
+    stats.shooting,
+    stats.dribbling
   );
   const creativityIndex = average(
-    player.stats.passing,
-    player.stats.dribbling,
-    player.stats.shooting
+    stats.passing,
+    stats.dribbling,
+    stats.shooting
   );
-  const defenseIndex = average(player.stats.defending, player.stats.physical);
-  const athleticIndex = average(player.stats.pace, player.stats.physical);
+  const defenseIndex = average(stats.defending, stats.physical);
+  const athleticIndex = average(stats.pace, stats.physical);
   const technicalIndex = average(
-    player.stats.passing,
-    player.stats.dribbling,
-    player.stats.shooting
+    stats.passing,
+    stats.dribbling,
+    stats.shooting
   );
 
   const content = (
     <div className='bg-slate-900/95 backdrop-blur-3xl rounded-3xl border border-white/10 shadow-2xl w-full overflow-hidden'>
       <div className='flex items-center justify-between px-8 py-6 border-b border-white/10'>
         <div>
-          <h3 className='text-2xl font-bold text-white'>{player.name}</h3>
+          <h3 className='text-2xl font-bold text-white'>{summary.name}</h3>
           <p className='text-slate-400 text-sm'>
-            {team?.name ?? player.teamId.toUpperCase()} • {player.position}
+            {teamName} • {summary.position}
           </p>
         </div>
         {showClose && (
@@ -75,25 +94,33 @@ export const PlayerDetail = ({
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 px-8 py-6'>
         <div className='lg:col-span-1 space-y-6'>
           <div className='bg-slate-800/40 rounded-3xl p-6 border border-white/10 text-center'>
-            <div className='w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[#169976] to-teal-500 rounded-3xl flex items-center justify-center text-4xl shadow-xl'>
-              {player.photo}
+            <div className='w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[#169976] to-teal-500 rounded-3xl flex items-center justify-center text-4xl shadow-xl overflow-hidden'>
+              {isPhotoUrl ? (
+                <img
+                  src={summary.photo}
+                  alt={summary.name}
+                  className='h-full w-full object-cover'
+                />
+              ) : (
+                summary.photo
+              )}
             </div>
             <div className='space-y-2 text-sm text-slate-300'>
               <div>
                 <span className='text-slate-400'>Nationality:</span>
-                <span className='ml-2 text-white'>{player.nationality}</span>
+                <span className='ml-2 text-white'>{summary.nationality}</span>
               </div>
               <div>
                 <span className='text-slate-400'>Age:</span>
-                <span className='ml-2 text-white'>{player.age}</span>
+                <span className='ml-2 text-white'>{summary.age}</span>
               </div>
               <div>
                 <span className='text-slate-400'>Height:</span>
-                <span className='ml-2 text-white'>{player.height} cm</span>
+                <span className='ml-2 text-white'>{summary.height} cm</span>
               </div>
               <div>
                 <span className='text-slate-400'>Weight:</span>
-                <span className='ml-2 text-white'>{player.weight} kg</span>
+                <span className='ml-2 text-white'>{summary.weight} kg</span>
               </div>
             </div>
           </div>
@@ -103,13 +130,13 @@ export const PlayerDetail = ({
             <div className='grid grid-cols-2 gap-3 text-center'>
               <div>
                 <div className='text-2xl font-black text-green-400'>
-                  {player.goals}
+                  {goals}
                 </div>
                 <div className='text-xs text-slate-400'>Goals</div>
               </div>
               <div>
                 <div className='text-2xl font-black text-teal-400'>
-                  {player.assists}
+                  {assists}
                 </div>
                 <div className='text-xs text-slate-400'>Assists</div>
               </div>
@@ -121,9 +148,9 @@ export const PlayerDetail = ({
               </div>
               <div>
                 <div className='text-2xl font-black text-emerald-400'>
-                  {player.stats.pace}
+                  {matches}
                 </div>
-                <div className='text-xs text-slate-400'>Pace</div>
+                <div className='text-xs text-slate-400'>Matches</div>
               </div>
             </div>
           </div>
@@ -140,19 +167,19 @@ export const PlayerDetail = ({
               <div className='rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3'>
                 <div className='text-xs text-slate-400'>Pace</div>
                 <div className='text-2xl font-black text-emerald-300'>
-                  {player.stats.pace}
+                  {stats.pace}
                 </div>
               </div>
               <div className='rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3'>
                 <div className='text-xs text-slate-400'>Shooting</div>
                 <div className='text-2xl font-black text-emerald-300'>
-                  {player.stats.shooting}
+                  {stats.shooting}
                 </div>
               </div>
               <div className='rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3'>
                 <div className='text-xs text-slate-400'>Passing</div>
                 <div className='text-2xl font-black text-emerald-300'>
-                  {player.stats.passing}
+                  {stats.passing}
                 </div>
               </div>
             </div>
@@ -164,19 +191,19 @@ export const PlayerDetail = ({
             <div className='rounded-2xl border border-white/10 bg-slate-800/40 px-4 py-5'>
               <div className='text-xs text-slate-400'>Team</div>
               <div className='mt-1 text-lg font-semibold text-white'>
-                {team?.name ?? player.teamId.toUpperCase()}
+                {teamName}
               </div>
             </div>
             <div className='rounded-2xl border border-white/10 bg-slate-800/40 px-4 py-5'>
               <div className='text-xs text-slate-400'>Position</div>
               <div className='mt-1 text-lg font-semibold text-white'>
-                {player.position}
+                {summary.position}
               </div>
             </div>
             <div className='rounded-2xl border border-white/10 bg-slate-800/40 px-4 py-5'>
               <div className='text-xs text-slate-400'>Nationality</div>
               <div className='mt-1 text-lg font-semibold text-white'>
-                {player.nationality}
+                {summary.nationality}
               </div>
             </div>
           </div>
@@ -184,7 +211,7 @@ export const PlayerDetail = ({
           <div className='bg-slate-800/40 rounded-3xl p-6 border border-white/10'>
             <h4 className='text-white font-bold mb-6'>Player Attributes</h4>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-              {Object.entries(player.stats).map(([key, value]) => {
+              {Object.entries(stats).map(([key, value]) => {
                 const styles = getStatStyles(
                   (key === "pace"
                     ? "green"
@@ -220,35 +247,41 @@ export const PlayerDetail = ({
           <div className='bg-slate-800/40 rounded-3xl p-6 border border-white/10'>
             <h4 className='text-white font-bold mb-6'>Career History</h4>
             <div className='space-y-4'>
-              {player.career.map((period, idx) => {
-                const careerTeam = TEAMS_BY_ID[period.teamId];
-                return (
-                  <div
-                    key={idx}
-                    className='flex items-center space-x-4 p-4 bg-slate-800/30 rounded-2xl border border-white/10'
-                  >
-                    <div className='w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-xl flex items-center justify-center text-xl shadow-lg'>
-                      {careerTeam?.crest ?? "⚽"}
+              {career.length === 0 ? (
+                <div className='rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-6 text-center text-slate-400'>
+                  No career history available.
+                </div>
+              ) : (
+                career.map((period, idx) => {
+                  const careerTeam = TEAMS_BY_ID[period.teamId];
+                  return (
+                    <div
+                      key={idx}
+                      className='flex items-center space-x-4 p-4 bg-slate-800/30 rounded-2xl border border-white/10'
+                    >
+                      <div className='w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-xl flex items-center justify-center text-xl shadow-lg'>
+                        {careerTeam?.crest ?? "⚽"}
+                      </div>
+                      <div className='flex-1'>
+                        <div className='text-white font-bold text-lg'>
+                          {careerTeam?.name ?? period.teamId}
+                        </div>
+                        <div className='text-slate-400 text-sm'>
+                          {period.year}
+                        </div>
+                      </div>
+                      <div className='text-right'>
+                        <div className='text-white font-bold'>
+                          {period.matches} matches
+                        </div>
+                        <div className='text-green-400 font-semibold'>
+                          {period.goals} goals
+                        </div>
+                      </div>
                     </div>
-                    <div className='flex-1'>
-                      <div className='text-white font-bold text-lg'>
-                        {careerTeam?.name ?? period.teamId.toUpperCase()}
-                      </div>
-                      <div className='text-slate-400 text-sm'>
-                        {period.year}
-                      </div>
-                    </div>
-                    <div className='text-right'>
-                      <div className='text-white font-bold'>
-                        {period.matches} matches
-                      </div>
-                      <div className='text-green-400 font-semibold'>
-                        {period.goals} goals
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
           </div>
         </div>
@@ -266,35 +299,35 @@ export const PlayerDetail = ({
                 <div className='flex items-center justify-between'>
                   <span className='text-slate-400'>Team</span>
                   <span className='text-white font-semibold'>
-                    {team?.name ?? player.teamId.toUpperCase()}
+                    {teamName}
                   </span>
                 </div>
                 <div className='flex items-center justify-between'>
                   <span className='text-slate-400'>Position</span>
                   <span className='text-white font-semibold'>
-                    {player.position}
+                    {summary.position}
                   </span>
                 </div>
                 <div className='flex items-center justify-between'>
                   <span className='text-slate-400'>Nationality</span>
                   <span className='text-white font-semibold'>
-                    {player.nationality}
+                    {summary.nationality}
                   </span>
                 </div>
                 <div className='flex items-center justify-between'>
                   <span className='text-slate-400'>Age</span>
-                  <span className='text-white font-semibold'>{player.age}</span>
+                  <span className='text-white font-semibold'>{summary.age}</span>
                 </div>
                 <div className='flex items-center justify-between'>
                   <span className='text-slate-400'>Height</span>
                   <span className='text-white font-semibold'>
-                    {player.height} cm
+                    {summary.height} cm
                   </span>
                 </div>
                 <div className='flex items-center justify-between'>
                   <span className='text-slate-400'>Weight</span>
                   <span className='text-white font-semibold'>
-                    {player.weight} kg
+                    {summary.weight} kg
                   </span>
                 </div>
                 <div className='flex items-center justify-between'>
@@ -318,13 +351,13 @@ export const PlayerDetail = ({
                 <div className='rounded-2xl border border-white/10 bg-slate-800/40 px-3 py-4'>
                   <div className='text-xs text-slate-400'>Goals</div>
                   <div className='text-2xl font-black text-green-300'>
-                    {player.goals}
+                    {goals}
                   </div>
                 </div>
                 <div className='rounded-2xl border border-white/10 bg-slate-800/40 px-3 py-4'>
                   <div className='text-xs text-slate-400'>Assists</div>
                   <div className='text-2xl font-black text-teal-300'>
-                    {player.assists}
+                    {assists}
                   </div>
                 </div>
                 <div className='rounded-2xl border border-white/10 bg-slate-800/40 px-3 py-4'>
@@ -349,7 +382,7 @@ export const PlayerDetail = ({
                   { label: "Defense Index", value: defenseIndex },
                   { label: "Athletic Index", value: athleticIndex },
                   { label: "Technical Index", value: technicalIndex },
-                  { label: "Pace", value: player.stats.pace },
+                  { label: "Pace", value: stats.pace },
                 ].map((item) => (
                   <div
                     key={item.label}
@@ -377,7 +410,7 @@ export const PlayerDetail = ({
                 Player Attributes
               </h4>
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                {Object.entries(player.stats).map(([key, value]) => {
+                {Object.entries(stats).map(([key, value]) => {
                   const styles = getStatStyles(
                     (key === "pace"
                       ? "green"
@@ -417,35 +450,41 @@ export const PlayerDetail = ({
                 Career History
               </h4>
               <div className='space-y-4'>
-                {player.career.map((period, idx) => {
-                  const careerTeam = TEAMS_BY_ID[period.teamId];
-                  return (
-                    <div
-                      key={idx}
-                      className='flex items-center space-x-4 p-4 bg-slate-800/30 rounded-2xl border border-white/10'
-                    >
-                      <div className='w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-xl flex items-center justify-center text-xl shadow-lg'>
-                        {careerTeam?.crest ?? "⚽"}
+                {career.length === 0 ? (
+                  <div className='rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-6 text-center text-slate-400'>
+                    No career history available.
+                  </div>
+                ) : (
+                  career.map((period, idx) => {
+                    const careerTeam = TEAMS_BY_ID[period.teamId];
+                    return (
+                      <div
+                        key={idx}
+                        className='flex items-center space-x-4 p-4 bg-slate-800/30 rounded-2xl border border-white/10'
+                      >
+                        <div className='w-12 h-12 bg-gradient-to-br from-[#169976] to-teal-500 rounded-xl flex items-center justify-center text-xl shadow-lg'>
+                          {careerTeam?.crest ?? "⚽"}
+                        </div>
+                        <div className='flex-1'>
+                          <div className='text-white font-bold text-lg'>
+                            {careerTeam?.name ?? period.teamId}
+                          </div>
+                          <div className='text-slate-400 text-sm'>
+                            {period.year}
+                          </div>
+                        </div>
+                        <div className='text-right'>
+                          <div className='text-white font-bold'>
+                            {period.matches} matches
+                          </div>
+                          <div className='text-green-400 font-semibold'>
+                            {period.goals} goals
+                          </div>
+                        </div>
                       </div>
-                      <div className='flex-1'>
-                        <div className='text-white font-bold text-lg'>
-                          {careerTeam?.name ?? period.teamId.toUpperCase()}
-                        </div>
-                        <div className='text-slate-400 text-sm'>
-                          {period.year}
-                        </div>
-                      </div>
-                      <div className='text-right'>
-                        <div className='text-white font-bold'>
-                          {period.matches} matches
-                        </div>
-                        <div className='text-green-400 font-semibold'>
-                          {period.goals} goals
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
             </div>
           </div>

@@ -17,10 +17,11 @@ export interface PlayerCareerPeriod {
 }
 
 export interface PlayerDatabaseEntry {
-  id: number;
+  id: string | number;
   name: string;
   photo: string;
   teamId: string;
+  teamName?: string;
   position: PlayerPosition;
   age: number;
   nationality: string;
@@ -28,6 +29,7 @@ export interface PlayerDatabaseEntry {
   weight: number;
   goals: number;
   assists: number;
+  matches?: number | null;
   stats: PlayerSkillSet;
   career: PlayerCareerPeriod[];
 }

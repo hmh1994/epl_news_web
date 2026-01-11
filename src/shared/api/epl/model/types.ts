@@ -211,7 +211,7 @@ export interface TeamDetailResponse
 }
 
 export interface PlayerDetailSummary {
-  id: number;
+  id: string | number;
   name: string;
   teamId: string | number;
   position: PlayerPosition;
@@ -235,6 +235,7 @@ export interface PlayerDetailPerformance {
   goals: number;
   assists: number;
   pace: number;
+  matches?: number;
 }
 
 export interface PlayerCareerEntry {

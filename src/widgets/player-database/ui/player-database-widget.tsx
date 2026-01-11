@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { Activity, Award, Target, Users } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import {
   PlayerFilter,
@@ -21,30 +21,59 @@ interface PlayerDatabaseWidgetProps {
   players: PlayerDatabaseEntry[];
   positions: readonly string[];
   teams: readonly string[];
+  teamNameById?: Record<string, string>;
+  initialSearch?: {
+    searchTerm?: string;
+    position?: string;
+    teamId?: string;
+    results?: PlayerDatabaseEntry[];
+  };
 }
 
 export const PlayerDatabaseWidget = ({
   players,
   positions,
   teams,
+  teamNameById,
+  initialSearch,
 }: PlayerDatabaseWidgetProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [, locale] = pathname?.split("/") ?? [];
   const basePath = locale ? `/${locale}` : "";
   const defaultPosition = positions[0] ?? "all";
   const defaultTeam = teams[0] ?? "all";
+  const initialPosition =
+    initialSearch?.position && positions.includes(initialSearch.position)
+      ? initialSearch.position
+      : defaultPosition;
+  const initialTeam =
+    initialSearch?.teamId && teams.includes(initialSearch.teamId)
+      ? initialSearch.teamId
+      : defaultTeam;
+  const [isPending, startTransition] = useTransition();
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedPosition, setSelectedPosition] = useState<string>(defaultPosition);
-  const [selectedTeam, setSelectedTeam] = useState<string>(defaultTeam);
+  const [searchTerm, setSearchTerm] = useState(initialSearch?.searchTerm ?? "");
+  const [selectedPosition, setSelectedPosition] =
+    useState<string>(initialPosition);
+  const [selectedTeam, setSelectedTeam] = useState<string>(initialTeam);
   const [activeFilters, setActiveFilters] = useState<PlayerFilter[]>([]);
-  const [selectedPlayers, setSelectedPlayers] = useState<PlayerDatabaseEntry[]>([]);
+  const [selectedPlayers, setSelectedPlayers] = useState<PlayerDatabaseEntry[]>(
+    []
+  );
   const [showComparison, setShowComparison] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
+  const [hasSearched, setHasSearched] = useState(
+    Boolean(
+      initialSearch?.searchTerm ||
+        initialSearch?.position ||
+        initialSearch?.teamId
+    )
+  );
   const [searchError, setSearchError] = useState<string | null>(null);
-  const [searchResults, setSearchResults] = useState<PlayerDatabaseEntry[]>([]);
+  const [searchResults, setSearchResults] = useState<PlayerDatabaseEntry[]>(
+    initialSearch?.results ?? []
+  );
 
   const showSearchResults = hasSearched;
 
@@ -91,38 +120,43 @@ export const PlayerDatabaseWidget = ({
     },
   ];
 
-  const handleSearchSubmit = async () => {
-    setIsSearching(true);
+  const resolveTeamLabel = (player: PlayerDatabaseEntry) =>
+    player.teamName ??
+    teamNameById?.[player.teamId] ??
+    TEAMS_BY_ID[player.teamId]?.name ??
+    player.teamId;
+
+  const handleSearchSubmit = () => {
     setSearchError(null);
     setHasSearched(true);
-    setSearchResults([]);
 
-    const params = new URLSearchParams();
-    if (searchTerm.trim()) {
-      params.set("search", searchTerm.trim());
+    const params = new URLSearchParams(searchParams?.toString());
+    const trimmedSearch = searchTerm.trim();
+
+    if (trimmedSearch) {
+      params.set("search", trimmedSearch);
+    } else {
+      params.delete("search");
     }
+
     if (selectedPosition !== "all") {
       params.set("position", selectedPosition);
-    }
-    if (selectedTeam !== "all") {
-      params.set("team", selectedTeam);
+    } else {
+      params.delete("position");
     }
 
-    try {
-      const response = await fetch(`/api/players?${params.toString()}`, {
-        cache: "no-store",
-      });
-      if (!response.ok) {
-        throw new Error("failed");
-      }
-      const data = (await response.json()) as { players: PlayerDatabaseEntry[] };
-      setSearchResults(data.players ?? []);
-    } catch (error) {
-      setSearchError("선수 데이터를 불러오지 못했습니다. 다시 시도해주세요.");
-      setSearchResults([]);
-    } finally {
-      setIsSearching(false);
+    if (selectedTeam !== "all") {
+      params.set("teamId", selectedTeam);
+    } else {
+      params.delete("teamId");
     }
+
+    startTransition(() => {
+      const query = params.toString();
+      router.replace(query ? `${pathname}?${query}` : pathname, {
+        scroll: false,
+      });
+    });
   };
 
   const updateFilters = (type: PlayerFilterType, value: string) => {
@@ -163,6 +197,10 @@ export const PlayerDatabaseWidget = ({
     setHasSearched(false);
     setSearchResults([]);
     setSearchError(null);
+
+    startTransition(() => {
+      router.replace(pathname, { scroll: false });
+    });
   };
 
   const handlePlayerSelect = (player: PlayerDatabaseEntry) => {
@@ -193,6 +231,42 @@ export const PlayerDatabaseWidget = ({
   const isSelectable = (isSelected: boolean) =>
     isSelected || selectedPlayers.length < COMPARISON_LIMIT;
 
+  useEffect(() => {
+    setSearchTerm(initialSearch?.searchTerm ?? "");
+    setSelectedPosition(initialPosition);
+    setSelectedTeam(initialTeam);
+    setSearchResults(initialSearch?.results ?? []);
+    setHasSearched(
+      Boolean(
+        initialSearch?.searchTerm ||
+          initialSearch?.position ||
+          initialSearch?.teamId
+      )
+    );
+    setSearchError(null);
+    setActiveFilters(() => {
+      const filters: PlayerFilter[] = [];
+      if (initialPosition !== "all") {
+        filters.push({ type: "position", value: initialPosition });
+      }
+      if (initialTeam !== "all") {
+        filters.push({ type: "team", value: initialTeam });
+      }
+      return filters;
+    });
+  }, [
+    defaultPosition,
+    defaultTeam,
+    initialSearch?.position,
+    initialSearch?.results,
+    initialSearch?.searchTerm,
+    initialSearch?.teamId,
+    initialPosition,
+    initialTeam,
+    positions,
+    teams,
+  ]);
+
   return (
     <div className='min-h-screen bg-slate-950 text-white pb-32'>
       <PlayerDatabaseHero />
@@ -208,7 +282,7 @@ export const PlayerDatabaseWidget = ({
           positionOptions={positions}
           teamOptions={teams}
           formatTeamOption={(teamId) =>
-            TEAMS_BY_ID[teamId]?.name ?? teamId.toUpperCase()
+            teamNameById?.[teamId] ?? TEAMS_BY_ID[teamId]?.name ?? teamId
           }
           viewMode={viewMode}
           onViewModeChange={setViewMode}
@@ -216,7 +290,7 @@ export const PlayerDatabaseWidget = ({
           onFilterRemove={handleFilterRemove}
           onClearFilters={handleClearFilters}
           onSearchSubmit={handleSearchSubmit}
-          isSearching={isSearching}
+          isSearching={isPending}
         >
           {showSearchResults ? (
             <>
@@ -226,7 +300,7 @@ export const PlayerDatabaseWidget = ({
                 </div>
               )}
 
-              {isSearching ? (
+              {isPending ? (
                 <div className='rounded-2xl border border-white/10 bg-slate-900/60 px-6 py-10 text-center text-slate-300'>
                   선수 데이터를 불러오는 중입니다...
                 </div>
@@ -303,7 +377,6 @@ export const PlayerDatabaseWidget = ({
 
                   <div className='space-y-3'>
                     {rankedPlayers.map((player, index) => {
-                      const team = TEAMS_BY_ID[player.teamId];
                       return (
                         <div
                           key={player.id}
@@ -318,8 +391,7 @@ export const PlayerDatabaseWidget = ({
                                 {player.name}
                               </div>
                               <div className='text-xs text-slate-400'>
-                                {team?.name ?? player.teamId.toUpperCase()} •{" "}
-                                {player.position}
+                                {resolveTeamLabel(player)} • {player.position}
                               </div>
                             </div>
                           </div>

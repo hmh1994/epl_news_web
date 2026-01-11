@@ -270,6 +270,7 @@
           "position": "Position",
           "age": "Age",
           "ageValue": "{age} yrs",
+          "matches": "Matches",
           "nationality": "Nationality"
         },
         "rows": {
@@ -287,6 +288,7 @@
         "skills": {
           "title": "Skill metrics",
           "labels": {
+            "pace": "Pace",
             "shooting": "Shooting",
             "passing": "Passing",
             "defending": "Defending"

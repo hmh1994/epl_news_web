@@ -42,6 +42,7 @@ export const PlayerSearchResults = ({
         {players.map((player) => {
           const isSelected = selectedPlayers.some((item) => item.id === player.id);
           const team = TEAMS_BY_ID[player.teamId];
+          const teamName = player.teamName ?? team?.name ?? player.teamId;
           return (
             <PlayerGridCard
               key={player.id}
@@ -50,7 +51,7 @@ export const PlayerSearchResults = ({
               onSelect={onSelect}
               onView={onView}
               showSelection={canSelect(isSelected)}
-              teamName={team?.name ?? player.teamId.toUpperCase()}
+              teamName={teamName}
               teamCrest={team?.crest ?? "⚽"}
             />
           );
@@ -63,12 +64,13 @@ export const PlayerSearchResults = ({
     <div className='space-y-4'>
       {players.map((player) => {
         const team = TEAMS_BY_ID[player.teamId];
+        const teamName = player.teamName ?? team?.name ?? player.teamId;
         return (
           <PlayerListItem
             key={player.id}
             player={player}
             onView={onView}
-            teamName={team?.name ?? player.teamId.toUpperCase()}
+            teamName={teamName}
           />
         );
       })}

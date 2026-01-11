@@ -10,10 +10,20 @@ type PlayerComparisonMatrixProps = {
 };
 
 const SKILL_ORDER: Array<{ key: keyof PlayerDatabaseEntry["stats"]; labelKey: string }> = [
+  { key: "pace", labelKey: "skills.labels.pace" },
   { key: "shooting", labelKey: "skills.labels.shooting" },
   { key: "passing", labelKey: "skills.labels.passing" },
   { key: "defending", labelKey: "skills.labels.defending" },
 ];
+
+const formatPosition = (position: string) => {
+  const normalized = position.toUpperCase();
+  if (normalized === "GOALKEEPER") return "GK";
+  if (normalized === "DEFENDER") return "DF";
+  if (normalized === "MIDFIELDER") return "MF";
+  if (normalized === "FORWARD") return "FW";
+  return position;
+};
 
 export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps) => {
   const t = useTranslations("player.comparison.matrix");
@@ -50,21 +60,32 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
             </div>
             {players.map((player) => {
               const team = TEAMS_BY_ID[player.teamId];
+              const teamName = player.teamName ?? team?.name ?? player.teamId;
+              const isPhotoUrl = player.photo.startsWith("http");
+              const positionLabel = formatPosition(player.position);
               return (
                 <div
                   key={`header-${player.id}`}
                   className='px-4 py-6 border-l border-white/5 text-center space-y-3'
                 >
-                  <div className='w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#169976] to-teal-500 flex items-center justify-center text-2xl shadow-xl'>
-                    {player.photo}
+                  <div className='w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#169976] to-teal-500 flex items-center justify-center text-2xl shadow-xl overflow-hidden'>
+                    {isPhotoUrl ? (
+                      <img
+                        src={player.photo}
+                        alt={player.name}
+                        className='h-full w-full object-cover'
+                      />
+                    ) : (
+                      player.photo
+                    )}
                   </div>
                   <div className='space-y-1'>
                     <div className='text-white font-semibold text-lg'>{player.name}</div>
                     <div className='text-slate-400 text-sm'>
-                      {team?.name ?? player.teamId.toUpperCase()}
+                      {teamName}
                     </div>
                     <div className='text-xs text-slate-500'>
-                      {t("table.positionAge", { position: player.position, age: player.age })}
+                      {t("table.positionAge", { position: positionLabel, age: player.age })}
                     </div>
                   </div>
                 </div>
@@ -79,11 +100,19 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
                 <div key={`overview-${player.id}`} className='border-l border-white/5 px-4 py-4 space-y-2 text-sm text-white'>
                   <div className='flex items-center justify-between text-slate-300'>
                     <span>{t("overview.position")}</span>
-                    <span className='font-semibold text-white'>{player.position}</span>
+                    <span className='font-semibold text-white'>
+                      {formatPosition(player.position)}
+                    </span>
                   </div>
                   <div className='flex items-center justify-between text-slate-300'>
                     <span>{t("overview.age")}</span>
                     <span className='font-semibold text-white'>{t("overview.ageValue", { age: player.age })}</span>
+                  </div>
+                  <div className='flex items-center justify-between text-slate-300'>
+                    <span>{t("overview.matches")}</span>
+                    <span className='font-semibold text-white'>
+                      {player.matches ?? "-"}
+                    </span>
                   </div>
                   <div className='flex items-center justify-between text-slate-300'>
                     <span>{t("overview.nationality")}</span>
