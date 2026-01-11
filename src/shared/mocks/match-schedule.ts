@@ -23,10 +23,6 @@ export const EPL_MATCH_SCHEDULE: MatchDaySchedule[] = [
           leaguePosition: 2,
           recentForm: ["W", "W", "W", "D", "W"],
         },
-        broadcast: {
-          channel: "Sky Sports",
-          platform: "NOW",
-        },
       },
       {
         id: "m-241214-che-tot",
@@ -48,10 +44,6 @@ export const EPL_MATCH_SCHEDULE: MatchDaySchedule[] = [
           leaguePosition: 5,
           recentForm: ["W", "L", "W", "W", "D"],
           score: 1,
-        },
-        broadcast: {
-          channel: "TNT Sports",
-          platform: "Discovery+",
         },
       },
     ],
@@ -77,9 +69,6 @@ export const EPL_MATCH_SCHEDULE: MatchDaySchedule[] = [
           teamId: "mun",
           leaguePosition: 7,
           recentForm: ["L", "W", "W", "L", "D"],
-        },
-        broadcast: {
-          channel: "Sky Sports",
         },
       },
       {
@@ -126,8 +115,77 @@ export const EPL_MATCH_SCHEDULE: MatchDaySchedule[] = [
           leaguePosition: 13,
           recentForm: ["D", "L", "W", "L", "D"],
         },
-        broadcast: {
-          channel: "Sky Sports",
+      },
+    ],
+  },
+  {
+    date: "2024-12-21",
+    fixtures: [
+      {
+        id: "m-241221-ars-liv",
+        matchweek: 19,
+        kickoff: "2024-12-21T17:30:00Z",
+        venue: "Emirates Stadium",
+        city: "London",
+        status: "upcoming",
+        headline: "Title race clash in North London",
+        referee: "Chris Kavanagh",
+        home: {
+          teamId: "ars",
+          leaguePosition: 2,
+          recentForm: ["W", "W", "D", "W", "W"],
+        },
+        away: {
+          teamId: "liv",
+          leaguePosition: 3,
+          recentForm: ["W", "D", "W", "W", "L"],
+        },
+      },
+      {
+        id: "m-241221-mci-new",
+        matchweek: 19,
+        kickoff: "2024-12-21T12:30:00Z",
+        venue: "Etihad Stadium",
+        city: "Manchester",
+        status: "upcoming",
+        headline: "City look to extend unbeaten run",
+        referee: "Simon Hooper",
+        home: {
+          teamId: "mci",
+          leaguePosition: 1,
+          recentForm: ["W", "W", "D", "W", "W"],
+        },
+        away: {
+          teamId: "new",
+          leaguePosition: 8,
+          recentForm: ["D", "W", "L", "D", "W"],
+        },
+      },
+    ],
+  },
+  {
+    date: "2024-12-22",
+    fixtures: [
+      {
+        id: "m-241222-che-bha",
+        matchweek: 19,
+        kickoff: "2024-12-22T14:00:00Z",
+        venue: "Stamford Bridge",
+        city: "London",
+        status: "finished",
+        headline: "Chelsea edge Brighton in tight affair",
+        referee: "Craig Pawson",
+        home: {
+          teamId: "che",
+          leaguePosition: 6,
+          recentForm: ["L", "W", "D", "D", "W"],
+          score: 2,
+        },
+        away: {
+          teamId: "bha",
+          leaguePosition: 10,
+          recentForm: ["L", "D", "L", "W", "D"],
+          score: 1,
         },
       },
     ],
@@ -135,4 +193,3 @@ export const EPL_MATCH_SCHEDULE: MatchDaySchedule[] = [
 ];
 
 export const MATCHWEEK_OPTIONS = [16, 17, 18, 19, 20];
-

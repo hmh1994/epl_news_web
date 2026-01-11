@@ -9,3 +9,4 @@ export * from "./lib/season-analytics";
 export * from "./lib/team-detail";
 export * from "./lib/player-detail";
 export * from "./lib/scoring-race";
+export * from "./lib/match-schedule";

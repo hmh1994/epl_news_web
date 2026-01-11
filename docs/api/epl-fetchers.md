@@ -225,7 +225,126 @@
 
 ---
 
-## 6. 뉴스 목록 – `fetchNewsList`
+## 6. 경기 일정 – `fetchMatchSchedule`
+
+- **Endpoint**: `GET /league/${leagueId}/matches`
+- **Params**: `season`, `locale`, `matchweek`
+- **Response**: `MatchScheduleResponse`
+
+```jsonc
+{
+  "data": {
+    "matchweeks": [18, 19, 20],
+    "schedule": [
+      {
+        "date": "2024-12-21",
+        "fixtures": [
+          {
+            "id": "m-241221-ars-liv",
+            "matchweek": 19,
+            "kickoff": "2024-12-21T17:30:00Z",
+            "venue": "Emirates Stadium",
+            "city": "London",
+            "status": "upcoming",
+            "headline": "Title race clash in North London",
+            "referee": "Chris Kavanagh",
+            "home": {
+              "teamId": "ars",
+              "leaguePosition": 2,
+              "recentForm": ["W", "W", "D", "W", "W"]
+            },
+            "away": {
+              "teamId": "liv",
+              "leaguePosition": 3,
+              "recentForm": ["W", "D", "W", "W", "L"]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "meta": { "leagueId": "epl", "season": "2024-25", "lastUpdated": 1700000000000, "locale": "ko-KR" }
+}
+```
+
+**의미**
+- `matchweek` 파라미터를 전달하면 해당 주차 데이터만 반환된다.
+- `matchweeks` : 필터/탭 UI에 사용하는 주차 목록.
+- `schedule[*].fixtures` : 날짜별 경기 카드 데이터.
+
+---
+
+## 7. 전체 일정 – `fetchFullMatchSchedule`
+
+- **Endpoint**: `GET /league/${leagueId}/matches/all`
+- **Params**: `season`, `locale`
+- **Response**: `MatchScheduleResponse`
+
+```jsonc
+{
+  "data": {
+    "matchweeks": [16, 17, 18, 19, 20],
+    "schedule": [
+      {
+        "date": "2024-12-14",
+        "fixtures": [
+          {
+            "id": "m-241214-mci-ars",
+            "matchweek": 18,
+            "kickoff": "2024-12-14T12:30:00Z",
+            "venue": "Etihad Stadium",
+            "city": "Manchester",
+            "status": "upcoming",
+            "headline": "Top-of-the-table showdown",
+            "referee": "Michael Oliver",
+            "home": {
+              "teamId": "mci",
+              "leaguePosition": 1,
+              "recentForm": ["W", "W", "D", "W", "W"]
+            },
+            "away": {
+              "teamId": "ars",
+              "leaguePosition": 2,
+              "recentForm": ["W", "W", "W", "D", "W"]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "meta": { "leagueId": "epl", "season": "2024-25", "lastUpdated": 1700000000000, "locale": "ko-KR" }
+}
+```
+
+**의미**
+- 전체 일정을 한번에 내려준다.
+
+---
+
+## 8. 매치위크 목록 – `fetchMatchweekOptions`
+
+- **Endpoint**: `GET /league/${leagueId}/matches/matchweeks`
+- **Params**: `season`, `locale`
+- **Response**: `MatchweekOptionsResponse`
+
+```jsonc
+{
+  "data": {
+    "matchweeks": [
+      { "matchweek": 18, "startDate": "2024-12-14", "endDate": "2024-12-16" },
+      { "matchweek": 19, "startDate": "2024-12-21", "endDate": "2024-12-22" }
+    ]
+  },
+  "meta": { "leagueId": "epl", "season": "2024-25", "lastUpdated": 1700000000000, "locale": "ko-KR" }
+}
+```
+
+**의미**
+- 매치위크 필터 칩 UI에 사용하는 목록만 제공한다.
+
+---
+
+## 9. 뉴스 목록 – `fetchNewsList`
 
 - **Endpoint**: `GET /api/v1/news`
 - **Params**: `cursor`, `limit`, `categoryId`, `tagIds`, `teamId`, `search`, `locale`, `includeFeatured`

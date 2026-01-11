@@ -1,18 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useMemo, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { MatchScheduleFilters } from "@/features/match-schedule/filters/ui/match-schedule-filters";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
 import { MatchDaySchedule, MatchFixture } from "@/entities/match/model/match-schedule";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
+import { LoadingState } from "@/shared/ui/loading-state";
+
+const TIMEZONE = "Asia/Seoul";
 
 const dayTitleFormatter = new Intl.DateTimeFormat("ko-KR", {
   month: "long",
   day: "numeric",
   weekday: "short",
+  timeZone: TIMEZONE,
 });
 
 type FixtureKey = `${string}-${string}`;
@@ -89,18 +93,40 @@ const HEAD_TO_HEAD_HISTORY: Record<FixtureKey, Array<{ season: string; date: str
 interface MatchScheduleWidgetProps {
   schedule: MatchDaySchedule[];
   matchweekOptions: number[];
+  initialMatchweek?: number;
 }
 
 export const MatchScheduleWidget = ({
   schedule,
   matchweekOptions,
+  initialMatchweek,
 }: MatchScheduleWidgetProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const defaultMatchweek =
     matchweekOptions[matchweekOptions.length - 1] ?? matchweekOptions[0] ?? 0;
-  const [selectedMatchweek, setSelectedMatchweek] =
-    useState<number>(defaultMatchweek);
+  const resolvedInitialMatchweek =
+    initialMatchweek && matchweekOptions.includes(initialMatchweek)
+      ? initialMatchweek
+      : defaultMatchweek;
+  const [selectedMatchweek, setSelectedMatchweek] = useState<number>(
+    resolvedInitialMatchweek
+  );
+  const [isPending, startTransition] = useTransition();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFixtureId, setSelectedFixtureId] = useState<string | null>(null);
+
+  const scheduleMatchweeks = useMemo(() => {
+    const weeks = new Set<number>();
+    schedule.forEach((day) => {
+      day.fixtures.forEach((fixture) => weeks.add(fixture.matchweek));
+    });
+    return weeks;
+  }, [schedule]);
+
+  const isScheduleMismatch =
+    scheduleMatchweeks.size > 0 && !scheduleMatchweeks.has(selectedMatchweek);
 
   const filteredSchedule = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
@@ -168,6 +194,36 @@ export const MatchScheduleWidget = ({
       .slice(0, 5);
   }, [filteredSchedule]);
 
+  const handleMatchweekChange = (matchweek: number) => {
+    if (matchweek === selectedMatchweek) {
+      return;
+    }
+
+    setSelectedMatchweek(matchweek);
+
+    const params = new URLSearchParams(searchParams?.toString());
+    params.set("matchweek", String(matchweek));
+    startTransition(() => {
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    });
+  };
+
+  useEffect(() => {
+    if (!matchweekOptions.includes(selectedMatchweek)) {
+      setSelectedMatchweek(defaultMatchweek);
+    }
+  }, [defaultMatchweek, matchweekOptions, selectedMatchweek]);
+
+  useEffect(() => {
+    if (
+      initialMatchweek &&
+      matchweekOptions.includes(initialMatchweek) &&
+      initialMatchweek !== selectedMatchweek
+    ) {
+      setSelectedMatchweek(initialMatchweek);
+    }
+  }, [initialMatchweek, matchweekOptions, selectedMatchweek]);
+
   return (
     <div className='min-h-screen bg-slate-950 text-white pb-28'>
       <ScheduleHero matchweek={selectedMatchweek} />
@@ -176,17 +232,23 @@ export const MatchScheduleWidget = ({
         <MatchScheduleFilters
           matchweeks={matchweekOptions}
           selectedMatchweek={selectedMatchweek}
-          onMatchweekChange={setSelectedMatchweek}
+          onMatchweekChange={handleMatchweekChange}
           searchTerm={searchTerm}
           onSearchTermChange={setSearchTerm}
         />
 
-        {rankedFixtures.length > 0 && (
+        {rankedFixtures.length > 0 && !isScheduleMismatch && (
           <MatchweekSpotlight fixtures={rankedFixtures} />
         )}
 
         {filteredSchedule.length === 0 ? (
-          <EmptyState />
+          isPending || isScheduleMismatch ? (
+            <div className='bg-slate-900/40 border border-white/10 rounded-3xl p-16 text-center text-slate-300'>
+              <LoadingState />
+            </div>
+          ) : (
+            <EmptyState />
+          )
         ) : (
           <div className='space-y-10'>
             {filteredSchedule.map((day) => (
@@ -276,7 +338,7 @@ const ScheduleDay = ({
   selectedFixtureId: string | null;
   onSelectFixture: (fixtureId: string) => void;
 }) => {
-  const dayTitle = dayTitleFormatter.format(new Date(day.date));
+  const dayTitle = dayTitleFormatter.format(new Date(`${day.date}T00:00:00Z`));
   const dayPowerRanking = day.fixtures
     .map((fixture) => ({ fixture, score: calculatePowerScore(fixture) }))
     .sort((a, b) => b.score - a.score);
@@ -368,6 +430,7 @@ const DayInsights = ({
                 day: "2-digit",
                 hour: "2-digit",
                 minute: "2-digit",
+                timeZone: TIMEZONE,
               })}
             </span>
           </div>
@@ -435,6 +498,7 @@ const MatchweekSpotlight = ({
                   {t("kickoff")} · {new Date(fixture.kickoff).toLocaleTimeString("ko-KR", {
                     hour: "2-digit",
                     minute: "2-digit",
+                    timeZone: TIMEZONE,
                   })}
                 </div>
                 <div>

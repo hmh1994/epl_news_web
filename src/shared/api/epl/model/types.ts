@@ -100,6 +100,23 @@ export interface MatchScheduleResponse
   };
 }
 
+export interface MatchweekOption {
+  matchweek: number;
+  startDate: string;
+  endDate: string;
+}
+
+export interface MatchweekOptionsResponse
+  extends ApiResourceResponse<{
+    matchweeks: MatchweekOption[];
+  }> {
+  meta: ApiResponseMeta & {
+    leagueId: string;
+    season: string;
+    lastUpdated: number;
+  };
+}
+
 export interface MatchDetailResponse extends ApiResourceResponse<MatchDetail> {
   meta: ApiResponseMeta & {
     matchId: string;

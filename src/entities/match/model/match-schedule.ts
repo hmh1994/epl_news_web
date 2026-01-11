@@ -7,11 +7,6 @@ export interface MatchClub {
   leaguePosition?: number;
 }
 
-export interface MatchBroadcast {
-  channel: string;
-  platform?: string;
-}
-
 export interface MatchFixture {
   id: string;
   matchweek: number;
@@ -21,7 +16,6 @@ export interface MatchFixture {
   status: MatchStatus;
   home: MatchClub;
   away: MatchClub;
-  broadcast?: MatchBroadcast;
   referee?: string;
   headline?: string;
 }
