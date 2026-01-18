@@ -5,12 +5,6 @@ import {
   EPL_TOP_CLUBS,
   LEAGUE_SUMMARIES,
 } from "@/shared/mocks/league-overview";
-import {
-  EPL_PLAYER_RANKINGS,
-  EPL_SEASON_STATS,
-  EPL_STANDINGS,
-  EPL_LIVE_UPDATES,
-} from "@/shared/mocks/epl-hub";
 import { PREMIER_LEAGUE_TABLE } from "@/shared/mocks/premium-epl-table";
 import { TEAM_PLAYERS, TEAM_PROFILES } from "@/shared/mocks/team-info";
 import { EPL_MATCH_SCHEDULE, MATCHWEEK_OPTIONS } from "@/shared/mocks/match-schedule";
@@ -35,14 +29,6 @@ export const EPL_MOCK_DATA = {
     stats: EPL_STATS,
     topClubs: EPL_TOP_CLUBS,
     premiumTable: PREMIER_LEAGUE_TABLE,
-    standings: EPL_STANDINGS,
-    metaMetrics: EPL_SEASON_STATS,
-  },
-  hub: {
-    standings: EPL_STANDINGS,
-    playerRankings: EPL_PLAYER_RANKINGS,
-    metaMetrics: EPL_SEASON_STATS,
-    liveUpdates: EPL_LIVE_UPDATES,
   },
   matches: {
     schedule: EPL_MATCH_SCHEDULE,
@@ -56,6 +42,5 @@ export const EPL_MOCK_DATA = {
     database: PLAYER_DATABASE,
     positions: PLAYER_POSITIONS,
     teamOptions: PLAYER_TEAMS,
-    rankings: EPL_PLAYER_RANKINGS,
   },
 };
