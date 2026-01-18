@@ -47,12 +47,6 @@ export const PlayerDatabaseHero = () => {
           >
             {t("cta.matches")}
           </Link>
-          <Link
-            href={`${basePath}/league`}
-            className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
-          >
-            {t("cta.league")}
-          </Link>
         </div>
 
         <div className='grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto mt-12 justify-items-center'>
