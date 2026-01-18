@@ -1,7 +1,9 @@
 import { PlayerDatabasePage } from "@/processes/player-database-page";
 import { fetchPlayerList } from "@/shared/api/epl/lib/player-list";
+import { fetchPlayerRace } from "@/shared/api/epl/lib/scoring-race";
 import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 import type { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
+import type { PlayerRanking } from "@/entities/player/model/player-ranking";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -57,17 +59,28 @@ export default async function PlayerDatabaseRoute({ params, searchParams }: Page
   const leagueId = DEFAULT_LEAGUE_ID;
   const baseParams = { locale };
 
-  const [allPlayersResponse, filteredResponse] = await Promise.all([
+  const [allPlayersResponse, filteredResponse, goalRace, assistRace, pointRace, xgRace] =
+    await Promise.all([
     fetchPlayerList(leagueId, baseParams),
     search || position || teamId
       ? fetchPlayerList(leagueId, { ...baseParams, search, position, teamId })
       : Promise.resolve({ data: [] as PlayerDatabaseEntry[] }),
+    fetchPlayerRace(leagueId, { ...baseParams, category: "goal", limit: 5 }),
+    fetchPlayerRace(leagueId, { ...baseParams, category: "assist", limit: 5 }),
+    fetchPlayerRace(leagueId, { ...baseParams, category: "point", limit: 5 }),
+    fetchPlayerRace(leagueId, { ...baseParams, category: "xg", limit: 5 }),
   ]);
 
   const allPlayers = allPlayersResponse.data;
   const { teamOptions, teamNameById } = buildTeamOptions(allPlayers);
   const positionOptions = buildPositionOptions(allPlayers);
   const initialResults = filteredResponse.data;
+  const rankingData: Record<"goal" | "assist" | "point" | "xg", PlayerRanking[]> = {
+    goal: goalRace.data,
+    assist: assistRace.data,
+    point: pointRace.data,
+    xg: xgRace.data,
+  };
 
   return (
     <PlayerDatabasePage
@@ -75,6 +88,7 @@ export default async function PlayerDatabaseRoute({ params, searchParams }: Page
       positions={positionOptions}
       teams={teamOptions}
       teamNameById={teamNameById}
+      rankingData={rankingData}
       initialSearch={{
         searchTerm: search,
         position,

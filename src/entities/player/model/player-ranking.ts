@@ -3,6 +3,9 @@ export interface PlayerRanking {
   teamId: string;
   goals: number;
   assists: number;
+  points: number;
+  xg: number;
   photo: string;
   rating: number;
+  teamName: string;
 }

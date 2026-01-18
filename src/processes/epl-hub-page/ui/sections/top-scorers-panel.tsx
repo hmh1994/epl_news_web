@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Trophy } from "lucide-react";
 import { PlayerRanking } from "@/entities/player/model/player-ranking";
 import { PlayerRankingCard } from "@/entities/player/ui/player-ranking-card";
-import { getClubDisplay } from "../../lib/club-display";
 import { useTranslations } from "next-intl";
 
 interface TopScorersPanelProps {
@@ -39,13 +38,15 @@ export const TopScorersPanel = ({
       </div>
       <div className='mt-6 divide-y divide-white/10 border-t border-white/10'>
         {playerRankings.map((player, index) => {
-          const team = getClubDisplay(player.teamId);
           return (
-            <div key={`${player.teamId}-${player.name}`} className='py-3 first:pt-0 last:pb-0'>
+            <div
+              key={`${player.teamId}-${player.name}`}
+              className='py-3 first:pt-0 last:pb-0'
+            >
               <PlayerRankingCard
                 player={player}
                 rank={index + 1}
-                teamName={team.name}
+                teamName={player.teamName}
               />
             </div>
           );

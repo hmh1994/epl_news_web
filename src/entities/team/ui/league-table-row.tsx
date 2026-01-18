@@ -45,7 +45,9 @@ const TrendIndicator = ({ trend }: { trend: number }) => {
     return (
       <div className='flex items-center space-x-1'>
         <TrendingUp className='w-4 h-4 text-green-400' />
-        <span className='text-xs font-medium text-green-400'>+{trend}</span>
+        <span className='text-xs font-medium text-green-400'>
+          +{trend.toFixed(2)}
+        </span>
       </div>
     );
   }
@@ -54,7 +56,9 @@ const TrendIndicator = ({ trend }: { trend: number }) => {
     return (
       <div className='flex items-center space-x-1'>
         <TrendingDown className='w-4 h-4 text-red-400' />
-        <span className='text-xs font-medium text-red-400'>{trend}</span>
+        <span className='text-xs font-medium text-red-400'>
+          {trend.toFixed(2)}
+        </span>
       </div>
     );
   }

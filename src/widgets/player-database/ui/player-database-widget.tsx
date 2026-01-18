@@ -4,6 +4,7 @@ import React, { useEffect, useState, useTransition } from "react";
 import { Activity, Award, Target, Users } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
+import { PlayerRanking } from "@/entities/player/model/player-ranking";
 import {
   PlayerFilter,
   PlayerFilterType,
@@ -22,6 +23,7 @@ interface PlayerDatabaseWidgetProps {
   positions: readonly string[];
   teams: readonly string[];
   teamNameById?: Record<string, string>;
+  rankingData: Record<"goal" | "assist" | "point" | "xg", PlayerRanking[]>;
   initialSearch?: {
     searchTerm?: string;
     position?: string;
@@ -35,6 +37,7 @@ export const PlayerDatabaseWidget = ({
   positions,
   teams,
   teamNameById,
+  rankingData,
   initialSearch,
 }: PlayerDatabaseWidgetProps) => {
   const router = useRouter();
@@ -77,50 +80,42 @@ export const PlayerDatabaseWidget = ({
 
   const showSearchResults = hasSearched;
 
-  const getOverallRating = (player: PlayerDatabaseEntry) => {
-    const { pace, shooting, passing, dribbling, defending, physical } =
-      player.stats;
-    return Math.round(
-      (pace + shooting + passing + dribbling + defending + physical) / 6
-    );
-  };
-
   const rankingGroups = [
     {
-      id: "goals",
+      id: "goal",
       label: "득점 랭킹",
       metricLabel: "골",
       icon: Target,
       accent: "text-emerald-300",
-      getValue: (player: PlayerDatabaseEntry) => player.goals,
+      getValue: (player: PlayerRanking) => player.goals,
     },
     {
-      id: "assists",
+      id: "assist",
       label: "도움 랭킹",
       metricLabel: "도움",
       icon: Users,
       accent: "text-teal-300",
-      getValue: (player: PlayerDatabaseEntry) => player.assists,
+      getValue: (player: PlayerRanking) => player.assists,
     },
     {
-      id: "involvements",
+      id: "point",
       label: "공격 포인트",
       metricLabel: "포인트",
       icon: Activity,
       accent: "text-orange-300",
-      getValue: (player: PlayerDatabaseEntry) => player.goals + player.assists,
+      getValue: (player: PlayerRanking) => player.points,
     },
     {
-      id: "overall",
-      label: "종합 능력치",
-      metricLabel: "OVR",
+      id: "xg",
+      label: "xG 랭킹",
+      metricLabel: "xG",
       icon: Award,
       accent: "text-yellow-300",
-      getValue: (player: PlayerDatabaseEntry) => getOverallRating(player),
+      getValue: (player: PlayerRanking) => player.xg,
     },
-  ];
+  ] as const;
 
-  const resolveTeamLabel = (player: PlayerDatabaseEntry) =>
+  const resolveTeamLabel = (player: PlayerDatabaseEntry | PlayerRanking) =>
     player.teamName ??
     teamNameById?.[player.teamId] ??
     TEAMS_BY_ID[player.teamId]?.name ??
@@ -347,13 +342,7 @@ export const PlayerDatabaseWidget = ({
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
             {rankingGroups.map((group) => {
               const Icon = group.icon;
-              const rankedPlayers = [...players]
-                .sort(
-                  (a, b) =>
-                    group.getValue(b) - group.getValue(a) ||
-                    a.name.localeCompare(b.name)
-                )
-                .slice(0, 5);
+              const rankedPlayers = rankingData[group.id] ?? [];
 
               return (
                 <div
@@ -379,7 +368,7 @@ export const PlayerDatabaseWidget = ({
                     {rankedPlayers.map((player, index) => {
                       return (
                         <div
-                          key={player.id}
+                          key={`${player.name}-${player.teamId}`}
                           className='flex items-center justify-between rounded-2xl border border-white/5 bg-slate-800/40 px-4 py-3'
                         >
                           <div className='flex items-center gap-3'>
@@ -391,7 +380,7 @@ export const PlayerDatabaseWidget = ({
                                 {player.name}
                               </div>
                               <div className='text-xs text-slate-400'>
-                                {resolveTeamLabel(player)} • {player.position}
+                                {resolveTeamLabel(player)}
                               </div>
                             </div>
                           </div>
@@ -399,7 +388,9 @@ export const PlayerDatabaseWidget = ({
                             <div
                               className={`text-lg font-bold ${group.accent}`}
                             >
-                              {group.getValue(player)}
+                              {group.id === "xg"
+                                ? group.getValue(player).toFixed(2)
+                                : group.getValue(player)}
                             </div>
                             <div className='text-xs text-slate-500'>
                               {group.metricLabel}

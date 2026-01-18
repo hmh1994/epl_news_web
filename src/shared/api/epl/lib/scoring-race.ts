@@ -6,22 +6,24 @@ export interface ScoringRaceParams {
   season?: string;
   locale?: string;
   limit?: number;
+  category?: string;
 }
 
-export const fetchScoringRace = async (
+export const fetchPlayerRace = async (
   leagueId: string,
   params?: ScoringRaceParams,
   options?: RequestOptions
 ): Promise<PlayerRankingResponse> => {
   try {
     return await apiClient.get<PlayerRankingResponse>(
-      leaguePath(leagueId, "/players/scoring-race"),
+      leaguePath(leagueId, "/players/race"),
       {
         ...options,
         params: {
           season: params?.season,
           locale: mapLocaleToApi(params?.locale),
           limit: params?.limit,
+          category: params?.category ?? "goal",
         },
       }
     );

@@ -1,6 +1,6 @@
 import { EPLHubPage } from "@/processes/epl-hub-page";
 import { fetchPremiumTable } from "@/shared/api/epl/lib/league";
-import { fetchScoringRace } from "@/shared/api/epl/lib/scoring-race";
+import { fetchPlayerRace } from "@/shared/api/epl/lib/scoring-race";
 import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 import { EPL_MOCK_DATA } from "@/shared/mocks/epl-data";
 import { toLeagueTableRow } from "@/shared/lib/mappers/league";
@@ -10,7 +10,7 @@ export default async function HomeRoute() {
   const leagueId = DEFAULT_LEAGUE_ID;
   const [premiumTable, scoringRace] = await Promise.all([
     fetchPremiumTable(leagueId),
-    fetchScoringRace(leagueId, { limit: 5 }),
+    fetchPlayerRace(leagueId, { limit: 5, category: "goal" }),
   ]);
   console.log(scoringRace);
   const tableRows = premiumTable.data.map(toLeagueTableRow);
