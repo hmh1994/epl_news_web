@@ -134,10 +134,10 @@
   "widgets": {
     "matchSchedule": {
       "hero": {
-        "description": "Track kickoff times, venues, and broadcasts by matchweek, then use the filters to jump to the fixtures you care about.",
+        "description": "Track kickoff times, venues, and broadcasts across the full fixture calendar, then use search to jump to the fixtures you care about.",
+        "calendarStatus": "Full fixture calendar",
         "teamLink": "View standings",
-        "playerLink": "See player records",
-        "leagueLink": "League insights"
+        "playerLink": "See player records"
       },
       "spotlight": {
         "title": "Round highlights",
@@ -232,9 +232,7 @@
       }
     },
     "filters": {
-      "searchPlaceholder": "Search club, stadium, or city",
-      "matchweekLabel": "Matchweek",
-      "matchweekChip": "MW {week}"
+      "searchPlaceholder": "Search club, stadium, or city"
     }
   },
   "player": {
@@ -324,8 +322,7 @@
       "description": "Search and compare the Premier League's best players.",
       "cta": {
         "teams": "View standings",
-        "matches": "Check fixtures",
-        "league": "League insights"
+        "matches": "Check fixtures"
       },
       "stats": {
         "registeredPlayers": {

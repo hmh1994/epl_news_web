@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useMemo, useState, useTransition } from "react";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { MatchScheduleFilters } from "@/features/match-schedule/filters/ui/match-schedule-filters";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
@@ -11,7 +11,6 @@ import {
   MatchFixture,
 } from "@/entities/match/model/match-schedule";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
-import { LoadingState } from "@/shared/ui/loading-state";
 
 const TIMEZONE = "Asia/Seoul";
 
@@ -150,52 +149,32 @@ const HEAD_TO_HEAD_HISTORY: Record<
 
 interface MatchScheduleWidgetProps {
   schedule: MatchDaySchedule[];
-  matchweekOptions: number[];
-  initialMatchweek?: number;
 }
 
-export const MatchScheduleWidget = ({
-  schedule,
-  matchweekOptions,
-  initialMatchweek,
-}: MatchScheduleWidgetProps) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const defaultMatchweek =
-    matchweekOptions[matchweekOptions.length - 1] ?? matchweekOptions[0] ?? 0;
-  const resolvedInitialMatchweek =
-    initialMatchweek && matchweekOptions.includes(initialMatchweek)
-      ? initialMatchweek
-      : defaultMatchweek;
-  const [selectedMatchweek, setSelectedMatchweek] = useState<number>(
-    resolvedInitialMatchweek
-  );
-  const [isPending, startTransition] = useTransition();
+const sortScheduleByKickoff = (schedule: MatchDaySchedule[]) =>
+  [...schedule]
+    .map((day) => ({
+      ...day,
+      fixtures: [...day.fixtures].sort(
+        (a, b) => new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime()
+      ),
+    }))
+    .sort(
+      (a, b) =>
+        new Date(`${a.date}T00:00:00Z`).getTime() -
+        new Date(`${b.date}T00:00:00Z`).getTime()
+    );
+
+export const MatchScheduleWidget = ({ schedule }: MatchScheduleWidgetProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFixtureId, setSelectedFixtureId] = useState<string | null>(
     null
   );
 
-  const scheduleMatchweeks = useMemo(() => {
-    const weeks = new Set<number>();
-    schedule.forEach((day) => {
-      day.fixtures.forEach((fixture) => weeks.add(fixture.matchweek));
-    });
-    return weeks;
-  }, [schedule]);
-
-  const isScheduleMismatch =
-    scheduleMatchweeks.size > 0 && !scheduleMatchweeks.has(selectedMatchweek);
-
   const filteredSchedule = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
 
     const filterFixture = (fixture: MatchDaySchedule["fixtures"][number]) => {
-      if (fixture.matchweek !== selectedMatchweek) {
-        return false;
-      }
-
       if (term.length === 0) {
         return true;
       }
@@ -219,13 +198,13 @@ export const MatchScheduleWidget = ({
       return haystack.includes(term);
     };
 
-    return schedule
+    return sortScheduleByKickoff(schedule)
       .map((day) => ({
         ...day,
         fixtures: day.fixtures.filter(filterFixture),
       }))
       .filter((day) => day.fixtures.length > 0);
-  }, [schedule, searchTerm, selectedMatchweek]);
+  }, [schedule, searchTerm]);
 
   const firstAvailableFixtureId = filteredSchedule[0]?.fixtures[0]?.id ?? null;
 
@@ -256,61 +235,22 @@ export const MatchScheduleWidget = ({
       .slice(0, 5);
   }, [filteredSchedule]);
 
-  const handleMatchweekChange = (matchweek: number) => {
-    if (matchweek === selectedMatchweek) {
-      return;
-    }
-
-    setSelectedMatchweek(matchweek);
-
-    const params = new URLSearchParams(searchParams?.toString());
-    params.set("matchweek", String(matchweek));
-    startTransition(() => {
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-    });
-  };
-
-  useEffect(() => {
-    if (!matchweekOptions.includes(selectedMatchweek)) {
-      setSelectedMatchweek(defaultMatchweek);
-    }
-  }, [defaultMatchweek, matchweekOptions, selectedMatchweek]);
-
-  useEffect(() => {
-    if (
-      initialMatchweek &&
-      matchweekOptions.includes(initialMatchweek) &&
-      initialMatchweek !== selectedMatchweek
-    ) {
-      setSelectedMatchweek(initialMatchweek);
-    }
-  }, [initialMatchweek, matchweekOptions, selectedMatchweek]);
-
   return (
     <div className='min-h-screen bg-slate-950 text-white pb-28'>
-      <ScheduleHero matchweek={selectedMatchweek} />
+      <ScheduleHero />
 
       <main className='max-w-7xl mx-auto px-6 -mt-24 relative space-y-12'>
         <MatchScheduleFilters
-          matchweeks={matchweekOptions}
-          selectedMatchweek={selectedMatchweek}
-          onMatchweekChange={handleMatchweekChange}
           searchTerm={searchTerm}
           onSearchTermChange={setSearchTerm}
         />
 
-        {rankedFixtures.length > 0 && !isScheduleMismatch && (
+        {rankedFixtures.length > 0 && (
           <MatchweekSpotlight fixtures={rankedFixtures} />
         )}
 
         {filteredSchedule.length === 0 ? (
-          isPending || isScheduleMismatch ? (
-            <div className='bg-slate-900/40 border border-white/10 rounded-3xl p-16 text-center text-slate-300'>
-              <LoadingState />
-            </div>
-          ) : (
-            <EmptyState />
-          )
+          <EmptyState />
         ) : (
           <div className='space-y-10'>
             {filteredSchedule.map((day) => (
@@ -328,7 +268,7 @@ export const MatchScheduleWidget = ({
   );
 };
 
-const ScheduleHero = ({ matchweek }: { matchweek: number }) => {
+const ScheduleHero = () => {
   const t = useTranslations("widgets.matchSchedule.hero");
   const pathname = usePathname();
   const [, locale] = pathname?.split("/") ?? [];
@@ -368,25 +308,6 @@ const ScheduleHero = ({ matchweek }: { matchweek: number }) => {
           >
             {t("playerLink")}
           </Link>
-          <Link
-            href={`${basePath}/league`}
-            className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
-          >
-            {t("leagueLink")}
-          </Link>
-        </div>
-
-        <div className='mt-10 inline-flex items-center gap-4 px-6 py-3 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-2xl text-sm text-slate-200'>
-          <span className='uppercase tracking-[0.3em] text-emerald-300'>
-            Current
-          </span>
-          <span className='text-white font-semibold'>
-            Matchweek {matchweek}
-          </span>
-          <span className='text-slate-400 hidden md:inline'>•</span>
-          <span className='text-slate-400 hidden md:inline'>
-            Kickoffs shown in local time
-          </span>
         </div>
       </div>
     </section>

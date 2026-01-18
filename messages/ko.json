@@ -134,10 +134,10 @@
   "widgets": {
     "matchSchedule": {
       "hero": {
-        "description": "경기 주차별 킥오프 시간, 경기장, 방송 정보를 한 곳에서 확인하세요. 맞춤 필터로 보고 싶은 경기를 빠르게 찾아보세요.",
+        "description": "전체 일정 기준으로 킥오프 시간, 경기장, 방송 정보를 한 곳에서 확인하세요. 검색으로 원하는 경기를 빠르게 찾아보세요.",
+        "calendarStatus": "전체 일정 보기",
         "teamLink": "팀 순위 보기",
-        "playerLink": "선수 기록 살펴보기",
-        "leagueLink": "리그 인사이트"
+        "playerLink": "선수 기록 살펴보기"
       },
       "spotlight": {
         "title": "이번 라운드 하이라이트",
@@ -232,9 +232,7 @@
       }
     },
     "filters": {
-      "searchPlaceholder": "팀 이름, 경기장, 도시 검색",
-      "matchweekLabel": "매치위크",
-      "matchweekChip": "MW {week}"
+      "searchPlaceholder": "팀 이름, 경기장, 도시 검색"
     }
   },
   "player": {
@@ -324,8 +322,7 @@
       "description": "프리미어리그 최고의 선수들을 검색하고 비교해보세요",
       "cta": {
         "teams": "팀 순위 보기",
-        "matches": "경기 일정 확인",
-        "league": "리그 인사이트"
+        "matches": "경기 일정 확인"
       },
       "stats": {
         "registeredPlayers": {
