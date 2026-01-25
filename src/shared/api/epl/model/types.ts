@@ -1,14 +1,11 @@
-import type { MatchDetail } from "@/entities/match/model/match-detail";
 import type { MatchDaySchedule } from "@/entities/match/model/match-schedule";
 import type { PlayerRanking } from "@/entities/player/model/player-ranking";
-import type { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import type {
   PlayerPosition,
   PlayerProfile,
 } from "@/entities/player/model/player-profile";
 import type { TeamProfile } from "@/entities/team/model/team-profile";
 
-type ApiTeamProfile = Omit<TeamProfile, "value">;
 type ApiPlayerProfile = Omit<PlayerProfile, "value" | "marketValue">;
 type ApiPlayerRanking = Omit<PlayerRanking, "value">;
 
@@ -72,14 +69,7 @@ export interface LeagueStandingsRow {
   };
 }
 
-export interface TeamsInfoResponse extends ApiListResponse<TeamSummary> {
-  meta: ApiResponseMeta & {
-    total: number;
-  };
-}
-
-export interface PlayerRankingResponse
-  extends ApiListResponse<ApiPlayerRanking> {
+export interface PlayerRankingResponse extends ApiListResponse<ApiPlayerRanking> {
   meta: ApiResponseMeta & {
     leagueId: string;
     season: string;
@@ -88,92 +78,15 @@ export interface PlayerRankingResponse
   };
 }
 
-export interface MatchScheduleResponse
-  extends ApiResourceResponse<{
-    dateRange?: {
-      startDate: string;
-      endDate: string;
-    };
-    schedule: MatchDaySchedule[];
-  }> {
+export interface MatchScheduleResponse extends ApiResourceResponse<{
+  dateRange?: {
+    startDate: string;
+    endDate: string;
+  };
+  schedule: MatchDaySchedule[];
+}> {
   meta: ApiResponseMeta & {
     leagueId: string;
-    season: string;
-    lastUpdated: number;
-  };
-}
-
-export interface FullMatchScheduleResponse
-  extends ApiResourceResponse<{
-    schedule: MatchDaySchedule[];
-  }> {
-  meta: ApiResponseMeta & {
-    leagueId: string;
-    season: string;
-    lastUpdated: number;
-  };
-}
-
-export interface MatchweekOption {
-  matchweek: number;
-  startDate: string;
-  endDate: string;
-}
-
-export interface MatchweekOptionsResponse
-  extends ApiResourceResponse<{
-    matchweeks: MatchweekOption[];
-  }> {
-  meta: ApiResponseMeta & {
-    leagueId: string;
-    season: string;
-    lastUpdated: number;
-  };
-}
-
-export interface MatchDetailResponse extends ApiResourceResponse<MatchDetail> {
-  meta: ApiResponseMeta & {
-    matchId: string;
-    leagueId: string;
-    season: string;
-    generatedAt: number;
-  };
-}
-
-export interface PlayerFilters {
-  positions: PlayerPosition[];
-  teamIds: string[];
-}
-
-export interface PlayerDatabaseResponse
-  extends ApiResourceResponse<{
-    players: PlayerDatabaseEntry[];
-    filters: PlayerFilters;
-  }> {
-  meta: ApiResponseMeta & {
-    leagueId: string;
-    season: string;
-    lastUpdated: number;
-  };
-}
-
-export interface TeamProfilesResponse
-  extends ApiResourceResponse<{
-    teams: ApiTeamProfile[];
-  }> {
-  meta: ApiResponseMeta & {
-    leagueId: string;
-    season: string;
-    lastUpdated: number;
-  };
-}
-
-export interface TeamSquadResponse
-  extends ApiResourceResponse<{
-    squad: ApiPlayerProfile[];
-  }> {
-  meta: ApiResponseMeta & {
-    teamId: string;
     season: string;
     lastUpdated: number;
   };
@@ -209,13 +122,12 @@ export interface TeamDetailStatic {
   keyStats: TeamProfile["keyStats"];
 }
 
-export interface TeamDetailResponse
-  extends ApiResourceResponse<{
-    summary: TeamDetailSummary;
-    meta: TeamDetailMeta;
-    static: TeamDetailStatic;
-    squad: ApiPlayerProfile[];
-  }> {
+export interface TeamDetailResponse extends ApiResourceResponse<{
+  summary: TeamDetailSummary;
+  meta: TeamDetailMeta;
+  static: TeamDetailStatic;
+  squad: ApiPlayerProfile[];
+}> {
   meta: ApiResponseMeta & {
     leagueId: string;
     teamId: string;
@@ -259,15 +171,14 @@ export interface PlayerCareerEntry {
   goals: number;
 }
 
-export interface PlayerDetailResponse
-  extends ApiResourceResponse<{
-    player: {
-      summary: PlayerDetailSummary;
-      attributes: PlayerDetailAttributes;
-      performance: PlayerDetailPerformance;
-      career: PlayerCareerEntry[];
-    };
-  }> {
+export interface PlayerDetailResponse extends ApiResourceResponse<{
+  player: {
+    summary: PlayerDetailSummary;
+    attributes: PlayerDetailAttributes;
+    performance: PlayerDetailPerformance;
+    career: PlayerCareerEntry[];
+  };
+}> {
   meta: ApiResponseMeta & {
     leagueId: string;
     playerId: string | number;
@@ -276,8 +187,9 @@ export interface PlayerDetailResponse
   };
 }
 
-export interface PremiumTableResponse
-  extends ApiResourceResponse<LeagueStandingsRow[]> {
+export interface PremiumTableResponse extends ApiResourceResponse<
+  LeagueStandingsRow[]
+> {
   meta: ApiResponseMeta & {
     leagueId: string;
     season: string;

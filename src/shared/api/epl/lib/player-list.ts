@@ -125,21 +125,25 @@ const buildMockPlayerList = (
   };
 };
 
+const POSITION_FILTER_MAP: Record<string, string[]> = {
+  GOALKEEPER: ["GK", "GOALKEEPER"],
+  GK: ["GK", "GOALKEEPER"],
+  DEFENDER: ["CB", "LB", "RB", "LWB", "RWB", "DF", "DEFENDER"],
+  DF: ["CB", "LB", "RB", "LWB", "RWB", "DF", "DEFENDER"],
+  MIDFIELDER: ["CDM", "CM", "CAM", "LM", "RM", "MF", "MIDFIELDER"],
+  MF: ["CDM", "CM", "CAM", "LM", "RM", "MF", "MIDFIELDER"],
+  FORWARD: ["ST", "CF", "LW", "RW", "FW", "FORWARD"],
+  FW: ["ST", "CF", "LW", "RW", "FW", "FORWARD"],
+};
+
 const doesPositionMatch = (playerPosition: string, filter: string) => {
   const normalized = playerPosition.toUpperCase();
+  const normalizedFilter = filter.toUpperCase();
+  const allowedPositions = POSITION_FILTER_MAP[normalizedFilter];
 
-  if (filter === "GOALKEEPER") {
-    return normalized.includes("GK");
-  }
-  if (filter === "DEFENDER") {
-    return normalized.includes("D");
-  }
-  if (filter === "MIDFIELDER") {
-    return normalized.includes("M");
-  }
-  if (filter === "FORWARD") {
-    return normalized.includes("F") || normalized.includes("ST");
+  if (allowedPositions) {
+    return allowedPositions.includes(normalized);
   }
 
-  return normalized.includes(filter);
+  return normalized === normalizedFilter;
 };

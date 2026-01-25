@@ -3,8 +3,40 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import Calendar, { type CalendarProps } from "react-calendar";
-import { format } from "date-fns";
 import { useLocale, useTranslations } from "next-intl";
+
+const toUtcDate = (value: Date) =>
+  new Date(Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()));
+
+const toUtcDateString = (value: Date) =>
+  toUtcDate(value).toISOString().slice(0, 10);
+
+const parseUtcDate = (value: string) => {
+  const [year, month, day] = value.split("-").map(Number);
+  if (
+    !Number.isFinite(year) ||
+    !Number.isFinite(month) ||
+    !Number.isFinite(day)
+  ) {
+    return null;
+  }
+  return new Date(Date.UTC(year, month - 1, day));
+};
+
+const resolveCalendarDate = (value: Date | string | null) => {
+  if (!value) {
+    return null;
+  }
+  if (value instanceof Date) {
+    return value;
+  }
+  const parsed = parseUtcDate(value);
+  if (parsed) {
+    return parsed;
+  }
+  const fallback = new Date(value);
+  return Number.isNaN(fallback.getTime()) ? null : fallback;
+};
 
 interface MatchScheduleFiltersProps {
   searchTerm: string;
@@ -36,25 +68,26 @@ export const MatchScheduleFilters = ({
   const handleCalendarChange = (value: CalendarProps["value"]) => {
     if (Array.isArray(value)) {
       const [firstValue] = value;
-      onSelectedDateChange(firstValue ? format(firstValue, "yyyy-MM-dd") : "");
+      const resolved = resolveCalendarDate(firstValue);
+      onSelectedDateChange(resolved ? toUtcDateString(resolved) : "");
       setIsCalendarOpen(false);
       return;
     }
 
-    onSelectedDateChange(value ? format(value, "yyyy-MM-dd") : "");
+    const resolved = resolveCalendarDate(value ?? null);
+    onSelectedDateChange(resolved ? toUtcDateString(resolved) : "");
     setIsCalendarOpen(false);
   };
-  const selectedDateValue = selectedDate
-    ? new Date(`${selectedDate}T00:00:00`)
-    : null;
+  const selectedDateValue = selectedDate ? parseUtcDate(selectedDate) : null;
   const dateFormatter = new Intl.DateTimeFormat(locale, {
     weekday: "short",
     month: "short",
     day: "numeric",
+    timeZone: "UTC",
   });
-  const displayDateLabel = selectedDate
-    ? dateFormatter.format(new Date(`${selectedDate}T00:00:00Z`))
-    : dateFormatter.format(new Date());
+  const displayDateLabel = selectedDateValue
+    ? dateFormatter.format(selectedDateValue)
+    : dateFormatter.format(toUtcDate(new Date()));
 
   useEffect(() => {
     if (!isCalendarOpen) {
