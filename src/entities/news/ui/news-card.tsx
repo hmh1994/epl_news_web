@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
@@ -18,9 +19,11 @@ interface NewsCardProps {
 }
 
 export const NewsCard = ({ article, href, readMoreLabel }: NewsCardProps) => {
-  const showImage = Boolean(article.thumbnailUrl);
+  const showImage = Boolean(article.thumbnail);
   const authorLabel =
-    article.author && article.author.length > 0 ? article.author.join(", ") : null;
+    article.author && article.author.length > 0
+      ? article.author.join(", ")
+      : null;
 
   return (
     <Link
@@ -28,13 +31,13 @@ export const NewsCard = ({ article, href, readMoreLabel }: NewsCardProps) => {
       target='_blank'
       rel='noopener noreferrer'
       className={clsx(
-        "group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-slate-900/40 backdrop-blur-xl transition hover:border-emerald-400/30 hover:bg-slate-900/70"
+        "group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-slate-900/40 backdrop-blur-xl transition hover:border-emerald-400/30 hover:bg-slate-900/70",
       )}
     >
       {showImage && (
         <div className='relative aspect-[16/9] w-full overflow-hidden'>
           <Image
-            src={article.thumbnailUrl!}
+            src={article.thumbnail!}
             alt={article.title}
             fill
             sizes='100vw'
@@ -47,7 +50,9 @@ export const NewsCard = ({ article, href, readMoreLabel }: NewsCardProps) => {
       <div
         className={clsx(
           "flex flex-1 flex-col gap-4 p-6 sm:p-8",
-          showImage ? "" : "bg-gradient-to-br from-emerald-950/60 to-slate-950/60"
+          showImage
+            ? ""
+            : "bg-gradient-to-br from-emerald-950/60 to-slate-950/60",
         )}
       >
         <div className='flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-400'>
@@ -67,7 +72,10 @@ export const NewsCard = ({ article, href, readMoreLabel }: NewsCardProps) => {
 
         <span className='mt-auto inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition group-hover:gap-3'>
           {readMoreLabel}
-          <span aria-hidden className='transition-transform group-hover:translate-x-1'>
+          <span
+            aria-hidden
+            className='transition-transform group-hover:translate-x-1'
+          >
             →
           </span>
         </span>

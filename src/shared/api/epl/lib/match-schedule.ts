@@ -2,6 +2,7 @@ import { apiClient } from "@/shared/api/client";
 import { MOCK_LOCALE, MOCK_SEASON } from "@/shared/config/mock-api";
 import { EPL_MOCK_DATA } from "@/shared/mocks/epl-data";
 import type {
+  FullMatchScheduleResponse,
   MatchScheduleResponse,
   MatchweekOption,
   MatchweekOptionsResponse,
@@ -15,7 +16,8 @@ const {
 export interface MatchScheduleParams {
   season?: string;
   locale?: string;
-  matchweek?: number;
+  startDate?: string;
+  endDate?: string;
 }
 
 export const fetchMatchSchedule = async (
@@ -24,17 +26,28 @@ export const fetchMatchSchedule = async (
   options?: RequestOptions
 ): Promise<MatchScheduleResponse> => {
   try {
-    return await apiClient.get<MatchScheduleResponse>(
+    const response = await apiClient.get<MatchScheduleResponse>(
       leaguePath(leagueId, "/matches"),
       {
         ...options,
         params: {
           season: params?.season,
           locale: mapLocaleToApi(params?.locale),
-          matchweek: params?.matchweek,
+          startDate: params?.startDate,
+          endDate: params?.endDate,
         },
       }
     );
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !Array.isArray(response?.data?.schedule)
+    ) {
+      console.warn(
+        "[fetchMatchSchedule] Falling back to mock data due to unexpected response shape"
+      );
+      return buildMockMatchSchedule(leagueId, params);
+    }
+    return response;
   } catch (error) {
     if (process.env.NODE_ENV === "production") {
       throw error;
@@ -91,9 +104,9 @@ export const fetchFullMatchSchedule = async (
   leagueId: string,
   params?: Omit<MatchScheduleParams, "matchweek">,
   options?: RequestOptions
-): Promise<MatchScheduleResponse> => {
+): Promise<FullMatchScheduleResponse> => {
   try {
-    return await apiClient.get<MatchScheduleResponse>(
+    return await apiClient.get<FullMatchScheduleResponse>(
       leaguePath(leagueId, "/matches/all"),
       {
         ...options,
@@ -112,7 +125,7 @@ export const fetchFullMatchSchedule = async (
       "[fetchFullMatchSchedule] Falling back to mock data due to request failure",
       error
     );
-    return buildMockMatchSchedule(leagueId);
+    return buildMockFullMatchSchedule(leagueId);
   }
 };
 
@@ -120,7 +133,7 @@ const buildMockMatchSchedule = (
   leagueId: string,
   params?: MatchScheduleParams
 ): MatchScheduleResponse => ({
-  data: resolveMockSchedule(params?.matchweek),
+  data: resolveMockSchedule(params?.startDate, params?.endDate),
   meta: {
     leagueId,
     season: params?.season ?? MOCK_SEASON,
@@ -128,6 +141,24 @@ const buildMockMatchSchedule = (
     locale: mapLocaleToApi(params?.locale) ?? MOCK_LOCALE,
   },
 });
+
+const buildMockFullMatchSchedule = (
+  leagueId: string,
+  params?: Omit<MatchScheduleParams, "matchweek">
+): FullMatchScheduleResponse => {
+  const { schedule } = resolveMockSchedule();
+  return {
+    data: {
+      schedule,
+    },
+    meta: {
+      leagueId,
+      season: params?.season ?? MOCK_SEASON,
+      lastUpdated: Date.now(),
+      locale: mapLocaleToApi(params?.locale) ?? MOCK_LOCALE,
+    },
+  };
+};
 
 const buildMatchweekOptionsFromSchedule = (): MatchweekOption[] => {
   const weekMap = new Map<number, { startDate: string; endDate: string }>();
@@ -160,25 +191,31 @@ const buildMatchweekOptionsFromSchedule = (): MatchweekOption[] => {
 };
 
 const resolveMockSchedule = (
-  matchweek?: number
+  startDate?: string,
+  endDate?: string
 ): MatchScheduleResponse["data"] => {
-  const matchweekOptions = buildMatchweekOptionsFromSchedule();
-  const matchweeks = matchweekOptions.map((option) => option.matchweek);
+  const startDateValue = startDate ? new Date(`${startDate}T00:00:00Z`) : null;
+  const endDateValue = endDate ? new Date(`${endDate}T00:00:00Z`) : null;
 
-  if (!matchweek) {
-    return {
-      matchweeks,
-      schedule: MATCH_SCHEDULE,
-    };
-  }
-
-  const schedule = MATCH_SCHEDULE.map((day) => ({
-    ...day,
-    fixtures: day.fixtures.filter((fixture) => fixture.matchweek === matchweek),
-  })).filter((day) => day.fixtures.length > 0);
+  const schedule = MATCH_SCHEDULE.filter((day) => {
+    const dayDate = new Date(`${day.date}T00:00:00Z`);
+    if (startDateValue && dayDate < startDateValue) {
+      return false;
+    }
+    if (endDateValue && dayDate > endDateValue) {
+      return false;
+    }
+    return true;
+  });
 
   return {
-    matchweeks,
+    dateRange:
+      startDate && endDate
+        ? {
+            startDate,
+            endDate,
+          }
+        : undefined,
     schedule,
   };
 };

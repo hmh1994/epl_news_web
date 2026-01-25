@@ -47,20 +47,30 @@ const buildTeamOptions = (players: PlayerDatabaseEntry[]) => {
   };
 };
 
-export default async function PlayerDatabaseRoute({ params, searchParams }: PageProps) {
+export default async function PlayerDatabaseRoute({
+  params,
+  searchParams,
+}: PageProps) {
   const { locale } = await params;
   const resolvedSearchParams = await Promise.resolve(searchParams);
   const search = normalizeSearchParam(resolvedSearchParams?.search);
   const rawPosition = normalizeSearchParam(resolvedSearchParams?.position);
   const rawTeamId = normalizeSearchParam(resolvedSearchParams?.teamId);
-  const position = rawPosition && rawPosition !== "all" ? rawPosition : undefined;
+  const position =
+    rawPosition && rawPosition !== "all" ? rawPosition : undefined;
   const teamId = rawTeamId && rawTeamId !== "all" ? rawTeamId : undefined;
 
   const leagueId = DEFAULT_LEAGUE_ID;
   const baseParams = { locale };
 
-  const [allPlayersResponse, filteredResponse, goalRace, assistRace, pointRace, xgRace] =
-    await Promise.all([
+  const [
+    allPlayersResponse,
+    filteredResponse,
+    goalRace,
+    assistRace,
+    pointRace,
+    xgRace,
+  ] = await Promise.all([
     fetchPlayerList(leagueId, baseParams),
     search || position || teamId
       ? fetchPlayerList(leagueId, { ...baseParams, search, position, teamId })
@@ -75,7 +85,10 @@ export default async function PlayerDatabaseRoute({ params, searchParams }: Page
   const { teamOptions, teamNameById } = buildTeamOptions(allPlayers);
   const positionOptions = buildPositionOptions(allPlayers);
   const initialResults = filteredResponse.data;
-  const rankingData: Record<"goal" | "assist" | "point" | "xg", PlayerRanking[]> = {
+  const rankingData: Record<
+    "goal" | "assist" | "point" | "xg",
+    PlayerRanking[]
+  > = {
     goal: goalRace.data,
     assist: assistRace.data,
     point: pointRace.data,

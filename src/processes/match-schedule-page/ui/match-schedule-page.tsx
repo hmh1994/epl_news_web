@@ -3,12 +3,18 @@ import { MatchScheduleWidget } from "@/widgets/match-schedule/ui/match-schedule-
 
 interface MatchSchedulePageProps {
   schedule: MatchDaySchedule[];
+  selectedDate?: string;
+  isDateFilterActive?: boolean;
 }
 
 export const MatchSchedulePage = ({
   schedule,
+  selectedDate,
+  isDateFilterActive,
 }: MatchSchedulePageProps) => (
   <MatchScheduleWidget
     schedule={schedule}
+    selectedDate={selectedDate}
+    isDateFilterActive={isDateFilterActive}
   />
 );

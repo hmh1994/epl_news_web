@@ -16,7 +16,7 @@ export const useNewsFeed = ({ articles }: UseNewsFeedParams) => {
   const sortedArticles = useMemo(() => sortArticles(articles), [articles]);
   const totalArticles = sortedArticles.length;
   const [visibleCount, setVisibleCount] = useState(() =>
-    Math.min(LOAD_STEP, totalArticles)
+    Math.min(LOAD_STEP, totalArticles),
   );
   const [isLoading, setIsLoading] = useState(false);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
@@ -26,11 +26,11 @@ export const useNewsFeed = ({ articles }: UseNewsFeedParams) => {
   const hasMore = visibleCount < totalArticles;
   const visibleArticles = useMemo(
     () => sortedArticles.slice(0, visibleCount),
-    [sortedArticles, visibleCount]
+    [sortedArticles, visibleCount],
   );
   const trendingArticles = useMemo(
     () => deriveTrendingArticles(sortedArticles.slice(1)),
-    [sortedArticles]
+    [sortedArticles],
   );
 
   const loadMore = useCallback(() => {
@@ -49,7 +49,7 @@ export const useNewsFeed = ({ articles }: UseNewsFeedParams) => {
       setVisibleCount((previous) =>
         previous >= totalArticles
           ? previous
-          : Math.min(previous + LOAD_STEP, totalArticles)
+          : Math.min(previous + LOAD_STEP, totalArticles),
       );
       setIsLoading(false);
       loadingRef.current = false;
@@ -75,7 +75,7 @@ export const useNewsFeed = ({ articles }: UseNewsFeedParams) => {
       {
         rootMargin: "240px 0px",
         threshold: 0.1,
-      }
+      },
     );
 
     observer.observe(sentinel);
@@ -88,12 +88,12 @@ export const useNewsFeed = ({ articles }: UseNewsFeedParams) => {
         clearTimeout(loadTimeoutRef.current);
       }
     },
-    []
+    [],
   );
 
   const resolveHref = useCallback(
     (article: NewsListItem) => buildArticleHref(article),
-    []
+    [],
   );
 
   return {

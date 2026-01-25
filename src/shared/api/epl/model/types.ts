@@ -20,9 +20,9 @@ export interface ApiResponseMeta {
   locale?: string;
 }
 
-export interface ApiListResponse<T> {
+export interface ApiListResponse<T, M = ApiResponseMeta> {
   data: T[];
-  meta?: ApiResponseMeta;
+  meta?: M;
 }
 
 export interface ApiResourceResponse<T> {
@@ -90,7 +90,21 @@ export interface PlayerRankingResponse
 
 export interface MatchScheduleResponse
   extends ApiResourceResponse<{
-    matchweeks: number[];
+    dateRange?: {
+      startDate: string;
+      endDate: string;
+    };
+    schedule: MatchDaySchedule[];
+  }> {
+  meta: ApiResponseMeta & {
+    leagueId: string;
+    season: string;
+    lastUpdated: number;
+  };
+}
+
+export interface FullMatchScheduleResponse
+  extends ApiResourceResponse<{
     schedule: MatchDaySchedule[];
   }> {
   meta: ApiResponseMeta & {

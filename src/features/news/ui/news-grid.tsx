@@ -24,14 +24,17 @@ export const NewsGrid = ({
 
   return (
     <div className='grid gap-6 lg:grid-cols-2'>
-      {articles.map((article) => (
-        <NewsCard
-          key={article.id}
-          article={article}
-          href={resolveHref(article)}
-          readMoreLabel={readMoreLabel}
-        />
-      ))}
+      {articles.map((article) => {
+        console.log(resolveHref(article), article);
+        return (
+          <NewsCard
+            key={article.id}
+            article={article}
+            href={resolveHref(article)}
+            readMoreLabel={readMoreLabel}
+          />
+        );
+      })}
     </div>
   );
 };

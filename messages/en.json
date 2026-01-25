@@ -232,7 +232,12 @@
       }
     },
     "filters": {
-      "searchPlaceholder": "Search club, stadium, or city"
+      "searchPlaceholder": "Search club, stadium, or city",
+      "dateLabel": "Select match date",
+      "allDates": "All dates",
+      "weekWindow": "Showing next 7 days by default",
+      "resetDate": "Reset",
+      "loading": "Loading"
     }
   },
   "player": {

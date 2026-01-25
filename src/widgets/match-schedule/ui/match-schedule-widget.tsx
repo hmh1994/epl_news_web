@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { MatchScheduleFilters } from "@/features/match-schedule/filters/ui/match-schedule-filters";
@@ -149,6 +149,8 @@ const HEAD_TO_HEAD_HISTORY: Record<
 
 interface MatchScheduleWidgetProps {
   schedule: MatchDaySchedule[];
+  selectedDate?: string;
+  isDateFilterActive?: boolean;
 }
 
 const sortScheduleByKickoff = (schedule: MatchDaySchedule[]) =>
@@ -165,11 +167,34 @@ const sortScheduleByKickoff = (schedule: MatchDaySchedule[]) =>
         new Date(`${b.date}T00:00:00Z`).getTime()
     );
 
-export const MatchScheduleWidget = ({ schedule }: MatchScheduleWidgetProps) => {
+export const MatchScheduleWidget = ({
+  schedule,
+  selectedDate: scheduleSelectedDate,
+  isDateFilterActive,
+}: MatchScheduleWidgetProps) => {
+  const safeSchedule = Array.isArray(schedule) ? schedule : [];
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFixtureId, setSelectedFixtureId] = useState<string | null>(
     null
   );
+  const selectedDate = scheduleSelectedDate ?? "";
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = React.useTransition();
+
+  const handleSelectedDateChange = (date: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (date) {
+      params.set("startDate", date);
+    } else {
+      params.delete("startDate");
+    }
+    const query = params.toString();
+    startTransition(() => {
+      router.push(query ? `${pathname}?${query}` : pathname);
+    });
+  };
 
   const filteredSchedule = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
@@ -198,13 +223,13 @@ export const MatchScheduleWidget = ({ schedule }: MatchScheduleWidgetProps) => {
       return haystack.includes(term);
     };
 
-    return sortScheduleByKickoff(schedule)
+    return sortScheduleByKickoff(safeSchedule)
       .map((day) => ({
         ...day,
         fixtures: day.fixtures.filter(filterFixture),
       }))
       .filter((day) => day.fixtures.length > 0);
-  }, [schedule, searchTerm]);
+  }, [safeSchedule, searchTerm]);
 
   const firstAvailableFixtureId = filteredSchedule[0]?.fixtures[0]?.id ?? null;
 
@@ -243,6 +268,10 @@ export const MatchScheduleWidget = ({ schedule }: MatchScheduleWidgetProps) => {
         <MatchScheduleFilters
           searchTerm={searchTerm}
           onSearchTermChange={setSearchTerm}
+          selectedDate={selectedDate}
+          onSelectedDateChange={handleSelectedDateChange}
+          showReset={Boolean(isDateFilterActive)}
+          isLoading={isPending}
         />
 
         {rankedFixtures.length > 0 && (

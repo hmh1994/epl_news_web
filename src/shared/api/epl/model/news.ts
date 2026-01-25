@@ -147,15 +147,27 @@ export interface NewsArticle extends NewsArticlePreview {
 export interface NewsListItem {
   id: string;
   title: string;
-  content: string;
-  thumbnailUrl?: string;
+  summary: string;
+  thumbnail?: string;
   publishDate: string;
   author: string[];
   source: string;
-  url: string;
+  newsUrl: string;
 }
 
-export interface NewsListResponse extends ApiListResponse<NewsListItem> {
+export interface NewsListResponse
+  extends ApiListResponse<
+    NewsListItem,
+    Omit<ApiResponseMeta, "lastUpdated"> & {
+      total: number;
+      pageSize: number;
+      pageCnt: number;
+      hasNext: boolean;
+      hasPrevious: boolean;
+      locale?: string;
+      lastUpdated?: string;
+    }
+  > {
   meta: Omit<ApiResponseMeta, "lastUpdated"> & {
     total: number;
     pageSize: number;
@@ -176,16 +188,14 @@ export interface NewsArticleResponse extends ApiResourceResponse<NewsArticle> {
   };
 }
 
-export interface NewsHighlightsResponse
-  extends ApiListResponse<NewsArticlePreview> {
+export interface NewsHighlightsResponse extends ApiListResponse<NewsArticlePreview> {
   meta: ApiResponseMeta & {
     generatedAt: number;
     categoryId?: string;
   };
 }
 
-export interface NewsRelatedResponse
-  extends ApiListResponse<NewsArticlePreview> {
+export interface NewsRelatedResponse extends ApiListResponse<NewsArticlePreview> {
   meta: ApiResponseMeta & {
     articleId: string;
     generatedAt: number;

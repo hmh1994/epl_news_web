@@ -232,7 +232,12 @@
       }
     },
     "filters": {
-      "searchPlaceholder": "팀 이름, 경기장, 도시 검색"
+      "searchPlaceholder": "팀 이름, 경기장, 도시 검색",
+      "dateLabel": "경기 날짜 선택",
+      "allDates": "전체 날짜",
+      "weekWindow": "기본으로 7일 간의 경기만 표시",
+      "resetDate": "초기화",
+      "loading": "불러오는 중"
     }
   },
   "player": {
