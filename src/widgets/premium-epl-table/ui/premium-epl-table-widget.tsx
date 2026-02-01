@@ -27,8 +27,8 @@ export const PremiumEPLTableWidget = ({
   const sortedTeams = useMemo(() => {
     const term = searchTerm.toLowerCase();
     const filtered = teams.filter((team) => {
-      const teamName = team.teamName.toUpperCase();
-      const shortName = team.teamShortName.toUpperCase();
+      const teamName = (team.teamName ?? team.teamId).toUpperCase();
+      const shortName = (team.teamShortName ?? team.teamId).toUpperCase();
       return (
         teamName.toLowerCase().includes(term) ||
         shortName.toLowerCase().includes(term)

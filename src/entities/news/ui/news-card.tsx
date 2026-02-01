@@ -66,7 +66,7 @@ export const NewsCard = ({ article, href, readMoreLabel }: NewsCardProps) => {
             {article.title}
           </h3>
           <p className='text-base leading-relaxed text-slate-300 line-clamp-3 sm:text-lg'>
-            {article.content}
+            {article.summary}
           </p>
         </div>
 

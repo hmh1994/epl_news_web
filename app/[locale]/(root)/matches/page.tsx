@@ -4,13 +4,9 @@ import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
-  searchParams?:
-    | {
-        startDate?: string | string[];
-      }
-    | Promise<{
-        startDate?: string | string[];
-      }>;
+  searchParams?: Promise<{
+    startDate?: string | string[];
+  }>;
 }
 
 const normalizeSearchParam = (value?: string | string[]) => {

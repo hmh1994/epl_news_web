@@ -35,4 +35,5 @@ export interface TeamProfile {
   trophies: number;
   description: string;
   keyStats: TeamKeyStats;
+  value?: string;
 }

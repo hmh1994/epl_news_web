@@ -42,9 +42,10 @@ export const FavoriteMatchesPanel = ({
           <button
             type='button'
             onClick={onClear}
+            aria-label={t("favoriteMatches.clearAll")}
             className='inline-flex items-center gap-2 rounded-full border border-emerald-400/40 px-3 py-1 text-xs font-semibold text-emerald-100 transition-colors hover:border-emerald-300 hover:text-white'
           >
-            <Trash2 className='h-4 w-4' />
+            <Trash2 className='h-4 w-4' aria-hidden='true' />
             {t("favoriteMatches.clearAll")}
           </button>
         </div>

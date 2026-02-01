@@ -16,7 +16,7 @@ export const PlayerRankingCard = ({
   teamName,
 }: PlayerRankingCardProps) => {
   const t = useTranslations("player.rankingCard");
-  console.log(player.photo);
+
   return (
     <div className='group relative p-4 rounded-2xl hover:bg-white/5 cursor-pointer transition-all duration-300 border border-transparent hover:border-white/10'>
       <div className='flex items-center space-x-3.5'>

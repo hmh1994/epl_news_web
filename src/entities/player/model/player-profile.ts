@@ -26,9 +26,12 @@ export interface PlayerProfile {
   position: PlayerPosition;
   age: number;
   nationality: string;
+  nationalityName?: string;
   teamId: number;
+  value?: string;
   rating: number;
   goals: number;
   assists: number;
   appearances: number;
+  marketValue?: number;
 }

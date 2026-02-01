@@ -12,7 +12,6 @@ export default async function HomeRoute() {
     fetchPremiumTable(leagueId),
     fetchPlayerRace(leagueId, { limit: 5, category: "goal" }),
   ]);
-  console.log(scoringRace);
   const tableRows = premiumTable.data.map(toLeagueTableRow);
   const playerRankings: PlayerRanking[] = scoringRace.data;
 

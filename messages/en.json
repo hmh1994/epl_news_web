@@ -313,7 +313,10 @@
       "allTeams": "All teams",
       "allPositions": "All positions",
       "searchPlaceholder": "Search player name...",
-      "clearAll": "Clear all"
+      "clearAll": "Clear all",
+      "gridView": "Grid view",
+      "listView": "List view",
+      "removeFilter": "Remove filter:"
     },
     "results": {
       "emptyTitle": "No results found",

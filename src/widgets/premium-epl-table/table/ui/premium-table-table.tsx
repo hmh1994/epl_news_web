@@ -212,9 +212,9 @@ export const PremiumTableTable = ({
                 isHovered={hoveredRow === team.position}
                 onHover={onHover}
                 onHoverEnd={onHoverEnd}
-                teamName={team.teamName.toUpperCase()}
-                teamShortName={team.teamShortName.toUpperCase()}
-                teamLogo={team.logo}
+                teamName={(team.teamName ?? team.teamId).toUpperCase()}
+                teamShortName={(team.teamShortName ?? team.teamId).toUpperCase()}
+                teamLogo={team.logo ?? ""}
               />
             );
           })}

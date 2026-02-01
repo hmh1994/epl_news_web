@@ -29,7 +29,7 @@ export const NewsListSidebarCard = ({ article, href }: NewsListSidebarCardProps)
         {article.title}
       </h4>
       <p className='mt-2 text-sm text-slate-400 line-clamp-3'>
-        {article.content}
+        {article.summary}
       </p>
     </Link>
   );

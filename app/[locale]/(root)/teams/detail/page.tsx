@@ -63,13 +63,9 @@ const toTeamProfile = (
 });
 
 interface TeamInfoRouteProps {
-  searchParams?:
-    | {
-        teamId?: string | string[];
-      }
-    | Promise<{
-        teamId?: string | string[];
-      }>;
+  searchParams?: Promise<{
+    teamId?: string | string[];
+  }>;
 }
 
 const normalizeSearchParam = (value?: string | string[]) => {

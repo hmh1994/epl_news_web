@@ -6,13 +6,6 @@ const withNextIntl = createNextIntlPlugin(
 );
 
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    // 빌드 시 TS 에러를 무시
-    ignoreBuildErrors: true,
-  },
   images: {
     remotePatterns: [
       {

@@ -119,12 +119,10 @@ const buildMockTeamDetail = (
 
   return {
     data: {
-      team: {
-        summary,
-        meta,
-        static: staticInfo,
-        squad,
-      },
+      summary,
+      meta,
+      static: staticInfo,
+      squad,
     },
     meta: {
       leagueId: "EPL",

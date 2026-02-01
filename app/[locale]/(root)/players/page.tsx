@@ -7,17 +7,11 @@ import type { PlayerRanking } from "@/entities/player/model/player-ranking";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
-  searchParams?:
-    | {
-        search?: string | string[];
-        position?: string | string[];
-        teamId?: string | string[];
-      }
-    | Promise<{
-        search?: string | string[];
-        position?: string | string[];
-        teamId?: string | string[];
-      }>;
+  searchParams?: Promise<{
+    search?: string | string[];
+    position?: string | string[];
+    teamId?: string | string[];
+  }>;
 }
 
 const normalizeSearchParam = (value?: string | string[]) => {

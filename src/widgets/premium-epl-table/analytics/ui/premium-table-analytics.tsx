@@ -87,9 +87,9 @@ export const PremiumTableAnalytics = ({
     },
   } as const;
 
-  const metricRanges = {
+  const metricRanges: Record<string, { min: number; max: number }> = {
     PER_MATCH_PASS_ACCURACY: { min: 0, max: 100 },
-  } as const;
+  };
 
   const integerOnlyKeys = new Set(["TOTAL_GOALS", "TOTAL_RED_CARDS"]);
 

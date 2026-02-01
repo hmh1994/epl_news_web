@@ -61,6 +61,7 @@ export const PlayerSearchControls = ({
       <div className='flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:items-center'>
         <div className='lg:flex-[0_0_220px]'>
           <select
+            aria-label={t("allPositions")}
             className='w-full h-12 bg-slate-800/50 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-emerald-400'
             value={selectedPosition}
             onChange={(event) => onPositionChange(event.target.value)}
@@ -75,6 +76,7 @@ export const PlayerSearchControls = ({
 
         <div className='lg:flex-[0_0_220px]'>
           <select
+            aria-label={t("allTeams")}
             className='w-full h-12 bg-slate-800/50 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-emerald-400'
             value={selectedTeam}
             onChange={(event) => onTeamChange(event.target.value)}
@@ -120,24 +122,28 @@ export const PlayerSearchControls = ({
           <button
             type='button'
             onClick={() => onViewModeChange("grid")}
+            aria-label={t("gridView")}
+            aria-pressed={viewMode === "grid"}
             className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-all ${
               viewMode === "grid"
                 ? "bg-[#169976] text-white"
                 : "bg-slate-800/50 text-slate-400 hover:text-white"
             }`}
           >
-            <Grid className='w-5 h-5 mx-auto' />
+            <Grid className='w-5 h-5 mx-auto' aria-hidden='true' />
           </button>
           <button
             type='button'
             onClick={() => onViewModeChange("list")}
+            aria-label={t("listView")}
+            aria-pressed={viewMode === "list"}
             className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-all ${
               viewMode === "list"
                 ? "bg-[#169976] text-white"
                 : "bg-slate-800/50 text-slate-400 hover:text-white"
             }`}
           >
-            <List className='w-5 h-5 mx-auto' />
+            <List className='w-5 h-5 mx-auto' aria-hidden='true' />
           </button>
         </div>
       </div>
@@ -160,9 +166,10 @@ export const PlayerSearchControls = ({
                 <button
                   type='button'
                   onClick={() => onFilterRemove(filter)}
+                  aria-label={`${t("removeFilter")} ${label}`}
                   className='hover:text-white'
                 >
-                  <X className='w-4 h-4' />
+                  <X className='w-4 h-4' aria-hidden='true' />
                 </button>
               </div>
             );

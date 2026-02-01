@@ -40,9 +40,10 @@ export const FavoriteTeamsPanel = ({
             <button
               type='button'
               onClick={onClear}
+              aria-label={t("favoriteTeams.clear")}
               className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-red-400/40 hover:text-red-200'
             >
-              <Trash2 className='h-4 w-4' />
+              <Trash2 className='h-4 w-4' aria-hidden='true' />
               {t("favoriteTeams.clear")}
             </button>
           )}
@@ -73,6 +74,7 @@ export const FavoriteTeamsPanel = ({
                 <button
                   type='button'
                   onClick={() => onToggleFavorite(teamId)}
+                  aria-label={`${t("favoriteTeams.remove")} ${name}`}
                   className='text-xs font-semibold text-emerald-300 transition-colors hover:text-emerald-200'
                 >
                   {t("favoriteTeams.remove")}

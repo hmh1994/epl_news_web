@@ -24,6 +24,8 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   {
     pos: 1,
     teamId: "mci",
+    team: "Manchester City",
+    logo: "🔵",
     played: 38,
     won: 28,
     drawn: 5,
@@ -34,6 +36,8 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   {
     pos: 2,
     teamId: "ars",
+    team: "Arsenal",
+    logo: "🔴",
     played: 38,
     won: 28,
     drawn: 5,
@@ -44,6 +48,8 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   {
     pos: 3,
     teamId: "liv",
+    team: "Liverpool",
+    logo: "🔴",
     played: 38,
     won: 24,
     drawn: 10,
@@ -54,6 +60,8 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   {
     pos: 4,
     teamId: "avl",
+    team: "Aston Villa",
+    logo: "🟣",
     played: 38,
     won: 20,
     drawn: 8,
@@ -64,6 +72,8 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   {
     pos: 5,
     teamId: "tot",
+    team: "Tottenham",
+    logo: "⚪",
     played: 38,
     won: 20,
     drawn: 6,
@@ -74,6 +84,8 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   {
     pos: 18,
     teamId: "lut",
+    team: "Luton Town",
+    logo: "🟠",
     played: 38,
     won: 6,
     drawn: 8,
@@ -84,6 +96,8 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   {
     pos: 19,
     teamId: "bur",
+    team: "Burnley",
+    logo: "🟤",
     played: 38,
     won: 5,
     drawn: 9,
@@ -94,6 +108,8 @@ export const EPL_BRIEF_TABLE: LeagueTableRow[] = [
   {
     pos: 20,
     teamId: "shu",
+    team: "Sheffield United",
+    logo: "🔴",
     played: 38,
     won: 3,
     drawn: 7,

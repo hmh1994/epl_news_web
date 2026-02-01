@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Activity, Globe, Target, TrendingUp, Trophy, Users } from "lucide-react";
 import { LeagueStat } from "../model/league-stat";
 
@@ -5,7 +6,7 @@ interface StatCardProps {
   stat: LeagueStat;
 }
 
-const ICON_MAP: Record<string, JSX.Element> = {
+const ICON_MAP: Record<string, ReactNode> = {
   trophy: <Trophy className='w-7 h-7' />,
   users: <Users className='w-7 h-7' />,
   globe: <Globe className='w-7 h-7' />,

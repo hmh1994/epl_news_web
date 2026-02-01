@@ -1,7 +1,7 @@
 export interface LeagueTableTeam {
-  logo: string;
-  teamName: string;
-  teamShortName: string;
+  logo?: string;
+  teamName?: string;
+  teamShortName?: string;
   position: number;
   teamId: string;
   played: number;
@@ -20,4 +20,5 @@ export interface LeagueTableTeam {
   passAccuracy: number;
   cleanSheets: number;
   bigChances: number;
+  value?: string;
 }
