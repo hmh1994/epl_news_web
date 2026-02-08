@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { MatchFixture } from "@/entities/match/model/match-schedule";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
 import { getClubDisplay } from "../../lib/club-display";
@@ -17,6 +18,7 @@ export const FeaturedMatchesSection = ({
   favoriteMatchIds,
   onToggleFavorite,
 }: FeaturedMatchesSectionProps) => {
+  const router = useRouter();
   const t = useTranslations("home");
 
   return (
@@ -52,6 +54,11 @@ export const FeaturedMatchesSection = ({
                 awayTeam={awayTeam}
                 onToggleFavorite={onToggleFavorite}
                 isFavorite={favoriteMatchIds.includes(fixture.id)}
+                onSelect={(matchId) =>
+                  router.push(
+                    `${basePath}/matches/${encodeURIComponent(matchId)}`
+                  )
+                }
               />
             );
           })}

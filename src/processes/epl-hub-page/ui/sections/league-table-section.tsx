@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LeagueBriefTable } from "@/features/league-overview/table/ui/league-brief-table";
 import { LeagueTableRow } from "@/entities/league/model/league-overview";
@@ -19,6 +20,7 @@ export const LeagueTableSection = ({
   onToggleFavorite,
 }: LeagueTableSectionProps) => {
   const [hoveredTeam, setHoveredTeam] = useState<number | null>(null);
+  const router = useRouter();
   const t = useTranslations("home");
 
   return (
@@ -55,6 +57,11 @@ export const LeagueTableSection = ({
           onHoverEnd={() => setHoveredTeam(null)}
           onFavorite={onToggleFavorite}
           favoriteTeamIds={favoriteTeams}
+          onSelect={(teamId) =>
+            router.push(
+              `${basePath}/teams/detail?teamId=${encodeURIComponent(teamId)}`
+            )
+          }
         />
       </div>
     </div>

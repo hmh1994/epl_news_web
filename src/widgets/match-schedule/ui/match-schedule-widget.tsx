@@ -180,6 +180,8 @@ export const MatchScheduleWidget = ({
   const selectedDate = scheduleSelectedDate ?? "";
   const router = useRouter();
   const pathname = usePathname();
+  const [, locale] = pathname?.split("/") ?? [];
+  const basePath = locale ? `/${locale}` : "";
   const searchParams = useSearchParams();
   const [isPending, startTransition] = React.useTransition();
 
@@ -260,6 +262,13 @@ export const MatchScheduleWidget = ({
       .slice(0, 5);
   }, [filteredSchedule]);
 
+  const handleMatchNavigate = React.useCallback(
+    (fixtureId: string) => {
+      router.push(`${basePath}/matches/${encodeURIComponent(fixtureId)}`);
+    },
+    [router, basePath]
+  );
+
   return (
     <div className='min-h-screen bg-slate-950 text-white pb-28'>
       <ScheduleHero />
@@ -275,7 +284,10 @@ export const MatchScheduleWidget = ({
         />
 
         {rankedFixtures.length > 0 && (
-          <MatchweekSpotlight fixtures={rankedFixtures} />
+          <MatchweekSpotlight
+            fixtures={rankedFixtures}
+            onNavigate={handleMatchNavigate}
+          />
         )}
 
         {filteredSchedule.length === 0 ? (
@@ -288,6 +300,7 @@ export const MatchScheduleWidget = ({
                 day={day}
                 selectedFixtureId={selectedFixtureId}
                 onSelectFixture={(fixtureId) => setSelectedFixtureId(fixtureId)}
+                onNavigate={handleMatchNavigate}
               />
             ))}
           </div>
@@ -347,10 +360,12 @@ const ScheduleDay = ({
   day,
   selectedFixtureId,
   onSelectFixture,
+  onNavigate,
 }: {
   day: MatchDaySchedule;
   selectedFixtureId: string | null;
   onSelectFixture: (fixtureId: string) => void;
+  onNavigate?: (fixtureId: string) => void;
 }) => {
   const dayTitle = dayTitleFormatter.format(new Date(`${day.date}T00:00:00Z`));
   const dayPowerRanking = day.fixtures
@@ -401,7 +416,10 @@ const ScheduleDay = ({
                   }
                 }
                 isSelected={fixture.id === selectedFixtureId}
-                onSelect={() => onSelectFixture(fixture.id)}
+                onSelect={() => {
+                  onSelectFixture(fixture.id);
+                  onNavigate?.(fixture.id);
+                }}
               />
             );
           })}
@@ -489,8 +507,10 @@ const DayInsights = ({
 
 const MatchweekSpotlight = ({
   fixtures,
+  onNavigate,
 }: {
   fixtures: Array<{ fixture: MatchFixture; score: number }>;
+  onNavigate?: (fixtureId: string) => void;
 }) => {
   const t = useTranslations("widgets.matchSchedule.spotlight");
   if (fixtures.length === 0) return null;
@@ -515,7 +535,19 @@ const MatchweekSpotlight = ({
           return (
             <div
               key={key}
-              className='bg-slate-900/70 border border-white/10 rounded-2xl px-5 py-4 space-y-3'
+              className={`bg-slate-900/70 border border-white/10 rounded-2xl px-5 py-4 space-y-3 ${
+                onNavigate ? "cursor-pointer hover:border-emerald-400/40" : ""
+              }`}
+              onClick={() => onNavigate?.(fixture.id)}
+              onKeyDown={(event) => {
+                if (!onNavigate) return;
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  onNavigate(fixture.id);
+                }
+              }}
+              role={onNavigate ? "button" : undefined}
+              tabIndex={onNavigate ? 0 : undefined}
             >
               <div className='flex items-center justify-between text-xs text-slate-500 uppercase tracking-[0.3em]'>
                 <span>#{index + 1}</span>

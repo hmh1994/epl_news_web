@@ -1,4 +1,5 @@
 export interface PlayerRanking {
+  playerId?: string;
   name: string;
   teamId: string;
   goals: number;

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Activity,
   Award,
@@ -60,6 +61,15 @@ export const TeamDetailSection = ({
   sortBy,
   onSortChange,
 }: TeamDetailSectionProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [, locale] = pathname?.split("/") ?? [];
+  const basePath = locale ? `/${locale}` : "";
+
+  const handlePlayerNavigate = (playerId: string | number) => {
+    router.push(`${basePath}/players/${encodeURIComponent(String(playerId))}`);
+  };
+
   if (!team) {
     return (
       <div className='text-center py-20'>
@@ -418,6 +428,15 @@ export const TeamDetailSection = ({
               <div
                 key={player.id}
                 className='group bg-slate-900/60 backdrop-blur-2xl rounded-3xl p-6 border border-white/10 shadow-2xl hover:shadow-emerald-500/20 hover:-translate-y-2 cursor-pointer transition-all duration-300'
+                onClick={() => handlePlayerNavigate(player.id)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    handlePlayerNavigate(player.id);
+                  }
+                }}
+                role='button'
+                tabIndex={0}
               >
                 <div className='flex items-start justify-between mb-4'>
                   <div className='flex items-center space-x-3'>

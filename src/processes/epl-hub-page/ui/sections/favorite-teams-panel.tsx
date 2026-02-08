@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import { getClubDisplay } from "../../lib/club-display";
 import { useTranslations } from "next-intl";
@@ -16,6 +17,7 @@ export const FavoriteTeamsPanel = ({
   onToggleFavorite,
   onClear,
 }: FavoriteTeamsPanelProps) => {
+  const router = useRouter();
   const t = useTranslations("home");
 
   return (
@@ -60,7 +62,22 @@ export const FavoriteTeamsPanel = ({
             return (
               <div
                 key={teamId}
-                className='flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3'
+                className='flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3 cursor-pointer hover:border-emerald-400/40 transition-colors'
+                onClick={() =>
+                  router.push(
+                    `${basePath}/teams/detail?teamId=${encodeURIComponent(teamId)}`
+                  )
+                }
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    router.push(
+                      `${basePath}/teams/detail?teamId=${encodeURIComponent(teamId)}`
+                    );
+                  }
+                }}
+                role='button'
+                tabIndex={0}
               >
                 <div className='flex items-center gap-3'>
                   <span className='flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#169976] to-teal-500 text-lg shadow-lg'>
@@ -73,7 +90,11 @@ export const FavoriteTeamsPanel = ({
                 </div>
                 <button
                   type='button'
-                  onClick={() => onToggleFavorite(teamId)}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    onToggleFavorite(teamId);
+                  }}
                   aria-label={`${t("favoriteTeams.remove")} ${name}`}
                   className='text-xs font-semibold text-emerald-300 transition-colors hover:text-emerald-200'
                 >

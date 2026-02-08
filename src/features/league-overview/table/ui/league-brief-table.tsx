@@ -8,6 +8,7 @@ interface LeagueBriefTableProps {
   onHoverEnd: () => void;
   onFavorite?: (teamId: string) => void;
   favoriteTeamIds?: string[];
+  onSelect?: (teamId: string) => void;
 }
 
 export const LeagueBriefTable = ({
@@ -17,6 +18,7 @@ export const LeagueBriefTable = ({
   onHoverEnd,
   onFavorite,
   favoriteTeamIds,
+  onSelect,
 }: LeagueBriefTableProps) => {
   return (
     <table className='w-full table-fixed'>
@@ -71,6 +73,7 @@ export const LeagueBriefTable = ({
               teamLogo={row.logo}
               onFavorite={onFavorite}
               isFavorite={favoriteTeamIds?.includes(row.teamId)}
+              onSelect={onSelect}
             />
           );
         })}

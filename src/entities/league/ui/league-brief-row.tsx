@@ -14,6 +14,7 @@ interface LeagueBriefRowProps {
   teamLogo: string;
   onFavorite?: (teamId: string) => void;
   isFavorite?: boolean;
+  onSelect?: (teamId: string) => void;
 }
 
 const getPositionStyle = (pos: number) => {
@@ -46,15 +47,33 @@ export const LeagueBriefRow = ({
   teamLogo,
   onFavorite,
   isFavorite,
+  onSelect,
 }: LeagueBriefRowProps) => {
   const positionStyle = getPositionStyle(row.pos);
   const t = useTranslations("league.row");
+  const isClickable = Boolean(onSelect);
+  const handleSelect = () => onSelect?.(row.teamId);
 
   return (
     <tr
-      className='border-b border-white/10 transition-all duration-300 hover:bg-white/5'
+      className={`border-b border-white/10 transition-all duration-300 hover:bg-white/5 ${
+        isClickable ? "cursor-pointer" : ""
+      }`}
       onMouseEnter={() => onHover(row.pos)}
       onMouseLeave={onHoverEnd}
+      onClick={isClickable ? handleSelect : undefined}
+      onKeyDown={
+        isClickable
+          ? (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                handleSelect();
+              }
+            }
+          : undefined
+      }
+      role={isClickable ? "button" : undefined}
+      tabIndex={isClickable ? 0 : undefined}
     >
       <td className='py-6 px-8'>
         <div

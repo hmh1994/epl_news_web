@@ -38,6 +38,9 @@ export const TopScorersPanel = ({
       </div>
       <div className='mt-6 divide-y divide-white/10 border-t border-white/10'>
         {playerRankings.map((player, index) => {
+          const playerHref = player.playerId
+            ? `${basePath}/players/${encodeURIComponent(player.playerId)}`
+            : `${basePath}/players?search=${encodeURIComponent(player.name)}`;
           return (
             <div
               key={`${player.teamId}-${player.name}`}
@@ -47,6 +50,7 @@ export const TopScorersPanel = ({
                 player={player}
                 rank={index + 1}
                 teamName={player.teamName}
+                href={playerHref}
               />
             </div>
           );

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import { MatchFixture } from "@/entities/match/model/match-schedule";
 import { formatKickoffSummary, getClubDisplay } from "../../lib/club-display";
@@ -15,6 +16,7 @@ export const FavoriteMatchesPanel = ({
   fixtures,
   onClear,
 }: FavoriteMatchesPanelProps) => {
+  const router = useRouter();
   const t = useTranslations("home");
 
   if (fixtures.length === 0) {
@@ -57,7 +59,22 @@ export const FavoriteMatchesPanel = ({
           return (
             <li
               key={fixture.id}
-              className='flex items-center justify-between rounded-2xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100'
+              className='flex items-center justify-between rounded-2xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100 cursor-pointer transition-colors hover:border-emerald-300'
+              onClick={() =>
+                router.push(
+                  `${basePath}/matches/${encodeURIComponent(fixture.id)}`
+                )
+              }
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  router.push(
+                    `${basePath}/matches/${encodeURIComponent(fixture.id)}`
+                  );
+                }
+              }}
+              role='button'
+              tabIndex={0}
             >
               <span className='font-semibold text-white'>
                 {home.shortName} vs {away.shortName}

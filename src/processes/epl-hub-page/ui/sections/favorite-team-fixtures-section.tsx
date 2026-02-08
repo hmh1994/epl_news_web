@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { CalendarClock } from "lucide-react";
 import { MatchFixture } from "@/entities/match/model/match-schedule";
 import { formatKickoffSummary, getClubDisplay } from "../../lib/club-display";
@@ -13,6 +14,7 @@ export const FavoriteTeamFixturesSection = ({
   basePath,
   fixtures,
 }: FavoriteTeamFixturesSectionProps) => {
+  const router = useRouter();
   const t = useTranslations("home");
 
   return (
@@ -46,7 +48,22 @@ export const FavoriteTeamFixturesSection = ({
           return (
             <li
               key={fixture.id}
-              className='flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-slate-200'
+              className='flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-slate-200 cursor-pointer transition-colors hover:border-emerald-400/40'
+              onClick={() =>
+                router.push(
+                  `${basePath}/matches/${encodeURIComponent(fixture.id)}`
+                )
+              }
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  router.push(
+                    `${basePath}/matches/${encodeURIComponent(fixture.id)}`
+                  );
+                }
+              }}
+              role='button'
+              tabIndex={0}
             >
               <span className='font-semibold text-white'>
                 {home.shortName} vs {away.shortName}
