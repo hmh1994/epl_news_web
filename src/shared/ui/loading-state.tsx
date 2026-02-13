@@ -25,6 +25,8 @@ export const LoadingState = ({
         "mx-auto flex w-full max-w-2xl flex-col items-center rounded-3xl border border-white/10 bg-slate-950/60 px-10 py-16 text-center text-slate-200 shadow-xl shadow-emerald-500/5 backdrop-blur",
         className
       )}
+      role='status'
+      aria-live='polite'
     >
       <div className='flex items-center gap-4 text-emerald-300'>
         <span className='inline-flex h-3 w-3 animate-ping rounded-full bg-emerald-400' />

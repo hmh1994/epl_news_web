@@ -20,6 +20,9 @@ export const PremiumTableControls = ({
           <input
             type='text'
             placeholder='팀 또는 약어로 검색 (예: Arsenal, ARS)...'
+            aria-label='팀 검색'
+            name='team-search'
+            autoComplete='off'
             className='w-full bg-slate-800/50 border border-white/10 rounded-2xl pl-14 pr-5 py-5 text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all text-lg'
             value={searchTerm}
             onChange={(event) => onSearchChange(event.target.value)}

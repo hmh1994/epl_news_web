@@ -364,6 +364,9 @@ export const TeamDetailSection = ({
                 <input
                   type='text'
                   placeholder='선수 검색 (이름)'
+                  aria-label='선수 검색'
+                  name='squad-search'
+                  autoComplete='off'
                   className='w-full bg-slate-800/50 border border-white/10 rounded-2xl pl-14 pr-5 py-4 text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all'
                   value={searchTerm}
                   onChange={(event) => onSearchTermChange(event.target.value)}
@@ -372,6 +375,8 @@ export const TeamDetailSection = ({
               <div className='flex flex-wrap gap-4'>
                 <div className='relative'>
                   <select
+                    aria-label='포지션 필터'
+                    name='squad-position'
                     className='appearance-none bg-slate-800/50 border border-white/10 rounded-2xl pl-6 pr-12 py-4 text-white focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all'
                     value={filterPosition}
                     onChange={(event) =>
@@ -397,6 +402,8 @@ export const TeamDetailSection = ({
                 </div>
                 <div className='relative'>
                   <select
+                    aria-label='정렬 기준'
+                    name='squad-sort'
                     className='appearance-none bg-slate-800/50 border border-white/10 rounded-2xl pl-6 pr-12 py-4 text-white focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all'
                     value={sortBy}
                     onChange={(event) =>

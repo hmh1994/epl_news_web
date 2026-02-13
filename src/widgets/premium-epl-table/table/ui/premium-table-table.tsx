@@ -39,6 +39,17 @@ const getSortIcon = (
   );
 };
 
+const getAriaSort = (
+  column: SortColumn,
+  sortBy: SortColumn,
+  sortOrder: "asc" | "desc"
+) => {
+  if (sortBy !== column) {
+    return "none";
+  }
+  return sortOrder === "asc" ? "ascending" : "descending";
+};
+
 export const PremiumTableTable = ({
   teams,
   sortBy,
@@ -77,127 +88,183 @@ export const PremiumTableTable = ({
         <thead className='bg-slate-800/30'>
           <tr>
             <th
-              className='text-left py-5 px-6 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
-              onClick={() => onSort("position")}
+              scope='col'
+              aria-sort={getAriaSort("position", sortBy, sortOrder)}
+              className='text-left py-5 px-6 text-slate-300 font-bold text-xs uppercase tracking-wider'
             >
-              <div className='flex items-center space-x-2'>
+              <button
+                type='button'
+                onClick={() => onSort("position")}
+                className='group flex w-full items-center space-x-2 hover:text-white hover:bg-slate-700/30 transition-all duration-300 rounded-lg px-2 py-1 -mx-2'
+              >
                 <span className='group-hover:text-white transition-colors'>
                   Position
                 </span>
                 {getSortIcon("position", sortBy, sortOrder)}
-              </div>
+              </button>
             </th>
 
             <th
-              className='text-left py-5 px-6 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
-              onClick={() => onSort("team")}
+              scope='col'
+              aria-sort={getAriaSort("team", sortBy, sortOrder)}
+              className='text-left py-5 px-6 text-slate-300 font-bold text-xs uppercase tracking-wider'
             >
-              <div className='flex items-center space-x-2'>
+              <button
+                type='button'
+                onClick={() => onSort("team")}
+                className='group flex w-full items-center space-x-2 hover:text-white hover:bg-slate-700/30 transition-all duration-300 rounded-lg px-2 py-1 -mx-2'
+              >
                 <span className='group-hover:text-white transition-colors'>
                   Club
                 </span>
                 {getSortIcon("team", sortBy, sortOrder)}
-              </div>
+              </button>
             </th>
 
             <th
-              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
-              onClick={() => onSort("played")}
+              scope='col'
+              aria-sort={getAriaSort("played", sortBy, sortOrder)}
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'
             >
-              <div className='flex items-center justify-center space-x-1.5'>
+              <button
+                type='button'
+                onClick={() => onSort("played")}
+                className='group flex w-full items-center justify-center space-x-1.5 hover:text-white hover:bg-slate-700/30 transition-all duration-300 rounded-lg px-2 py-1 -mx-2'
+              >
                 <span className='group-hover:text-white transition-colors'>
                   PL
                 </span>
                 {getSortIcon("played", sortBy, sortOrder)}
-              </div>
+              </button>
             </th>
 
             <th
-              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
-              onClick={() => onSort("won")}
+              scope='col'
+              aria-sort={getAriaSort("won", sortBy, sortOrder)}
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'
             >
-              <div className='flex items-center justify-center space-x-1.5'>
+              <button
+                type='button'
+                onClick={() => onSort("won")}
+                className='group flex w-full items-center justify-center space-x-1.5 hover:text-white hover:bg-slate-700/30 transition-all duration-300 rounded-lg px-2 py-1 -mx-2'
+              >
                 <span className='group-hover:text-white transition-colors'>
                   W
                 </span>
                 {getSortIcon("won", sortBy, sortOrder)}
-              </div>
+              </button>
             </th>
             <th
-              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
-              onClick={() => onSort("drawn")}
+              scope='col'
+              aria-sort={getAriaSort("drawn", sortBy, sortOrder)}
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'
             >
-              <div className='flex items-center justify-center space-x-1.5'>
+              <button
+                type='button'
+                onClick={() => onSort("drawn")}
+                className='group flex w-full items-center justify-center space-x-1.5 hover:text-white hover:bg-slate-700/30 transition-all duration-300 rounded-lg px-2 py-1 -mx-2'
+              >
                 <span className='group-hover:text-white transition-colors'>
                   D
                 </span>
                 {getSortIcon("drawn", sortBy, sortOrder)}
-              </div>
+              </button>
             </th>
             <th
-              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
-              onClick={() => onSort("lost")}
+              scope='col'
+              aria-sort={getAriaSort("lost", sortBy, sortOrder)}
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'
             >
-              <div className='flex items-center justify-center space-x-1.5'>
+              <button
+                type='button'
+                onClick={() => onSort("lost")}
+                className='group flex w-full items-center justify-center space-x-1.5 hover:text-white hover:bg-slate-700/30 transition-all duration-300 rounded-lg px-2 py-1 -mx-2'
+              >
                 <span className='group-hover:text-white transition-colors'>
                   L
                 </span>
                 {getSortIcon("lost", sortBy, sortOrder)}
-              </div>
+              </button>
             </th>
 
             <th
-              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
-              onClick={() => onSort("goalDifference")}
+              scope='col'
+              aria-sort={getAriaSort("goalDifference", sortBy, sortOrder)}
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'
             >
-              <div className='flex items-center justify-center space-x-1.5'>
+              <button
+                type='button'
+                onClick={() => onSort("goalDifference")}
+                className='group flex w-full items-center justify-center space-x-1.5 hover:text-white hover:bg-slate-700/30 transition-all duration-300 rounded-lg px-2 py-1 -mx-2'
+              >
                 <span className='group-hover:text-white transition-colors'>
                   GD
                 </span>
                 {getSortIcon("goalDifference", sortBy, sortOrder)}
-              </div>
+              </button>
             </th>
 
             <th
-              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
-              onClick={() => onSort("points")}
+              scope='col'
+              aria-sort={getAriaSort("points", sortBy, sortOrder)}
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'
             >
-              <div className='flex items-center justify-center space-x-1.5'>
+              <button
+                type='button'
+                onClick={() => onSort("points")}
+                className='group flex w-full items-center justify-center space-x-1.5 hover:text-white hover:bg-slate-700/30 transition-all duration-300 rounded-lg px-2 py-1 -mx-2'
+              >
                 <span className='group-hover:text-white transition-colors'>
                   PTS
                 </span>
                 {getSortIcon("points", sortBy, sortOrder)}
-              </div>
+              </button>
             </th>
 
             <th
-              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
-              onClick={() => onSort("xG")}
               title='Expected goals (xG) based on shot quality and volume'
+              scope='col'
+              aria-sort={getAriaSort("xG", sortBy, sortOrder)}
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'
             >
-              <div className='flex items-center justify-center space-x-1.5'>
+              <button
+                type='button'
+                onClick={() => onSort("xG")}
+                className='group flex w-full items-center justify-center space-x-1.5 hover:text-white hover:bg-slate-700/30 transition-all duration-300 rounded-lg px-2 py-1 -mx-2'
+              >
                 <span className='group-hover:text-white transition-colors'>
                   xG
                 </span>
                 <Info className='w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-colors' />
                 {getSortIcon("xG", sortBy, sortOrder)}
-              </div>
+              </button>
             </th>
             <th
-              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider cursor-pointer group hover:bg-slate-700/30 transition-all duration-300'
-              onClick={() => onSort("passAccuracy")}
+              scope='col'
+              aria-sort={getAriaSort("passAccuracy", sortBy, sortOrder)}
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'
             >
-              <div className='flex items-center justify-center space-x-1.5'>
+              <button
+                type='button'
+                onClick={() => onSort("passAccuracy")}
+                className='group flex w-full items-center justify-center space-x-1.5 hover:text-white hover:bg-slate-700/30 transition-all duration-300 rounded-lg px-2 py-1 -mx-2'
+              >
                 <span className='group-hover:text-white transition-colors'>
                   Pass%
                 </span>
                 {getSortIcon("passAccuracy", sortBy, sortOrder)}
-              </div>
+              </button>
             </th>
-            <th className='text-center py-5 px-4 text-slate-300 font-bold text-xs uppercase tracking-wider'>
+            <th
+              scope='col'
+              className='text-center py-5 px-4 text-slate-300 font-bold text-xs uppercase tracking-wider'
+            >
               Last 5
             </th>
-            <th className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'>
+            <th
+              scope='col'
+              className='text-center py-5 px-3 text-slate-300 font-bold text-xs uppercase tracking-wider'
+            >
               Trend
             </th>
           </tr>

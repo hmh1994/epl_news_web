@@ -84,6 +84,7 @@ export const PlayerDetail = ({
           <button
             type='button'
             onClick={onClose}
+            aria-label='Close'
             className='w-10 h-10 rounded-2xl bg-slate-800/60 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white'
           >
             <X className='w-5 h-5' />

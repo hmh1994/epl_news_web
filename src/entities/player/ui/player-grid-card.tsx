@@ -29,6 +29,14 @@ export const PlayerGridCard = ({
           : "border-white/10 hover:border-white/20"
       }`}
       onClick={() => onView(player)}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onView(player);
+        }
+      }}
+      role='button'
+      tabIndex={0}
     >
       {isSelected && (
         <div className='absolute -top-3 -right-3 w-8 h-8 bg-gradient-to-r from-[#169976] via-emerald-600 to-teal-600 rounded-full flex items-center justify-center shadow-lg'>

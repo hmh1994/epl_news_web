@@ -62,6 +62,7 @@ export const PlayerSearchControls = ({
         <div className='lg:flex-[0_0_220px]'>
           <select
             aria-label={t("allPositions")}
+            name='position'
             className='w-full h-12 bg-slate-800/50 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-emerald-400'
             value={selectedPosition}
             onChange={(event) => onPositionChange(event.target.value)}
@@ -77,6 +78,7 @@ export const PlayerSearchControls = ({
         <div className='lg:flex-[0_0_220px]'>
           <select
             aria-label={t("allTeams")}
+            name='team'
             className='w-full h-12 bg-slate-800/50 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-emerald-400'
             value={selectedTeam}
             onChange={(event) => onTeamChange(event.target.value)}
@@ -94,6 +96,9 @@ export const PlayerSearchControls = ({
           <input
             type='text'
             placeholder={t("searchPlaceholder")}
+            aria-label={t("searchPlaceholder")}
+            name='player-search'
+            autoComplete='off'
             className='w-full h-12 bg-slate-800/50 border border-white/10 rounded-2xl pl-12 pr-4 text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20'
             value={searchTerm}
             onChange={handleSearchInput}

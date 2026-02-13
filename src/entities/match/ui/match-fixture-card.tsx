@@ -60,13 +60,28 @@ export const MatchFixtureCard = ({
       ? t("center.final")
       : t("center.kickoff");
   const favoriteLabel = isFavorite ? t("favorite.saved") : t("favorite.save");
+  const isClickable = Boolean(onSelect);
 
   return (
     <article
-      className={`relative overflow-hidden rounded-xl border cursor-pointer ${
+      className={`relative overflow-hidden rounded-xl border ${
         isSelected ? "border-emerald-400/60 shadow-emerald-400/30" : "border-white/10"
-      } bg-slate-900/70 p-4 backdrop-blur-xl shadow-lg transition-transform hover:-translate-y-1`}
-      onClick={() => onSelect?.(fixture.id)}
+      } bg-slate-900/70 p-4 backdrop-blur-xl shadow-lg transition-transform ${
+        isClickable ? "cursor-pointer hover:-translate-y-1" : ""
+      }`}
+      onClick={isClickable ? () => onSelect?.(fixture.id) : undefined}
+      onKeyDown={
+        isClickable
+          ? (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                onSelect?.(fixture.id);
+              }
+            }
+          : undefined
+      }
+      role={isClickable ? "button" : undefined}
+      tabIndex={isClickable ? 0 : undefined}
     >
       <div className='flex flex-col gap-3'>
         <div className='flex items-center justify-between text-xs text-slate-400'>

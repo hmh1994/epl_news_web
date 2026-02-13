@@ -17,6 +17,14 @@ export const PlayerListItem = ({ player, onView, teamName }: PlayerListItemProps
     <div
       className='group bg-slate-900/60 backdrop-blur-3xl rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-xl cursor-pointer'
       onClick={() => onView(player)}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onView(player);
+        }
+      }}
+      role='button'
+      tabIndex={0}
     >
       <div className='flex items-center justify-between'>
         <div className='flex items-center space-x-6'>

@@ -116,6 +116,9 @@ export const MatchScheduleFilters = ({
           <input
             type='text'
             placeholder={t("searchPlaceholder")}
+            aria-label={t("searchPlaceholder")}
+            name='match-search'
+            autoComplete='off'
             className='w-full bg-slate-800/50 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20'
             value={searchTerm}
             onChange={handleSearch}
