@@ -23,7 +23,7 @@ export const FeaturedMatchesSection = ({
 
   return (
     <section className='mx-auto w-full max-w-7xl px-6 pb-20 lg:px-12 xl:px-16'>
-      <div className='rounded-3xl border border-white/10 bg-slate-900/50 shadow-2xl backdrop-blur-2xl'>
+      <div className='rounded-3xl border border-white/10 bg-slate-950/60 shadow-[0_18px_40px_rgba(2,6,23,0.35)]'>
         <div className='flex flex-col gap-3 border-b border-white/5 px-8 py-6 md:flex-row md:items-center md:justify-between'>
           <div>
             <h2 className='text-2xl font-semibold text-white'>
@@ -35,7 +35,7 @@ export const FeaturedMatchesSection = ({
           </div>
           <Link
             href={`${basePath}/matches`}
-            className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+            className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-white/20 hover:text-white'
           >
             {t("upcomingMatches.viewSchedule")}
           </Link>

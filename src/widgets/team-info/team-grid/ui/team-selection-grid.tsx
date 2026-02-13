@@ -25,7 +25,7 @@ const CompactList = ({
 >) => {
   if (teams.length === 0) {
     return (
-      <div className='rounded-xl border border-dashed border-white/10 bg-white/5 px-3 py-4 text-xs text-slate-400 text-center'>
+      <div className='rounded-xl border border-dashed border-white/10 bg-slate-950/50 px-3 py-4 text-center text-xs text-slate-400'>
         조건에 맞는 팀이 없습니다.
       </div>
     );
@@ -48,15 +48,15 @@ const CompactList = ({
               key={team.id}
               type='button'
               onClick={() => onSelect(team)}
-              className={`flex h-12 w-full items-center justify-between rounded-xl border px-3 py-2 text-left transition-all ${
+              className={`flex h-12 w-full items-center justify-between rounded-xl border px-3 py-2 text-left transition ${
                 isSelected
-                  ? "border-emerald-400 bg-emerald-500/10 text-white shadow-lg"
-                  : "border-white/10 bg-slate-900/60 text-white/80 hover:border-emerald-400/60 hover:bg-slate-900/80"
+                  ? "border-emerald-400/40 bg-emerald-500/10 text-white"
+                  : "border-white/10 bg-slate-950/50 text-slate-200 hover:border-emerald-400/30 hover:bg-slate-950/70"
               }`}
             >
               <div className='flex min-w-0 items-center gap-2.5'>
                 <div
-                  className={`w-8 h-8 rounded-2xl flex items-center justify-center text-xl shadow-lg overflow-hidden  transition-all`}
+                  className='flex h-8 w-8 items-center justify-center rounded-2xl border border-white/10 bg-slate-900/80 text-xl transition'
                 >
                   <Image
                     src={team.logo}
@@ -109,7 +109,7 @@ export const TeamSelectionGrid = ({
       {showHeader && (
         <div className='mb-6 flex items-center justify-between'>
           <div>
-            <h2 className='mb-1 text-3xl font-black text-white'>
+            <h2 className='mb-1 text-3xl font-semibold text-white'>
               프리미어리그 클럽
             </h2>
             <p className='text-sm text-slate-400 md:text-base'>
@@ -117,7 +117,7 @@ export const TeamSelectionGrid = ({
             </p>
           </div>
           <div className='flex items-center space-x-4'>
-            <div className='rounded-lg border border-white/10 bg-slate-800/50 px-4 py-2 text-sm text-slate-400'>
+            <div className='rounded-lg border border-white/10 bg-slate-900/60 px-4 py-2 text-sm text-slate-300'>
               {teams.length}개 팀
             </div>
           </div>
@@ -125,7 +125,7 @@ export const TeamSelectionGrid = ({
       )}
 
       {teams.length === 0 ? (
-        <div className='rounded-2xl border border-dashed border-white/10 bg-white/5 px-4 py-6 text-center text-sm text-slate-400'>
+        <div className='rounded-2xl border border-dashed border-white/10 bg-slate-950/50 px-4 py-6 text-center text-sm text-slate-400'>
           조건에 맞는 팀이 없습니다.
         </div>
       ) : (
@@ -138,30 +138,30 @@ export const TeamSelectionGrid = ({
                 key={team.id}
                 type='button'
                 onClick={() => onSelect(team)}
-                className={`group relative rounded-3xl border bg-slate-900/60 p-8 text-left transition-all duration-500 backdrop-blur-2xl ${
+                className={`group relative rounded-3xl border bg-slate-950/60 p-8 text-left transition-all duration-300 ${
                   isSelected
-                    ? "border-emerald-400 bg-gradient-to-br from-[#169976]/20 to-teal-500/10 shadow-2xl shadow-emerald-500/25"
-                    : "border-white/10 hover:-translate-y-2 hover:border-white/20 hover:shadow-2xl"
+                    ? "border-emerald-400/40 bg-emerald-500/10 shadow-[0_20px_50px_rgba(16,185,129,0.18)]"
+                    : "border-white/10 hover:border-white/20 hover:bg-slate-950/80"
                 }`}
               >
                 <div className='absolute -top-3 -right-3'>
                   <div
-                    className={`h-12 w-12 rounded-2xl bg-gradient-to-br ${
+                    className={`flex h-12 w-12 items-center justify-center rounded-2xl border bg-slate-900/80 text-lg font-semibold ${
                       team.rank <= 4
-                        ? "from-yellow-400 to-orange-500"
+                        ? "border-yellow-400/30 text-yellow-200"
                         : team.rank <= 10
-                        ? "from-green-400 to-emerald-500"
-                        : "from-slate-500 to-slate-600"
-                    } flex items-center justify-center text-lg font-black text-white shadow-lg`}
+                        ? "border-emerald-400/30 text-emerald-200"
+                        : "border-white/15 text-slate-200"
+                    }`}
                   >
                     #{team.rank}
                   </div>
                 </div>
 
                 <div className='mb-6 text-center'>
-                  <div className='relative mx-auto mb-4 transition-transform duration-300 group-hover:scale-110'>
+                  <div className='relative mx-auto mb-4 transition-transform duration-300 group-hover:scale-[1.03]'>
                     <div
-                      className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-lg overflow-hidden transition-all`}
+                      className='flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-slate-900/80 text-xl transition'
                     >
                       <Image
                         src={team.logo}
@@ -171,9 +171,8 @@ export const TeamSelectionGrid = ({
                         className='w-10 h-10 object-contain'
                       />
                     </div>
-                    <div className='absolute -inset-3 rounded-3xl bg-gradient-to-br from-[#169976]/30 to-teal-500/30 opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-100'></div>
                   </div>
-                  <h3 className='text-2xl font-bold text-white transition-colors group-hover:text-emerald-300'>
+                  <h3 className='text-2xl font-semibold text-white transition-colors group-hover:text-emerald-200'>
                     {team.name}
                   </h3>
                   <p className='text-sm font-medium text-slate-400'>
@@ -182,7 +181,7 @@ export const TeamSelectionGrid = ({
                 </div>
 
                 <div className='mb-6 space-y-4'>
-                  <div className='flex items-center justify-between rounded-xl border border-white/5 bg-slate-800/30 p-3'>
+                  <div className='flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/40 p-3'>
                     <div className='flex items-center space-x-2 text-slate-400'>
                       <Trophy className='h-4 w-4' />
                       <span className='text-sm'>승점</span>
@@ -191,7 +190,7 @@ export const TeamSelectionGrid = ({
                       {team.points}
                     </span>
                   </div>
-                  <div className='flex items-center justify-between rounded-xl border border-white/5 bg-slate-800/30 p-3'>
+                  <div className='flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/40 p-3'>
                     <div className='flex items-center space-x-2 text-slate-400'>
                       <Target className='h-4 w-4' />
                       <span className='text-sm'>골득실</span>
@@ -201,7 +200,7 @@ export const TeamSelectionGrid = ({
                       {team.goalsFor - team.goalsAgainst}
                     </span>
                   </div>
-                  <div className='flex items-center justify-between rounded-xl border border-white/5 bg-slate-800/30 p-3'>
+                  <div className='flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/40 p-3'>
                     <div className='flex items-center space-x-2 text-slate-400'>
                       <MapPin className='h-4 w-4' />
                       <span className='text-sm'>홈구장</span>
@@ -220,12 +219,12 @@ export const TeamSelectionGrid = ({
                     {team.form.map((result, index) => (
                       <div
                         key={index}
-                        className={`flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold text-white shadow-lg ${
+                        className={`flex h-8 w-8 items-center justify-center rounded-lg border text-xs font-semibold ${
                           result === "W"
-                            ? "bg-green-500"
+                            ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-200"
                             : result === "D"
-                            ? "bg-yellow-500"
-                            : "bg-red-500"
+                            ? "border-yellow-400/30 bg-yellow-500/10 text-yellow-200"
+                            : "border-rose-400/30 bg-rose-500/10 text-rose-200"
                         }`}
                       >
                         {result}

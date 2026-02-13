@@ -20,21 +20,21 @@ interface LeagueBriefRowProps {
 const getPositionStyle = (pos: number) => {
   if (pos <= 4) {
     return {
-      badge: "bg-green-400/20 border-green-400/40 text-green-400",
+      badge: "bg-emerald-400/10 border-emerald-400/30 text-emerald-300",
     };
   }
   if (pos <= 6) {
     return {
-      badge: "bg-[#169976]/20 border-emerald-400/40 text-teal-400",
+      badge: "bg-teal-400/10 border-teal-400/30 text-teal-300",
     };
   }
   if (pos >= 18) {
     return {
-      badge: "bg-red-400/20 border-red-400/40 text-red-400",
+      badge: "bg-red-400/10 border-red-400/30 text-red-300",
     };
   }
   return {
-    badge: "bg-slate-400/20 border-slate-400/40 text-slate-400",
+    badge: "bg-slate-400/10 border-white/20 text-slate-300",
   };
 };
 
@@ -56,7 +56,7 @@ export const LeagueBriefRow = ({
 
   return (
     <tr
-      className={`border-b border-white/10 transition-all duration-300 hover:bg-white/5 ${
+      className={`border-b border-white/10 transition-colors duration-300 hover:bg-white/5 ${
         isClickable ? "cursor-pointer" : ""
       }`}
       onMouseEnter={() => onHover(row.pos)}
@@ -77,9 +77,9 @@ export const LeagueBriefRow = ({
     >
       <td className='py-6 px-8'>
         <div
-          className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold border-2 transition-all duration-300 ${
+          className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold border transition-all duration-300 ${
             positionStyle.badge
-          } ${isHovered ? "scale-110" : ""}`}
+          } ${isHovered ? "scale-105" : ""}`}
         >
           {row.pos}
         </div>
@@ -88,8 +88,8 @@ export const LeagueBriefRow = ({
         <div className='flex items-center justify-between gap-4'>
           <div className='flex items-center space-x-4'>
             <div
-              className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-lg overflow-hidden ${
-                isHovered ? "scale-110 rotate-3" : ""
+              className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl bg-slate-900/60 border border-white/10 shadow-md overflow-hidden ${
+                isHovered ? "scale-105" : ""
               } transition-all`}
             >
               <Image
@@ -101,8 +101,8 @@ export const LeagueBriefRow = ({
               />
             </div>
             <span
-              className={`text-lg font-bold transition-colors ${
-                isHovered ? "text-emerald-300" : "text-white"
+              className={`text-lg font-semibold transition-colors ${
+                isHovered ? "text-emerald-200" : "text-white"
               }`}
             >
               {teamName}
@@ -118,8 +118,8 @@ export const LeagueBriefRow = ({
               }}
               className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all ${
                 isFavorite
-                  ? "border-emerald-400/60 bg-emerald-500/10 text-emerald-300 shadow-inner shadow-emerald-400/20 hover:bg-emerald-500/20"
-                  : "border-white/10 bg-white/5 text-slate-200 hover:border-emerald-400/40 hover:text-emerald-200"
+                  ? "border-emerald-400/40 bg-emerald-500/10 text-emerald-200 hover:bg-emerald-500/15"
+                  : "border-white/10 bg-slate-900/50 text-slate-200 hover:border-emerald-400/30 hover:text-emerald-200"
               }`}
               aria-pressed={isFavorite}
             >
@@ -160,8 +160,10 @@ export const LeagueBriefRow = ({
         </span>
       </td>
       <td className='py-6 px-4 text-center'>
-        <div className='w-16 h-10 bg-gradient-to-r from-[#169976]/20 to-teal-500/20 border-2 border-emerald-400/40 rounded-xl flex items-center justify-center'>
-          <span className='text-white font-black text-lg'>{row.pts}</span>
+        <div className='w-16 h-10 bg-slate-900/60 border border-white/10 rounded-xl flex items-center justify-center'>
+          <span className='text-emerald-100 font-semibold text-lg'>
+            {row.pts}
+          </span>
         </div>
       </td>
     </tr>

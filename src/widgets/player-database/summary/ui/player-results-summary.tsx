@@ -12,11 +12,11 @@ export const PlayerResultsSummary = ({
   selectedCount,
 }: PlayerResultsSummaryProps) => (
   <div className='flex items-center justify-between mb-8'>
-    <h2 className='text-2xl font-bold text-white'>
+    <h2 className='text-2xl font-semibold text-white'>
       {totalPlayers} Players Found
     </h2>
     {selectedCount > 0 && (
-      <div className='text-emerald-400 font-semibold'>
+      <div className='text-emerald-200 text-sm font-semibold'>
         {selectedCount} selected for comparison
       </div>
     )}

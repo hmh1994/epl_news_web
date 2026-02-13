@@ -120,8 +120,8 @@ export const PremiumTableAnalytics = ({
 
   return (
     <div className='mt-20'>
-      <div className='text-center mb-12'>
-        <h2 className='text-4xl font-black text-white mb-4'>
+      <div className='text-center mb-10'>
+        <h2 className='text-3xl font-semibold text-white mb-3'>
           Season Analytics
         </h2>
         <p className='text-slate-400 text-lg'>심층 통계와 성과 지표</p>
@@ -140,15 +140,15 @@ export const PremiumTableAnalytics = ({
           return (
             <div
               key={`${metric.id}-${index}`}
-              className={`group bg-slate-900/60 backdrop-blur-3xl rounded-3xl p-8 border border-white/10 shadow-2xl ${style.hoverShadowClass} hover:-translate-y-2 transition-all duration-500`}
+              className={`group bg-slate-950/60 rounded-3xl p-8 border border-white/10 shadow-[0_18px_40px_rgba(2,6,23,0.35)] transition-colors duration-300`}
             >
               <div className='flex items-center justify-between mb-6'>
                 <Icon
-                  className={`w-12 h-12 ${style.iconClass} group-hover:scale-110 transition-transform`}
+                  className={`w-10 h-10 ${style.iconClass} transition-transform`}
                 />
                 <div className='text-right'>
                   <div
-                    className={`text-3xl font-black text-white transition-colors ${style.valueClass}`}
+                    className={`text-3xl font-semibold text-white transition-colors ${style.valueClass}`}
                   >
                     {formatMetricNumber(metric.key, safeValue)}
                   </div>
@@ -163,7 +163,7 @@ export const PremiumTableAnalytics = ({
                   {metric.description ?? "시즌 기준 핵심 지표"}
                 </div>
                 {progress !== null && (
-                  <div className='w-full bg-slate-700 rounded-full h-2'>
+                  <div className='w-full bg-slate-800 rounded-full h-2'>
                     <div
                       className={`bg-gradient-to-r ${style.progressGradient} h-2 rounded-full`}
                       style={{ width: `${progress * 100}%` }}

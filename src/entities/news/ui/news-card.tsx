@@ -16,9 +16,18 @@ interface NewsCardProps {
   article: NewsListItem;
   href: string;
   readMoreLabel: string;
+  className?: string;
 }
 
-export const NewsCard = ({ article, href, readMoreLabel }: NewsCardProps) => {
+const normalizeDateLabel = (value: string) =>
+  value.replace(/,\s*/g, " ").replace(/\s+/g, " ").trim();
+
+export const NewsCard = ({
+  article,
+  href,
+  readMoreLabel,
+  className,
+}: NewsCardProps) => {
   const showImage = Boolean(article.thumbnail);
   const authorLabel =
     article.author && article.author.length > 0
@@ -31,7 +40,8 @@ export const NewsCard = ({ article, href, readMoreLabel }: NewsCardProps) => {
       target='_blank'
       rel='noopener noreferrer'
       className={clsx(
-        "group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-slate-900/40 backdrop-blur-xl transition hover:border-emerald-400/30 hover:bg-slate-900/70",
+        "group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-slate-950/60 transition-colors hover:border-emerald-400/20 hover:bg-slate-950/80",
+        className,
       )}
     >
       {showImage && (
@@ -43,7 +53,7 @@ export const NewsCard = ({ article, href, readMoreLabel }: NewsCardProps) => {
             sizes='100vw'
             className='object-cover transition duration-500 group-hover:scale-105'
           />
-          <div className='absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent' />
+          <div className='absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent' />
         </div>
       )}
 
@@ -52,17 +62,21 @@ export const NewsCard = ({ article, href, readMoreLabel }: NewsCardProps) => {
           "flex flex-1 flex-col gap-4 p-6 sm:p-8",
           showImage
             ? ""
-            : "bg-gradient-to-br from-emerald-950/60 to-slate-950/60",
+            : "bg-slate-950/40",
         )}
       >
         <div className='flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-400'>
           {authorLabel && <span>{authorLabel}</span>}
-          <span>{newsDateFormatter.format(new Date(article.publishDate))}</span>
-          <span className='text-emerald-500'>{article.source}</span>
+          <span>
+            {normalizeDateLabel(
+              newsDateFormatter.format(new Date(article.publishDate))
+            )}
+          </span>
+          <span className='text-emerald-200'>{article.source}</span>
         </div>
 
         <div className='space-y-3'>
-          <h3 className='text-2xl font-semibold text-white transition group-hover:text-emerald-300 sm:text-3xl'>
+          <h3 className='text-2xl font-semibold text-white transition group-hover:text-emerald-200 sm:text-3xl'>
             {article.title}
           </h3>
           <p className='text-base leading-relaxed text-slate-300 line-clamp-3 sm:text-lg'>
@@ -70,7 +84,7 @@ export const NewsCard = ({ article, href, readMoreLabel }: NewsCardProps) => {
           </p>
         </div>
 
-        <span className='mt-auto inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition group-hover:gap-3'>
+        <span className='mt-auto inline-flex items-center gap-2 text-sm font-semibold text-slate-200 transition group-hover:gap-3'>
           {readMoreLabel}
           <span
             aria-hidden

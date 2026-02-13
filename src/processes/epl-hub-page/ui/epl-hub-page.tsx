@@ -69,20 +69,20 @@ export const EPLHubPage = ({
   }, [upcomingFixtures, allFixtures]);
 
   return (
-    <div className='flex min-h-screen flex-col bg-slate-950 text-white'>
+    <div className='flex min-h-screen flex-col bg-slate-950 text-white bg-[radial-gradient(circle_at_20%_-10%,rgba(16,185,129,0.12),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(20,184,166,0.1),transparent_40%)]'>
       <main className='flex-1'>
-        <section className='mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-12 xl:px-16'>
+        <section className='mx-auto w-full max-w-7xl px-6 pb-20 pt-28 lg:px-12 xl:px-16'>
           <div className='mb-10 space-y-3'>
             {/* <h1 className='text-3xl font-bold tracking-tight text-white sm:text-4xl'>
               EPL 정보 허브 (/test)
             </h1> */}
-            <p className='text-base text-slate-400 sm:text-lg'>
+            <p className='text-base text-slate-300 sm:text-lg'>
               {t("intro.description")}
             </p>
           </div>
 
-          <div className='grid gap-10 xl:grid-cols-[1.7fr,1fr] xl:items-start'>
-            <div className='space-y-10'>
+          <div className='grid gap-12 xl:grid-cols-[1.7fr,1fr] xl:items-start'>
+            <div className='space-y-12'>
               <LeagueTableSection
                 basePath={basePath}
                 tableRows={tableRows}
@@ -98,7 +98,7 @@ export const EPLHubPage = ({
               )}
             </div>
 
-            <div className='flex flex-col gap-8'>
+            <div className='flex flex-col gap-10'>
               <FavoriteTeamsPanel
                 basePath={basePath}
                 favoriteTeams={favoriteTeams}

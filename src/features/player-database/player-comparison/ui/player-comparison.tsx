@@ -106,67 +106,71 @@ export const PlayerComparison = ({
           onClick={onToggle}
         />
       )}
-      <div className='absolute bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-3xl border-t border-white/10 shadow-2xl'>
+      <div className='absolute bottom-0 left-0 right-0 bg-slate-950/90 backdrop-blur-xl border-t border-white/10 shadow-[0_-18px_40px_rgba(2,6,23,0.45)]'>
         <div className='max-w-7xl mx-auto px-6 py-6'>
-        <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
-          <div className='flex items-center gap-3'>
-            <BarChart3 className='w-6 h-6 text-emerald-400' />
-            <div>
-              <h3 className='text-xl font-bold text-white'>{t("title")}</h3>
-              <span className='text-slate-400 text-sm'>{selectedLabel}</span>
+          <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
+            <div className='flex items-center gap-3'>
+              <BarChart3 className='w-6 h-6 text-emerald-200' />
+              <div>
+                <h3 className='text-xl font-semibold text-white'>
+                  {t("title")}
+                </h3>
+                <span className='text-slate-400 text-sm'>{selectedLabel}</span>
+              </div>
+            </div>
+            <div className='flex items-center gap-3'>
+              <button
+                type='button'
+                onClick={onToggle}
+                className='px-6 py-3 border border-emerald-400/30 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-100 font-semibold rounded-xl transition-colors flex items-center gap-2'
+              >
+                <span>{toggleLabel}</span>
+                <ArrowRight className='w-4 h-4' />
+              </button>
+              <button
+                type='button'
+                onClick={onClear}
+                className='px-6 py-3 border border-white/10 bg-slate-900/70 hover:bg-slate-900 text-slate-200 font-semibold rounded-xl transition-colors'
+              >
+                {t("clearButton")}
+              </button>
             </div>
           </div>
-          <div className='flex items-center gap-3'>
-            <button
-              type='button'
-              onClick={onToggle}
-              className='px-6 py-3 bg-[#169976] hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors flex items-center gap-2'
-            >
-              <span>{toggleLabel}</span>
-              <ArrowRight className='w-4 h-4' />
-            </button>
-            <button
-              type='button'
-              onClick={onClear}
-              className='px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl transition-colors'
-            >
-              {t("clearButton")}
-            </button>
-          </div>
-        </div>
 
-        <div className='flex items-center gap-3 mt-4 overflow-x-auto pb-2'>
-          {players.map((player) => {
-            const team = TEAMS_BY_ID[player.teamId];
-            const teamName = player.teamName ?? team?.name ?? player.teamId;
-            const formattedPosition = formatPosition(player.position);
-            const isPhotoUrl = player.photo.startsWith("http");
-            return (
-              <div
-                key={`chip-${player.id}`}
-                className='flex items-center gap-3 bg-slate-800/60 border border-white/10 rounded-2xl px-4 py-3 min-w-[200px]'
-              >
-                <div className='w-10 h-10 rounded-xl bg-gradient-to-br from-[#169976] to-teal-500 flex items-center justify-center text-lg overflow-hidden'>
-                  {isPhotoUrl ? (
-                    <img
-                      src={player.photo}
-                      alt={player.name}
-                      className='h-full w-full object-cover'
-                    />
-                  ) : (
-                    player.photo
-                  )}
-                </div>
-                <div>
-                  <div className='text-white font-semibold text-sm'>{player.name}</div>
-                  <div className='text-xs text-slate-400'>
-                    {teamName} • {formattedPosition}
+          <div className='flex items-center gap-3 mt-4 overflow-x-auto pb-2'>
+            {players.map((player) => {
+              const team = TEAMS_BY_ID[player.teamId];
+              const teamName = player.teamName ?? team?.name ?? player.teamId;
+              const formattedPosition = formatPosition(player.position);
+              const isPhotoUrl = player.photo.startsWith("http");
+              return (
+                <div
+                  key={`chip-${player.id}`}
+                  className='flex items-center gap-3 bg-slate-900/60 border border-white/10 rounded-2xl px-4 py-3 min-w-[200px]'
+                >
+                  <div className='w-10 h-10 rounded-xl bg-slate-900/80 border border-white/10 flex items-center justify-center text-lg overflow-hidden'>
+                    {isPhotoUrl ? (
+                      <img
+                        src={player.photo}
+                        alt={player.name}
+                        className='h-full w-full object-cover'
+                      />
+                    ) : (
+                      player.photo
+                    )}
+                  </div>
+                  <div>
+                    <div className='text-white font-semibold text-sm'>
+                      {player.name}
+                    </div>
+                    <div className='text-xs text-slate-400'>
+                      {teamName} • {formattedPosition}
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
 
           {showComparison && (
             <div className='mt-6'>

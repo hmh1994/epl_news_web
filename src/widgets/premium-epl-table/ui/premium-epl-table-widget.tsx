@@ -61,10 +61,10 @@ export const PremiumEPLTableWidget = ({
   };
 
   return (
-    <div className='min-h-screen bg-slate-950 text-white'>
+    <div className='min-h-screen bg-slate-950 text-white bg-[radial-gradient(circle_at_20%_-10%,rgba(16,185,129,0.1),transparent_45%),radial-gradient(circle_at_85%_0%,rgba(20,184,166,0.08),transparent_40%)]'>
       <PremiumTableHero />
 
-      <main className='max-w-7xl mx-auto px-6 pb-20 -mt-6 sm:-mt-10'>
+      <main className='max-w-7xl mx-auto px-6 pb-20 -mt-4 sm:-mt-6'>
         <PremiumTableControls
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}

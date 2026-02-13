@@ -113,21 +113,21 @@ export const TeamInfoWidget = ({
   );
 
   return (
-    <div className='min-h-screen bg-slate-950 text-white overflow-x-hidden'>
+    <div className='min-h-screen bg-slate-950 text-white overflow-x-hidden bg-[radial-gradient(circle_at_20%_-10%,rgba(16,185,129,0.1),transparent_45%),radial-gradient(circle_at_85%_0%,rgba(20,184,166,0.08),transparent_40%)]'>
       <TeamInfoHero />
 
       <main className='max-w-7xl mx-auto px-6 pb-20'>
         <div className='flex flex-col gap-12 lg:grid lg:grid-cols-[240px,1fr] lg:items-start lg:gap-8'>
           <aside className='space-y-5 lg:sticky lg:top-28'>
-            <div className='rounded-2xl border border-white/10 bg-slate-900/50 p-5 shadow-2xl backdrop-blur-2xl mt-10'>
+            <div className='rounded-3xl border border-white/10 bg-slate-950/60 p-5 shadow-[0_18px_40px_rgba(2,6,23,0.35)] mt-10'>
               <div className='flex items-center justify-between gap-3'>
                 <div>
-                  <h2 className='text-xl font-bold text-white'>클럽 선택</h2>
+                  <h2 className='text-xl font-semibold text-white'>클럽 선택</h2>
                   <p className='text-xs text-slate-400'>
                     원하는 팀을 선택해 상세 정보를 확인하세요.
                   </p>
                 </div>
-                <div className='text-[11px] text-slate-400 bg-slate-800/40 px-2.5 py-1 rounded-lg border border-white/10'>
+                <div className='text-[11px] text-slate-400 bg-slate-900/60 px-2.5 py-1 rounded-lg border border-white/10'>
                   {filteredTeams.length}/{teams.length}
                 </div>
               </div>
@@ -144,7 +144,7 @@ export const TeamInfoWidget = ({
                     value={teamSearchTerm}
                     onChange={(event) => setTeamSearchTerm(event.target.value)}
                     placeholder='팀 이름 또는 약어 검색'
-                    className='w-full rounded-2xl border border-white/10 bg-slate-900/60 py-2.5 pl-11 pr-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400'
+                    className='w-full rounded-2xl border border-white/10 bg-slate-900/60 py-2.5 pl-11 pr-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400/40 focus:outline-none focus:ring-1 focus:ring-emerald-400/20'
                   />
                 </div>
               </div>

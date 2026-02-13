@@ -28,9 +28,9 @@ export const PlayerSearchResults = ({
   const t = useTranslations("player.results");
   if (players.length === 0) {
     return (
-      <div className='text-center py-20'>
-        <div className='text-6xl mb-4'>🔍</div>
-        <h3 className='text-2xl font-bold text-white mb-2'>{t("emptyTitle")}</h3>
+      <div className='text-center py-16 rounded-3xl border border-white/10 bg-slate-950/50'>
+        <div className='text-5xl mb-4'>🔍</div>
+        <h3 className='text-xl font-semibold text-white mb-2'>{t("emptyTitle")}</h3>
         <p className='text-slate-400'>{t("emptyDescription")}</p>
       </div>
     );

@@ -25,31 +25,33 @@ export const NewsHubPage = ({ articles }: NewsHubPageProps) => {
   } = useNewsFeed({ articles });
 
   return (
-    <div className='mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-12 xl:px-16'>
-      <NewsHeroSection badgeLabel={hubT("badge")} headline={hubT("headline")} />
+    <div className='min-h-screen bg-slate-950 text-white bg-[radial-gradient(circle_at_20%_-10%,rgba(16,185,129,0.1),transparent_45%),radial-gradient(circle_at_85%_0%,rgba(20,184,166,0.08),transparent_40%)]'>
+      <div className='mx-auto w-full max-w-7xl px-6 pb-20 pt-28 lg:px-12 xl:px-16'>
+        <NewsHeroSection badgeLabel={hubT("badge")} headline={hubT("headline")} />
 
-      <div className='grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]'>
-        <NewsArticlesSection
-          ref={sentinelRef}
-          articles={visibleArticles}
-          resolveHref={resolveHref}
-          emptyLabel={gridT("empty")}
-          readMoreLabel={cardT("readMore")}
-          loadingLabel={hubT("loading")}
-          completedLabel={hubT("completed")}
-          isLoading={isLoading}
-          hasMore={hasMore}
-        />
+        <div className='grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px]'>
+          <NewsArticlesSection
+            ref={sentinelRef}
+            articles={visibleArticles}
+            resolveHref={resolveHref}
+            emptyLabel={gridT("empty")}
+            readMoreLabel={cardT("readMore")}
+            loadingLabel={hubT("loading")}
+            completedLabel={hubT("completed")}
+            isLoading={isLoading}
+            hasMore={hasMore}
+          />
 
-        <NewsSidebar
-          keywordsTitle={hubT("keywords.title")}
-          keywords={["competition", "returns", "prospects"].map((key) =>
-            hubT(`keywords.items.${key}`)
-          )}
-          trendingTitle={hubT("trendingTitle")}
-          trendingArticles={trendingArticles}
-          resolveHref={resolveHref}
-        />
+          <NewsSidebar
+            keywordsTitle={hubT("keywords.title")}
+            keywords={["competition", "returns", "prospects"].map((key) =>
+              hubT(`keywords.items.${key}`)
+            )}
+            trendingTitle={hubT("trendingTitle")}
+            trendingArticles={trendingArticles}
+            resolveHref={resolveHref}
+          />
+        </div>
       </div>
     </div>
   );

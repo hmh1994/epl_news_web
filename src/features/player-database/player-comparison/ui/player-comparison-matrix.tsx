@@ -51,10 +51,10 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
   );
 
   return (
-    <div className='bg-slate-900/60 backdrop-blur-3xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden'>
+    <div className='bg-slate-950/60 rounded-3xl border border-white/10 shadow-[0_18px_40px_rgba(2,6,23,0.35)] overflow-hidden'>
       <div className='overflow-x-auto'>
         <div className='min-w-[720px]'>
-          <div className='grid bg-slate-900/70' style={{ gridTemplateColumns }}>
+          <div className='grid bg-slate-950/70 border-b border-white/5' style={{ gridTemplateColumns }}>
             <div className='px-4 py-6 text-sm font-semibold uppercase tracking-widest text-slate-400 flex items-center'>
               {t("table.players")}
             </div>
@@ -68,7 +68,7 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
                   key={`header-${player.id}`}
                   className='px-4 py-6 border-l border-white/5 text-center space-y-3'
                 >
-                  <div className='w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#169976] to-teal-500 flex items-center justify-center text-2xl shadow-xl overflow-hidden'>
+                  <div className='w-14 h-14 mx-auto rounded-2xl bg-slate-900/80 border border-white/10 flex items-center justify-center text-2xl overflow-hidden'>
                     {isPhotoUrl ? (
                       <img
                         src={player.photo}
@@ -94,7 +94,7 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
           </div>
 
           <section>
-            <div className='grid bg-slate-900/40' style={{ gridTemplateColumns }}>
+            <div className='grid bg-slate-950/50' style={{ gridTemplateColumns }}>
               <div className='px-4 py-4 text-sm font-semibold text-white'>{t("overview.title")}</div>
               {players.map((player) => (
                 <div key={`overview-${player.id}`} className='border-l border-white/5 px-4 py-4 space-y-2 text-sm text-white'>
@@ -124,15 +124,15 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
 
             {renderRow(
               t("rows.goals"),
-              (player) => <span className='font-semibold text-green-400 text-base'>{player.goals}</span>
+              (player) => <span className='font-semibold text-emerald-200 text-base'>{player.goals}</span>
             )}
             {renderRow(
               t("rows.assists"),
-              (player) => <span className='font-semibold text-teal-400 text-base'>{player.assists}</span>
+              (player) => <span className='font-semibold text-slate-200 text-base'>{player.assists}</span>
             )}
             {renderRow(
               t("rows.goalInvolvements"),
-              (player) => <span className='font-semibold text-emerald-400 text-base'>{player.goals + player.assists}</span>
+              (player) => <span className='font-semibold text-emerald-200 text-base'>{player.goals + player.assists}</span>
             )}
             {renderRow(
               t("physical.title"),
@@ -152,7 +152,7 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
               { dense: true }
             )}
 
-            <div className='grid bg-slate-900/40 border-t border-white/10' style={{ gridTemplateColumns }}>
+            <div className='grid bg-slate-950/50 border-t border-white/10' style={{ gridTemplateColumns }}>
               <div className='px-4 py-4 text-sm font-semibold text-white'>{t("skills.title")}</div>
               {players.map((player) => (
                 <div key={`skills-${player.id}`} className='border-l border-white/5 px-4 py-4 space-y-4'>
@@ -162,9 +162,9 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
                         <span>{t(labelKey)}</span>
                         <span className='text-white font-semibold'>{player.stats[key]}</span>
                       </div>
-                      <div className='w-full h-1.5 rounded-full bg-slate-700 overflow-hidden'>
+                      <div className='w-full h-1.5 rounded-full bg-slate-800 overflow-hidden'>
                         <div
-                          className='h-1.5 rounded-full bg-gradient-to-r from-[#169976] to-teal-500 transition-all'
+                          className='h-1.5 rounded-full bg-gradient-to-r from-emerald-400/80 to-teal-400/80 transition-all'
                           style={{ width: `${player.stats[key]}%` }}
                         ></div>
                       </div>
@@ -191,7 +191,7 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
                       {t("experience.matches", { matches: totals.matches })}
                     </span>
                     <span className='text-xs text-slate-500'>•</span>
-                    <span className='font-semibold text-emerald-400'>
+                    <span className='font-semibold text-emerald-200'>
                       {t("experience.goals", { goals: totals.goals })}
                     </span>
                   </div>

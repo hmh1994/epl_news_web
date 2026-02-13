@@ -24,8 +24,8 @@ export const LeagueTableSection = ({
   const t = useTranslations("home");
 
   return (
-    <div className='rounded-3xl border border-white/10 bg-slate-900/50 shadow-2xl backdrop-blur-2xl'>
-      <div className='flex items-center justify-between border-b border-white/10 px-8 py-6'>
+    <div className='rounded-3xl border border-white/10 bg-slate-950/60 shadow-[0_18px_40px_rgba(2,6,23,0.35)]'>
+      <div className='flex items-center justify-between border-b border-white/5 px-8 py-6'>
         <div>
           <h2 className='text-2xl font-semibold text-white'>
             {t("leagueTable.title")}
@@ -37,11 +37,11 @@ export const LeagueTableSection = ({
         <div className='flex items-center gap-3'>
           <Link
             href={`${basePath}/teams`}
-            className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+            className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-white/20 hover:text-white'
           >
             {t("leagueTable.viewAll")}
           </Link>
-          <span className='inline-flex items-center gap-2 rounded-full bg-emerald-500/15 px-4 py-1 text-xs font-semibold text-emerald-200'>
+          <span className='inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-500/10 px-4 py-1 text-xs font-semibold text-emerald-200'>
             <Star className='h-4 w-4' />
             {favoriteTeams.length > 0
               ? t("leagueTable.favoritesCount", { count: favoriteTeams.length })

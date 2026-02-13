@@ -16,20 +16,21 @@ export const NewsGrid = ({
 }: NewsGridProps) => {
   if (articles.length === 0) {
     return (
-      <div className='rounded-3xl border border-white/10 bg-slate-900/50 p-12 text-center text-slate-400'>
+      <div className='rounded-3xl border border-white/10 bg-slate-950/60 p-12 text-center text-slate-400'>
         {emptyLabel}
       </div>
     );
   }
 
   return (
-    <div className='grid gap-6 lg:grid-cols-2'>
-      {articles.map((article) => (
+    <div className='grid gap-8 lg:grid-cols-2'>
+      {articles.map((article, index) => (
         <NewsCard
           key={article.id}
           article={article}
           href={resolveHref(article)}
           readMoreLabel={readMoreLabel}
+          className={index === 0 ? "lg:col-span-2" : undefined}
         />
       ))}
     </div>

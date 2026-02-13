@@ -24,20 +24,20 @@ export const FavoriteMatchesPanel = ({
   }
 
   return (
-    <div className='rounded-3xl border border-emerald-500/40 bg-emerald-500/10 p-6 shadow-2xl'>
+    <div className='rounded-3xl border border-white/10 bg-slate-950/60 p-6 shadow-[0_18px_40px_rgba(2,6,23,0.35)]'>
       <div className='flex items-center justify-between'>
         <div>
           <h2 className='text-xl font-semibold text-white'>
             {t("favoriteMatches.title")}
           </h2>
-          <p className='text-sm text-emerald-100'>
+          <p className='text-sm text-slate-400'>
             {t("favoriteMatches.description")}
           </p>
         </div>
         <div className='flex items-center gap-2'>
           <Link
             href={`${basePath}/matches`}
-            className='rounded-full border border-emerald-400/40 px-3 py-1 text-xs font-semibold text-emerald-100 transition-colors hover:border-emerald-300 hover:text-white'
+            className='rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-white/20 hover:text-white'
           >
             {t("favoriteMatches.viewAll")}
           </Link>
@@ -45,7 +45,7 @@ export const FavoriteMatchesPanel = ({
             type='button'
             onClick={onClear}
             aria-label={t("favoriteMatches.clearAll")}
-            className='inline-flex items-center gap-2 rounded-full border border-emerald-400/40 px-3 py-1 text-xs font-semibold text-emerald-100 transition-colors hover:border-emerald-300 hover:text-white'
+            className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-white/20 hover:text-white'
           >
             <Trash2 className='h-4 w-4' aria-hidden='true' />
             {t("favoriteMatches.clearAll")}
@@ -59,7 +59,7 @@ export const FavoriteMatchesPanel = ({
           return (
             <li
               key={fixture.id}
-              className='flex items-center justify-between rounded-2xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100 cursor-pointer transition-colors hover:border-emerald-300'
+              className='flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-3 text-sm text-slate-300 cursor-pointer transition-colors hover:border-emerald-400/30 hover:bg-slate-900/60'
               onClick={() =>
                 router.push(
                   `${basePath}/matches/${encodeURIComponent(fixture.id)}`

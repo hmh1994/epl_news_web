@@ -57,13 +57,13 @@ export const PlayerSearchControls = ({
   };
 
   return (
-    <div className='bg-slate-900/40 backdrop-blur-3xl rounded-3xl p-6 border border-white/10 shadow-2xl mb-8'>
+    <div className='bg-slate-950/60 rounded-3xl p-6 border border-white/10 shadow-[0_18px_40px_rgba(2,6,23,0.35)] mb-10'>
       <div className='flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:items-center'>
         <div className='lg:flex-[0_0_220px]'>
           <select
             aria-label={t("allPositions")}
             name='position'
-            className='w-full h-12 bg-slate-800/50 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-emerald-400'
+            className='w-full h-12 bg-slate-900/60 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-emerald-400/40 focus:ring-1 focus:ring-emerald-400/20'
             value={selectedPosition}
             onChange={(event) => onPositionChange(event.target.value)}
           >
@@ -79,7 +79,7 @@ export const PlayerSearchControls = ({
           <select
             aria-label={t("allTeams")}
             name='team'
-            className='w-full h-12 bg-slate-800/50 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-emerald-400'
+            className='w-full h-12 bg-slate-900/60 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-emerald-400/40 focus:ring-1 focus:ring-emerald-400/20'
             value={selectedTeam}
             onChange={(event) => onTeamChange(event.target.value)}
           >
@@ -92,14 +92,14 @@ export const PlayerSearchControls = ({
         </div>
 
         <div className='relative lg:flex-1 min-w-[200px]'>
-          <Search className='absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400' />
+          <Search className='absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500' />
           <input
             type='text'
             placeholder={t("searchPlaceholder")}
             aria-label={t("searchPlaceholder")}
             name='player-search'
             autoComplete='off'
-            className='w-full h-12 bg-slate-800/50 border border-white/10 rounded-2xl pl-12 pr-4 text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20'
+            className='w-full h-12 bg-slate-900/60 border border-white/10 rounded-2xl pl-12 pr-4 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400/40 focus:ring-1 focus:ring-emerald-400/20'
             value={searchTerm}
             onChange={handleSearchInput}
             onKeyDown={(event) => {
@@ -116,10 +116,10 @@ export const PlayerSearchControls = ({
             type='button'
             onClick={onSearchSubmit}
             disabled={isSearching}
-            className={`h-12 rounded-2xl px-4 text-sm font-semibold whitespace-nowrap transition-all ${
+            className={`h-12 rounded-2xl px-4 text-sm font-semibold whitespace-nowrap transition-colors border ${
               isSearching
-                ? "bg-slate-700/60 text-slate-400 cursor-not-allowed"
-                : "bg-[#169976] text-white hover:bg-emerald-600"
+                ? "bg-slate-800/60 text-slate-500 border-white/5 cursor-not-allowed"
+                : "bg-emerald-500/15 text-emerald-100 border-emerald-400/30 hover:bg-emerald-500/25"
             }`}
           >
             {isSearching ? "조회중" : "조회"}
@@ -129,10 +129,10 @@ export const PlayerSearchControls = ({
             onClick={() => onViewModeChange("grid")}
             aria-label={t("gridView")}
             aria-pressed={viewMode === "grid"}
-            className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-all ${
+            className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-colors border ${
               viewMode === "grid"
-                ? "bg-[#169976] text-white"
-                : "bg-slate-800/50 text-slate-400 hover:text-white"
+                ? "bg-emerald-500/15 text-emerald-100 border-emerald-400/30"
+                : "bg-slate-900/60 text-slate-400 border-white/10 hover:text-white"
             }`}
           >
             <Grid className='w-5 h-5 mx-auto' aria-hidden='true' />
@@ -142,10 +142,10 @@ export const PlayerSearchControls = ({
             onClick={() => onViewModeChange("list")}
             aria-label={t("listView")}
             aria-pressed={viewMode === "list"}
-            className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-all ${
+            className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-colors border ${
               viewMode === "list"
-                ? "bg-[#169976] text-white"
-                : "bg-slate-800/50 text-slate-400 hover:text-white"
+                ? "bg-emerald-500/15 text-emerald-100 border-emerald-400/30"
+                : "bg-slate-900/60 text-slate-400 border-white/10 hover:text-white"
             }`}
           >
             <List className='w-5 h-5 mx-auto' aria-hidden='true' />
@@ -163,12 +163,12 @@ export const PlayerSearchControls = ({
               : filter.value;
 
             return (
-              <div
-                key={`${filter.type}-${filter.value}`}
-                className='flex items-center space-x-2 bg-[#169976]/20 border border-emerald-400/40 text-emerald-300 px-4 py-2 rounded-xl text-sm font-medium'
-              >
-                <span>{label}</span>
-                <button
+          <div
+            key={`${filter.type}-${filter.value}`}
+            className='flex items-center space-x-2 bg-emerald-500/10 border border-emerald-400/30 text-emerald-200 px-4 py-2 rounded-xl text-sm font-medium'
+          >
+            <span>{label}</span>
+            <button
                   type='button'
                   onClick={() => onFilterRemove(filter)}
                   aria-label={`${t("removeFilter")} ${label}`}
@@ -182,7 +182,7 @@ export const PlayerSearchControls = ({
           <button
             type='button'
             onClick={onClearFilters}
-            className='text-slate-400 hover:text-white text-sm font-medium px-4 py-2 rounded-xl hover:bg-slate-800/50'
+            className='text-slate-400 hover:text-white text-sm font-medium px-4 py-2 rounded-xl hover:bg-slate-900/60'
           >
             {t("clearAll")}
           </button>

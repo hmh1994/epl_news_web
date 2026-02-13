@@ -16,7 +16,7 @@ export const TopScorersPanel = ({
   const t = useTranslations("home");
 
   return (
-    <div className='rounded-3xl border border-white/10 bg-slate-900/50 p-6 shadow-2xl backdrop-blur-2xl'>
+    <div className='rounded-3xl border border-white/10 bg-slate-950/60 p-6 shadow-[0_18px_40px_rgba(2,6,23,0.35)]'>
       <div className='flex items-center justify-between'>
         <div>
           <h2 className='text-xl font-semibold text-white'>
@@ -29,11 +29,11 @@ export const TopScorersPanel = ({
         <div className='flex items-center gap-2'>
           <Link
             href={`${basePath}/players`}
-            className='rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+            className='rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-white/20 hover:text-white'
           >
             {t("topScorers.viewPlayers")}
           </Link>
-          <Trophy className='h-6 w-6 text-yellow-300' />
+          <Trophy className='h-6 w-6 text-amber-200' />
         </div>
       </div>
       <div className='mt-6 divide-y divide-white/10 border-t border-white/10'>

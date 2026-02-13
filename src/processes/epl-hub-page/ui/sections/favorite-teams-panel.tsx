@@ -21,7 +21,7 @@ export const FavoriteTeamsPanel = ({
   const t = useTranslations("home");
 
   return (
-    <div className='rounded-3xl border border-white/10 bg-slate-900/50 p-6 shadow-2xl backdrop-blur-2xl'>
+    <div className='rounded-3xl border border-white/10 bg-slate-950/60 p-6 shadow-[0_18px_40px_rgba(2,6,23,0.35)]'>
       <div className='flex items-center justify-between'>
         <div>
           <h2 className='text-xl font-semibold text-white'>
@@ -34,7 +34,7 @@ export const FavoriteTeamsPanel = ({
         <div className='flex items-center gap-2'>
           <Link
             href={`${basePath}/teams/detail`}
-            className='rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-300 transition-colors hover:border-emerald-400/40 hover:text-white'
+            className='rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs font-semibold text-slate-300 transition-colors hover:border-white/20 hover:text-white'
           >
             {t("favoriteTeams.viewTeamInfo")}
           </Link>
@@ -43,7 +43,7 @@ export const FavoriteTeamsPanel = ({
               type='button'
               onClick={onClear}
               aria-label={t("favoriteTeams.clear")}
-              className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-red-400/40 hover:text-red-200'
+              className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-red-400/40 hover:text-red-200'
             >
               <Trash2 className='h-4 w-4' aria-hidden='true' />
               {t("favoriteTeams.clear")}
@@ -53,16 +53,16 @@ export const FavoriteTeamsPanel = ({
       </div>
       <div className='mt-6 space-y-4'>
         {favoriteTeams.length === 0 ? (
-          <p className='rounded-2xl border border-dashed border-white/10 bg-white/5 px-4 py-6 text-sm text-slate-400'>
-            {t("favoriteTeams.empty")}
-          </p>
-        ) : (
+            <p className='rounded-2xl border border-dashed border-white/10 bg-slate-900/40 px-4 py-6 text-sm text-slate-400'>
+              {t("favoriteTeams.empty")}
+            </p>
+          ) : (
           favoriteTeams.map((teamId) => {
             const { name, shortName, crest } = getClubDisplay(teamId);
             return (
               <div
                 key={teamId}
-                className='flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3 cursor-pointer hover:border-emerald-400/40 transition-colors'
+                className='flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-3 cursor-pointer transition-colors hover:border-emerald-400/30 hover:bg-slate-900/60'
                 onClick={() =>
                   router.push(
                     `${basePath}/teams/detail?teamId=${encodeURIComponent(teamId)}`
@@ -80,7 +80,7 @@ export const FavoriteTeamsPanel = ({
                 tabIndex={0}
               >
                 <div className='flex items-center gap-3'>
-                  <span className='flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#169976] to-teal-500 text-lg shadow-lg'>
+                  <span className='flex h-10 w-10 items-center justify-center rounded-xl bg-slate-800/80 text-lg border border-white/10'>
                     {crest}
                   </span>
                   <div>

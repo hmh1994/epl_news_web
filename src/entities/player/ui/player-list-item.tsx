@@ -15,7 +15,7 @@ export const PlayerListItem = ({ player, onView, teamName }: PlayerListItemProps
   const isPhotoUrl = player.photo.startsWith("http");
   return (
     <div
-      className='group bg-slate-900/60 backdrop-blur-3xl rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-xl cursor-pointer'
+      className='group rounded-2xl p-6 border border-white/10 bg-slate-950/60 hover:border-white/20 transition-colors duration-300 cursor-pointer'
       onClick={() => onView(player)}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
@@ -28,7 +28,7 @@ export const PlayerListItem = ({ player, onView, teamName }: PlayerListItemProps
     >
       <div className='flex items-center justify-between'>
         <div className='flex items-center space-x-6'>
-          <div className='w-16 h-16 bg-gradient-to-br from-[#169976] to-teal-500 rounded-2xl flex items-center justify-center text-2xl shadow-xl overflow-hidden'>
+          <div className='w-16 h-16 bg-slate-900/80 border border-white/10 rounded-2xl flex items-center justify-center text-2xl overflow-hidden'>
             {isPhotoUrl ? (
               <img
                 src={player.photo}
@@ -40,7 +40,7 @@ export const PlayerListItem = ({ player, onView, teamName }: PlayerListItemProps
             )}
           </div>
           <div>
-            <h3 className='text-xl font-bold text-white group-hover:text-emerald-300 transition-colors'>
+            <h3 className='text-xl font-semibold text-white group-hover:text-emerald-200 transition-colors'>
               {player.name}
             </h3>
             <div className='flex items-center space-x-4 text-sm text-slate-400'>
@@ -55,15 +55,15 @@ export const PlayerListItem = ({ player, onView, teamName }: PlayerListItemProps
 
         <div className='flex items-center space-x-8 text-center'>
           <div>
-            <div className='text-2xl font-bold text-green-400'>{player.goals}</div>
+            <div className='text-2xl font-semibold text-emerald-200'>{player.goals}</div>
             <div className='text-xs text-slate-400'>{t("stats.goals")}</div>
           </div>
           <div>
-            <div className='text-2xl font-bold text-teal-400'>{player.assists}</div>
+            <div className='text-2xl font-semibold text-slate-200'>{player.assists}</div>
             <div className='text-xs text-slate-400'>{t("stats.assists")}</div>
           </div>
           <div className='w-20'>
-            <div className='text-2xl font-bold text-emerald-400'>
+            <div className='text-2xl font-semibold text-emerald-200'>
               {player.goals + player.assists}
             </div>
             <div className='text-xs text-slate-400 leading-tight whitespace-normal'>

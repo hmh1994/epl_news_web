@@ -27,7 +27,7 @@ export const NewsArticlesSection = forwardRef(function NewsArticlesSection(
   sentinelRef: ForwardedRef<HTMLDivElement>
 ) {
   return (
-    <section className='space-y-8'>
+    <section className='space-y-10'>
       <NewsGrid
         articles={articles}
         resolveHref={resolveHref}
@@ -36,8 +36,8 @@ export const NewsArticlesSection = forwardRef(function NewsArticlesSection(
       />
 
       {isLoading && (
-        <div className='flex items-center justify-center gap-3 text-sm text-slate-400'>
-          <span className='inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-emerald-400' />
+        <div className='flex items-center justify-center gap-3 text-sm text-slate-500'>
+          <span className='inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-emerald-400/70' />
           <span>{loadingLabel}</span>
         </div>
       )}

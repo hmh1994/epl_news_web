@@ -32,30 +32,30 @@ export const LeagueBriefTable = ({
         <col className='w-20' />
         <col className='w-20' />
       </colgroup>
-      <thead className='bg-slate-800/30'>
+      <thead className='bg-slate-900/60 border-b border-white/5'>
         <tr>
-          <th className='py-4 px-8 text-left text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+          <th className='py-4 px-8 text-left text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             POS
           </th>
-          <th className='py-4 px-8 text-left text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+          <th className='py-4 px-8 text-left text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             Team
           </th>
-          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             P
           </th>
-          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             W
           </th>
-          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             D
           </th>
-          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             L
           </th>
-          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             GD
           </th>
-          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             PTS
           </th>
         </tr>

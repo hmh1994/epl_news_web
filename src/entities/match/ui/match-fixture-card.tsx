@@ -41,6 +41,9 @@ const dayFormatter = new Intl.DateTimeFormat("en-GB", {
   month: "short",
 });
 
+const normalizeDayLabel = (value: string) =>
+  value.replace(/,\s*/g, " ").replace(/\s+/g, " ").trim();
+
 export const MatchFixtureCard = ({
   fixture,
   homeTeam,
@@ -66,8 +69,8 @@ export const MatchFixtureCard = ({
     <article
       className={`relative overflow-hidden rounded-xl border ${
         isSelected ? "border-emerald-400/60 shadow-emerald-400/30" : "border-white/10"
-      } bg-slate-900/70 p-4 backdrop-blur-xl shadow-lg transition-transform ${
-        isClickable ? "cursor-pointer hover:-translate-y-1" : ""
+      } bg-slate-950/60 p-4 shadow-[0_12px_24px_rgba(2,6,23,0.35)] transition-transform ${
+        isClickable ? "cursor-pointer hover:-translate-y-0.5" : ""
       }`}
       onClick={isClickable ? () => onSelect?.(fixture.id) : undefined}
       onKeyDown={
@@ -88,7 +91,7 @@ export const MatchFixtureCard = ({
           <div className='flex items-center gap-3'>
             <span className='uppercase tracking-[0.25em] text-slate-500'>{matchweekLabel}</span>
             <span className='text-white font-semibold text-sm'>{kickoffFormatter.format(kickoff)}</span>
-            <span>{dayFormatter.format(kickoff)}</span>
+            <span>{normalizeDayLabel(dayFormatter.format(kickoff))}</span>
           </div>
           <div className='flex items-center gap-2'>
             {onToggleFavorite && (
@@ -120,7 +123,7 @@ export const MatchFixtureCard = ({
           </div>
         </div>
 
-        <div className='flex items-center gap-4 rounded-lg bg-slate-900/50 px-3 py-3'>
+        <div className='flex items-center gap-4 rounded-lg bg-slate-950/50 px-3 py-3'>
           <ClubColumn club={fixture.home} display={homeTeam} alignment='right' />
           <div className='flex flex-col items-center gap-1 text-center text-xs text-slate-400'>
             {fixture.home.score !== undefined && fixture.away.score !== undefined ? (
