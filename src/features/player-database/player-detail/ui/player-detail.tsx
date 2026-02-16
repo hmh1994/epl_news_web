@@ -130,7 +130,7 @@ export const PlayerDetail = ({
             <h4 className='text-white font-semibold mb-4'>Performance</h4>
             <div className='grid grid-cols-2 gap-3 text-center'>
               <div>
-                <div className='text-2xl font-semibold text-emerald-200'>
+                <div className='text-2xl font-semibold text-slate-200'>
                   {goals}
                 </div>
                 <div className='text-xs text-slate-400'>Goals</div>
@@ -148,7 +148,7 @@ export const PlayerDetail = ({
                 <div className='text-xs text-slate-400'>Goal Involvements</div>
               </div>
               <div>
-                <div className='text-2xl font-semibold text-emerald-200'>
+                <div className='text-2xl font-semibold text-slate-200'>
                   {matches}
                 </div>
                 <div className='text-xs text-slate-400'>Matches</div>
@@ -161,25 +161,25 @@ export const PlayerDetail = ({
             <div className='grid grid-cols-2 gap-4 text-center'>
               <div className='rounded-2xl border border-white/10 bg-slate-900/50 px-4 py-3'>
                 <div className='text-xs text-slate-400'>Overall</div>
-                <div className='text-2xl font-semibold text-emerald-200'>
+                <div className='text-2xl font-semibold text-slate-200'>
                   {overallRating}
                 </div>
               </div>
               <div className='rounded-2xl border border-white/10 bg-slate-900/50 px-4 py-3'>
                 <div className='text-xs text-slate-400'>Pace</div>
-                <div className='text-2xl font-semibold text-emerald-200'>
+                <div className='text-2xl font-semibold text-slate-200'>
                   {stats.pace}
                 </div>
               </div>
               <div className='rounded-2xl border border-white/10 bg-slate-900/50 px-4 py-3'>
                 <div className='text-xs text-slate-400'>Shooting</div>
-                <div className='text-2xl font-semibold text-emerald-200'>
+                <div className='text-2xl font-semibold text-slate-200'>
                   {stats.shooting}
                 </div>
               </div>
               <div className='rounded-2xl border border-white/10 bg-slate-900/50 px-4 py-3'>
                 <div className='text-xs text-slate-400'>Passing</div>
-                <div className='text-2xl font-semibold text-emerald-200'>
+                <div className='text-2xl font-semibold text-slate-200'>
                   {stats.passing}
                 </div>
               </div>
@@ -217,9 +217,9 @@ export const PlayerDetail = ({
                   (key === "pace"
                     ? "green"
                     : key === "dribbling"
-                    ? "emerald"
+                    ? "slate"
                     : key === "passing"
-                    ? "teal"
+                    ? "gray"
                     : "yellow") as StatAccent
                 );
                 return (
@@ -275,7 +275,7 @@ export const PlayerDetail = ({
                         <div className='text-white font-semibold'>
                           {period.matches} matches
                         </div>
-                        <div className='text-emerald-200 font-semibold'>
+                        <div className='text-slate-200 font-semibold'>
                           {period.goals} goals
                         </div>
                       </div>
@@ -345,13 +345,13 @@ export const PlayerDetail = ({
               <div className='mt-4 grid grid-cols-2 gap-4 text-center'>
                 <div className='rounded-2xl border border-white/10 bg-slate-900/50 px-3 py-4'>
                   <div className='text-xs text-slate-400'>Overall</div>
-                  <div className='text-2xl font-semibold text-emerald-200'>
+                  <div className='text-2xl font-semibold text-slate-200'>
                     {overallRating}
                   </div>
                 </div>
                 <div className='rounded-2xl border border-white/10 bg-slate-900/50 px-3 py-4'>
                   <div className='text-xs text-slate-400'>Goals</div>
-                  <div className='text-2xl font-semibold text-emerald-200'>
+                  <div className='text-2xl font-semibold text-slate-200'>
                     {goals}
                   </div>
                 </div>
@@ -397,7 +397,7 @@ export const PlayerDetail = ({
                     </div>
                     <div className='mt-3 h-2 w-full rounded-full bg-slate-800'>
                       <div
-                        className='h-2 rounded-full bg-gradient-to-r from-emerald-400/80 to-teal-400/80'
+                        className='h-2 rounded-full bg-gradient-to-r from-slate-500/80 to-slate-400/80'
                         style={{ width: `${item.value}%` }}
                       />
                     </div>
@@ -416,9 +416,9 @@ export const PlayerDetail = ({
                     (key === "pace"
                       ? "green"
                       : key === "dribbling"
-                      ? "emerald"
+                      ? "slate"
                       : key === "passing"
-                      ? "teal"
+                      ? "gray"
                       : "yellow") as StatAccent
                   );
                   return (
@@ -478,7 +478,7 @@ export const PlayerDetail = ({
                           <div className='text-white font-semibold'>
                             {period.matches} matches
                           </div>
-                          <div className='text-emerald-200 font-semibold'>
+                          <div className='text-slate-200 font-semibold'>
                             {period.goals} goals
                           </div>
                         </div>

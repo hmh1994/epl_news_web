@@ -9,15 +9,15 @@ export const LiveUpdateCard = ({ update }: LiveUpdateCardProps) => {
     update.priority === "high"
       ? "border-red-400 bg-red-400/5 hover:bg-red-400/10"
       : update.priority === "medium"
-      ? "border-[#169976] bg-[#169976]/5 hover:bg-[#169976]/10"
-      : "border-teal-400 bg-teal-400/5 hover:bg-teal-400/10";
+      ? "border-[#64748b] bg-[#64748b]/5 hover:bg-[#64748b]/10"
+      : "border-slate-400 bg-slate-400/5 hover:bg-slate-400/10";
 
   const indicatorClass =
     update.priority === "high"
       ? "bg-red-400"
       : update.priority === "medium"
-      ? "bg-[#169976]"
-      : "bg-teal-400";
+      ? "bg-[#64748b]"
+      : "bg-slate-400";
 
   return (
     <div
@@ -26,7 +26,7 @@ export const LiveUpdateCard = ({ update }: LiveUpdateCardProps) => {
       <div className='flex items-start space-x-3'>
         <div className='text-2xl'>{update.icon}</div>
         <div className='flex-1 min-w-0'>
-          <h5 className='text-white font-semibold text-sm mb-1 group-hover:text-[#169976] transition-colors'>
+          <h5 className='text-white font-semibold text-sm mb-1 group-hover:text-[#64748b] transition-colors'>
             {update.title}
           </h5>
           <p className='text-slate-400 text-xs mb-2 leading-relaxed'>

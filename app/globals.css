@@ -7,8 +7,8 @@
     @apply mx-auto;
     width: 100%;
     max-width: 1400px;
-    padding-right: 10px !important;
-    padding-left: 10px !important;
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
   }
 
   @screen sm {
@@ -43,7 +43,7 @@
 
   .scrollbar-slim {
     scrollbar-width: thin;
-    scrollbar-color: #169976 transparent;
+    scrollbar-color: #64748b transparent;
   }
 
   .scrollbar-slim::-webkit-scrollbar {
@@ -57,12 +57,12 @@
   }
 
   .scrollbar-slim::-webkit-scrollbar-thumb {
-    background: #169976;
+    background: #64748b;
     border-radius: 9999px;
   }
 
   .scrollbar-slim::-webkit-scrollbar-thumb:hover {
-    background: #34d399;
+    background: #94a3b8;
   }
 }
 
@@ -219,11 +219,11 @@
 
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
-  background: rgba(16, 185, 129, 0.2);
+  background: rgba(100, 116, 139, 0.2);
 }
 
 .react-calendar__tile--active {
-  background: #10b981;
+  background: #64748b;
   color: #020617;
 }
 
@@ -234,8 +234,8 @@
 @theme {
   /* --color-primary: #337418;
   --color-secondary: #5dd62c; */
-  --color-primary: #169976;
-  --color-secondary: #169976;
-  --color-primary-dark: #1dcd9f;
-  --color-secondary-dark: #1dcd9f;
+  --color-primary: #64748b;
+  --color-secondary: #64748b;
+  --color-primary-dark: #94a3b8;
+  --color-secondary-dark: #94a3b8;
 }

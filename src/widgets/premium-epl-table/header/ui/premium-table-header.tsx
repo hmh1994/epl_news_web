@@ -17,15 +17,15 @@ export const PremiumTableHeader = ({ isScrolled }: PremiumTableHeaderProps) => (
   >
     <div className='max-w-7xl mx-auto px-6 py-4'>
       <div className='flex items-center justify-between'>
-        <div className='flex items-center space-x-6'>
+        <div className='flex items-center space-x-4 sm:space-x-6'>
           <div className='relative'>
-            <div className='w-14 h-14 bg-gradient-to-br from-[#169976] via-emerald-600 to-teal-600 rounded-3xl flex items-center justify-center text-2xl shadow-2xl'>
+            <div className='w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-[#64748b] via-slate-500 to-slate-600 rounded-2xl sm:rounded-3xl flex items-center justify-center text-lg sm:text-2xl shadow-2xl'>
               ⚽
             </div>
-            <div className='absolute -inset-1 bg-gradient-to-br from-[#169976] via-emerald-600 to-teal-600 rounded-3xl blur opacity-40 animate-pulse'></div>
+            <div className='absolute -inset-1 bg-gradient-to-br from-[#64748b] via-slate-500 to-slate-600 rounded-2xl sm:rounded-3xl blur opacity-40 animate-pulse'></div>
           </div>
           <div>
-            <span className='text-4xl font-black bg-gradient-to-r from-white via-emerald-100 to-teal-100 bg-clip-text text-transparent'>
+            <span className='text-2xl sm:text-4xl font-black bg-gradient-to-r from-white via-slate-200 to-slate-200 bg-clip-text text-transparent'>
               EPL Analytics
             </span>
             <div className='text-sm text-slate-400 font-medium flex items-center space-x-2'>

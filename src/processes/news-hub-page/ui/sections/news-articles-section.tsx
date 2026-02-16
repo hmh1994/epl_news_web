@@ -37,7 +37,7 @@ export const NewsArticlesSection = forwardRef(function NewsArticlesSection(
 
       {isLoading && (
         <div className='flex items-center justify-center gap-3 text-sm text-slate-500'>
-          <span className='inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-emerald-400/70' />
+          <span className='inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-slate-400/70' />
           <span>{loadingLabel}</span>
         </div>
       )}

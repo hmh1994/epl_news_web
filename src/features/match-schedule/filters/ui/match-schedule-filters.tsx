@@ -119,7 +119,7 @@ export const MatchScheduleFilters = ({
             aria-label={t("searchPlaceholder")}
             name='match-search'
             autoComplete='off'
-            className='w-full bg-slate-800/50 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20'
+            className='w-full bg-slate-800/50 border border-white/10 rounded-2xl pl-12 pr-4 py-3 sm:py-4 text-white placeholder-slate-500 focus:outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20'
             value={searchTerm}
             onChange={handleSearch}
           />
@@ -133,14 +133,14 @@ export const MatchScheduleFilters = ({
               <button
                 type='button'
                 onClick={() => setIsCalendarOpen((previous) => !previous)}
-                className='mt-1 inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-slate-800/50 px-4 py-2 text-sm font-semibold text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+                className='mt-1 inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-slate-800/50 px-4 py-2 text-sm font-semibold text-slate-200 transition-colors hover:border-slate-400/40 hover:text-white'
                 aria-expanded={isCalendarOpen}
                 aria-haspopup='dialog'
                 disabled={isLoading}
               >
                 {displayDateLabel}
                 {isLoading ? (
-                  <span className='text-xs font-semibold text-emerald-200'>
+                  <span className='text-xs font-semibold text-slate-200'>
                     {t("loading")}
                   </span>
                 ) : null}
@@ -150,7 +150,7 @@ export const MatchScheduleFilters = ({
               <button
                 type='button'
                 onClick={handleDateReset}
-                className='shrink-0 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+                className='shrink-0 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition-colors hover:border-slate-400/40 hover:text-white'
                 disabled={isLoading}
               >
                 {t("resetDate")}

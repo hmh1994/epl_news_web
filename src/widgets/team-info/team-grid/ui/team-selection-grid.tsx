@@ -36,7 +36,7 @@ const CompactList = ({
   return (
     <div>
       {hasSearchTerm && (
-        <div className='mb-2 text-xs font-medium text-emerald-300'>
+        <div className='mb-2 text-xs font-medium text-slate-300'>
           검색 결과 {teams.length}개 팀
         </div>
       )}
@@ -50,8 +50,8 @@ const CompactList = ({
               onClick={() => onSelect(team)}
               className={`flex h-12 w-full items-center justify-between rounded-xl border px-3 py-2 text-left transition ${
                 isSelected
-                  ? "border-emerald-400/40 bg-emerald-500/10 text-white"
-                  : "border-white/10 bg-slate-950/50 text-slate-200 hover:border-emerald-400/30 hover:bg-slate-950/70"
+                  ? "border-slate-400/40 bg-slate-500/10 text-white"
+                  : "border-white/10 bg-slate-950/50 text-slate-200 hover:border-slate-400/30 hover:bg-slate-950/70"
               }`}
             >
               <div className='flex min-w-0 items-center gap-2.5'>
@@ -129,7 +129,7 @@ export const TeamSelectionGrid = ({
           조건에 맞는 팀이 없습니다.
         </div>
       ) : (
-        <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
+        <div className='grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3'>
           {teams.map((team) => {
             const isSelected = selectedTeam?.id === team.id;
 
@@ -138,9 +138,9 @@ export const TeamSelectionGrid = ({
                 key={team.id}
                 type='button'
                 onClick={() => onSelect(team)}
-                className={`group relative rounded-3xl border bg-slate-950/60 p-8 text-left transition-all duration-300 ${
+                className={`group relative rounded-3xl border bg-slate-950/60 p-5 sm:p-6 md:p-8 text-left transition-all duration-300 ${
                   isSelected
-                    ? "border-emerald-400/40 bg-emerald-500/10 shadow-[0_20px_50px_rgba(16,185,129,0.18)]"
+                    ? "border-slate-400/40 bg-slate-500/10 shadow-[0_20px_50px_rgba(100,116,139,0.18)]"
                     : "border-white/10 hover:border-white/20 hover:bg-slate-950/80"
                 }`}
               >
@@ -150,7 +150,7 @@ export const TeamSelectionGrid = ({
                       team.rank <= 4
                         ? "border-yellow-400/30 text-yellow-200"
                         : team.rank <= 10
-                        ? "border-emerald-400/30 text-emerald-200"
+                        ? "border-slate-400/30 text-slate-200"
                         : "border-white/15 text-slate-200"
                     }`}
                   >
@@ -172,7 +172,7 @@ export const TeamSelectionGrid = ({
                       />
                     </div>
                   </div>
-                  <h3 className='text-2xl font-semibold text-white transition-colors group-hover:text-emerald-200'>
+                  <h3 className='text-2xl font-semibold text-white transition-colors group-hover:text-slate-200'>
                     {team.name}
                   </h3>
                   <p className='text-sm font-medium text-slate-400'>

@@ -124,7 +124,7 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
 
             {renderRow(
               t("rows.goals"),
-              (player) => <span className='font-semibold text-emerald-200 text-base'>{player.goals}</span>
+              (player) => <span className='font-semibold text-slate-200 text-base'>{player.goals}</span>
             )}
             {renderRow(
               t("rows.assists"),
@@ -132,7 +132,7 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
             )}
             {renderRow(
               t("rows.goalInvolvements"),
-              (player) => <span className='font-semibold text-emerald-200 text-base'>{player.goals + player.assists}</span>
+              (player) => <span className='font-semibold text-slate-200 text-base'>{player.goals + player.assists}</span>
             )}
             {renderRow(
               t("physical.title"),
@@ -164,7 +164,7 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
                       </div>
                       <div className='w-full h-1.5 rounded-full bg-slate-800 overflow-hidden'>
                         <div
-                          className='h-1.5 rounded-full bg-gradient-to-r from-emerald-400/80 to-teal-400/80 transition-all'
+                          className='h-1.5 rounded-full bg-gradient-to-r from-slate-500/80 to-slate-400/80 transition-all'
                           style={{ width: `${player.stats[key]}%` }}
                         ></div>
                       </div>
@@ -191,7 +191,7 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
                       {t("experience.matches", { matches: totals.matches })}
                     </span>
                     <span className='text-xs text-slate-500'>•</span>
-                    <span className='font-semibold text-emerald-200'>
+                    <span className='font-semibold text-slate-200'>
                       {t("experience.goals", { goals: totals.goals })}
                     </span>
                   </div>

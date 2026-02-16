@@ -25,7 +25,7 @@ export const PlayerGridCard = ({
     <div
       className={`group relative rounded-3xl p-6 border transition-colors duration-300 cursor-pointer ${
         isSelected
-          ? "border-emerald-400/40 bg-slate-950/70"
+          ? "border-slate-400/40 bg-slate-950/70"
           : "border-white/10 bg-slate-950/60 hover:border-white/20 hover:bg-slate-950/80"
       }`}
       onClick={() => onView(player)}
@@ -39,8 +39,8 @@ export const PlayerGridCard = ({
       tabIndex={0}
     >
       {isSelected && (
-        <div className='absolute -top-3 -right-3 w-8 h-8 rounded-full border border-emerald-400/40 bg-emerald-500/15 flex items-center justify-center'>
-          <Award className='w-4 h-4 text-emerald-100' />
+        <div className='absolute -top-3 -right-3 w-8 h-8 rounded-full border border-slate-400/40 bg-slate-500/15 flex items-center justify-center'>
+          <Award className='w-4 h-4 text-slate-100' />
         </div>
       )}
 
@@ -61,9 +61,9 @@ export const PlayerGridCard = ({
             player.position === "GK" || player.position === "GOALKEEPER"
               ? "bg-yellow-400/15 text-yellow-200"
               : player.position.includes("D")
-              ? "bg-teal-400/15 text-teal-200"
+              ? "bg-slate-400/15 text-slate-300"
               : player.position.includes("M")
-              ? "bg-emerald-400/15 text-emerald-200"
+              ? "bg-slate-400/15 text-slate-200"
               : "bg-red-400/15 text-red-200"
           }`}
         >
@@ -71,7 +71,7 @@ export const PlayerGridCard = ({
         </div>
       </div>
 
-      <h3 className='text-xl font-semibold text-white mb-2 group-hover:text-emerald-200 transition-colors'>
+      <h3 className='text-xl font-semibold text-white mb-2 group-hover:text-slate-200 transition-colors'>
         {player.name}
       </h3>
       <div className='flex items-center space-x-2 text-slate-400 text-sm mb-4'>
@@ -83,7 +83,7 @@ export const PlayerGridCard = ({
 
       <div className='grid grid-cols-3 gap-3 mb-4'>
         <div className='flex flex-col items-center justify-center p-3 bg-slate-900/40 rounded-xl text-center'>
-          <div className='text-xl font-semibold text-emerald-200'>{player.goals}</div>
+          <div className='text-xl font-semibold text-slate-200'>{player.goals}</div>
           <div className='text-xs text-slate-400 leading-[1.15]'>Goals</div>
         </div>
         <div className='flex flex-col items-center justify-center p-3 bg-slate-900/40 rounded-xl text-center'>
@@ -93,7 +93,7 @@ export const PlayerGridCard = ({
           <div className='text-xs text-slate-400 leading-[1.15]'>Assists</div>
         </div>
         <div className='flex flex-col items-center justify-center p-3 bg-slate-900/40 rounded-xl text-center'>
-          <div className='text-xl font-semibold text-emerald-200'>
+          <div className='text-xl font-semibold text-slate-200'>
             {player.goals + player.assists}
           </div>
           <div className='text-xs text-slate-400 leading-tight whitespace-normal'>
@@ -124,7 +124,7 @@ export const PlayerGridCard = ({
             event.stopPropagation();
             onSelect(player);
           }}
-          className='w-full mt-4 py-3 border border-emerald-400/30 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-100 font-semibold rounded-xl transition-colors'
+          className='w-full mt-4 py-3 border border-slate-400/30 bg-slate-500/15 hover:bg-slate-500/25 text-slate-100 font-semibold rounded-xl transition-colors'
         >
           {isSelected ? "Remove from Compare" : "Add to Compare"}
         </button>

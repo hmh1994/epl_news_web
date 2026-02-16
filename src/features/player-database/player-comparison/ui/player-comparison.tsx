@@ -110,7 +110,7 @@ export const PlayerComparison = ({
         <div className='max-w-7xl mx-auto px-6 py-6'>
           <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
             <div className='flex items-center gap-3'>
-              <BarChart3 className='w-6 h-6 text-emerald-200' />
+              <BarChart3 className='w-6 h-6 text-slate-200' />
               <div>
                 <h3 className='text-xl font-semibold text-white'>
                   {t("title")}
@@ -122,7 +122,7 @@ export const PlayerComparison = ({
               <button
                 type='button'
                 onClick={onToggle}
-                className='px-6 py-3 border border-emerald-400/30 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-100 font-semibold rounded-xl transition-colors flex items-center gap-2'
+                className='px-6 py-3 border border-slate-400/30 bg-slate-500/15 hover:bg-slate-500/25 text-slate-100 font-semibold rounded-xl transition-colors flex items-center gap-2'
               >
                 <span>{toggleLabel}</span>
                 <ArrowRight className='w-4 h-4' />

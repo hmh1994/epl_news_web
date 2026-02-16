@@ -4,7 +4,7 @@ import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
 const statusMeta: Record<MatchDetail["fixture"]["status"], { label: string; classes: string }> = {
   upcoming: {
     label: "Kickoff 대기",
-    classes: "bg-emerald-500/20 text-emerald-200 border border-emerald-400/30",
+    classes: "bg-slate-500/20 text-slate-200 border border-slate-400/30",
   },
   live: {
     label: "LIVE",
@@ -41,8 +41,8 @@ const kickoffDateFormatter = new Intl.DateTimeFormat("ko-KR", {
 
 const teamColorTokens = {
   home: {
-    badge: "from-[#169976] via-emerald-500 to-teal-400",
-    label: "text-emerald-200",
+    badge: "from-[#64748b] via-slate-500 to-slate-400",
+    label: "text-slate-200",
   },
   away: {
     badge: "from-indigo-500 via-purple-500 to-fuchsia-400",
@@ -79,30 +79,30 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
   const momentumLabel = `${homeShort} ${homeMomentum} vs ${awayShort} ${awayMomentum}`;
 
   return (
-    <section className='relative pt-28 pb-36 overflow-hidden'>
-      <div className='absolute inset-0 bg-gradient-to-br from-slate-900 via-emerald-900/40 to-slate-950'></div>
+    <section className='relative pt-20 pb-20 sm:pt-28 sm:pb-36 overflow-hidden'>
+      <div className='absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800/40 to-slate-950'></div>
       <div className='absolute inset-0 opacity-30 mix-blend-screen'>
-        <div className='absolute -top-24 left-1/4 w-96 h-96 rounded-full bg-[#169976] blur-3xl'></div>
-        <div className='absolute top-1/2 -right-16 w-[28rem] h-[28rem] rounded-full bg-emerald-500/70 blur-3xl'></div>
+        <div className='absolute -top-24 left-1/4 w-96 h-96 rounded-full bg-[#64748b] blur-3xl'></div>
+        <div className='absolute top-1/2 -right-16 w-[28rem] h-[28rem] rounded-full bg-slate-500/70 blur-3xl'></div>
       </div>
 
       <div className='relative z-10 max-w-7xl mx-auto px-6'>
-        <p className='text-sm uppercase tracking-[0.35em] text-emerald-200/80 mb-4'>
+        <p className='text-sm uppercase tracking-[0.35em] text-slate-200/80 mb-4'>
           Premier League 2024/25
         </p>
-        <h1 className='text-5xl md:text-6xl font-black leading-tight text-white mb-6'>
+        <h1 className='text-3xl sm:text-5xl md:text-6xl font-black leading-tight text-white mb-6'>
           Match Centre
         </h1>
         <p className='text-lg text-slate-300 max-w-3xl mb-10'>{detail.heroTagline}</p>
 
-        <div className='relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl p-8 md:p-10 shadow-2xl shadow-emerald-900/20'>
+        <div className='relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl p-4 sm:p-8 md:p-10 shadow-2xl shadow-slate-900/20'>
           <div className='absolute -top-5 left-8'>
             <span className={`px-4 py-2 rounded-full text-xs font-semibold ${status.classes}`}>
               {status.label}
             </span>
           </div>
 
-          <div className='grid grid-cols-1 md:grid-cols-5 gap-8 items-start'>
+          <div className='grid grid-cols-1 md:grid-cols-5 gap-4 sm:gap-8 items-start'>
             <TeamColumn
               teamName={homeTeam?.name ?? fixture.home.teamId.toUpperCase()}
               short={homeTeam?.shortName ?? fixture.home.teamId.toUpperCase()}
@@ -125,7 +125,7 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
             />
           </div>
 
-          <div className='mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-slate-200'>
+          <div className='mt-6 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6 text-sm text-slate-200'>
             <InfoTile
               title='경기 일정'
               lines={[
@@ -199,8 +199,8 @@ const TeamColumn = ({ teamName, short, crest, score, alignment }: TeamColumnProp
         >
           <span>{short}</span>
           {score !== undefined && (
-            <span className='flex items-center gap-1 text-emerald-300 md:hidden'>
-              <span className='w-2 h-2 rounded-full bg-emerald-400'></span>
+            <span className='flex items-center gap-1 text-slate-300 md:hidden'>
+              <span className='w-2 h-2 rounded-full bg-slate-400'></span>
               {score}
             </span>
           )}
@@ -220,9 +220,9 @@ const ScoreboardCore = ({ fixture, kickoff }: ScoreboardCoreProps) => {
     return (
       <div className='flex flex-col items-center space-y-3'>
         <div className='text-sm uppercase tracking-[0.3em] text-slate-400'>최종 스코어</div>
-        <div className='text-6xl md:text-7xl font-black text-white'>
+        <div className='text-4xl sm:text-6xl md:text-7xl font-black text-white'>
           {fixture.home.score}
-          <span className='text-emerald-400 mx-3'>:</span>
+          <span className='text-slate-400 mx-3'>:</span>
           {fixture.away.score}
         </div>
         {fixture.referee && (
@@ -255,7 +255,7 @@ const InfoTile = ({ title, lines }: InfoTileProps) => {
 
   return (
     <div className='bg-slate-900/50 border border-white/10 rounded-2xl px-5 py-4 flex flex-col gap-1'>
-      <span className='text-xs uppercase tracking-[0.3em] text-emerald-300'>{title}</span>
+      <span className='text-xs uppercase tracking-[0.3em] text-slate-300'>{title}</span>
       {lines.map((line) => (
         <span key={line} className='text-slate-200 text-sm'>
           {line}

@@ -22,11 +22,11 @@ export const FeaturedMatchesSection = ({
   const t = useTranslations("home");
 
   return (
-    <section className='mx-auto w-full max-w-7xl px-6 pb-20 lg:px-12 xl:px-16'>
+    <section className='mx-auto w-full max-w-7xl px-4 pb-12 sm:px-6 sm:pb-20 lg:px-12 xl:px-16'>
       <div className='rounded-3xl border border-white/10 bg-slate-950/60 shadow-[0_18px_40px_rgba(2,6,23,0.35)]'>
-        <div className='flex flex-col gap-3 border-b border-white/5 px-8 py-6 md:flex-row md:items-center md:justify-between'>
+        <div className='flex flex-col gap-3 border-b border-white/5 px-4 py-4 sm:px-8 sm:py-6 md:flex-row md:items-center md:justify-between'>
           <div>
-            <h2 className='text-2xl font-semibold text-white'>
+            <h2 className='text-lg font-semibold text-white sm:text-2xl'>
               {t("upcomingMatches.title")}
             </h2>
             <p className='text-sm text-slate-400'>
@@ -41,7 +41,7 @@ export const FeaturedMatchesSection = ({
           </Link>
         </div>
 
-        <div className='grid gap-6 p-6 md:grid-cols-2 xl:grid-cols-3'>
+        <div className='grid gap-4 p-4 sm:gap-6 sm:p-6 md:grid-cols-2 xl:grid-cols-3'>
           {fixtures.map((fixture) => {
             const homeTeam = getClubDisplay(fixture.home.teamId);
             const awayTeam = getClubDisplay(fixture.away.teamId);

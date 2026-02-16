@@ -14,7 +14,7 @@ export const MatchHeadToHeadPanel = ({ records, homeLabel, awayLabel }: MatchHea
   return (
     <section className='bg-slate-900/60 border border-white/10 rounded-3xl backdrop-blur-2xl shadow-2xl overflow-hidden'>
       <header className='px-7 py-6 border-b border-white/10'>
-        <p className='text-xs uppercase tracking-[0.3em] text-emerald-300'>Head to Head</p>
+        <p className='text-xs uppercase tracking-[0.3em] text-slate-300'>Head to Head</p>
         <h2 className='text-xl font-semibold text-white'>
           {homeLabel && awayLabel
             ? `${homeLabel} vs ${awayLabel}`
@@ -31,7 +31,7 @@ export const MatchHeadToHeadPanel = ({ records, homeLabel, awayLabel }: MatchHea
             </div>
             <div className='flex items-center justify-between'>
               <p className='text-lg font-semibold text-white'>{record.score}</p>
-              <p className='text-sm text-emerald-200'>{record.note}</p>
+              <p className='text-sm text-slate-200'>{record.note}</p>
             </div>
           </article>
         ))}

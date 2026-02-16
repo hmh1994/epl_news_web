@@ -42,12 +42,12 @@ export const PlayerRankingCard = ({
       </div>
 
       <div className='flex-1'>
-        <h4 className='text-white font-semibold text-lg group-hover:text-emerald-200 transition-colors'>
+        <h4 className='text-white font-semibold text-base group-hover:text-slate-200 transition-colors sm:text-lg'>
           {player.name}
         </h4>
-        <p className='text-slate-400 text-sm mb-1'>{teamName}</p>
-        <div className='flex items-center space-x-4 text-sm'>
-          <span className='text-emerald-300 font-semibold'>
+        <p className='text-slate-400 text-xs mb-1 sm:text-sm'>{teamName}</p>
+        <div className='flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm'>
+          <span className='text-slate-300 font-semibold'>
             {t("goals", { count: player.goals })}
           </span>
           <span className='text-slate-300 font-semibold'>

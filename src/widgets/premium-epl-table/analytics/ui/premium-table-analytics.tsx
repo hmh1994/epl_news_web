@@ -28,26 +28,26 @@ export const PremiumTableAnalytics = ({
       iconClass: "text-green-400",
       valueClass: "group-hover:text-green-400",
       deltaClass: "text-green-400",
-      progressGradient: "from-green-400 to-emerald-500",
+      progressGradient: "from-green-400 to-slate-500",
       hoverShadowClass: "hover:shadow-green-400/20",
     },
     PER_MATCH_PASS_ACCURACY: {
       ...ANALYTICS_CARD_STYLES[1],
       icon: BarChart3,
-      iconClass: "text-teal-400",
-      valueClass: "group-hover:text-teal-400",
-      deltaClass: "text-teal-400",
-      progressGradient: "from-emerald-400 to-teal-500",
-      hoverShadowClass: "hover:shadow-emerald-400/20",
+      iconClass: "text-slate-400",
+      valueClass: "group-hover:text-slate-400",
+      deltaClass: "text-slate-400",
+      progressGradient: "from-slate-400 to-slate-500",
+      hoverShadowClass: "hover:shadow-slate-400/20",
     },
     PER_MATCH_GOALS: {
       ...ANALYTICS_CARD_STYLES[2],
       icon: Target,
-      iconClass: "text-emerald-400",
-      valueClass: "group-hover:text-emerald-400",
-      deltaClass: "text-emerald-400",
-      progressGradient: "from-emerald-400 to-teal-500",
-      hoverShadowClass: "hover:shadow-emerald-400/20",
+      iconClass: "text-slate-400",
+      valueClass: "group-hover:text-slate-400",
+      deltaClass: "text-slate-400",
+      progressGradient: "from-slate-400 to-slate-500",
+      hoverShadowClass: "hover:shadow-slate-400/20",
     },
     TOTAL_RED_CARDS: {
       ...ANALYTICS_CARD_STYLES[3],
@@ -64,26 +64,26 @@ export const PremiumTableAnalytics = ({
       iconClass: "text-green-400",
       valueClass: "group-hover:text-green-400",
       deltaClass: "text-green-400",
-      progressGradient: "from-green-400 to-emerald-500",
+      progressGradient: "from-green-400 to-slate-500",
       hoverShadowClass: "hover:shadow-green-400/20",
     },
     PER_MATCH_SUBSTITUTIONS: {
       ...ANALYTICS_CARD_STYLES[1],
       icon: RefreshCcw,
-      iconClass: "text-teal-400",
-      valueClass: "group-hover:text-teal-400",
-      deltaClass: "text-teal-400",
-      progressGradient: "from-emerald-400 to-teal-500",
-      hoverShadowClass: "hover:shadow-emerald-400/20",
+      iconClass: "text-slate-400",
+      valueClass: "group-hover:text-slate-400",
+      deltaClass: "text-slate-400",
+      progressGradient: "from-slate-400 to-slate-500",
+      hoverShadowClass: "hover:shadow-slate-400/20",
     },
     PER_MATCH_YELLOW_CARDS: {
       ...ANALYTICS_CARD_STYLES[2],
       icon: Activity,
-      iconClass: "text-emerald-400",
-      valueClass: "group-hover:text-emerald-400",
-      deltaClass: "text-emerald-400",
-      progressGradient: "from-emerald-400 to-teal-500",
-      hoverShadowClass: "hover:shadow-emerald-400/20",
+      iconClass: "text-slate-400",
+      valueClass: "group-hover:text-slate-400",
+      deltaClass: "text-slate-400",
+      progressGradient: "from-slate-400 to-slate-500",
+      hoverShadowClass: "hover:shadow-slate-400/20",
     },
   } as const;
 
@@ -121,13 +121,13 @@ export const PremiumTableAnalytics = ({
   return (
     <div className='mt-20'>
       <div className='text-center mb-10'>
-        <h2 className='text-3xl font-semibold text-white mb-3'>
+        <h2 className='text-2xl md:text-3xl font-semibold text-white mb-3'>
           Season Analytics
         </h2>
         <p className='text-slate-400 text-lg'>심층 통계와 성과 지표</p>
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8'>
         {resolvedMetrics.map((metric, index) => {
           const style = getMetricStyle(metric.key, index);
           const Icon = style.icon;
@@ -140,9 +140,9 @@ export const PremiumTableAnalytics = ({
           return (
             <div
               key={`${metric.id}-${index}`}
-              className={`group bg-slate-950/60 rounded-3xl p-8 border border-white/10 shadow-[0_18px_40px_rgba(2,6,23,0.35)] transition-colors duration-300`}
+              className={`group bg-slate-950/60 rounded-3xl p-5 md:p-8 border border-white/10 shadow-[0_18px_40px_rgba(2,6,23,0.35)] transition-colors duration-300`}
             >
-              <div className='flex items-center justify-between mb-6'>
+              <div className='flex items-center justify-between mb-4 md:mb-6'>
                 <Icon
                   className={`w-10 h-10 ${style.iconClass} transition-transform`}
                 />

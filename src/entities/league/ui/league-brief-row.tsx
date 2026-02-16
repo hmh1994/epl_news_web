@@ -20,12 +20,12 @@ interface LeagueBriefRowProps {
 const getPositionStyle = (pos: number) => {
   if (pos <= 4) {
     return {
-      badge: "bg-emerald-400/10 border-emerald-400/30 text-emerald-300",
+      badge: "bg-slate-400/10 border-slate-400/30 text-slate-300",
     };
   }
   if (pos <= 6) {
     return {
-      badge: "bg-teal-400/10 border-teal-400/30 text-teal-300",
+      badge: "bg-slate-400/10 border-slate-400/30 text-slate-300",
     };
   }
   if (pos >= 18) {
@@ -75,20 +75,23 @@ export const LeagueBriefRow = ({
       role={isClickable ? "button" : undefined}
       tabIndex={isClickable ? 0 : undefined}
     >
-      <td className='py-6 px-8'>
+      {/* Position */}
+      <td className='py-2 px-2 md:py-6 md:px-8'>
         <div
-          className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold border transition-all duration-300 ${
+          className={`w-7 h-7 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center text-xs md:text-base font-bold border transition-all duration-300 ${
             positionStyle.badge
           } ${isHovered ? "scale-105" : ""}`}
         >
           {row.pos}
         </div>
       </td>
-      <td className='py-6 px-8'>
-        <div className='flex items-center justify-between gap-4'>
-          <div className='flex items-center space-x-4'>
+
+      {/* Team */}
+      <td className='py-2 px-2 md:py-6 md:px-8'>
+        <div className='flex items-center gap-2 md:gap-4 min-w-0'>
+          <div className='flex items-center gap-2 md:gap-4 min-w-0 flex-1'>
             <div
-              className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl bg-slate-900/60 border border-white/10 shadow-md overflow-hidden ${
+              className={`w-7 h-7 md:w-12 md:h-12 rounded-lg md:rounded-2xl flex items-center justify-center shrink-0 bg-slate-900/60 border border-white/10 shadow-md overflow-hidden ${
                 isHovered ? "scale-105" : ""
               } transition-all`}
             >
@@ -97,12 +100,12 @@ export const LeagueBriefRow = ({
                 alt={teamName}
                 width={40}
                 height={40}
-                className='w-10 h-10 object-contain'
+                className='w-5 h-5 md:w-10 md:h-10 object-contain'
               />
             </div>
             <span
-              className={`text-lg font-semibold transition-colors ${
-                isHovered ? "text-emerald-200" : "text-white"
+              className={`text-xs md:text-lg font-semibold transition-colors truncate ${
+                isHovered ? "text-slate-200" : "text-white"
               }`}
             >
               {teamName}
@@ -116,38 +119,44 @@ export const LeagueBriefRow = ({
                 event.stopPropagation();
                 onFavorite(row.teamId);
               }}
-              className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all ${
+              className={`shrink-0 inline-flex items-center gap-1 md:gap-2 rounded-full border px-1.5 py-1 md:px-3 md:py-1.5 text-xs font-semibold transition-all ${
                 isFavorite
-                  ? "border-emerald-400/40 bg-emerald-500/10 text-emerald-200 hover:bg-emerald-500/15"
-                  : "border-white/10 bg-slate-900/50 text-slate-200 hover:border-emerald-400/30 hover:text-emerald-200"
+                  ? "border-slate-400/40 bg-slate-500/10 text-slate-200 hover:bg-slate-500/15"
+                  : "border-white/10 bg-slate-900/50 text-slate-200 hover:border-slate-400/30 hover:text-slate-200"
               }`}
               aria-pressed={isFavorite}
             >
               <Star
-                className='h-4 w-4'
+                className='h-3.5 w-3.5 md:h-4 md:w-4'
                 strokeWidth={isFavorite ? 2.5 : 2}
                 fill={isFavorite ? "currentColor" : "none"}
               />
-              {t("favorite")}
+              <span className='hidden md:inline'>{t("favorite")}</span>
             </button>
           )}
         </div>
       </td>
-      <td className='py-6 px-4 text-center text-slate-300 font-medium'>
+
+      {/* P */}
+      <td className='py-2 md:py-6 px-1 md:px-4 text-center text-xs md:text-base text-slate-300 font-medium'>
         {row.played}
       </td>
-      <td className='py-6 px-4 text-center text-green-400 font-bold'>
+      {/* W */}
+      <td className='py-2 md:py-6 px-1 md:px-4 text-center text-xs md:text-base text-green-400 font-bold'>
         {row.won}
       </td>
-      <td className='py-6 px-4 text-center text-yellow-400 font-bold'>
+      {/* D - hidden on mobile */}
+      <td className='hidden sm:table-cell py-2 md:py-6 px-1 md:px-4 text-center text-xs md:text-base text-yellow-400 font-bold'>
         {row.drawn}
       </td>
-      <td className='py-6 px-4 text-center text-red-400 font-bold'>
+      {/* L - hidden on mobile */}
+      <td className='hidden sm:table-cell py-2 md:py-6 px-1 md:px-4 text-center text-xs md:text-base text-red-400 font-bold'>
         {row.lost}
       </td>
-      <td className='py-6 px-4 text-center'>
+      {/* GD - hidden on mobile */}
+      <td className='hidden sm:table-cell py-2 md:py-6 px-1 md:px-4 text-center'>
         <span
-          className={`font-bold ${
+          className={`text-xs md:text-base font-bold ${
             row.gd > 0
               ? "text-green-400"
               : row.gd < 0
@@ -159,9 +168,10 @@ export const LeagueBriefRow = ({
           {row.gd}
         </span>
       </td>
-      <td className='py-6 px-4 text-center'>
-        <div className='w-16 h-10 bg-slate-900/60 border border-white/10 rounded-xl flex items-center justify-center'>
-          <span className='text-emerald-100 font-semibold text-lg'>
+      {/* PTS */}
+      <td className='py-2 md:py-6 px-1 md:px-4 text-center'>
+        <div className='w-9 h-7 md:w-16 md:h-10 bg-slate-900/60 border border-white/10 rounded-lg md:rounded-xl flex items-center justify-center mx-auto'>
+          <span className='text-slate-200 font-semibold text-xs md:text-lg'>
             {row.pts}
           </span>
         </div>

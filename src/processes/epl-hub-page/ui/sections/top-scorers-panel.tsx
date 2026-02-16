@@ -16,13 +16,13 @@ export const TopScorersPanel = ({
   const t = useTranslations("home");
 
   return (
-    <div className='rounded-3xl border border-white/10 bg-slate-950/60 p-6 shadow-[0_18px_40px_rgba(2,6,23,0.35)]'>
-      <div className='flex items-center justify-between'>
+    <div className='rounded-3xl border border-white/10 bg-slate-950/60 p-4 shadow-[0_18px_40px_rgba(2,6,23,0.35)] sm:p-6'>
+      <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
         <div>
-          <h2 className='text-xl font-semibold text-white'>
+          <h2 className='text-lg font-semibold text-white sm:text-xl'>
             {t("topScorers.title")}
           </h2>
-          <p className='text-sm text-slate-400'>
+          <p className='text-xs text-slate-400 sm:text-sm'>
             {t("topScorers.description")}
           </p>
         </div>
@@ -33,7 +33,7 @@ export const TopScorersPanel = ({
           >
             {t("topScorers.viewPlayers")}
           </Link>
-          <Trophy className='h-6 w-6 text-amber-200' />
+          <Trophy className='h-5 w-5 text-amber-200 sm:h-6 sm:w-6' />
         </div>
       </div>
       <div className='mt-6 divide-y divide-white/10 border-t border-white/10'>

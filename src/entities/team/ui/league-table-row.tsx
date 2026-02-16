@@ -15,15 +15,15 @@ interface LeagueTableRowProps {
 const getPositionStyle = (position: number) => {
   if (position <= 4) {
     return {
-      container: "bg-emerald-400/10 border-emerald-400/30",
-      text: "text-emerald-200",
+      container: "bg-slate-400/10 border-slate-400/30",
+      text: "text-slate-200",
     };
   }
 
   if (position <= 6) {
     return {
-      container: "bg-teal-400/10 border-teal-400/30",
-      text: "text-teal-200",
+      container: "bg-slate-400/10 border-slate-400/30",
+      text: "text-slate-300",
     };
   }
 
@@ -44,8 +44,8 @@ const TrendIndicator = ({ trend }: { trend: number }) => {
   if (trend > 0) {
     return (
       <div className='flex items-center space-x-1'>
-        <TrendingUp className='w-4 h-4 text-emerald-300' />
-        <span className='text-xs font-medium text-emerald-200'>
+        <TrendingUp className='w-4 h-4 text-slate-300' />
+        <span className='text-xs font-medium text-slate-200'>
           +{trend.toFixed(2)}
         </span>
       </div>
@@ -96,10 +96,10 @@ export const LeagueTableRow = ({
         )
       }
     >
-      <td className='py-4 px-5'>
-        <div className={`flex items-center space-x-3`}>
+      <td className='py-3 px-2 sm:py-4 sm:px-5'>
+        <div className={`flex items-center space-x-2 sm:space-x-3`}>
           <div
-            className={`w-8 h-8 rounded-xl flex items-center justify-center font-semibold text-base border transition-all duration-200 ${
+            className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center font-semibold text-sm sm:text-base border transition-all duration-200 ${
               positionStyle.container
             } ${positionStyle.text} ${isHovered ? "scale-105" : ""}`}
           >
@@ -112,10 +112,10 @@ export const LeagueTableRow = ({
           )}
         </div>
       </td>
-      <td className='py-4 px-5'>
-        <div className='flex items-center space-x-3'>
+      <td className='py-3 px-2 sm:py-4 sm:px-5'>
+        <div className='flex items-center space-x-2 sm:space-x-3'>
           <div
-            className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl bg-slate-900/70 border border-white/10 overflow-hidden ${
+            className={`w-8 h-8 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center text-xl bg-slate-900/70 border border-white/10 overflow-hidden shrink-0 ${
               isHovered ? "scale-105" : ""
             } transition-all duration-200`}
           >
@@ -124,18 +124,18 @@ export const LeagueTableRow = ({
               alt={teamName}
               width={40}
               height={40}
-              className='w-10 h-10 object-contain'
+              className='w-6 h-6 sm:w-10 sm:h-10 object-contain'
             />
           </div>
-          <div>
+          <div className='min-w-0'>
             <div
-              className={`text-lg font-semibold transition-colors duration-200 ${
-                isHovered ? "text-emerald-200" : "text-white"
+              className={`text-sm sm:text-lg font-semibold transition-colors duration-200 truncate ${
+                isHovered ? "text-slate-200" : "text-white"
               }`}
             >
               {teamName}
             </div>
-            <div className='text-slate-400 text-xs font-medium'>
+            <div className='text-slate-400 text-xs font-medium hidden sm:block'>
               {teamShortName}
             </div>
           </div>
@@ -173,11 +173,11 @@ export const LeagueTableRow = ({
       </td>
       <td className='py-4 px-3 text-center'>
         <div
-          className={`w-14 h-10 bg-slate-900/60 border border-white/10 rounded-xl flex items-center justify-center transition-transform duration-200 ${
+          className={`w-10 h-8 sm:w-14 sm:h-10 bg-slate-900/60 border border-white/10 rounded-xl flex items-center justify-center transition-transform duration-200 ${
             isHovered ? "scale-105" : ""
           }`}
         >
-          <span className='text-emerald-100 font-semibold text-base'>
+          <span className='text-slate-100 font-semibold text-base'>
             {team.points}
           </span>
         </div>
@@ -192,7 +192,7 @@ export const LeagueTableRow = ({
           </div>
           <div className='w-full bg-slate-800 rounded-full h-1.5'>
             <div
-              className='bg-gradient-to-r from-emerald-400/80 to-teal-400/80 h-1.5 rounded-full transition-all duration-1000'
+              className='bg-gradient-to-r from-slate-500/80 to-slate-400/80 h-1.5 rounded-full transition-all duration-1000'
               style={{ width: `${team.passAccuracy}%` }}
             />
           </div>

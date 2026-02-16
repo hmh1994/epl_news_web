@@ -1,4 +1,4 @@
-export type StatAccent = "green" | "teal" | "emerald" | "yellow";
+export type StatAccent = "green" | "slate" | "gray" | "yellow";
 
 type StatStyles = {
   bg: string;
@@ -12,15 +12,15 @@ const STAT_PALETTE: Record<StatAccent, StatStyles> = {
     border: "border-green-400/30",
     text: "text-green-400",
   },
-  teal: {
-    bg: "bg-teal-400/10",
-    border: "border-teal-400/30",
-    text: "text-teal-400",
+  slate: {
+    bg: "bg-slate-400/10",
+    border: "border-slate-400/30",
+    text: "text-slate-400",
   },
-  emerald: {
-    bg: "bg-emerald-400/10",
-    border: "border-emerald-400/30",
-    text: "text-emerald-400",
+  gray: {
+    bg: "bg-slate-400/10",
+    border: "border-slate-400/30",
+    text: "text-slate-400",
   },
   yellow: {
     bg: "bg-yellow-400/10",
@@ -30,4 +30,4 @@ const STAT_PALETTE: Record<StatAccent, StatStyles> = {
 };
 
 export const getStatStyles = (accent: StatAccent): StatStyles =>
-  STAT_PALETTE[accent] ?? STAT_PALETTE.teal;
+  STAT_PALETTE[accent] ?? STAT_PALETTE.slate;

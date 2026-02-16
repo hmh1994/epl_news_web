@@ -113,8 +113,8 @@ export const EplLeaguePulse = ({ metrics }: EplLeaguePulseProps) => {
   }, [metrics, localizedFallbackMetrics, localizeMetric]);
 
   return (
-    <section className='rounded-3xl border border-white/10 bg-slate-900/50 p-8 shadow-2xl backdrop-blur-2xl'>
-      <header className='mb-8 flex flex-col gap-2'>
+    <section className='rounded-3xl border border-white/10 bg-slate-900/50 p-4 sm:p-6 md:p-8 shadow-2xl backdrop-blur-2xl'>
+      <header className='mb-4 sm:mb-6 md:mb-8 flex flex-col gap-2'>
         <h2 className='text-2xl font-semibold text-white'>
           {t("cardTitle", { defaultValue: t("title") })}
         </h2>
@@ -126,9 +126,9 @@ export const EplLeaguePulse = ({ metrics }: EplLeaguePulseProps) => {
           return (
             <article
               key={metric.id}
-              className='group relative flex items-start gap-4 rounded-2xl border border-white/10 bg-slate-900/60 px-5 py-4 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-400/40 hover:shadow-emerald-500/10'
+              className='group relative flex items-start gap-4 rounded-2xl border border-white/10 bg-slate-900/60 px-5 py-4 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-slate-400/40 hover:shadow-slate-500/10'
             >
-              <div className='flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#169976] via-emerald-500 to-teal-500 text-white shadow-xl'>
+              <div className='flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#64748b] via-slate-500 to-slate-500 text-white shadow-xl'>
                 <Icon className='h-6 w-6' />
               </div>
               <div className='min-w-0'>

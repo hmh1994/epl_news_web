@@ -86,7 +86,7 @@ export const PlayerDatabaseWidget = ({
       label: "득점 랭킹",
       metricLabel: "골",
       icon: Target,
-      accent: "text-emerald-200",
+      accent: "text-slate-200",
       getValue: (player: PlayerRanking) => player.goals,
     },
     {
@@ -110,7 +110,7 @@ export const PlayerDatabaseWidget = ({
       label: "xG 랭킹",
       metricLabel: "xG",
       icon: Award,
-      accent: "text-teal-200",
+      accent: "text-slate-300",
       getValue: (player: PlayerRanking) => player.xg,
     },
   ] as const;
@@ -263,7 +263,7 @@ export const PlayerDatabaseWidget = ({
   ]);
 
   return (
-    <div className='min-h-screen bg-slate-950 text-white pb-32 bg-[radial-gradient(circle_at_20%_-10%,rgba(16,185,129,0.1),transparent_45%),radial-gradient(circle_at_85%_0%,rgba(20,184,166,0.08),transparent_40%)]'>
+    <div className='min-h-screen bg-slate-950 text-white pb-32 bg-[radial-gradient(circle_at_20%_-10%,rgba(100,116,139,0.1),transparent_45%),radial-gradient(circle_at_85%_0%,rgba(100,116,139,0.08),transparent_40%)]'>
       <PlayerDatabaseHero />
 
       <main className='max-w-7xl mx-auto px-6 mt-12 lg:mt-16'>

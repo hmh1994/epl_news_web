@@ -28,7 +28,7 @@ export const TeamStandingRow = ({ standing, teamName, crest }: TeamStandingRowPr
     <tr className='border-b border-white/5 hover:bg-white/5 cursor-pointer transition-all duration-300 group'>
       <td className='py-5 px-3'>
         <div className='flex items-center space-x-3'>
-          <span className='font-bold text-[#169976] text-lg'>{standing.position}</span>
+          <span className='font-bold text-[#64748b] text-lg'>{standing.position}</span>
           <div className={`text-xs px-2 py-1 rounded-full ${trendClassName(standing.trend)}`}>
             {trendLabel(standing.trend)}
           </div>
@@ -37,11 +37,11 @@ export const TeamStandingRow = ({ standing, teamName, crest }: TeamStandingRowPr
       <td className='py-5 px-3'>
         <div className='flex items-center space-x-4'>
           <div className='relative'>
-            <div className='w-10 h-10 bg-gradient-to-br from-[#169976] to-teal-600 rounded-xl flex items-center justify-center text-xl shadow-lg'>
+            <div className='w-10 h-10 bg-gradient-to-br from-[#64748b] to-slate-600 rounded-xl flex items-center justify-center text-xl shadow-lg'>
               {crest}
             </div>
           </div>
-          <span className='text-white font-semibold group-hover:text-[#169976] transition-colors'>
+          <span className='text-white font-semibold group-hover:text-[#64748b] transition-colors'>
             {teamName}
           </span>
         </div>

@@ -20,10 +20,10 @@ export const NewsListSidebarCard = ({ article, href }: NewsListSidebarCardProps)
       href={href}
       target='_blank'
       rel='noopener noreferrer'
-      className='group block rounded-2xl border border-white/10 bg-slate-900/40 p-5 transition-colors hover:border-emerald-400/20 hover:bg-slate-900/60'
+      className='group block rounded-2xl border border-white/10 bg-slate-900/40 p-5 transition-colors hover:border-slate-400/20 hover:bg-slate-900/60'
     >
       <div className='mb-2 flex items-center justify-between text-xs text-slate-400'>
-        <span className='font-semibold uppercase tracking-wide text-emerald-200'>
+        <span className='font-semibold uppercase tracking-wide text-slate-200'>
           {article.source}
         </span>
         <span>
@@ -32,7 +32,7 @@ export const NewsListSidebarCard = ({ article, href }: NewsListSidebarCardProps)
           )}
         </span>
       </div>
-      <h4 className='text-base font-semibold text-white transition group-hover:text-emerald-200'>
+      <h4 className='text-base font-semibold text-white transition group-hover:text-slate-200'>
         {article.title}
       </h4>
       <p className='mt-2 text-sm text-slate-400 line-clamp-3'>

@@ -16,7 +16,7 @@ export const PlayerResultsSummary = ({
       {totalPlayers} Players Found
     </h2>
     {selectedCount > 0 && (
-      <div className='text-emerald-200 text-sm font-semibold'>
+      <div className='text-slate-200 text-sm font-semibold'>
         {selectedCount} selected for comparison
       </div>
     )}

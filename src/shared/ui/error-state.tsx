@@ -29,7 +29,7 @@ export const ErrorState = ({
   return (
     <div
       className={clsx(
-        "mx-auto flex w-full max-w-2xl flex-col items-center rounded-3xl border border-white/10 bg-slate-950/80 px-10 py-14 text-center text-slate-100 shadow-2xl shadow-emerald-500/5 backdrop-blur-xl",
+        "mx-auto flex w-full max-w-2xl flex-col items-center rounded-3xl border border-white/10 bg-slate-950/80 px-6 py-10 sm:px-10 sm:py-14 text-center text-slate-100 shadow-2xl shadow-slate-500/5 backdrop-blur-xl",
         className
       )}
     >
@@ -43,7 +43,7 @@ export const ErrorState = ({
         <button
           type='button'
           onClick={onRetry}
-          className='mt-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-emerald-400/40 hover:text-white'
+          className='mt-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-slate-400/40 hover:text-white'
         >
           <RefreshCcw className='h-4 w-4' />
           {resolvedAction}

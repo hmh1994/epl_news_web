@@ -115,13 +115,13 @@ export const calculatePositionDistribution = (
     DF: {
       position: "DF",
       label: "수비수",
-      color: "from-teal-400 to-emerald-500",
+      color: "from-slate-400 to-slate-500",
       count: 0,
     },
     MF: {
       position: "MF",
       label: "미드필더",
-      color: "from-green-400 to-emerald-500",
+      color: "from-green-400 to-slate-500",
       count: 0,
     },
     FW: {

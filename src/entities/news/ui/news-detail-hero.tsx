@@ -15,10 +15,10 @@ interface NewsDetailHeroProps {
 
 export const NewsDetailHero = ({ article, readingTimeLabel }: NewsDetailHeroProps) => {
   return (
-    <section className='relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-950/90 via-slate-950 to-slate-950'>
-      <div className='relative z-10 flex flex-col gap-6 px-8 py-12 sm:px-12 lg:px-16'>
-        <div className='flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-wide text-emerald-200'>
-          <span className='rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-1'>
+    <section className='relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-800/90 via-slate-950 to-slate-950'>
+      <div className='relative z-10 flex flex-col gap-4 px-4 py-8 sm:gap-6 sm:px-8 sm:py-12 lg:px-16'>
+        <div className='flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-wide text-slate-200'>
+          <span className='rounded-full border border-slate-400/30 bg-slate-500/10 px-4 py-1'>
             {article.category}
           </span>
           <span>{article.source}</span>
@@ -27,7 +27,7 @@ export const NewsDetailHero = ({ article, readingTimeLabel }: NewsDetailHeroProp
           {readingTimeLabel && <span>{readingTimeLabel}</span>}
         </div>
 
-        <h1 className='max-w-4xl text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl'>
+        <h1 className='max-w-4xl text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl'>
           {article.title}
         </h1>
 
@@ -36,7 +36,7 @@ export const NewsDetailHero = ({ article, readingTimeLabel }: NewsDetailHeroProp
         </p>
 
         {article.tags.length > 0 && (
-          <div className='flex flex-wrap gap-2 text-xs text-emerald-100'>
+          <div className='flex flex-wrap gap-2 text-xs text-slate-200'>
             {article.tags.map((tag) => (
               <span
                 key={tag}

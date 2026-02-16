@@ -63,7 +63,7 @@ export const PlayerSearchControls = ({
           <select
             aria-label={t("allPositions")}
             name='position'
-            className='w-full h-12 bg-slate-900/60 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-emerald-400/40 focus:ring-1 focus:ring-emerald-400/20'
+            className='w-full h-12 bg-slate-900/60 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-slate-400/40 focus:ring-1 focus:ring-slate-400/20'
             value={selectedPosition}
             onChange={(event) => onPositionChange(event.target.value)}
           >
@@ -79,7 +79,7 @@ export const PlayerSearchControls = ({
           <select
             aria-label={t("allTeams")}
             name='team'
-            className='w-full h-12 bg-slate-900/60 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-emerald-400/40 focus:ring-1 focus:ring-emerald-400/20'
+            className='w-full h-12 bg-slate-900/60 border border-white/10 rounded-2xl px-4 text-white focus:outline-none focus:border-slate-400/40 focus:ring-1 focus:ring-slate-400/20'
             value={selectedTeam}
             onChange={(event) => onTeamChange(event.target.value)}
           >
@@ -99,7 +99,7 @@ export const PlayerSearchControls = ({
             aria-label={t("searchPlaceholder")}
             name='player-search'
             autoComplete='off'
-            className='w-full h-12 bg-slate-900/60 border border-white/10 rounded-2xl pl-12 pr-4 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400/40 focus:ring-1 focus:ring-emerald-400/20'
+            className='w-full h-12 bg-slate-900/60 border border-white/10 rounded-2xl pl-12 pr-4 text-white placeholder-slate-500 focus:outline-none focus:border-slate-400/40 focus:ring-1 focus:ring-slate-400/20'
             value={searchTerm}
             onChange={handleSearchInput}
             onKeyDown={(event) => {
@@ -119,7 +119,7 @@ export const PlayerSearchControls = ({
             className={`h-12 rounded-2xl px-4 text-sm font-semibold whitespace-nowrap transition-colors border ${
               isSearching
                 ? "bg-slate-800/60 text-slate-500 border-white/5 cursor-not-allowed"
-                : "bg-emerald-500/15 text-emerald-100 border-emerald-400/30 hover:bg-emerald-500/25"
+                : "bg-slate-500/15 text-slate-100 border-slate-400/30 hover:bg-slate-500/25"
             }`}
           >
             {isSearching ? "조회중" : "조회"}
@@ -131,7 +131,7 @@ export const PlayerSearchControls = ({
             aria-pressed={viewMode === "grid"}
             className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-colors border ${
               viewMode === "grid"
-                ? "bg-emerald-500/15 text-emerald-100 border-emerald-400/30"
+                ? "bg-slate-500/15 text-slate-100 border-slate-400/30"
                 : "bg-slate-900/60 text-slate-400 border-white/10 hover:text-white"
             }`}
           >
@@ -144,7 +144,7 @@ export const PlayerSearchControls = ({
             aria-pressed={viewMode === "list"}
             className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-colors border ${
               viewMode === "list"
-                ? "bg-emerald-500/15 text-emerald-100 border-emerald-400/30"
+                ? "bg-slate-500/15 text-slate-100 border-slate-400/30"
                 : "bg-slate-900/60 text-slate-400 border-white/10 hover:text-white"
             }`}
           >
@@ -165,7 +165,7 @@ export const PlayerSearchControls = ({
             return (
           <div
             key={`${filter.type}-${filter.value}`}
-            className='flex items-center space-x-2 bg-emerald-500/10 border border-emerald-400/30 text-emerald-200 px-4 py-2 rounded-xl text-sm font-medium'
+            className='flex items-center space-x-2 bg-slate-500/10 border border-slate-400/30 text-slate-200 px-4 py-2 rounded-xl text-sm font-medium'
           >
             <span>{label}</span>
             <button

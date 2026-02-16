@@ -4,14 +4,14 @@ import React from "react";
 
 export const PremiumTableFooter = () => (
   <footer className='border-t border-white/10 mt-20 bg-slate-950'>
-    <div className='max-w-7xl mx-auto px-6 py-14'>
+    <div className='max-w-7xl mx-auto px-4 py-8 sm:px-6 sm:py-14'>
       <div className='text-center'>
         <div className='flex items-center justify-center space-x-4 mb-6'>
-          <div className='w-14 h-14 rounded-2xl border border-white/10 bg-slate-900/60 flex items-center justify-center text-2xl'>
+          <div className='w-10 h-10 sm:w-14 sm:h-14 rounded-2xl border border-white/10 bg-slate-900/60 flex items-center justify-center text-xl sm:text-2xl'>
             ⚽
           </div>
           <div>
-            <span className='text-3xl font-semibold text-white'>
+            <span className='text-2xl sm:text-3xl font-semibold text-white'>
               EPL Analytics
             </span>
             <div className='text-slate-400 text-sm'>Professional Football Intelligence</div>
@@ -22,7 +22,7 @@ export const PremiumTableFooter = () => (
         </p>
         <div className='flex flex-wrap items-center justify-center gap-6 text-sm text-slate-500'>
           <div className='flex items-center space-x-2'>
-            <div className='w-2 h-2 bg-emerald-300/70 rounded-full'></div>
+            <div className='w-2 h-2 bg-slate-300/70 rounded-full'></div>
             <span>실시간 업데이트</span>
           </div>
           <div>© 2024 EPL Analytics Platform</div>

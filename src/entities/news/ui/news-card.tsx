@@ -40,7 +40,7 @@ export const NewsCard = ({
       target='_blank'
       rel='noopener noreferrer'
       className={clsx(
-        "group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-slate-950/60 transition-colors hover:border-emerald-400/20 hover:bg-slate-950/80",
+        "group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-slate-950/60 transition-colors hover:border-slate-400/20 hover:bg-slate-950/80",
         className,
       )}
     >
@@ -59,7 +59,7 @@ export const NewsCard = ({
 
       <div
         className={clsx(
-          "flex flex-1 flex-col gap-4 p-6 sm:p-8",
+          "flex flex-1 flex-col gap-4 p-4 sm:p-6 md:p-8",
           showImage
             ? ""
             : "bg-slate-950/40",
@@ -72,11 +72,11 @@ export const NewsCard = ({
               newsDateFormatter.format(new Date(article.publishDate))
             )}
           </span>
-          <span className='text-emerald-200'>{article.source}</span>
+          <span className='text-slate-200'>{article.source}</span>
         </div>
 
         <div className='space-y-3'>
-          <h3 className='text-2xl font-semibold text-white transition group-hover:text-emerald-200 sm:text-3xl'>
+          <h3 className='text-xl font-semibold text-white transition group-hover:text-slate-200 sm:text-2xl md:text-3xl'>
             {article.title}
           </h3>
           <p className='text-base leading-relaxed text-slate-300 line-clamp-3 sm:text-lg'>

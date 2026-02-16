@@ -62,13 +62,13 @@ export const MatchStatsPanel = ({
         {
           label: homeLabel,
           data: homeDataset,
-          backgroundColor: "rgba(22,153,118,0.25)",
-          borderColor: "rgba(22,153,118,0.85)",
+          backgroundColor: "rgba(100,116,139,0.25)",
+          borderColor: "rgba(100,116,139,0.85)",
           borderWidth: 2,
-          pointBackgroundColor: "#34d399",
-          pointBorderColor: "#0f766e",
-          pointHoverBackgroundColor: "#ecfeff",
-          pointHoverBorderColor: "#34d399",
+          pointBackgroundColor: "#94a3b8",
+          pointBorderColor: "#334155",
+          pointHoverBackgroundColor: "#f1f5f9",
+          pointHoverBorderColor: "#94a3b8",
           fill: true,
         },
         {
@@ -151,7 +151,7 @@ export const MatchStatsPanel = ({
   return (
     <section className='bg-slate-900/60 border border-white/10 rounded-3xl backdrop-blur-2xl shadow-2xl overflow-hidden'>
       <header className='px-7 py-6 border-b border-white/10 space-y-1'>
-        <p className='text-xs uppercase tracking-[0.3em] text-emerald-300'>
+        <p className='text-xs uppercase tracking-[0.3em] text-slate-300'>
           Momentum &amp; Stats
         </p>
         <h2 className='text-xl font-semibold text-white'>
@@ -160,14 +160,14 @@ export const MatchStatsPanel = ({
         <p className='text-xs text-slate-400'>{timeframeNote}</p>
       </header>
 
-      <div className='grid gap-6 lg:grid-cols-[1.4fr,1fr] items-start px-2 py-6'>
+      <div className='grid gap-4 md:gap-6 lg:grid-cols-[1.4fr,1fr] items-start px-2 py-4 md:py-6'>
         <div className='space-y-6'>
-          <div className='bg-slate-900/40 border border-white/10 rounded-2xl p-6 shadow-inner shadow-emerald-500/10'>
-            <div className='h-72 sm:h-80'>
+          <div className='bg-slate-900/40 border border-white/10 rounded-2xl p-6 shadow-inner shadow-slate-500/10'>
+            <div className='h-56 sm:h-72 md:h-80'>
               <Radar data={chartData} options={chartOptions} />
             </div>
             <div className='mt-5 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-300'>
-              <LegendItem color='rgba(22,153,118,0.85)' label={homeLabel} />
+              <LegendItem color='rgba(100,116,139,0.85)' label={homeLabel} />
               <LegendItem color='rgba(99,102,241,0.85)' label={awayLabel} />
             </div>
           </div>
@@ -214,7 +214,7 @@ const StatValueGrid = ({
           const leaderTone = isLevel
             ? "text-slate-400"
             : homeLeads
-            ? "text-emerald-300"
+            ? "text-slate-300"
             : "text-fuchsia-300";
           return (
             <div
@@ -329,7 +329,7 @@ const formatDifference = (home: number, away: number) => {
 };
 
 const FORM_TONE = {
-  home: "text-emerald-200",
+  home: "text-slate-200",
   away: "text-indigo-200",
 } as const;
 
@@ -371,7 +371,7 @@ const FormColumn = ({
               </div>
             </div>
             <div className='text-right'>
-              <p className='text-xs text-emerald-200/90 font-medium'>
+              <p className='text-xs text-slate-200/90 font-medium'>
                 vs {entry.opponent}
               </p>
               <p className='text-[11px] text-slate-400'>{entry.date}</p>

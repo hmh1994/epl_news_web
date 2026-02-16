@@ -33,9 +33,9 @@ const getSortIcon = (
     );
   }
   return sortOrder === "asc" ? (
-    <ChevronUp className='w-4 h-4 text-emerald-400' />
+    <ChevronUp className='w-4 h-4 text-slate-400' />
   ) : (
-    <ChevronDown className='w-4 h-4 text-emerald-400' />
+    <ChevronDown className='w-4 h-4 text-slate-400' />
   );
 };
 
@@ -60,14 +60,14 @@ export const PremiumTableTable = ({
   onHoverEnd,
 }: PremiumTableTableProps) => (
   <div className='bg-slate-950/60 rounded-3xl border border-white/10 shadow-[0_18px_40px_rgba(2,6,23,0.35)] overflow-hidden'>
-    <div className='bg-slate-950/60 px-8 py-6 border-b border-white/5'>
-      <div className='flex items-center justify-between'>
-        <div className='flex items-center space-x-6'>
-          <h2 className='text-2xl font-semibold text-white'>
+    <div className='bg-slate-950/60 px-4 py-4 md:px-8 md:py-6 border-b border-white/5'>
+      <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
+        <div className='flex items-center gap-3 sm:space-x-6'>
+          <h2 className='text-lg sm:text-2xl font-semibold text-white'>
             Premier League Table
           </h2>
-          <div className='flex items-center space-x-2 text-sm text-slate-400'>
-            <div className='w-2 h-2 bg-emerald-300/70 rounded-full'></div>
+          <div className='hidden sm:flex items-center space-x-2 text-sm text-slate-400'>
+            <div className='w-2 h-2 bg-slate-300/70 rounded-full'></div>
             <span>Live Updated</span>
           </div>
         </div>
@@ -289,32 +289,30 @@ export const PremiumTableTable = ({
       </table>
     </div>
 
-    <div className='bg-slate-950/60 px-8 py-6 border-t border-white/5'>
-      <div className='flex items-center justify-between text-sm'>
-        <div className='flex items-center space-x-6 text-slate-400'>
+    <div className='bg-slate-950/60 px-4 py-4 md:px-8 md:py-6 border-t border-white/5'>
+      <div className='flex flex-col gap-3 text-sm sm:flex-row sm:items-center sm:justify-between'>
+        <div className='flex flex-wrap items-center gap-3 sm:space-x-6 text-slate-400'>
           <div className='flex items-center space-x-2'>
-            <div className='w-2 h-2 bg-emerald-300/70 rounded-full'></div>
+            <div className='w-2 h-2 bg-slate-300/70 rounded-full'></div>
             <span>총 {teams.length}개 팀</span>
           </div>
-          <div className='flex items-center space-x-2'>
+          <div className='hidden sm:flex items-center space-x-2'>
             <Calendar className='w-4 h-4' />
             <span>마지막 업데이트: 방금 전</span>
           </div>
         </div>
-        <div className='flex items-center space-x-8 text-slate-400'>
+        <div className='flex flex-wrap items-center gap-3 sm:space-x-6 text-slate-400 text-xs sm:text-sm'>
           <div className='flex items-center space-x-2'>
             <span>1-4위:</span>
-            <span className='text-emerald-200 font-semibold'>
-              Champions League
-            </span>
+            <span className='text-slate-200 font-semibold'>CL</span>
           </div>
           <div className='flex items-center space-x-2'>
             <span>5-6위:</span>
-            <span className='text-teal-200 font-semibold'>Europa League</span>
+            <span className='text-slate-300 font-semibold'>EL</span>
           </div>
           <div className='flex items-center space-x-2'>
             <span>18-20위:</span>
-            <span className='text-red-300 font-semibold'>Championship</span>
+            <span className='text-red-300 font-semibold'>강등</span>
           </div>
         </div>
       </div>

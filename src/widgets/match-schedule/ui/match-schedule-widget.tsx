@@ -318,18 +318,18 @@ const ScheduleHero = () => {
 
   return (
     <section className='relative pt-28 pb-32 overflow-hidden'>
-      <div className='absolute inset-0 bg-gradient-to-br from-slate-900 via-emerald-900/30 to-slate-950'></div>
+      <div className='absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800/30 to-slate-950'></div>
       <div className='absolute inset-0 opacity-20'>
-        <div className='absolute top-1/3 left-1/5 w-96 h-96 bg-[#169976] rounded-full mix-blend-multiply filter blur-3xl animate-pulse'></div>
-        <div className='absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse'></div>
+        <div className='absolute top-1/3 left-1/5 w-96 h-96 bg-[#64748b] rounded-full mix-blend-multiply filter blur-3xl animate-pulse'></div>
+        <div className='absolute bottom-1/4 right-1/4 w-96 h-96 bg-slate-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse'></div>
       </div>
 
       <div className='relative z-10 max-w-7xl mx-auto px-6 text-center'>
-        <p className='text-sm uppercase tracking-[0.4em] text-emerald-200/80 mb-3'>
+        <p className='text-sm uppercase tracking-[0.4em] text-slate-200/80 mb-3'>
           Premier League 2024/25
         </p>
         <h1 className='text-5xl md:text-6xl font-black mb-4 leading-tight'>
-          <span className='bg-gradient-to-r from-white to-emerald-100 bg-clip-text text-transparent'>
+          <span className='bg-gradient-to-r from-white to-slate-200 bg-clip-text text-transparent'>
             Match Schedule
           </span>
         </h1>
@@ -340,13 +340,13 @@ const ScheduleHero = () => {
         <div className='mt-6 flex flex-wrap items-center justify-center gap-4 text-sm font-semibold'>
           <Link
             href={`${basePath}/teams`}
-            className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+            className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-slate-400/40 hover:text-white'
           >
             {t("teamLink")}
           </Link>
           <Link
             href={`${basePath}/players`}
-            className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-emerald-400/40 hover:text-white'
+            className='rounded-full border border-white/10 bg-white/5 px-5 py-2 text-slate-200 transition-colors hover:border-slate-400/40 hover:text-white'
           >
             {t("playerLink")}
           </Link>
@@ -516,10 +516,10 @@ const MatchweekSpotlight = ({
   if (fixtures.length === 0) return null;
 
   return (
-    <section className='bg-gradient-to-br from-[#169976]/15 via-slate-900/60 to-slate-900/80 border border-white/10 rounded-3xl backdrop-blur-3xl shadow-2xl mb-12'>
+    <section className='bg-gradient-to-br from-[#64748b]/15 via-slate-900/60 to-slate-900/80 border border-white/10 rounded-3xl backdrop-blur-3xl shadow-2xl mb-12'>
       <div className='px-8 py-6 border-b border-white/10 flex flex-wrap items-center justify-between gap-4'>
         <div>
-          <p className='text-xs uppercase tracking-[0.3em] text-emerald-200/80 mb-1'>
+          <p className='text-xs uppercase tracking-[0.3em] text-slate-200/80 mb-1'>
             EPL spotlight
           </p>
           <h2 className='text-2xl font-bold text-white'>{t("title")}</h2>
@@ -536,7 +536,7 @@ const MatchweekSpotlight = ({
             <div
               key={key}
               className={`bg-slate-900/70 border border-white/10 rounded-2xl px-5 py-4 space-y-3 ${
-                onNavigate ? "cursor-pointer hover:border-emerald-400/40" : ""
+                onNavigate ? "cursor-pointer hover:border-slate-400/40" : ""
               }`}
               onClick={() => onNavigate?.(fixture.id)}
               onKeyDown={(event) => {
@@ -618,7 +618,7 @@ const PowerRankingList = ({
             {awayTeam?.shortName ?? selectedFixture.away.teamId.toUpperCase()}
           </span>
         </div>
-        <div className='text-emerald-400 font-bold text-base'>{score}</div>
+        <div className='text-slate-400 font-bold text-base'>{score}</div>
       </div>
     </div>
   );

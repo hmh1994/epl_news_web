@@ -22,7 +22,7 @@ interface ClubDisplay {
 }
 
 const statusClasses: Record<MatchFixture["status"], string> = {
-  upcoming: "bg-emerald-500/20 text-emerald-300 border-emerald-400/30",
+  upcoming: "bg-slate-500/20 text-slate-300 border-slate-400/30",
   live: "bg-red-500/20 text-red-300 border-red-400/30 animate-pulse",
   finished: "bg-slate-500/20 text-slate-200 border-slate-400/30",
 };
@@ -68,7 +68,7 @@ export const MatchFixtureCard = ({
   return (
     <article
       className={`relative overflow-hidden rounded-xl border ${
-        isSelected ? "border-emerald-400/60 shadow-emerald-400/30" : "border-white/10"
+        isSelected ? "border-slate-400/60 shadow-slate-400/30" : "border-white/10"
       } bg-slate-950/60 p-4 shadow-[0_12px_24px_rgba(2,6,23,0.35)] transition-transform ${
         isClickable ? "cursor-pointer hover:-translate-y-0.5" : ""
       }`}
@@ -87,11 +87,11 @@ export const MatchFixtureCard = ({
       tabIndex={isClickable ? 0 : undefined}
     >
       <div className='flex flex-col gap-3'>
-        <div className='flex items-center justify-between text-xs text-slate-400'>
-          <div className='flex items-center gap-3'>
+        <div className='flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400'>
+          <div className='flex flex-wrap items-center gap-2 sm:gap-3'>
             <span className='uppercase tracking-[0.25em] text-slate-500'>{matchweekLabel}</span>
             <span className='text-white font-semibold text-sm'>{kickoffFormatter.format(kickoff)}</span>
-            <span>{normalizeDayLabel(dayFormatter.format(kickoff))}</span>
+            <span className='hidden sm:inline'>{normalizeDayLabel(dayFormatter.format(kickoff))}</span>
           </div>
           <div className='flex items-center gap-2'>
             {onToggleFavorite && (
@@ -104,8 +104,8 @@ export const MatchFixtureCard = ({
                 }}
                 className={`inline-flex items-center gap-2 rounded-full border px-2.5 py-1 text-[11px] font-semibold transition-all ${
                   isFavorite
-                    ? "border-emerald-400/60 bg-emerald-500/10 text-emerald-300 shadow-inner shadow-emerald-400/20"
-                    : "border-white/10 bg-white/5 text-slate-300 hover:border-emerald-400/30"
+                    ? "border-slate-400/60 bg-slate-500/10 text-slate-300 shadow-inner shadow-slate-400/20"
+                    : "border-white/10 bg-white/5 text-slate-300 hover:border-slate-400/30"
                 }`}
                 aria-pressed={isFavorite}
               >
@@ -184,7 +184,7 @@ const ClubColumn = ({
           {fullName}
         </p>
         {club.leaguePosition && (
-          <span className='text-[10px] font-semibold text-emerald-300'>
+          <span className='text-[10px] font-semibold text-slate-300'>
             {t("details.position", { position: club.leaguePosition })}
           </span>
         )}

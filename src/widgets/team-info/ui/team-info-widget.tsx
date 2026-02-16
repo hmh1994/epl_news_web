@@ -113,7 +113,7 @@ export const TeamInfoWidget = ({
   );
 
   return (
-    <div className='min-h-screen bg-slate-950 text-white overflow-x-hidden bg-[radial-gradient(circle_at_20%_-10%,rgba(16,185,129,0.1),transparent_45%),radial-gradient(circle_at_85%_0%,rgba(20,184,166,0.08),transparent_40%)]'>
+    <div className='min-h-screen bg-slate-950 text-white overflow-x-hidden bg-[radial-gradient(circle_at_20%_-10%,rgba(100,116,139,0.1),transparent_45%),radial-gradient(circle_at_85%_0%,rgba(148,163,184,0.08),transparent_40%)]'>
       <TeamInfoHero />
 
       <main className='max-w-7xl mx-auto px-6 pb-20'>
@@ -144,7 +144,7 @@ export const TeamInfoWidget = ({
                     value={teamSearchTerm}
                     onChange={(event) => setTeamSearchTerm(event.target.value)}
                     placeholder='팀 이름 또는 약어 검색'
-                    className='w-full rounded-2xl border border-white/10 bg-slate-900/60 py-2.5 pl-11 pr-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400/40 focus:outline-none focus:ring-1 focus:ring-emerald-400/20'
+                    className='w-full rounded-2xl border border-white/10 bg-slate-900/60 py-2.5 pl-11 pr-3 text-sm text-white placeholder:text-slate-500 focus:border-slate-400/40 focus:outline-none focus:ring-1 focus:ring-slate-400/20'
                   />
                 </div>
               </div>

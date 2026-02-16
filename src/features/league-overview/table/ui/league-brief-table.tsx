@@ -21,41 +21,31 @@ export const LeagueBriefTable = ({
   onSelect,
 }: LeagueBriefTableProps) => {
   return (
-    <table className='w-full table-fixed'>
-      <colgroup>
-        <col className='w-20' />
-        <col className='w-[32rem]' />
-        <col className='w-16' />
-        <col className='w-16' />
-        <col className='w-16' />
-        <col className='w-16' />
-        <col className='w-20' />
-        <col className='w-20' />
-      </colgroup>
+    <table className='w-full'>
       <thead className='bg-slate-900/60 border-b border-white/5'>
         <tr>
-          <th className='py-4 px-8 text-left text-xs font-semibold tracking-wider text-slate-500 uppercase'>
-            POS
+          <th className='py-3 px-2 md:py-4 md:px-8 text-left text-[10px] md:text-xs font-semibold tracking-wider text-slate-500 uppercase'>
+            #
           </th>
-          <th className='py-4 px-8 text-left text-xs font-semibold tracking-wider text-slate-500 uppercase'>
+          <th className='py-3 px-2 md:py-4 md:px-8 text-left text-[10px] md:text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             Team
           </th>
-          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-500 uppercase'>
+          <th className='py-3 px-1 md:py-4 md:px-4 text-center text-[10px] md:text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             P
           </th>
-          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-500 uppercase'>
+          <th className='py-3 px-1 md:py-4 md:px-4 text-center text-[10px] md:text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             W
           </th>
-          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-500 uppercase'>
+          <th className='hidden sm:table-cell py-3 px-1 md:py-4 md:px-4 text-center text-[10px] md:text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             D
           </th>
-          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-500 uppercase'>
+          <th className='hidden sm:table-cell py-3 px-1 md:py-4 md:px-4 text-center text-[10px] md:text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             L
           </th>
-          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-500 uppercase'>
+          <th className='hidden sm:table-cell py-3 px-1 md:py-4 md:px-4 text-center text-[10px] md:text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             GD
           </th>
-          <th className='py-4 px-4 text-xs font-semibold tracking-wider text-slate-500 uppercase'>
+          <th className='py-3 px-1 md:py-4 md:px-4 text-center text-[10px] md:text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             PTS
           </th>
         </tr>

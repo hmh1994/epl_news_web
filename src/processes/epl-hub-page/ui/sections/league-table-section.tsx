@@ -25,27 +25,32 @@ export const LeagueTableSection = ({
 
   return (
     <div className='rounded-3xl border border-white/10 bg-slate-950/60 shadow-[0_18px_40px_rgba(2,6,23,0.35)]'>
-      <div className='flex items-center justify-between border-b border-white/5 px-8 py-6'>
+      <div className='flex flex-col gap-3 border-b border-white/5 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-6'>
         <div>
-          <h2 className='text-2xl font-semibold text-white'>
+          <h2 className='text-lg font-semibold text-white sm:text-2xl'>
             {t("leagueTable.title")}
           </h2>
-          <p className='text-sm text-slate-400'>
+          <p className='text-xs text-slate-400 sm:text-sm'>
             {t("leagueTable.description")}
           </p>
         </div>
-        <div className='flex items-center gap-3'>
+        <div className='flex items-center gap-2 sm:gap-3'>
           <Link
             href={`${basePath}/teams`}
             className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:border-white/20 hover:text-white'
           >
             {t("leagueTable.viewAll")}
           </Link>
-          <span className='inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-500/10 px-4 py-1 text-xs font-semibold text-emerald-200'>
-            <Star className='h-4 w-4' />
-            {favoriteTeams.length > 0
-              ? t("leagueTable.favoritesCount", { count: favoriteTeams.length })
-              : t("leagueTable.favoritesReady")}
+          <span className='inline-flex items-center gap-1.5 rounded-full border border-slate-400/20 bg-slate-500/10 px-3 py-1 text-xs font-semibold text-slate-200 sm:gap-2 sm:px-4'>
+            <Star className='h-3.5 w-3.5 sm:h-4 sm:w-4' />
+            <span className='hidden sm:inline'>
+              {favoriteTeams.length > 0
+                ? t("leagueTable.favoritesCount", { count: favoriteTeams.length })
+                : t("leagueTable.favoritesReady")}
+            </span>
+            <span className='sm:hidden'>
+              {favoriteTeams.length > 0 ? favoriteTeams.length : "0"}
+            </span>
           </span>
         </div>
       </div>

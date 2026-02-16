@@ -14,7 +14,7 @@ export const MatchKeyPlayers = ({ keyPlayers }: MatchKeyPlayersProps) => {
   return (
     <section className='bg-slate-900/60 border border-white/10 rounded-3xl backdrop-blur-2xl shadow-2xl overflow-hidden'>
       <header className='px-7 py-6 border-b border-white/10'>
-        <p className='text-xs uppercase tracking-[0.3em] text-emerald-300'>Key Battle</p>
+        <p className='text-xs uppercase tracking-[0.3em] text-slate-300'>Key Battle</p>
         <h2 className='text-xl font-semibold text-white'>오늘의 관전 포인트</h2>
       </header>
 
@@ -35,7 +35,7 @@ const KeyPlayerCard = ({ side, player }: { side: string; player: MatchKeyPlayer 
           <h3 className='text-lg font-semibold text-white'>{player.name}</h3>
           <p className='text-sm text-slate-400'>{player.role}</p>
         </div>
-        <div className='text-xs text-emerald-200 uppercase tracking-[0.3em]'>{player.stat}</div>
+        <div className='text-xs text-slate-200 uppercase tracking-[0.3em]'>{player.stat}</div>
       </div>
 
       <p className='text-sm text-slate-300 leading-relaxed'>{player.highlight}</p>
