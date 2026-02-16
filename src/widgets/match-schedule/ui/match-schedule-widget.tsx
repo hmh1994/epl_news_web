@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { MatchScheduleFilters } from "@/features/match-schedule/filters/ui/match-schedule-filters";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
 import {
+  MatchClub,
   MatchDaySchedule,
   MatchFixture,
 } from "@/entities/match/model/match-schedule";
@@ -20,6 +21,40 @@ const dayTitleFormatter = new Intl.DateTimeFormat("ko-KR", {
   weekday: "short",
   timeZone: TIMEZONE,
 });
+
+/** Strip common suffixes like "F.C.", "A.F.C." from team name */
+const cleanTeamName = (name: string) =>
+  name
+    .replace(/\s*A\.F\.C\.?\s*$/i, "")
+    .replace(/\s*F\.C\.?\s*$/i, "")
+    .trim();
+
+/** Derive a 3-letter short code from a full team name */
+const deriveShortName = (name: string): string => {
+  const cleaned = cleanTeamName(name);
+  const words = cleaned.split(/\s+/);
+  if (words.length === 1) return cleaned.slice(0, 3).toUpperCase();
+  return words
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 3)
+    .toUpperCase();
+};
+
+/** Resolve display info from either mock lookup or API teamName */
+const getTeamDisplay = (club: MatchClub) => {
+  const mock = TEAMS_BY_ID[club.teamId];
+  if (mock) {
+    return { name: mock.name, shortName: mock.shortName, crest: mock.crest };
+  }
+  if (club.teamName) {
+    return {
+      name: cleanTeamName(club.teamName),
+      shortName: deriveShortName(club.teamName),
+    };
+  }
+  return { name: club.teamId, shortName: club.teamId.slice(0, 3).toUpperCase() };
+};
 
 type FixtureKey = `${string}-${string}`;
 
@@ -206,14 +241,16 @@ export const MatchScheduleWidget = ({
         return true;
       }
 
-      const homeTeam = TEAMS_BY_ID[fixture.home.teamId];
-      const awayTeam = TEAMS_BY_ID[fixture.away.teamId];
+      const homeDisplay = getTeamDisplay(fixture.home);
+      const awayDisplay = getTeamDisplay(fixture.away);
 
       const haystack = [
-        homeTeam?.name,
-        homeTeam?.shortName,
-        awayTeam?.name,
-        awayTeam?.shortName,
+        homeDisplay.name,
+        homeDisplay.shortName,
+        awayDisplay.name,
+        awayDisplay.shortName,
+        fixture.home.teamName,
+        fixture.away.teamName,
         fixture.venue,
         fixture.city,
         fixture.headline ?? "",
@@ -394,27 +431,15 @@ const ScheduleDay = ({
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-0'>
         <div className='lg:col-span-2 p-6 space-y-4 lg:max-h-[640px] lg:overflow-y-auto lg:pr-4 scrollbar-slim'>
           {day.fixtures.map((fixture) => {
-            const homeTeamInfo = TEAMS_BY_ID[fixture.home.teamId];
-            const awayTeamInfo = TEAMS_BY_ID[fixture.away.teamId];
+            const homeDisplay = getTeamDisplay(fixture.home);
+            const awayDisplay = getTeamDisplay(fixture.away);
 
             return (
               <MatchFixtureCard
                 key={fixture.id}
                 fixture={fixture}
-                homeTeam={
-                  homeTeamInfo && {
-                    name: homeTeamInfo.name,
-                    shortName: homeTeamInfo.shortName,
-                    crest: homeTeamInfo.crest,
-                  }
-                }
-                awayTeam={
-                  awayTeamInfo && {
-                    name: awayTeamInfo.name,
-                    shortName: awayTeamInfo.shortName,
-                    crest: awayTeamInfo.crest,
-                  }
-                }
+                homeTeam={homeDisplay}
+                awayTeam={awayDisplay}
                 isSelected={fixture.id === selectedFixtureId}
                 onSelect={() => {
                   onSelectFixture(fixture.id);
@@ -449,8 +474,8 @@ const DayInsights = ({
 
   if (!fixture) return null;
 
-  const homeTeam = TEAMS_BY_ID[fixture.home.teamId];
-  const awayTeam = TEAMS_BY_ID[fixture.away.teamId];
+  const homeDisplay = getTeamDisplay(fixture.home);
+  const awayDisplay = getTeamDisplay(fixture.away);
 
   return (
     <div className='space-y-8'>
@@ -460,13 +485,9 @@ const DayInsights = ({
         </p>
         <div className='bg-slate-800/50 border border-white/10 rounded-2xl px-4 py-4 space-y-3 text-sm text-slate-300'>
           <div className='flex items-center justify-between text-white font-semibold'>
-            <span>
-              {homeTeam?.shortName ?? fixture.home.teamId.toUpperCase()}
-            </span>
+            <span>{homeDisplay.shortName}</span>
             <span>vs</span>
-            <span>
-              {awayTeam?.shortName ?? fixture.away.teamId.toUpperCase()}
-            </span>
+            <span>{awayDisplay.shortName}</span>
           </div>
           <div className='flex items-center justify-between'>
             <span>Kickoff</span>
@@ -528,8 +549,8 @@ const MatchweekSpotlight = ({
       </div>
       <div className='px-8 py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {fixtures.map(({ fixture, score }, index) => {
-          const homeTeam = TEAMS_BY_ID[fixture.home.teamId];
-          const awayTeam = TEAMS_BY_ID[fixture.away.teamId];
+          const homeDisplay = getTeamDisplay(fixture.home);
+          const awayDisplay = getTeamDisplay(fixture.away);
           const key = `spotlight-${fixture.id}`;
 
           return (
@@ -554,8 +575,7 @@ const MatchweekSpotlight = ({
                 <span>Power {Math.round(score)}</span>
               </div>
               <div className='text-white font-semibold text-lg'>
-                {homeTeam?.shortName ?? fixture.home.teamId.toUpperCase()} vs{" "}
-                {awayTeam?.shortName ?? fixture.away.teamId.toUpperCase()}
+                {homeDisplay.shortName} vs {awayDisplay.shortName}
               </div>
               {fixture.headline && (
                 <p className='text-slate-300 text-sm'>{fixture.headline}</p>
@@ -594,8 +614,8 @@ const PowerRankingList = ({
   const active = ranking.find(
     (entry) => entry.fixture.id === selectedFixture.id
   );
-  const homeTeam = TEAMS_BY_ID[selectedFixture.home.teamId];
-  const awayTeam = TEAMS_BY_ID[selectedFixture.away.teamId];
+  const homeDisplay = getTeamDisplay(selectedFixture.home);
+  const awayDisplay = getTeamDisplay(selectedFixture.away);
   const score = active ? Math.round(active.score) : "-";
 
   return (
@@ -610,13 +630,9 @@ const PowerRankingList = ({
       </div>
       <div className='bg-slate-800/50 border border-white/10 rounded-2xl px-4 py-4 text-sm text-white flex items-center justify-between'>
         <div className='flex items-center gap-2'>
-          <span>
-            {homeTeam?.shortName ?? selectedFixture.home.teamId.toUpperCase()}
-          </span>
+          <span>{homeDisplay.shortName}</span>
           <span className='text-slate-400'>vs</span>
-          <span>
-            {awayTeam?.shortName ?? selectedFixture.away.teamId.toUpperCase()}
-          </span>
+          <span>{awayDisplay.shortName}</span>
         </div>
         <div className='text-slate-400 font-bold text-base'>{score}</div>
       </div>
@@ -632,8 +648,8 @@ const HeadToHeadList = ({
   const t = useTranslations("widgets.matchSchedule.headToHead");
   if (!selectedFixture) return null;
 
-  const home = TEAMS_BY_ID[selectedFixture.home.teamId];
-  const away = TEAMS_BY_ID[selectedFixture.away.teamId];
+  const homeDisplay = getTeamDisplay(selectedFixture.home);
+  const awayDisplay = getTeamDisplay(selectedFixture.away);
   const history = getHeadToHead(selectedFixture);
 
   if (history.length === 0) return null;
@@ -645,8 +661,7 @@ const HeadToHeadList = ({
       </p>
       <div className='bg-slate-800/40 border border-white/10 rounded-2xl px-4 py-4 space-y-2'>
         <div className='text-sm font-semibold text-white'>
-          {home?.shortName ?? selectedFixture.home.teamId.toUpperCase()} vs{" "}
-          {away?.shortName ?? selectedFixture.away.teamId.toUpperCase()}
+          {homeDisplay.shortName} vs {awayDisplay.shortName}
         </div>
         <ul className='space-y-1 text-xs text-slate-300'>
           {history.slice(0, 3).map((match, idx) => (

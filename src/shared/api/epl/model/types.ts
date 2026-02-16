@@ -11,7 +11,7 @@ type ApiPlayerRanking = Omit<PlayerRanking, "value">;
 
 export interface ApiResponseMeta {
   season?: string;
-  lastUpdated?: number;
+  lastUpdated?: number | string;
   leagueId?: string;
   leagueName?: string;
   locale?: string;
@@ -88,7 +88,7 @@ export interface MatchScheduleResponse extends ApiResourceResponse<{
   meta: ApiResponseMeta & {
     leagueId: string;
     season: string;
-    lastUpdated: number;
+    lastUpdated: number | string;
   };
 }
 

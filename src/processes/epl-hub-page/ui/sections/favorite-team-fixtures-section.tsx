@@ -42,8 +42,8 @@ export const FavoriteTeamFixturesSection = ({
       </div>
       <ul className='mt-4 space-y-3 sm:mt-6 sm:space-y-4'>
         {fixtures.slice(0, 5).map((fixture) => {
-          const home = getClubDisplay(fixture.home.teamId);
-          const away = getClubDisplay(fixture.away.teamId);
+          const home = getClubDisplay(fixture.home.teamId, fixture.home.teamName);
+          const away = getClubDisplay(fixture.away.teamId, fixture.away.teamName);
 
           return (
             <li

@@ -2,9 +2,17 @@ export type MatchStatus = "upcoming" | "live" | "finished";
 
 export interface MatchClub {
   teamId: string;
+  teamName?: string;
   score?: number;
   recentForm?: Array<"W" | "D" | "L">;
   leaguePosition?: number;
+}
+
+export interface MatchReferee {
+  main: string;
+  assist1?: string;
+  assist2?: string;
+  fourth?: string;
 }
 
 export interface MatchFixture {
@@ -16,7 +24,7 @@ export interface MatchFixture {
   status: MatchStatus;
   home: MatchClub;
   away: MatchClub;
-  referee?: string;
+  referee?: string | MatchReferee;
   headline?: string;
 }
 

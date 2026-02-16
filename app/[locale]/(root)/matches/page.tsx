@@ -48,7 +48,7 @@ export default async function MatchScheduleRoute({
   const resolvedSearchParams = await Promise.resolve(searchParams);
   const rawStartDate = normalizeSearchParam(resolvedSearchParams?.startDate);
   const startDate = resolveStartDate(rawStartDate);
-  const endDate = toIsoDate(addUtcDays(new Date(`${startDate}T00:00:00Z`), 6));
+  const endDate = toIsoDate(addUtcDays(new Date(`${startDate}T00:00:00Z`), 7));
   const isDateFilterActive = Boolean(rawStartDate);
 
   const scheduleResponse = await fetchMatchSchedule(DEFAULT_LEAGUE_ID, {

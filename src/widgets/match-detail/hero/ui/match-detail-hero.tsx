@@ -1,5 +1,12 @@
 import { MatchDetail } from "@/entities/match/model/match-detail";
+import type { MatchReferee } from "@/entities/match/model/match-schedule";
 import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
+
+const getRefereeMainName = (referee?: string | MatchReferee): string | undefined => {
+  if (!referee) return undefined;
+  if (typeof referee === "string") return referee;
+  return referee.main;
+};
 
 const statusMeta: Record<MatchDetail["fixture"]["status"], { label: string; classes: string }> = {
   upcoming: {
@@ -145,7 +152,7 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
             )}
             <InfoTile
               title='주심'
-              lines={[fixture.referee ?? "배정 미정"]}
+              lines={[getRefereeMainName(fixture.referee) ?? "배정 미정"]}
             />
           </div>
         </div>
@@ -225,8 +232,8 @@ const ScoreboardCore = ({ fixture, kickoff }: ScoreboardCoreProps) => {
           <span className='text-slate-400 mx-3'>:</span>
           {fixture.away.score}
         </div>
-        {fixture.referee && (
-          <div className='text-xs text-slate-400'>주심 {fixture.referee}</div>
+        {getRefereeMainName(fixture.referee) && (
+          <div className='text-xs text-slate-400'>주심 {getRefereeMainName(fixture.referee)}</div>
         )}
       </div>
     );

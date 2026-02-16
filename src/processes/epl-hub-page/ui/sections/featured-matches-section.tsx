@@ -43,8 +43,8 @@ export const FeaturedMatchesSection = ({
 
         <div className='grid gap-4 p-4 sm:gap-6 sm:p-6 md:grid-cols-2 xl:grid-cols-3'>
           {fixtures.map((fixture) => {
-            const homeTeam = getClubDisplay(fixture.home.teamId);
-            const awayTeam = getClubDisplay(fixture.away.teamId);
+            const homeTeam = getClubDisplay(fixture.home.teamId, fixture.home.teamName);
+            const awayTeam = getClubDisplay(fixture.away.teamId, fixture.away.teamName);
 
             return (
               <MatchFixtureCard
