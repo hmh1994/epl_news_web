@@ -9,20 +9,42 @@ import { getMessages } from "next-intl/server";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "인풋볼 - 최신 축구 매치·뉴스·선수 정보",
+    metadataBase: new URL("https://infootball.kr"),
+    title: {
+      default: "인풋볼 - 최신 EPL 매치·뉴스·선수 정보",
+      template: "%s | 인풋볼",
+    },
     description:
-      "인풋볼에서 국내외 축구 매치 일정, 선수 정보, 팀 소식 등을 빠르게 확인하세요.",
+      "인풋볼에서 프리미어리그 매치 일정, 선수 통계, 팀 정보 등을 빠르게 확인하세요.",
     openGraph: {
-      title: "인풋볼",
-      description: "축구 매치·뉴스·선수 정보 플랫폼",
+      title: "인풋볼 - 최신 EPL 매치·뉴스·선수 정보",
+      description: "프리미어리그 매치·뉴스·선수 정보 플랫폼",
       url: "https://infootball.kr",
-      siteName: "인풋풋볼",
+      siteName: "인풋볼",
+      locale: "ko_KR",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "인풋볼 - 최신 EPL 매치·뉴스·선수 정보",
+      description: "프리미어리그 매치·뉴스·선수 정보 플랫폼",
+    },
+    alternates: {
+      canonical: "https://infootball.kr",
+      languages: {
+        "ko-KR": "https://infootball.kr/ko",
+        "en-US": "https://infootball.kr/en",
+      },
     },
     robots: {
       index: true,
       follow: true,
       googleBot: {
         index: true,
+        follow: true,
+        "max-snippet": -1,
+        "max-image-preview": "large",
+        "max-video-preview": -1,
       },
     },
   };

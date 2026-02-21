@@ -1,9 +1,21 @@
+import type { Metadata } from "next";
 import { TeamInfoPage } from "@/processes/team-info-page";
 import { fetchTeamDetail } from "@/shared/api/epl/lib/team-detail";
 import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 import type { TeamProfile } from "@/entities/team/model/team-profile";
 import type { PlayerProfile } from "@/entities/player/model/player-profile";
 import teams from "@/shared/constants/teams";
+
+export const metadata: Metadata = {
+  title: "팀 상세 정보",
+  description:
+    "프리미어리그 팀 상세 정보, 스쿼드, 시즌 성적을 인풋볼에서 확인하세요.",
+  openGraph: {
+    title: "팀 상세 정보 | 인풋볼",
+    description: "프리미어리그 팀 스쿼드·시즌 성적·상세 통계",
+    type: "website",
+  },
+};
 
 const toTeamProfile = (
   teamId: string,

@@ -1,9 +1,21 @@
+import type { Metadata } from "next";
 import { PlayerDatabasePage } from "@/processes/player-database-page";
 import { fetchPlayerList } from "@/shared/api/epl/lib/player-list";
 import { fetchPlayerRace } from "@/shared/api/epl/lib/scoring-race";
 import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 import type { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import type { PlayerRanking } from "@/entities/player/model/player-ranking";
+
+export const metadata: Metadata = {
+  title: "선수 데이터베이스",
+  description:
+    "프리미어리그 선수 통계, 득점·도움 순위, 포지션별 선수 검색을 인풋볼에서 확인하세요.",
+  openGraph: {
+    title: "선수 데이터베이스 | 인풋볼",
+    description: "프리미어리그 선수 통계·득점 레이스·도움 순위",
+    type: "website",
+  },
+};
 
 interface PageProps {
   params: Promise<{ locale: string }>;

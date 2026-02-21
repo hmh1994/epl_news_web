@@ -43,16 +43,25 @@ export async function generateMetadata({
     const matchup = `${homeTeam} vs ${awayTeam}`;
 
     return {
-      title: `${matchup} - Match Centre`,
+      title: `${matchup} - 경기 센터`,
       description: heroTagline,
       openGraph: {
-        title: `${matchup} - Match Centre`,
+        title: `${matchup} - 경기 센터 | 인풋볼`,
         description: heroTagline,
+        type: "website",
+      },
+      twitter: {
+        card: "summary",
+        title: `${matchup} - 경기 센터`,
+        description: heroTagline,
+      },
+      alternates: {
+        canonical: `https://infootball.kr/ko/matches/${matchId}`,
       },
     };
   } catch {
     return {
-      title: "Match Centre",
+      title: "경기 센터",
     };
   }
 }
@@ -61,7 +70,42 @@ export default async function Page({ params }: PageProps) {
   const { matchId } = await params;
   try {
     const detail = getMatchDetail(matchId);
-    return <MatchDetailPage detail={detail} />;
+    const { fixture } = detail;
+    const homeTeam =
+      TEAMS_BY_ID[fixture.home.teamId]?.name ??
+      fixture.home.teamId.toUpperCase();
+    const awayTeam =
+      TEAMS_BY_ID[fixture.away.teamId]?.name ??
+      fixture.away.teamId.toUpperCase();
+
+    const sportsEventJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "SportsEvent",
+      name: `${homeTeam} vs ${awayTeam}`,
+      description: detail.heroTagline,
+      startDate: fixture.kickoff,
+      location: fixture.venue
+        ? { "@type": "Place", name: fixture.venue }
+        : undefined,
+      homeTeam: { "@type": "SportsTeam", name: homeTeam },
+      awayTeam: { "@type": "SportsTeam", name: awayTeam },
+      url: `https://infootball.kr/ko/matches/${matchId}`,
+      organizer: {
+        "@type": "SportsOrganization",
+        name: "Premier League",
+        url: "https://www.premierleague.com",
+      },
+    };
+
+    return (
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsEventJsonLd) }}
+        />
+        <MatchDetailPage detail={detail} />
+      </>
+    );
   } catch {
     return <MatchDetailUnavailable />;
   }

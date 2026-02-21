@@ -73,11 +73,36 @@ export default async function NewsArticleRoute({ params }: PageProps) {
     .slice(0, 4)
     .map(toPreview);
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: article.title,
+    description: article.summary,
+    datePublished: article.publishedAt,
+    image: article.imageUrl ? [article.imageUrl] : undefined,
+    author: article.author
+      ? { "@type": "Person", name: article.author }
+      : undefined,
+    publisher: {
+      "@type": "Organization",
+      name: "인풋볼",
+      url: "https://infootball.kr",
+    },
+    url: `https://infootball.kr/${locale}/news/${article.slug}`,
+    keywords: article.tags?.join(", "),
+  };
+
   return (
-    <NewsDetailPage
-      article={article}
-      locale={locale}
-      relatedArticles={relatedArticles}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <NewsDetailPage
+        article={article}
+        locale={locale}
+        relatedArticles={relatedArticles}
+      />
+    </>
   );
 }

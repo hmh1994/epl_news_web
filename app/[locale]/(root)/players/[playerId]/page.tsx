@@ -58,5 +58,29 @@ export default async function PlayerDetailRoute({ params }: PageProps) {
     notFound();
   }
 
-  return <PlayerDetailPage player={player} locale={locale} />;
+  const { name, position, nationality } = player.summary;
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name,
+    jobTitle: position,
+    nationality: nationality
+      ? { "@type": "Country", name: nationality }
+      : undefined,
+    url: `https://infootball.kr/${locale}/players/${playerId}`,
+    memberOf: {
+      "@type": "SportsOrganization",
+      name: "Premier League",
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
+      <PlayerDetailPage player={player} locale={locale} />
+    </>
+  );
 }

@@ -1,6 +1,18 @@
+import type { Metadata } from "next";
 import { MatchSchedulePage } from "@/processes/match-schedule-page";
 import { fetchMatchSchedule } from "@/shared/api/epl/lib/match-schedule";
 import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
+
+export const metadata: Metadata = {
+  title: "경기 일정",
+  description:
+    "프리미어리그 최신 경기 일정과 결과를 확인하세요. 날짜별 필터링 및 팀별 경기 검색 지원.",
+  openGraph: {
+    title: "경기 일정 | 인풋볼",
+    description: "프리미어리그 최신 경기 일정과 결과",
+    type: "website",
+  },
+};
 
 interface PageProps {
   params: Promise<{ locale: string }>;
