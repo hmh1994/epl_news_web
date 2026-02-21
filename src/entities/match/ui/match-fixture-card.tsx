@@ -183,10 +183,27 @@ const ClubColumn = ({
         >
           {fullName}
         </p>
-        {club.leaguePosition && (
+        {club.leaguePosition != null && (
           <span className='text-[10px] font-semibold text-slate-300'>
             {t("details.position", { position: club.leaguePosition })}
           </span>
+        )}
+        {club.recentForm && club.recentForm.length > 0 && (
+          <div className={`flex gap-0.5 mt-0.5 ${isHome ? "justify-end" : "justify-start"}`}>
+            {club.recentForm.slice(-5).map((result, idx) => (
+              <span
+                key={idx}
+                className={`w-1.5 h-1.5 rounded-full ${
+                  result === "W"
+                    ? "bg-emerald-400"
+                    : result === "D"
+                    ? "bg-amber-400"
+                    : "bg-rose-400"
+                }`}
+                title={result}
+              />
+            ))}
+          </div>
         )}
       </div>
     </div>

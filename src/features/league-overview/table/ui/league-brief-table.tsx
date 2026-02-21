@@ -48,6 +48,9 @@ export const LeagueBriefTable = ({
           <th className='py-3 px-1 md:py-4 md:px-4 text-center text-[10px] md:text-xs font-semibold tracking-wider text-slate-500 uppercase'>
             PTS
           </th>
+          <th className='hidden md:table-cell py-3 px-1 md:py-4 md:px-4 text-center text-[10px] md:text-xs font-semibold tracking-wider text-slate-500 uppercase'>
+            Form
+          </th>
         </tr>
       </thead>
       <tbody>

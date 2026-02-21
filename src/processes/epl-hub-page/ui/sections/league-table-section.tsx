@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { LeagueBriefTable } from "@/features/league-overview/table/ui/league-brief-table";
 import { LeagueTableRow } from "@/entities/league/model/league-overview";
 import { Star } from "lucide-react";
@@ -22,6 +22,17 @@ export const LeagueTableSection = ({
   const [hoveredTeam, setHoveredTeam] = useState<number | null>(null);
   const router = useRouter();
   const t = useTranslations("home");
+
+  // rerender-functional-setstate: 인라인 화살표 함수는 매 렌더마다 새 참조를 생성합니다.
+  // useCallback으로 안정적인 참조를 유지합니다.
+  const handleHoverEnd = useCallback(() => setHoveredTeam(null), []);
+  const handleTeamSelect = useCallback(
+    (teamId: string) =>
+      router.push(
+        `${basePath}/teams/detail?teamId=${encodeURIComponent(teamId)}`
+      ),
+    [router, basePath]
+  );
 
   return (
     <div className='rounded-3xl border border-white/10 bg-slate-950/60 shadow-[0_18px_40px_rgba(2,6,23,0.35)]'>
@@ -59,14 +70,10 @@ export const LeagueTableSection = ({
           rows={tableRows}
           hoveredTeam={hoveredTeam}
           onHover={setHoveredTeam}
-          onHoverEnd={() => setHoveredTeam(null)}
+          onHoverEnd={handleHoverEnd}
           onFavorite={onToggleFavorite}
           favoriteTeamIds={favoriteTeams}
-          onSelect={(teamId) =>
-            router.push(
-              `${basePath}/teams/detail?teamId=${encodeURIComponent(teamId)}`
-            )
-          }
+          onSelect={handleTeamSelect}
         />
       </div>
     </div>

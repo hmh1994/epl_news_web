@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { MatchScheduleFilters } from "@/features/match-schedule/filters/ui/match-schedule-filters";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
@@ -270,26 +270,16 @@ export const MatchScheduleWidget = ({
       .filter((day) => day.fixtures.length > 0);
   }, [safeSchedule, searchTerm]);
 
-  const firstAvailableFixtureId = filteredSchedule[0]?.fixtures[0]?.id ?? null;
-
-  useEffect(() => {
-    if (!selectedFixtureId && firstAvailableFixtureId) {
-      setSelectedFixtureId(firstAvailableFixtureId);
-      return;
-    }
-
-    if (!selectedFixtureId) {
-      return;
-    }
-
+  // rerender-derived-state-no-effect: useEffect로 상태를 동기화하는 대신,
+  // 렌더 중 파생 값으로 계산하여 불필요한 재렌더를 방지합니다.
+  const effectiveFixtureId = useMemo(() => {
+    const firstId = filteredSchedule[0]?.fixtures[0]?.id ?? null;
+    if (!selectedFixtureId) return firstId;
     const exists = filteredSchedule.some((day) =>
       day.fixtures.some((fixture) => fixture.id === selectedFixtureId)
     );
-
-    if (!exists) {
-      setSelectedFixtureId(firstAvailableFixtureId ?? null);
-    }
-  }, [filteredSchedule, selectedFixtureId, firstAvailableFixtureId]);
+    return exists ? selectedFixtureId : firstId;
+  }, [filteredSchedule, selectedFixtureId]);
 
   const rankedFixtures = useMemo(() => {
     const allFixtures = filteredSchedule.flatMap((day) => day.fixtures);
@@ -308,7 +298,7 @@ export const MatchScheduleWidget = ({
 
   return (
     <div className='min-h-screen bg-slate-950 text-white pb-28'>
-      <ScheduleHero />
+      <ScheduleHero basePath={basePath} />
 
       <main className='max-w-7xl mx-auto px-6 -mt-24 relative space-y-12'>
         <MatchScheduleFilters
@@ -335,8 +325,8 @@ export const MatchScheduleWidget = ({
               <ScheduleDay
                 key={day.date}
                 day={day}
-                selectedFixtureId={selectedFixtureId}
-                onSelectFixture={(fixtureId) => setSelectedFixtureId(fixtureId)}
+                selectedFixtureId={effectiveFixtureId}
+                onSelectFixture={setSelectedFixtureId}
                 onNavigate={handleMatchNavigate}
               />
             ))}
@@ -347,11 +337,8 @@ export const MatchScheduleWidget = ({
   );
 };
 
-const ScheduleHero = () => {
+const ScheduleHero = ({ basePath }: { basePath: string }) => {
   const t = useTranslations("widgets.matchSchedule.hero");
-  const pathname = usePathname();
-  const [, locale] = pathname?.split("/") ?? [];
-  const basePath = locale ? `/${locale}` : "";
 
   return (
     <section className='relative pt-28 pb-32 overflow-hidden'>
@@ -405,9 +392,22 @@ const ScheduleDay = ({
   onNavigate?: (fixtureId: string) => void;
 }) => {
   const dayTitle = dayTitleFormatter.format(new Date(`${day.date}T00:00:00Z`));
-  const dayPowerRanking = day.fixtures
-    .map((fixture) => ({ fixture, score: calculatePowerScore(fixture) }))
-    .sort((a, b) => b.score - a.score);
+  // rerender-memo: sort 연산은 매 렌더마다 반복되므로 useMemo로 메모이제이션합니다.
+  const dayPowerRanking = React.useMemo(
+    () =>
+      day.fixtures
+        .map((fixture) => ({ fixture, score: calculatePowerScore(fixture) }))
+        .sort((a, b) => b.score - a.score),
+    [day.fixtures]
+  );
+  // 클릭 시 우측 패널에만 표시 (페이지 이동 없음).
+  // 이동은 DayInsights의 "경기 자세히 보기" 버튼으로만 가능합니다.
+  const handleFixtureSelect = React.useCallback(
+    (fixtureId: string) => {
+      onSelectFixture(fixtureId);
+    },
+    [onSelectFixture]
+  );
   const selectedFixture =
     day.fixtures.find((fixture) => fixture.id === selectedFixtureId) ??
     day.fixtures[0] ??
@@ -441,10 +441,7 @@ const ScheduleDay = ({
                 homeTeam={homeDisplay}
                 awayTeam={awayDisplay}
                 isSelected={fixture.id === selectedFixtureId}
-                onSelect={() => {
-                  onSelectFixture(fixture.id);
-                  onNavigate?.(fixture.id);
-                }}
+                onSelect={handleFixtureSelect}
               />
             );
           })}
@@ -454,6 +451,7 @@ const ScheduleDay = ({
             fixtures={day.fixtures}
             ranking={dayPowerRanking}
             selectedFixture={selectedFixture}
+            onNavigate={onNavigate}
           />
         </aside>
       </div>
@@ -465,10 +463,12 @@ const DayInsights = ({
   fixtures,
   ranking,
   selectedFixture,
+  onNavigate,
 }: {
   fixtures: MatchDaySchedule["fixtures"];
   ranking: Array<{ fixture: MatchFixture; score: number }>;
   selectedFixture: MatchFixture | null;
+  onNavigate?: (fixtureId: string) => void;
 }) => {
   const fixture = selectedFixture ?? fixtures[0];
 
@@ -517,11 +517,31 @@ const DayInsights = ({
               {fixture.away.leaguePosition ?? "-"}
             </span>
           </div>
+          {fixture.referee && (
+            <div className='flex items-center justify-between'>
+              <span>Referee</span>
+              <span className='text-white text-right'>
+                {typeof fixture.referee === "string"
+                  ? fixture.referee
+                  : fixture.referee.main}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
       <PowerRankingList ranking={ranking} selectedFixture={fixture} />
       <HeadToHeadList selectedFixture={fixture} />
+
+      {onNavigate && (
+        <button
+          type='button'
+          onClick={() => onNavigate(fixture.id)}
+          className='w-full rounded-2xl border border-white/10 bg-slate-800/60 px-4 py-3 text-sm font-semibold text-slate-200 transition-all hover:border-slate-400/40 hover:bg-slate-700/60 hover:text-white active:scale-[0.98]'
+        >
+          경기 자세히 보기 →
+        </button>
+      )}
     </div>
   );
 };

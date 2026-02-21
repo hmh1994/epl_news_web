@@ -176,6 +176,24 @@ export const LeagueBriefRow = ({
           </span>
         </div>
       </td>
+      {/* Form */}
+      <td className='hidden md:table-cell py-2 md:py-6 px-1 md:px-4'>
+        <div className='flex items-center justify-center gap-1'>
+          {(row.form ?? []).slice(-5).map((result, idx) => (
+            <span
+              key={idx}
+              className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full ${
+                result === "W"
+                  ? "bg-emerald-400"
+                  : result === "D"
+                  ? "bg-amber-400"
+                  : "bg-rose-400"
+              }`}
+              title={result}
+            />
+          ))}
+        </div>
+      </td>
     </tr>
   );
 };

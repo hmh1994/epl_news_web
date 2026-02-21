@@ -27,6 +27,7 @@ export const toLeagueTableRow = (row: LeagueStandingsRow): LeagueTableRow => ({
   lost: row.record.lost,
   gd: row.record.goalDifference,
   pts: row.record.points,
+  form: row.form,
 });
 
 export const toLeagueTableTeam = (

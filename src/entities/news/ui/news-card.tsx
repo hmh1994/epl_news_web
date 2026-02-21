@@ -22,6 +22,17 @@ interface NewsCardProps {
 const normalizeDateLabel = (value: string) =>
   value.replace(/,\s*/g, " ").replace(/\s+/g, " ").trim();
 
+const SOURCE_ACCENT_COLORS: Record<string, string> = {
+  BBC: "from-amber-500 to-amber-700",
+  ESPN: "from-red-500 to-red-700",
+  "Sky Sports": "from-sky-500 to-sky-700",
+  Guardian: "from-blue-500 to-blue-700",
+  Telegraph: "from-teal-500 to-teal-700",
+};
+
+const getSourceAccent = (source: string) =>
+  SOURCE_ACCENT_COLORS[source] ?? "from-slate-500 to-slate-700";
+
 export const NewsCard = ({
   article,
   href,
@@ -44,7 +55,7 @@ export const NewsCard = ({
         className,
       )}
     >
-      {showImage && (
+      {showImage ? (
         <div className='relative aspect-[16/9] w-full overflow-hidden'>
           <Image
             src={article.thumbnail!}
@@ -55,6 +66,13 @@ export const NewsCard = ({
           />
           <div className='absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent' />
         </div>
+      ) : (
+        <div className='flex items-center gap-3 px-4 pt-4 sm:px-6 sm:pt-6 md:px-8 md:pt-8'>
+          <div className={`w-1 h-10 rounded-full bg-gradient-to-b ${getSourceAccent(article.source)}`} />
+          <span className='text-xs font-bold uppercase tracking-widest text-slate-300'>
+            {article.source}
+          </span>
+        </div>
       )}
 
       <div
@@ -62,7 +80,7 @@ export const NewsCard = ({
           "flex flex-1 flex-col gap-4 p-4 sm:p-6 md:p-8",
           showImage
             ? ""
-            : "bg-slate-950/40",
+            : "bg-slate-950/40 pt-3 sm:pt-4 md:pt-5",
         )}
       >
         <div className='flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-400'>
@@ -72,7 +90,7 @@ export const NewsCard = ({
               newsDateFormatter.format(new Date(article.publishDate))
             )}
           </span>
-          <span className='text-slate-200'>{article.source}</span>
+          {showImage && <span className='text-slate-200'>{article.source}</span>}
         </div>
 
         <div className='space-y-3'>

@@ -9,7 +9,8 @@ export interface SeasonAnalyticsMetric {
   key: string;
   title: string;
   value: string;
-  delta: string;
+  /** API가 숫자(예: 8.2) 또는 문자열(예: "+8.2%") 둘 다 반환할 수 있습니다. */
+  delta: string | number;
   description?: string;
 }
 

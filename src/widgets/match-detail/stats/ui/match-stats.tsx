@@ -311,7 +311,7 @@ const formatStatValue = (value: number) => {
   if (Number.isInteger(value)) {
     return value.toString();
   }
-  return value.toFixed(1);
+  return value.toFixed(2);
 };
 
 const formatDifference = (home: number, away: number) => {
@@ -319,13 +319,10 @@ const formatDifference = (home: number, away: number) => {
   if (difference === 0) {
     return "0";
   }
-  if (difference < 1) {
-    return difference.toFixed(1);
-  }
   if (Number.isInteger(difference)) {
     return difference.toString();
   }
-  return difference.toFixed(1);
+  return difference.toFixed(2);
 };
 
 const FORM_TONE = {

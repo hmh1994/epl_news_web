@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { MatchDaySchedule } from "@/entities/match/model/match-schedule";
 import { LeagueTableRow } from "@/entities/league/model/league-overview";
 import { PlayerRanking } from "@/entities/player/model/player-ranking";
+import type { SeasonAnalyticsMetric } from "@/shared/api/epl/model/season-analytics";
 import { useTranslations } from "next-intl";
 import { useFavorites } from "../lib/use-favorites";
 import { FavoriteMatchesPanel } from "./sections/favorite-matches-panel";
@@ -13,17 +14,20 @@ import { FavoriteTeamsPanel } from "./sections/favorite-teams-panel";
 import { FeaturedMatchesSection } from "./sections/featured-matches-section";
 import { LeagueTableSection } from "./sections/league-table-section";
 import { TopScorersPanel } from "./sections/top-scorers-panel";
+import { SeasonInsightsPanel } from "./sections/season-insights-panel";
 
 interface EPLHubPageProps {
   tableRows: LeagueTableRow[];
   playerRankings: PlayerRanking[];
   schedule: MatchDaySchedule[];
+  seasonMetrics?: SeasonAnalyticsMetric[];
 }
 
 export const EPLHubPage = ({
   tableRows,
   playerRankings,
   schedule,
+  seasonMetrics,
 }: EPLHubPageProps) => {
   const {
     favoriteTeams,
@@ -48,19 +52,23 @@ export const EPLHubPage = ({
     [allFixtures]
   );
 
+  // js-set-map-lookups: Array.includes()는 O(n)이므로 Set으로 변환하여 O(1) 조회합니다.
+  const favoriteTeamSet = useMemo(() => new Set(favoriteTeams), [favoriteTeams]);
+  const favoriteMatchSet = useMemo(() => new Set(favoriteMatches), [favoriteMatches]);
+
   const favoriteTeamFixtures = useMemo(
     () =>
       allFixtures.filter(
         (fixture) =>
-          favoriteTeams.includes(fixture.home.teamId) ||
-          favoriteTeams.includes(fixture.away.teamId)
+          favoriteTeamSet.has(fixture.home.teamId) ||
+          favoriteTeamSet.has(fixture.away.teamId)
       ),
-    [allFixtures, favoriteTeams]
+    [allFixtures, favoriteTeamSet]
   );
 
   const favoriteMatchFixtures = useMemo(
-    () => allFixtures.filter((fixture) => favoriteMatches.includes(fixture.id)),
-    [allFixtures, favoriteMatches]
+    () => allFixtures.filter((fixture) => favoriteMatchSet.has(fixture.id)),
+    [allFixtures, favoriteMatchSet]
   );
 
   const featuredFixtures = useMemo(() => {
@@ -116,6 +124,10 @@ export const EPLHubPage = ({
                 basePath={basePath}
                 playerRankings={playerRankings}
               />
+
+              {seasonMetrics && seasonMetrics.length > 0 && (
+                <SeasonInsightsPanel metrics={seasonMetrics} />
+              )}
             </div>
           </div>
         </section>

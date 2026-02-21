@@ -9,4 +9,5 @@ export interface LeagueTableRow {
   lost: number;
   gd: number;
   pts: number;
+  form?: string[];
 }
