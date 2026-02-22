@@ -8,6 +8,20 @@ import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 import { toLeagueTableRow } from "@/shared/lib/mappers/league";
 import type { PlayerRanking } from "@/entities/player/model/player-ranking";
 
+interface HomeRouteProps {
+  params: Promise<{ locale: string }>;
+}
+
+const toIsoDate = (date: Date) => date.toISOString().slice(0, 10);
+
+const addUtcDays = (date: Date, days: number) => {
+  const result = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+  );
+  result.setUTCDate(result.getUTCDate() + days);
+  return result;
+};
+
 export const metadata: Metadata = {
   title: "홈 - 프리미어리그 허브",
   description:
@@ -35,18 +49,22 @@ const websiteJsonLd = {
   },
 };
 
-export default async function HomeRoute() {
+export default async function HomeRoute({ params }: HomeRouteProps) {
+  const { locale } = await params;
   const leagueId = DEFAULT_LEAGUE_ID;
+  const startDate = toIsoDate(new Date());
+  const endDate = toIsoDate(addUtcDays(new Date(), 14));
+
   const [premiumTable, scoringRace, matchSchedule, seasonAnalytics] =
     await Promise.all([
       fetchPremiumTable(leagueId),
       fetchPlayerRace(leagueId, { limit: 5, category: "goal" }),
-      fetchMatchSchedule(leagueId),
+      fetchMatchSchedule(leagueId, { locale, startDate, endDate }),
       fetchSeasonAnalytics(leagueId),
     ]);
   const tableRows = premiumTable.data.map(toLeagueTableRow);
   const playerRankings: PlayerRanking[] = scoringRace.data;
-  const schedule = matchSchedule.data.schedule;
+  const schedule = matchSchedule.data?.schedule ?? [];
   const seasonMetrics = seasonAnalytics.data;
 
   return (
