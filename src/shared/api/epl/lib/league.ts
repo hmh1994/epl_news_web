@@ -75,14 +75,13 @@ export const fetchPremiumTable = async (
       }
     );
     return result;
-  } catch (error) {
-    if (process.env.NODE_ENV === "production") {
-      throw error;
+  } catch (err) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(
+        "[fetchPremiumTable] Falling back to mock data due to request failure",
+        err
+      );
     }
-
-    console.warn(
-      "[fetchPremiumTable] Falling back to mock data due to request failure"
-    );
     return MOCK_PREMIUM_TABLE;
   }
 };

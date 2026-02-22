@@ -62,14 +62,12 @@ export const fetchPlayerList = async (
     );
     return { data: response.data.map(mapPlayerListItem) };
   } catch (error) {
-    if (process.env.NODE_ENV === "production") {
-      throw error;
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(
+        "[fetchPlayerList] Falling back to mock data due to request failure",
+        error
+      );
     }
-
-    console.warn(
-      "[fetchPlayerList] Falling back to mock data due to request failure",
-      error
-    );
     return buildMockPlayerList(params);
   }
 };

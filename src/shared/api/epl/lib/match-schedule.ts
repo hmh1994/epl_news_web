@@ -33,25 +33,22 @@ export const fetchMatchSchedule = async (
         },
       },
     );
-    if (
-      process.env.NODE_ENV !== "production" &&
-      !Array.isArray(response?.data?.schedule)
-    ) {
-      console.warn(
-        "[fetchMatchSchedule] Falling back to mock data due to unexpected response shape",
-      );
+    if (!Array.isArray(response?.data?.schedule)) {
+      if (process.env.NODE_ENV !== "production") {
+        console.warn(
+          "[fetchMatchSchedule] Falling back to mock data due to unexpected response shape",
+        );
+      }
       return buildMockMatchSchedule(leagueId, params);
     }
     return response;
   } catch (error) {
-    if (process.env.NODE_ENV === "production") {
-      throw error;
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(
+        "[fetchMatchSchedule] Falling back to mock data due to request failure",
+        error,
+      );
     }
-
-    console.warn(
-      "[fetchMatchSchedule] Falling back to mock data due to request failure",
-      error,
-    );
     return buildMockMatchSchedule(leagueId, params);
   }
 };

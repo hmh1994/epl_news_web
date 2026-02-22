@@ -36,14 +36,12 @@ export const fetchTeamDetail = async (
       }
     );
   } catch (error) {
-    if (process.env.NODE_ENV === "production") {
-      throw error;
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(
+        "[fetchTeamDetail] Falling back to mock data due to request failure",
+        error
+      );
     }
-
-    console.warn(
-      "[fetchTeamDetail] Falling back to mock data due to request failure",
-      error
-    );
     return buildMockTeamDetail(teamId, params);
   }
 };

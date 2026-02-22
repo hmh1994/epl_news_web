@@ -66,14 +66,13 @@ export const fetchSeasonAnalytics = async (
         },
       }
     );
-  } catch (error) {
-    if (process.env.NODE_ENV === "production") {
-      throw error;
+  } catch (err) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(
+        "[fetchSeasonAnalytics] Falling back to mock data due to request failure",
+        err
+      );
     }
-
-    console.warn(
-      "[fetchSeasonAnalytics] Falling back to mock data due to request failure"
-    );
     return MOCK_SEASON_ANALYTICS;
   }
 };
