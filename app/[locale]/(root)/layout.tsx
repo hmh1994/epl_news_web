@@ -79,6 +79,10 @@ export default async function RootLayout({
           name='google-site-verification'
           content='nC4JTzhNvKulZbpjuDwJRX84rdXmcBRqFTZUa7Y6c4g'
         />
+        <meta
+          name='google-site-verification'
+          content='ZISy9E63ilEs1xWM85gj6favTtORG_JXSCL0-kuXrK4'
+        />
       </head>
       <body className='bg-slate-950 font-nanum-square text-white'>
         <NextIntlClientProvider messages={messages} locale={locale}>
