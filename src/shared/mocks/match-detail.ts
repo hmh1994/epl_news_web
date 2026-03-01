@@ -185,15 +185,6 @@ export const MATCH_DETAILS: Record<string, MatchDetail> = {
         note: "마르티넬리의 극장골",
       },
     ],
-    previewNotes: [
-      "맨시티는 최근 홈 10경기에서 평균 점유율 63%와 평균 슈팅 16.2회를 기록했습니다.",
-      "아스널은 원정 5경기에서 세트피스 득점 3골과 클린시트 3회를 달성했습니다.",
-      "두 팀의 시즌 평균 PPDA는 맨시티 8.9, 아스널 9.4로 상위권 압박 지표를 유지 중입니다.",
-    ],
-    broadcastNotes: [
-      "국내 중계: 스포티비 온, 스포티비 나우",
-      "해설: 박문성 x 한준희 조합",
-    ],
   },
   "m-241214-che-tot": {
     fixture: getFixture("m-241214-che-tot"),
@@ -385,15 +376,6 @@ export const MATCH_DETAILS: Record<string, MatchDetail> = {
         note: "Expected Goals 1.5-0.7",
       },
     ],
-    previewNotes: [
-      "첼시는 xG 1.92, 토트넘은 xG 1.07을 기록하며 마무리 효율에서 앞섰습니다.",
-      "세컨볼 회수 수치는 첼시 19회, 토트넘 12회로 중원 압박에서 격차가 나타났습니다.",
-      "첼시는 상대 박스 내 터치 28회를 완성하며 하프스페이스 진입 횟수 15회를 기록했습니다.",
-    ],
-    broadcastNotes: [
-      "경기 종료 후 30분, 첼시 공식 채널에서 하이라이트 공개",
-      "현장 해설: 스카이 스포츠 프리미어",
-    ],
   },
   "m-241215-liv-mun": {
     fixture: getFixture("m-241215-liv-mun"),
@@ -556,15 +538,6 @@ export const MATCH_DETAILS: Record<string, MatchDetail> = {
         score: "MUN 0-0 LIV",
         note: "텐 하흐의 수비 전술 성공",
       },
-    ],
-    previewNotes: [
-      "리버풀은 리그에서 단일 경기 평균 패널티박스 침투 32.5회로 1위를 기록 중입니다.",
-      "맨유는 원정 경기당 인터셉트 13.4회, 성공 태클 17.2회로 수비 개입이 많습니다.",
-      "두 팀의 세트피스 득점 비중은 리버풀 22%, 맨유 18%로 세트 상황이 승부처로 예상됩니다.",
-    ],
-    broadcastNotes: [
-      "국내 중계: 쿠팡플레이 단독",
-      "현장 중계석은 더 코프 맞은편 프레스존",
     ],
   },
   "m-241215-new-bha": {
@@ -746,15 +719,6 @@ export const MATCH_DETAILS: Record<string, MatchDetail> = {
         score: "NEW 1-1 BHA",
         note: "코너킥 7-6",
       },
-    ],
-    previewNotes: [
-      "뉴캐슬은 홈 경기당 평균 슈팅 17.1회로 리그 2위입니다.",
-      "브라이튼은 점유율 58%로 리그 상위권을 유지하며 빌드업을 전개합니다.",
-      "세트피스 득점 비중이 양 팀 모두 20%를 넘기며, 코너킥 상황이 중요했습니다.",
-    ],
-    broadcastNotes: [
-      "국내 중계: 스포티비 온",
-      "국제 중계: Premier League Productions",
     ],
   },
 };

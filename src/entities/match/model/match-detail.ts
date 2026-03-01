@@ -71,6 +71,4 @@ export interface MatchDetail {
     away: MatchFormEntry[];
   };
   headToHead: HeadToHeadRecord[];
-  previewNotes: string[];
-  broadcastNotes?: string[];
 }

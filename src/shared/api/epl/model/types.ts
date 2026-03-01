@@ -1,3 +1,4 @@
+import type { MatchDetail } from "@/entities/match/model/match-detail";
 import type { MatchDaySchedule } from "@/entities/match/model/match-schedule";
 import type { PlayerRanking } from "@/entities/player/model/player-ranking";
 import type {
@@ -192,6 +193,15 @@ export interface PremiumTableResponse extends ApiResourceResponse<
 > {
   meta: ApiResponseMeta & {
     leagueId: string;
+    season: string;
+    lastUpdated: number;
+  };
+}
+
+export interface MatchDetailResponse extends ApiResourceResponse<MatchDetail> {
+  meta: ApiResponseMeta & {
+    leagueId: string;
+    matchId: string;
     season: string;
     lastUpdated: number;
   };
