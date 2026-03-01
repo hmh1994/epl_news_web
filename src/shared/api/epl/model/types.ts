@@ -206,3 +206,18 @@ export interface MatchDetailResponse extends ApiResourceResponse<MatchDetail> {
     lastUpdated: number;
   };
 }
+
+export interface TeamEntry {
+  id: string;
+  name: string;
+  shortName: string;
+  crest: string;
+}
+
+export interface TeamsResponse extends ApiResourceResponse<Record<string, TeamEntry>> {
+  meta: ApiResponseMeta & {
+    leagueId: string;
+    season: string;
+    lastUpdated: number;
+  };
+}

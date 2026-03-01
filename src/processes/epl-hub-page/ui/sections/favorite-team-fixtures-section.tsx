@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { CalendarClock } from "lucide-react";
 import { MatchFixture } from "@/entities/match/model/match-schedule";
 import { formatKickoffSummary, getClubDisplay } from "../../lib/club-display";
+import { useTeams } from "@/shared/providers/teams-provider";
 import { useTranslations } from "next-intl";
 
 interface FavoriteTeamFixturesSectionProps {
@@ -14,6 +15,7 @@ export const FavoriteTeamFixturesSection = ({
   basePath,
   fixtures,
 }: FavoriteTeamFixturesSectionProps) => {
+  const teamsById = useTeams();
   const router = useRouter();
   const t = useTranslations("home");
 
@@ -42,8 +44,8 @@ export const FavoriteTeamFixturesSection = ({
       </div>
       <ul className='mt-4 space-y-3 sm:mt-6 sm:space-y-4'>
         {fixtures.slice(0, 5).map((fixture) => {
-          const home = getClubDisplay(fixture.home.teamId, fixture.home.teamName);
-          const away = getClubDisplay(fixture.away.teamId, fixture.away.teamName);
+          const home = getClubDisplay(fixture.home.teamId, teamsById, fixture.home.teamName);
+          const away = getClubDisplay(fixture.away.teamId, teamsById, fixture.away.teamName);
 
           return (
             <li

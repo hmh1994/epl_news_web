@@ -1,41 +1,37 @@
 import { apiClient } from "@/shared/api/client";
 import { MOCK_SEASON } from "@/shared/config/mock-api";
-import type { MatchScheduleResponse } from "@/shared/api/epl/model/types";
+import type { TeamsResponse } from "@/shared/api/epl/model/types";
 import { leaguePath, mapLocaleToApi, RequestOptions } from "./base";
 
-export interface MatchScheduleParams {
+export interface TeamsParams {
   season?: string;
   locale?: string;
-  startDate?: string;
-  endDate?: string;
 }
 
-export const fetchMatchSchedule = async (
+export const fetchTeams = async (
   leagueId: string,
-  params?: MatchScheduleParams,
+  params?: TeamsParams,
   options?: RequestOptions,
-): Promise<MatchScheduleResponse> => {
+): Promise<TeamsResponse> => {
   try {
-    const response = await apiClient.get<MatchScheduleResponse>(
-      leaguePath(leagueId, "/matches"),
+    const response = await apiClient.get<TeamsResponse>(
+      leaguePath(leagueId, "/teams"),
       {
         ...options,
         params: {
           season: params?.season,
           locale: mapLocaleToApi(params?.locale),
-          startDate: params?.startDate,
-          endDate: params?.endDate,
         },
       },
     );
-    if (Array.isArray(response?.data?.schedule)) {
+    if (response?.data && typeof response.data === "object") {
       return response;
     }
   } catch {
     // fall through to empty response
   }
   return {
-    data: { schedule: [] },
+    data: {},
     meta: {
       leagueId,
       season: params?.season ?? MOCK_SEASON,

@@ -11,7 +11,8 @@ import {
   MatchDaySchedule,
   MatchFixture,
 } from "@/entities/match/model/match-schedule";
-import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
+import { useTeams } from "@/shared/providers/teams-provider";
+import type { TeamEntry } from "@/shared/api/epl/model/types";
 
 const TIMEZONE = "Asia/Seoul";
 
@@ -41,11 +42,11 @@ const deriveShortName = (name: string): string => {
     .toUpperCase();
 };
 
-/** Resolve display info from either mock lookup or API teamName */
-const getTeamDisplay = (club: MatchClub) => {
-  const mock = TEAMS_BY_ID[club.teamId];
-  if (mock) {
-    return { name: mock.name, shortName: mock.shortName, crest: mock.crest };
+/** Resolve display info from either teams lookup or API teamName */
+const getTeamDisplay = (club: MatchClub, teamsById: Record<string, TeamEntry>) => {
+  const team = teamsById[club.teamId];
+  if (team) {
+    return { name: team.name, shortName: team.shortName, crest: team.crest };
   }
   if (club.teamName) {
     return {
@@ -207,6 +208,7 @@ export const MatchScheduleWidget = ({
   selectedDate: scheduleSelectedDate,
   isDateFilterActive,
 }: MatchScheduleWidgetProps) => {
+  const teamsById = useTeams();
   const safeSchedule = Array.isArray(schedule) ? schedule : [];
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFixtureId, setSelectedFixtureId] = useState<string | null>(
@@ -241,8 +243,8 @@ export const MatchScheduleWidget = ({
         return true;
       }
 
-      const homeDisplay = getTeamDisplay(fixture.home);
-      const awayDisplay = getTeamDisplay(fixture.away);
+      const homeDisplay = getTeamDisplay(fixture.home, teamsById);
+      const awayDisplay = getTeamDisplay(fixture.away, teamsById);
 
       const haystack = [
         homeDisplay.name,
@@ -268,7 +270,7 @@ export const MatchScheduleWidget = ({
         fixtures: day.fixtures.filter(filterFixture),
       }))
       .filter((day) => day.fixtures.length > 0);
-  }, [safeSchedule, searchTerm]);
+  }, [safeSchedule, searchTerm, teamsById]);
 
   // rerender-derived-state-no-effect: useEffect로 상태를 동기화하는 대신,
   // 렌더 중 파생 값으로 계산하여 불필요한 재렌더를 방지합니다.
@@ -391,6 +393,7 @@ const ScheduleDay = ({
   onSelectFixture: (fixtureId: string) => void;
   onNavigate?: (fixtureId: string) => void;
 }) => {
+  const teamsById = useTeams();
   const dayTitle = dayTitleFormatter.format(new Date(`${day.date}T00:00:00Z`));
   // rerender-memo: sort 연산은 매 렌더마다 반복되므로 useMemo로 메모이제이션합니다.
   const dayPowerRanking = React.useMemo(
@@ -431,8 +434,8 @@ const ScheduleDay = ({
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-0'>
         <div className='lg:col-span-2 p-6 space-y-4 lg:max-h-[640px] lg:overflow-y-auto lg:pr-4 scrollbar-slim'>
           {day.fixtures.map((fixture) => {
-            const homeDisplay = getTeamDisplay(fixture.home);
-            const awayDisplay = getTeamDisplay(fixture.away);
+            const homeDisplay = getTeamDisplay(fixture.home, teamsById);
+            const awayDisplay = getTeamDisplay(fixture.away, teamsById);
 
             return (
               <MatchFixtureCard
@@ -470,12 +473,13 @@ const DayInsights = ({
   selectedFixture: MatchFixture | null;
   onNavigate?: (fixtureId: string) => void;
 }) => {
+  const teamsById = useTeams();
   const fixture = selectedFixture ?? fixtures[0];
 
   if (!fixture) return null;
 
-  const homeDisplay = getTeamDisplay(fixture.home);
-  const awayDisplay = getTeamDisplay(fixture.away);
+  const homeDisplay = getTeamDisplay(fixture.home, teamsById);
+  const awayDisplay = getTeamDisplay(fixture.away, teamsById);
 
   return (
     <div className='space-y-8'>
@@ -553,6 +557,7 @@ const MatchweekSpotlight = ({
   fixtures: Array<{ fixture: MatchFixture; score: number }>;
   onNavigate?: (fixtureId: string) => void;
 }) => {
+  const teamsById = useTeams();
   const t = useTranslations("widgets.matchSchedule.spotlight");
   if (fixtures.length === 0) return null;
 
@@ -569,8 +574,8 @@ const MatchweekSpotlight = ({
       </div>
       <div className='px-8 py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {fixtures.map(({ fixture, score }, index) => {
-          const homeDisplay = getTeamDisplay(fixture.home);
-          const awayDisplay = getTeamDisplay(fixture.away);
+          const homeDisplay = getTeamDisplay(fixture.home, teamsById);
+          const awayDisplay = getTeamDisplay(fixture.away, teamsById);
           const key = `spotlight-${fixture.id}`;
 
           return (
@@ -629,13 +634,14 @@ const PowerRankingList = ({
   ranking: Array<{ fixture: MatchFixture; score: number }>;
   selectedFixture?: MatchFixture | null;
 }) => {
+  const teamsById = useTeams();
   if (!selectedFixture) return null;
 
   const active = ranking.find(
     (entry) => entry.fixture.id === selectedFixture.id
   );
-  const homeDisplay = getTeamDisplay(selectedFixture.home);
-  const awayDisplay = getTeamDisplay(selectedFixture.away);
+  const homeDisplay = getTeamDisplay(selectedFixture.home, teamsById);
+  const awayDisplay = getTeamDisplay(selectedFixture.away, teamsById);
   const score = active ? Math.round(active.score) : "-";
 
   return (
@@ -665,11 +671,12 @@ const HeadToHeadList = ({
 }: {
   selectedFixture?: MatchFixture | null;
 }) => {
+  const teamsById = useTeams();
   const t = useTranslations("widgets.matchSchedule.headToHead");
   if (!selectedFixture) return null;
 
-  const homeDisplay = getTeamDisplay(selectedFixture.home);
-  const awayDisplay = getTeamDisplay(selectedFixture.away);
+  const homeDisplay = getTeamDisplay(selectedFixture.home, teamsById);
+  const awayDisplay = getTeamDisplay(selectedFixture.away, teamsById);
   const history = getHeadToHead(selectedFixture);
 
   if (history.length === 0) return null;

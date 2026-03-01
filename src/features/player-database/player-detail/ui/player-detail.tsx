@@ -1,7 +1,7 @@
 import type { PlayerDetailResponse } from "@/shared/api/epl/model/types";
 import { StatAccent, getStatStyles } from "@/entities/player/lib/stat-palette";
 import { X } from "lucide-react";
-import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
+import { useTeams } from "@/shared/providers/teams-provider";
 
 interface PlayerDetailProps {
   player: PlayerDetailResponse["data"]["player"] | null;
@@ -14,6 +14,8 @@ export const PlayerDetail = ({
   onClose,
   variant = "modal",
 }: PlayerDetailProps) => {
+  const teamsById = useTeams();
+
   if (!player) return null;
 
   const summary = player.summary;
@@ -21,7 +23,7 @@ export const PlayerDetail = ({
   const performance = player.performance ?? {};
   const career = player.career ?? [];
   const teamId = String(summary.teamId);
-  const team = TEAMS_BY_ID[teamId];
+  const team = teamsById[teamId];
   const teamName = team?.name ?? teamId;
   const isPhotoUrl = summary.photo.startsWith("http");
   const stats = {
@@ -254,7 +256,7 @@ export const PlayerDetail = ({
                 </div>
               ) : (
                 career.map((period, idx) => {
-                  const careerTeam = TEAMS_BY_ID[period.teamId];
+                  const careerTeam = teamsById[period.teamId];
                   return (
                     <div
                       key={idx}
@@ -457,7 +459,7 @@ export const PlayerDetail = ({
                   </div>
                 ) : (
                   career.map((period, idx) => {
-                    const careerTeam = TEAMS_BY_ID[period.teamId];
+                    const careerTeam = teamsById[period.teamId];
                     return (
                       <div
                         key={idx}

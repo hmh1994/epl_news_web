@@ -1,4 +1,4 @@
-import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
+import type { TeamEntry } from "@/shared/api/epl/model/types";
 
 /** Strip common suffixes like "F.C.", "A.F.C." from team name */
 const cleanTeamName = (name: string) =>
@@ -19,8 +19,12 @@ const deriveShortName = (name: string): string => {
     .toUpperCase();
 };
 
-export const getClubDisplay = (teamId: string, teamName?: string) => {
-  const team = TEAMS_BY_ID[teamId];
+export const getClubDisplay = (
+  teamId: string,
+  teamsById: Record<string, TeamEntry>,
+  teamName?: string,
+) => {
+  const team = teamsById[teamId];
   if (team) {
     return {
       name: team.name,

@@ -4,6 +4,7 @@ import { useCallback, useMemo } from "react";
 import { MatchFixture } from "@/entities/match/model/match-schedule";
 import { MatchFixtureCard } from "@/entities/match/ui/match-fixture-card";
 import { getClubDisplay } from "../../lib/club-display";
+import { useTeams } from "@/shared/providers/teams-provider";
 import { useTranslations } from "next-intl";
 
 interface FeaturedMatchesSectionProps {
@@ -19,6 +20,7 @@ export const FeaturedMatchesSection = ({
   favoriteMatchIds,
   onToggleFavorite,
 }: FeaturedMatchesSectionProps) => {
+  const teamsById = useTeams();
   const router = useRouter();
   const t = useTranslations("home");
   const matchweek = fixtures.length > 0 ? fixtures[0].matchweek : null;
@@ -61,8 +63,8 @@ export const FeaturedMatchesSection = ({
 
         <div className='grid gap-4 p-4 sm:gap-6 sm:p-6 md:grid-cols-2 xl:grid-cols-3'>
           {fixtures.map((fixture) => {
-            const homeTeam = getClubDisplay(fixture.home.teamId, fixture.home.teamName);
-            const awayTeam = getClubDisplay(fixture.away.teamId, fixture.away.teamName);
+            const homeTeam = getClubDisplay(fixture.home.teamId, teamsById, fixture.home.teamName);
+            const awayTeam = getClubDisplay(fixture.away.teamId, teamsById, fixture.away.teamName);
 
             return (
               <MatchFixtureCard

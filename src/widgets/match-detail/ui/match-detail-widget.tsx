@@ -7,15 +7,16 @@ import { MatchTimeline } from "@/widgets/match-detail/timeline/ui/match-timeline
 import { MatchStatsPanel } from "@/widgets/match-detail/stats/ui/match-stats";
 import { MatchKeyPlayers } from "@/widgets/match-detail/key-players/ui/match-key-players";
 import { MatchHeadToHeadPanel } from "@/widgets/match-detail/head-to-head/ui/match-head-to-head";
-import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
+import { useTeams } from "@/shared/providers/teams-provider";
 
 interface MatchDetailWidgetProps {
   detail: MatchDetail;
 }
 
 export const MatchDetailWidget = ({ detail }: MatchDetailWidgetProps) => {
-  const homeTeam = TEAMS_BY_ID[detail.fixture.home.teamId];
-  const awayTeam = TEAMS_BY_ID[detail.fixture.away.teamId];
+  const teamsById = useTeams();
+  const homeTeam = teamsById[detail.fixture.home.teamId];
+  const awayTeam = teamsById[detail.fixture.away.teamId];
   const homeShort = homeTeam?.shortName ?? detail.fixture.home.teamId.toUpperCase();
   const awayShort = awayTeam?.shortName ?? detail.fixture.away.teamId.toUpperCase();
   const momentumScores = calculateMomentum(detail);

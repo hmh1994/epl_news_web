@@ -2,7 +2,7 @@
 
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import { BarChart3, ArrowRight } from "lucide-react";
-import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
+import { useTeams } from "@/shared/providers/teams-provider";
 import { PlayerComparisonMatrix } from "./player-comparison-matrix";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -20,6 +20,7 @@ export const PlayerComparison = ({
   onToggle,
   onClear,
 }: PlayerComparisonProps) => {
+  const teamsById = useTeams();
   const t = useTranslations("player.comparison.panel");
   const [matchCounts, setMatchCounts] = useState<Record<string, number | null>>(
     {}
@@ -139,7 +140,7 @@ export const PlayerComparison = ({
 
           <div className='flex items-center gap-3 mt-4 overflow-x-auto pb-2'>
             {players.map((player) => {
-              const team = TEAMS_BY_ID[player.teamId];
+              const team = teamsById[player.teamId];
               const teamName = player.teamName ?? team?.name ?? player.teamId;
               const formattedPosition = formatPosition(player.position);
               const isPhotoUrl = player.photo.startsWith("http");

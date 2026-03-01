@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
-import { EPL_MOCK_DATA } from "@/shared/mocks/epl-data";
+import { fetchMatchSchedule } from "@/shared/api/epl/lib/match-schedule";
+import { fetchPlayerList } from "@/shared/api/epl/lib/player-list";
+import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 
 const BASE_URL = "https://infootball.kr";
 const LOCALES = ["ko", "en"] as const;
@@ -7,7 +9,7 @@ const LOCALES = ["ko", "en"] as const;
 const localeUrl = (locale: string, path: string) =>
   `${BASE_URL}/${locale}${path}`;
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   // 정적 페이지
@@ -34,7 +36,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   );
 
   // 경기 상세 페이지
-  const matchIds = EPL_MOCK_DATA.matches.schedule.flatMap((day) =>
+  const scheduleResponse = await fetchMatchSchedule(DEFAULT_LEAGUE_ID);
+  const matchIds = scheduleResponse.data.schedule.flatMap((day) =>
     day.fixtures.map((fixture) => fixture.id)
   );
 
@@ -55,28 +58,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  // 뉴스 기사 페이지
-  const newsEntries: MetadataRoute.Sitemap = EPL_MOCK_DATA.news.articles
-    .slice(0, 50)
-    .flatMap((article) =>
-      LOCALES.map((locale) => ({
-        url: localeUrl(locale, `/news/${article.slug}`),
-        lastModified: new Date(article.publishedAt),
-        changeFrequency: "weekly" as const,
-        priority: 0.7,
-        alternates: {
-          languages: Object.fromEntries(
-            LOCALES.map((l) => [
-              l === "ko" ? "ko-KR" : "en-US",
-              localeUrl(l, `/news/${article.slug}`),
-            ])
-          ),
-        },
-      }))
-    );
-
   // 선수 상세 페이지
-  const playerEntries: MetadataRoute.Sitemap = EPL_MOCK_DATA.players.database
+  const playerListResponse = await fetchPlayerList(DEFAULT_LEAGUE_ID);
+  const playerEntries: MetadataRoute.Sitemap = playerListResponse.data
     .slice(0, 100)
     .flatMap((player) =>
       LOCALES.map((locale) => ({
@@ -95,5 +79,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       }))
     );
 
-  return [...staticEntries, ...matchEntries, ...newsEntries, ...playerEntries];
+  return [...staticEntries, ...matchEntries, ...playerEntries];
 }

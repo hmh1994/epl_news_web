@@ -16,7 +16,7 @@ import { PlayerDatabaseHero } from "@/widgets/player-database/hero/ui/player-dat
 import { PlayerResultsSummary } from "@/widgets/player-database/summary/ui/player-results-summary";
 import { PlayerSearchResults } from "@/widgets/player-database/results/ui/player-search-results";
 import { COMPARISON_LIMIT } from "@/widgets/player-database/model/constants";
-import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
+import { useTeams } from "@/shared/providers/teams-provider";
 
 interface PlayerDatabaseWidgetProps {
   players: PlayerDatabaseEntry[];
@@ -40,6 +40,7 @@ export const PlayerDatabaseWidget = ({
   rankingData,
   initialSearch,
 }: PlayerDatabaseWidgetProps) => {
+  const teamsById = useTeams();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -118,7 +119,7 @@ export const PlayerDatabaseWidget = ({
   const resolveTeamLabel = (player: PlayerDatabaseEntry | PlayerRanking) =>
     player.teamName ??
     teamNameById?.[player.teamId] ??
-    TEAMS_BY_ID[player.teamId]?.name ??
+    teamsById[player.teamId]?.name ??
     player.teamId;
 
   const handleSearchSubmit = () => {
@@ -277,7 +278,7 @@ export const PlayerDatabaseWidget = ({
           positionOptions={positions}
           teamOptions={teams}
           formatTeamOption={(teamId) =>
-            teamNameById?.[teamId] ?? TEAMS_BY_ID[teamId]?.name ?? teamId
+            teamNameById?.[teamId] ?? teamsById[teamId]?.name ?? teamId
           }
           viewMode={viewMode}
           onViewModeChange={setViewMode}

@@ -6,6 +6,9 @@ import { AppHeader } from "@/widgets/app-header/ui/app-header";
 import { nanumSquare } from "../../fonts";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { TeamsProvider } from "@/shared/providers/teams-provider";
+import { fetchTeams } from "@/shared/api/epl/lib/teams";
+import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -63,7 +66,11 @@ export default async function RootLayout({
   if (!routing.locales.includes(locale)) {
     notFound();
   }
-  const messages = await getMessages();
+  const [messages, teamsResponse] = await Promise.all([
+    getMessages(),
+    fetchTeams(DEFAULT_LEAGUE_ID),
+  ]);
+  const teamsById = teamsResponse.data;
   return (
     <html
       lang={locale}
@@ -86,8 +93,10 @@ export default async function RootLayout({
       </head>
       <body className='bg-slate-950 font-nanum-square text-white'>
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <AppHeader />
-          <main>{children}</main>
+          <TeamsProvider teams={teamsById}>
+            <AppHeader />
+            <main>{children}</main>
+          </TeamsProvider>
         </NextIntlClientProvider>
       </body>
     </html>

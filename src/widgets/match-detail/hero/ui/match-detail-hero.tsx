@@ -1,6 +1,6 @@
 import { MatchDetail } from "@/entities/match/model/match-detail";
 import type { MatchReferee } from "@/entities/match/model/match-schedule";
-import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
+import { useTeams } from "@/shared/providers/teams-provider";
 
 const getRefereeMainName = (referee?: string | MatchReferee): string | undefined => {
   if (!referee) return undefined;
@@ -71,14 +71,15 @@ interface MatchDetailHeroProps {
 }
 
 export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
+  const teamsById = useTeams();
   const { fixture } = detail;
   const kickoff = new Date(fixture.kickoff);
   const status = statusMeta[fixture.status];
   const attendanceDisplay = detail.attendance
     ? detail.attendance.toLocaleString("ko-KR")
     : undefined;
-  const homeTeam = TEAMS_BY_ID[fixture.home.teamId];
-  const awayTeam = TEAMS_BY_ID[fixture.away.teamId];
+  const homeTeam = teamsById[fixture.home.teamId];
+  const awayTeam = teamsById[fixture.away.teamId];
   const homeShort = homeTeam?.shortName ?? fixture.home.teamId.toUpperCase();
   const awayShort = awayTeam?.shortName ?? fixture.away.teamId.toUpperCase();
   const homeMomentum = calculateMomentum(detail.formGuide.home.map((entry) => entry.result));

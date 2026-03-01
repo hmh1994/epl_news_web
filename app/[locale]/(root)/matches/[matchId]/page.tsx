@@ -2,26 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { MatchDetailPage } from "@/processes/match-detail-page";
-import { EPL_MOCK_DATA } from "@/shared/mocks/epl-data";
-import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
-
-const MATCH_SCHEDULE = EPL_MOCK_DATA.matches.schedule;
-const MATCH_DETAILS = EPL_MOCK_DATA.matches.details;
+import { fetchMatchDetail } from "@/shared/api/epl/lib/match-detail";
+import { fetchMatchSchedule } from "@/shared/api/epl/lib/match-schedule";
+import { fetchTeams } from "@/shared/api/epl/lib/teams";
+import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 
 interface PageProps {
   params: Promise<{ matchId: string }>;
 }
 
-const getMatchDetail = (matchId: string) => {
-  const detail = MATCH_DETAILS[matchId];
-  if (!detail) {
-    throw new Error(`Match detail not found: ${matchId}`);
-  }
-  return detail;
-};
-
 export async function generateStaticParams() {
-  return MATCH_SCHEDULE.flatMap((day) =>
+  const scheduleResponse = await fetchMatchSchedule(DEFAULT_LEAGUE_ID);
+  return scheduleResponse.data.schedule.flatMap((day) =>
     day.fixtures.map((fixture) => ({ matchId: fixture.id }))
   );
 }
@@ -32,13 +24,18 @@ export async function generateMetadata({
   const { matchId } = await params;
 
   try {
-    const detail = getMatchDetail(matchId);
+    const [detailResponse, teamsResponse] = await Promise.all([
+      fetchMatchDetail(DEFAULT_LEAGUE_ID, matchId),
+      fetchTeams(DEFAULT_LEAGUE_ID),
+    ]);
+    const detail = detailResponse.data;
+    const teamsById = teamsResponse.data;
     const { fixture, heroTagline } = detail;
     const homeTeam =
-      TEAMS_BY_ID[fixture.home.teamId]?.name ??
+      teamsById[fixture.home.teamId]?.name ??
       fixture.home.teamId.toUpperCase();
     const awayTeam =
-      TEAMS_BY_ID[fixture.away.teamId]?.name ??
+      teamsById[fixture.away.teamId]?.name ??
       fixture.away.teamId.toUpperCase();
     const matchup = `${homeTeam} vs ${awayTeam}`;
 
@@ -69,13 +66,18 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   const { matchId } = await params;
   try {
-    const detail = getMatchDetail(matchId);
+    const [detailResponse, teamsResponse] = await Promise.all([
+      fetchMatchDetail(DEFAULT_LEAGUE_ID, matchId),
+      fetchTeams(DEFAULT_LEAGUE_ID),
+    ]);
+    const detail = detailResponse.data;
+    const teamsById = teamsResponse.data;
     const { fixture } = detail;
     const homeTeam =
-      TEAMS_BY_ID[fixture.home.teamId]?.name ??
+      teamsById[fixture.home.teamId]?.name ??
       fixture.home.teamId.toUpperCase();
     const awayTeam =
-      TEAMS_BY_ID[fixture.away.teamId]?.name ??
+      teamsById[fixture.away.teamId]?.name ??
       fixture.away.teamId.toUpperCase();
 
     const sportsEventJsonLd = {

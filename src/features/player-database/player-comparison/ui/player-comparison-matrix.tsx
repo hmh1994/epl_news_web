@@ -2,7 +2,7 @@
 
 import React from "react";
 import { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
-import { TEAMS_BY_ID } from "@/shared/mocks/data/teams";
+import { useTeams } from "@/shared/providers/teams-provider";
 import { useTranslations } from "next-intl";
 
 type PlayerComparisonMatrixProps = {
@@ -26,6 +26,7 @@ const formatPosition = (position: string) => {
 };
 
 export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps) => {
+  const teamsById = useTeams();
   const t = useTranslations("player.comparison.matrix");
   const gridTemplateColumns = `200px repeat(${players.length}, minmax(0, 1fr))`;
 
@@ -59,7 +60,7 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
               {t("table.players")}
             </div>
             {players.map((player) => {
-              const team = TEAMS_BY_ID[player.teamId];
+              const team = teamsById[player.teamId];
               const teamName = player.teamName ?? team?.name ?? player.teamId;
               const isPhotoUrl = player.photo.startsWith("http");
               const positionLabel = formatPosition(player.position);
@@ -206,7 +207,7 @@ export const PlayerComparisonMatrix = ({ players }: PlayerComparisonMatrixProps)
                 if (!latestPeriod) {
                   return <span className='text-slate-500'>{t("career.empty")}</span>;
                 }
-                const latestTeam = TEAMS_BY_ID[latestPeriod.teamId];
+                const latestTeam = teamsById[latestPeriod.teamId];
                 return (
                   <div className='space-y-1'>
                     <div className='text-white font-semibold text-sm'>

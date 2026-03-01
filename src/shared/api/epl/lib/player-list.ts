@@ -1,12 +1,7 @@
 import { apiClient } from "@/shared/api/client";
-import { EPL_MOCK_DATA } from "@/shared/mocks/epl-data";
 import type { PlayerDatabaseEntry } from "@/entities/player/model/player-database-entry";
 import type { PlayerPosition } from "@/entities/player/model/player-profile";
 import { leaguePath, mapLocaleToApi, RequestOptions } from "./base";
-
-const {
-  players: { database: PLAYER_DATABASE },
-} = EPL_MOCK_DATA;
 
 export interface PlayerListParams {
   season?: string;
@@ -61,14 +56,8 @@ export const fetchPlayerList = async (
       }
     );
     return { data: response.data.map(mapPlayerListItem) };
-  } catch (error) {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn(
-        "[fetchPlayerList] Falling back to mock data due to request failure",
-        error
-      );
-    }
-    return buildMockPlayerList(params);
+  } catch {
+    return { data: [] };
   }
 };
 
@@ -96,52 +85,3 @@ const mapPlayerListItem = (item: PlayerListItem): PlayerDatabaseEntry => ({
   },
   career: [],
 });
-
-const buildMockPlayerList = (
-  params?: PlayerListParams
-): PlayerListMappedResponse => {
-  const searchTerm = params?.search?.trim().toLowerCase();
-  const positionFilter = params?.position?.trim().toUpperCase();
-  const teamFilter = params?.teamId?.trim();
-
-  const filtered = PLAYER_DATABASE.filter((player) => {
-    const matchesSearch = searchTerm
-      ? player.name.toLowerCase().includes(searchTerm)
-      : true;
-    const matchesPosition = positionFilter
-      ? doesPositionMatch(player.position, positionFilter)
-      : true;
-    const matchesTeam = teamFilter ? player.teamId === teamFilter : true;
-    return matchesSearch && matchesPosition && matchesTeam;
-  });
-
-  return {
-    data: filtered.map((player) => ({
-      ...player,
-      teamName: player.teamName,
-    })),
-  };
-};
-
-const POSITION_FILTER_MAP: Record<string, string[]> = {
-  GOALKEEPER: ["GK", "GOALKEEPER"],
-  GK: ["GK", "GOALKEEPER"],
-  DEFENDER: ["CB", "LB", "RB", "LWB", "RWB", "DF", "DEFENDER"],
-  DF: ["CB", "LB", "RB", "LWB", "RWB", "DF", "DEFENDER"],
-  MIDFIELDER: ["CDM", "CM", "CAM", "LM", "RM", "MF", "MIDFIELDER"],
-  MF: ["CDM", "CM", "CAM", "LM", "RM", "MF", "MIDFIELDER"],
-  FORWARD: ["ST", "CF", "LW", "RW", "FW", "FORWARD"],
-  FW: ["ST", "CF", "LW", "RW", "FW", "FORWARD"],
-};
-
-const doesPositionMatch = (playerPosition: string, filter: string) => {
-  const normalized = playerPosition.toUpperCase();
-  const normalizedFilter = filter.toUpperCase();
-  const allowedPositions = POSITION_FILTER_MAP[normalizedFilter];
-
-  if (allowedPositions) {
-    return allowedPositions.includes(normalized);
-  }
-
-  return normalized === normalizedFilter;
-};

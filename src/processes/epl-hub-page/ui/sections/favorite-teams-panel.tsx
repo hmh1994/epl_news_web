@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import { getClubDisplay } from "../../lib/club-display";
+import { useTeams } from "@/shared/providers/teams-provider";
 import { useTranslations } from "next-intl";
 
 interface FavoriteTeamsPanelProps {
@@ -17,6 +18,7 @@ export const FavoriteTeamsPanel = ({
   onToggleFavorite,
   onClear,
 }: FavoriteTeamsPanelProps) => {
+  const teamsById = useTeams();
   const router = useRouter();
   const t = useTranslations("home");
 
@@ -58,7 +60,7 @@ export const FavoriteTeamsPanel = ({
             </p>
           ) : (
           favoriteTeams.map((teamId) => {
-            const { name, shortName, crest } = getClubDisplay(teamId);
+            const { name, shortName, crest } = getClubDisplay(teamId, teamsById);
             return (
               <div
                 key={teamId}
