@@ -94,7 +94,7 @@ export const TeamDetailSection = ({
                 <div className='flex h-20 w-20 sm:h-32 sm:w-32 items-center justify-center rounded-2xl border border-white/10 bg-slate-900/80 text-xl transition'>
                   <Image
                     src={team.logo}
-                    alt={team.logo}
+                    alt={`${team.name} logo`}
                     width={40}
                     height={40}
                     className='w-16 h-16 sm:w-28 sm:h-28 object-contain'

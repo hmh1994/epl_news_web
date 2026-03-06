@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import { getClubDisplay } from "../../lib/club-display";
 import { useTeams } from "@/shared/providers/teams-provider";
@@ -19,7 +18,6 @@ export const FavoriteTeamsPanel = ({
   onClear,
 }: FavoriteTeamsPanelProps) => {
   const teamsById = useTeams();
-  const router = useRouter();
   const t = useTranslations("home");
 
   return (
@@ -61,35 +59,21 @@ export const FavoriteTeamsPanel = ({
           ) : (
           favoriteTeams.map((teamId) => {
             const { name, shortName, crest } = getClubDisplay(teamId, teamsById);
+            const detailHref = `${basePath}/teams/detail?teamId=${encodeURIComponent(teamId)}`;
             return (
               <div
                 key={teamId}
-                className='flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-3 cursor-pointer transition-colors hover:border-slate-400/30 hover:bg-slate-900/60'
-                onClick={() =>
-                  router.push(
-                    `${basePath}/teams/detail?teamId=${encodeURIComponent(teamId)}`
-                  )
-                }
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    router.push(
-                      `${basePath}/teams/detail?teamId=${encodeURIComponent(teamId)}`
-                    );
-                  }
-                }}
-                role='button'
-                tabIndex={0}
+                className='flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-3 transition-colors hover:border-slate-400/30 hover:bg-slate-900/60'
               >
-                <div className='flex items-center gap-3'>
+                <Link href={detailHref} className='flex min-w-0 flex-1 items-center gap-3'>
                   <span className='flex h-10 w-10 items-center justify-center rounded-xl bg-slate-800/80 text-lg border border-white/10'>
                     {crest}
                   </span>
-                  <div>
-                    <p className='text-sm font-semibold text-white'>{name}</p>
-                    <p className='text-xs text-slate-400'>{shortName}</p>
+                  <div className='min-w-0'>
+                    <p className='truncate text-sm font-semibold text-white'>{name}</p>
+                    <p className='truncate text-xs text-slate-400'>{shortName}</p>
                   </div>
-                </div>
+                </Link>
                 <button
                   type='button'
                   onClick={(event) => {

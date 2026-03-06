@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import { MatchFixture } from "@/entities/match/model/match-schedule";
 import { formatKickoffSummary, getClubDisplay } from "../../lib/club-display";
@@ -18,7 +17,6 @@ export const FavoriteMatchesPanel = ({
   onClear,
 }: FavoriteMatchesPanelProps) => {
   const teamsById = useTeams();
-  const router = useRouter();
   const t = useTranslations("home");
 
   if (fixtures.length === 0) {
@@ -59,29 +57,16 @@ export const FavoriteMatchesPanel = ({
           const home = getClubDisplay(fixture.home.teamId, teamsById, fixture.home.teamName);
           const away = getClubDisplay(fixture.away.teamId, teamsById, fixture.away.teamName);
           return (
-            <li
-              key={fixture.id}
-              className='flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-3 text-sm text-slate-300 cursor-pointer transition-colors hover:border-slate-400/30 hover:bg-slate-900/60'
-              onClick={() =>
-                router.push(
-                  `${basePath}/matches/${encodeURIComponent(fixture.id)}`
-                )
-              }
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  router.push(
-                    `${basePath}/matches/${encodeURIComponent(fixture.id)}`
-                  );
-                }
-              }}
-              role='button'
-              tabIndex={0}
-            >
-              <span className='font-semibold text-white'>
-                {home.shortName} vs {away.shortName}
-              </span>
-              <span>{formatKickoffSummary(fixture.kickoff)}</span>
+            <li key={fixture.id}>
+              <Link
+                href={`${basePath}/matches/${encodeURIComponent(fixture.id)}`}
+                className='flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-3 text-sm text-slate-300 transition-colors hover:border-slate-400/30 hover:bg-slate-900/60'
+              >
+                <span className='font-semibold text-white'>
+                  {home.shortName} vs {away.shortName}
+                </span>
+                <span>{formatKickoffSummary(fixture.kickoff)}</span>
+              </Link>
             </li>
           );
         })}

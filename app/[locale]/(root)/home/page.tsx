@@ -57,10 +57,10 @@ export default async function HomeRoute({ params }: HomeRouteProps) {
 
   const [premiumTable, scoringRace, matchSchedule, seasonAnalytics] =
     await Promise.all([
-      fetchPremiumTable(leagueId),
-      fetchPlayerRace(leagueId, { limit: 5, category: "goal" }),
+      fetchPremiumTable(leagueId, { locale }),
+      fetchPlayerRace(leagueId, { locale, limit: 5, category: "goal" }),
       fetchMatchSchedule(leagueId, { locale, startDate, endDate }),
-      fetchSeasonAnalytics(leagueId),
+      fetchSeasonAnalytics(leagueId, { locale }),
     ]);
   const tableRows = premiumTable.data.map(toLeagueTableRow);
   const playerRankings: PlayerRanking[] = scoringRace.data;

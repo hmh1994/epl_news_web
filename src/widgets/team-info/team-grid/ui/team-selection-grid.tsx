@@ -60,7 +60,7 @@ const CompactList = ({
                 >
                   <Image
                     src={team.logo}
-                    alt={team.logo}
+                    alt={`${team.name} logo`}
                     width={40}
                     height={40}
                     className='w-8 h-8 object-contain'
@@ -165,7 +165,7 @@ export const TeamSelectionGrid = ({
                     >
                       <Image
                         src={team.logo}
-                        alt={team.logo}
+                        alt={`${team.name} logo`}
                         width={40}
                         height={40}
                         className='w-10 h-10 object-contain'

@@ -68,7 +68,7 @@ export default async function RootLayout({
   }
   const [messages, teamsResponse] = await Promise.all([
     getMessages(),
-    fetchTeams(DEFAULT_LEAGUE_ID),
+    fetchTeams(DEFAULT_LEAGUE_ID, { locale }),
   ]);
   const teamsById = teamsResponse.data;
   return (

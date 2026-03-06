@@ -75,6 +75,7 @@ const toTeamProfile = (
 });
 
 interface TeamInfoRouteProps {
+  params: Promise<{ locale: string }>;
   searchParams?: Promise<{
     teamId?: string | string[];
   }>;
@@ -89,8 +90,10 @@ const normalizeSearchParam = (value?: string | string[]) => {
 };
 
 export default async function TeamInfoRoute({
+  params,
   searchParams,
 }: TeamInfoRouteProps) {
+  const { locale } = await params;
   const leagueId = DEFAULT_LEAGUE_ID;
 
   const teamIds = teams.map((t) => t.teamId);
@@ -100,7 +103,7 @@ export default async function TeamInfoRoute({
     ? teamIds.indexOf(requestedTeamId)
     : -1;
   const teamResponses = await Promise.all(
-    teamIds.map((teamId) => fetchTeamDetail(leagueId, teamId))
+    teamIds.map((teamId) => fetchTeamDetail(leagueId, teamId, { locale }))
   );
 
   const _teams: TeamProfile[] = teamResponses.map((response, index) => {

@@ -8,7 +8,7 @@ import { fetchTeams } from "@/shared/api/epl/lib/teams";
 import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
 
 interface PageProps {
-  params: Promise<{ matchId: string }>;
+  params: Promise<{ locale: string; matchId: string }>;
 }
 
 export async function generateStaticParams() {
@@ -21,12 +21,12 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { matchId } = await params;
+  const { locale, matchId } = await params;
 
   try {
     const [detailResponse, teamsResponse] = await Promise.all([
-      fetchMatchDetail(DEFAULT_LEAGUE_ID, matchId),
-      fetchTeams(DEFAULT_LEAGUE_ID),
+      fetchMatchDetail(DEFAULT_LEAGUE_ID, matchId, { locale }),
+      fetchTeams(DEFAULT_LEAGUE_ID, { locale }),
     ]);
     const detail = detailResponse.data;
     const teamsById = teamsResponse.data;
@@ -53,7 +53,7 @@ export async function generateMetadata({
         description: heroTagline,
       },
       alternates: {
-        canonical: `https://infootball.kr/ko/matches/${matchId}`,
+        canonical: `https://infootball.kr/${locale}/matches/${matchId}`,
       },
     };
   } catch {
@@ -64,11 +64,11 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: PageProps) {
-  const { matchId } = await params;
+  const { locale, matchId } = await params;
   try {
     const [detailResponse, teamsResponse] = await Promise.all([
-      fetchMatchDetail(DEFAULT_LEAGUE_ID, matchId),
-      fetchTeams(DEFAULT_LEAGUE_ID),
+      fetchMatchDetail(DEFAULT_LEAGUE_ID, matchId, { locale }),
+      fetchTeams(DEFAULT_LEAGUE_ID, { locale }),
     ]);
     const detail = detailResponse.data;
     const teamsById = teamsResponse.data;
@@ -91,7 +91,7 @@ export default async function Page({ params }: PageProps) {
         : undefined,
       homeTeam: { "@type": "SportsTeam", name: homeTeam },
       awayTeam: { "@type": "SportsTeam", name: awayTeam },
-      url: `https://infootball.kr/ko/matches/${matchId}`,
+      url: `https://infootball.kr/${locale}/matches/${matchId}`,
       organizer: {
         "@type": "SportsOrganization",
         name: "Premier League",

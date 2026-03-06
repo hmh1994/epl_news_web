@@ -16,10 +16,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function PremiumEPLTableRoute() {
+interface PageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function PremiumEPLTableRoute({ params }: PageProps) {
+  const { locale } = await params;
   const [tableResponse, analyticsResponse] = await Promise.all([
-    fetchPremiumTable(DEFAULT_LEAGUE_ID),
-    fetchSeasonAnalytics(DEFAULT_LEAGUE_ID),
+    fetchPremiumTable(DEFAULT_LEAGUE_ID, { locale }),
+    fetchSeasonAnalytics(DEFAULT_LEAGUE_ID, { locale }),
   ]);
 
   const teams = tableResponse.data.map(toLeagueTableTeam);
