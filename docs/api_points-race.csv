@@ -1,0 +1,14 @@
+Endpoint,GET /league/${leagueName}/teams/points-race,,,,Comment : API 개발 필요
+Params,season,locale,limit,,
+Response,PointsRaceResponse,,,,
+,,,,,
+field,,,,DB,Description
+data,[],teamId,,teams.id,팀 ID
+,,name,,teams.name_(en|kr),팀명
+,,shortName,,teams.short_name_(en|kr),팀 약어
+,,logo,,teams.icon_url,팀 로고
+,,position,,team_stats.overall_position,현재 순위
+,,cumulativePoints,,team_stats.overall_cumulative_points,"경기별 누적 승점 배열 e.g. [3, 4, 7, 7, 10, ...]"
+meta,leagueId,,,,
+,season,,,,
+,lastUpdated,,,,

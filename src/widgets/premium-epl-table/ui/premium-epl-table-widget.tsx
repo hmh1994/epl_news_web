@@ -9,16 +9,20 @@ import { PremiumTableTable } from "@/widgets/premium-epl-table/table/ui/premium-
 import { PremiumTableAnalytics } from "@/widgets/premium-epl-table/analytics/ui/premium-table-analytics";
 import { PremiumTableFooter } from "@/widgets/premium-epl-table/footer/ui/premium-table-footer";
 import { TeamMomentumWidget } from "@/widgets/team-momentum";
+import { PointsRaceWidget } from "@/widgets/points-race";
+import type { PointsRaceTeam } from "@/shared/api/epl/lib/points-race";
 import { SortColumn } from "@/widgets/premium-epl-table/model/types";
 
 interface PremiumEPLTableWidgetProps {
   teams: LeagueTableTeam[];
   metrics: SeasonAnalyticsMetric[];
+  pointsRace: PointsRaceTeam[];
 }
 
 export const PremiumEPLTableWidget = ({
   teams,
   metrics,
+  pointsRace,
 }: PremiumEPLTableWidgetProps) => {
   const [sortBy, setSortBy] = useState<SortColumn>("position");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
@@ -80,6 +84,8 @@ export const PremiumEPLTableWidget = ({
           onHover={(position) => setHoveredRow(position)}
           onHoverEnd={() => setHoveredRow(null)}
         />
+
+        <PointsRaceWidget teams={pointsRace} />
 
         <TeamMomentumWidget teams={teams} />
 
