@@ -8,6 +8,7 @@ import { PremiumTableControls } from "@/widgets/premium-epl-table/controls/ui/pr
 import { PremiumTableTable } from "@/widgets/premium-epl-table/table/ui/premium-table-table";
 import { PremiumTableAnalytics } from "@/widgets/premium-epl-table/analytics/ui/premium-table-analytics";
 import { PremiumTableFooter } from "@/widgets/premium-epl-table/footer/ui/premium-table-footer";
+import { TeamMomentumWidget } from "@/widgets/team-momentum";
 import { SortColumn } from "@/widgets/premium-epl-table/model/types";
 
 interface PremiumEPLTableWidgetProps {
@@ -79,6 +80,8 @@ export const PremiumEPLTableWidget = ({
           onHover={(position) => setHoveredRow(position)}
           onHoverEnd={() => setHoveredRow(null)}
         />
+
+        <TeamMomentumWidget teams={teams} />
 
         <PremiumTableAnalytics metrics={metrics} />
       </main>
