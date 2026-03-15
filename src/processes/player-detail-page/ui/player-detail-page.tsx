@@ -1,13 +1,17 @@
 import Link from "next/link";
+import type { PlayerAward } from "@/entities/player/model/player-award";
+import type { PlayerScore } from "@/entities/player/model/player-score";
 import { PlayerDetail } from "@/features/player-database/player-detail/ui/player-detail";
 import type { PlayerDetailResponse } from "@/shared/api/epl/model/types";
 
 interface PlayerDetailPageProps {
   player: PlayerDetailResponse["data"]["player"];
   locale: string;
+  awards?: PlayerAward[];
+  score?: PlayerScore | null;
 }
 
-export const PlayerDetailPage = ({ player, locale }: PlayerDetailPageProps) => {
+export const PlayerDetailPage = ({ player, locale, awards, score }: PlayerDetailPageProps) => {
   const summary = player.summary;
   const basePath = locale ? `/${locale}` : "";
   const isPhotoUrl = summary.photo.startsWith("http");
@@ -49,7 +53,7 @@ export const PlayerDetailPage = ({ player, locale }: PlayerDetailPageProps) => {
       </section>
 
       <main className='pb-20'>
-        <PlayerDetail player={player} variant='page' />
+        <PlayerDetail player={player} variant='page' awards={awards} score={score} />
       </main>
     </div>
   );

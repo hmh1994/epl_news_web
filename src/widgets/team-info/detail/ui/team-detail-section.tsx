@@ -565,13 +565,13 @@ export const TeamDetailSection = ({
               <div className='rounded-2xl border border-white/10 bg-slate-900/50 p-4'>
                 <div className='text-slate-300 text-sm'>점유율</div>
                 <div className='mt-1 text-2xl font-semibold text-white'>
-                  {stats?.possession ?? `${team.keyStats.possession}%`}
+                  {stats?.possession ?? `${Number(team.keyStats.possession).toFixed(1)}%`}
                 </div>
               </div>
               <div className='rounded-2xl border border-white/10 bg-slate-900/50 p-4'>
                 <div className='text-slate-300 text-sm'>패스 성공률</div>
                 <div className='mt-1 text-2xl font-semibold text-white'>
-                  {stats?.passAccuracy ?? `${team.keyStats.passAccuracy}%`}
+                  {stats?.passAccuracy ?? `${Number(team.keyStats.passAccuracy).toFixed(1)}%`}
                 </div>
               </div>
               <div className='rounded-2xl border border-white/10 bg-slate-900/50 p-4'>

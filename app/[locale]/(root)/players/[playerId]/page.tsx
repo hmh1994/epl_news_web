@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { PlayerAward } from "@/entities/player/model/player-award";
+import type { PlayerScore } from "@/entities/player/model/player-score";
 import { PlayerDetailPage } from "@/processes/player-detail-page";
 import { fetchPlayerDetail } from "@/shared/api/epl/lib/player-detail";
+import { fetchPlayerAwards } from "@/shared/api/epl/lib/player-awards";
 import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
+import { MOCK_PLAYER_AWARDS } from "@/shared/mocks/player-awards-mock";
+import { MOCK_PLAYER_SCORE } from "@/shared/mocks/player-score-mock";
 
 interface PageProps {
   params: Promise<{
@@ -49,14 +54,18 @@ export async function generateMetadata({
 
 export default async function PlayerDetailRoute({ params }: PageProps) {
   const { playerId, locale } = await params;
-  const response = await fetchPlayerDetail(DEFAULT_LEAGUE_ID, playerId, {
-    locale,
-  });
+  const [response, awardsResult] = await Promise.all([
+    fetchPlayerDetail(DEFAULT_LEAGUE_ID, playerId, { locale }),
+    fetchPlayerAwards(DEFAULT_LEAGUE_ID, playerId, { locale }).catch(() => null),
+  ]);
   const player = response.data.player;
 
   if (!player) {
     notFound();
   }
+
+  const awards: PlayerAward[] = awardsResult?.data ?? MOCK_PLAYER_AWARDS;
+  const score: PlayerScore | null = MOCK_PLAYER_SCORE; // TODO: API 준비 시 response.data.player.scores로 교체
 
   const { name, position, nationality } = player.summary;
   const personJsonLd = {
@@ -80,7 +89,12 @@ export default async function PlayerDetailRoute({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
-      <PlayerDetailPage player={player} locale={locale} />
+      <PlayerDetailPage
+        player={player}
+        locale={locale}
+        awards={awards}
+        score={score}
+      />
     </>
   );
 }

@@ -183,12 +183,12 @@ export const LeagueTableRow = ({
         </div>
       </td>
       <td className='py-4 px-3 text-center'>
-        <div className='text-white font-semibold text-sm'>{team.xG}</div>
+        <div className='text-white font-semibold text-sm'>{Number(team.xG).toFixed(2)}</div>
       </td>
       <td className='py-4 px-3 text-center'>
         <div className='space-y-1.5'>
           <div className='text-white font-semibold text-sm'>
-            {team.passAccuracy}%
+            {Number(team.passAccuracy).toFixed(1)}%
           </div>
           <div className='w-full bg-slate-800 rounded-full h-1.5'>
             <div

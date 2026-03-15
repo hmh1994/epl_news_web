@@ -71,7 +71,7 @@ export const PlayerListItem = ({ player, onView, teamName }: PlayerListItemProps
             </div>
           </div>
           <div>
-            <div className='text-base sm:text-lg font-semibold text-white'>{player.stats.passing}</div>
+            <div className='text-base sm:text-lg font-semibold text-white'>{Number.isInteger(player.stats.passing) ? player.stats.passing : Number(player.stats.passing).toFixed(2)}</div>
             <div className='text-[10px] sm:text-xs text-slate-400'>{t("stats.passing")}</div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import type { MatchDetail } from "@/entities/match/model/match-detail";
 import type { MatchLineup } from "@/entities/match/model/match-lineup";
 import type { MatchDaySchedule } from "@/entities/match/model/match-schedule";
+import type { PlayerAward } from "@/entities/player/model/player-award";
 import type { PlayerRanking } from "@/entities/player/model/player-ranking";
 import type {
   PlayerPosition,
@@ -228,5 +229,13 @@ export interface TeamsResponse extends ApiResourceResponse<Record<string, TeamEn
     leagueId: string;
     season: string;
     lastUpdated: number;
+  };
+}
+
+export interface PlayerAwardsResponse extends ApiListResponse<PlayerAward> {
+  meta: ApiResponseMeta & {
+    totalCount: number;
+    leagueId: string;
+    locale: string;
   };
 }

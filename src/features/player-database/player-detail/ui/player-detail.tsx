@@ -1,18 +1,28 @@
+"use client";
+
 import type { PlayerDetailResponse } from "@/shared/api/epl/model/types";
+import type { PlayerAward } from "@/entities/player/model/player-award";
+import type { PlayerScore } from "@/entities/player/model/player-score";
 import { StatAccent, getStatStyles } from "@/entities/player/lib/stat-palette";
 import { X } from "lucide-react";
 import { useTeams } from "@/shared/providers/teams-provider";
+import { PlayerAwards } from "@/features/player-detail/ui/player-awards";
+import { PlayerScoreRadar } from "@/features/player-detail/ui/player-score-radar";
 
 interface PlayerDetailProps {
   player: PlayerDetailResponse["data"]["player"] | null;
   onClose?: () => void;
   variant?: "modal" | "page";
+  awards?: PlayerAward[];
+  score?: PlayerScore | null;
 }
 
 export const PlayerDetail = ({
   player,
   onClose,
   variant = "modal",
+  awards,
+  score,
 }: PlayerDetailProps) => {
   const teamsById = useTeams();
 
@@ -27,12 +37,12 @@ export const PlayerDetail = ({
   const teamName = team?.name ?? teamId;
   const isPhotoUrl = summary.photo.startsWith("http");
   const stats = {
-    pace: attributes.pace ?? 0,
-    shooting: attributes.shooting ?? 0,
-    passing: attributes.passing ?? 0,
-    dribbling: attributes.dribbling ?? 0,
-    defending: attributes.defending ?? 0,
-    physical: attributes.physical ?? 0,
+    pace: Math.round(attributes.pace ?? 0),
+    shooting: Math.round(attributes.shooting ?? 0),
+    passing: Math.round(attributes.passing ?? 0),
+    dribbling: Math.round(attributes.dribbling ?? 0),
+    defending: Math.round(attributes.defending ?? 0),
+    physical: Math.round(attributes.physical ?? 0),
   };
   const showClose = variant === "modal" && Boolean(onClose);
   const overallRating = Math.round(
@@ -374,39 +384,21 @@ export const PlayerDetail = ({
           </aside>
 
           <div className='space-y-8'>
-            <div className='rounded-3xl border border-white/10 bg-slate-950/60 p-6 shadow-[0_18px_40px_rgba(2,6,23,0.35)]'>
-              <h4 className='text-lg font-semibold text-white mb-5'>
-                Performance Indices
-              </h4>
-              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-                {[
+            {score && (
+              <PlayerScoreRadar
+                score={score}
+                indices={[
                   { label: "Attack Index", value: attackIndex },
                   { label: "Creativity Index", value: creativityIndex },
                   { label: "Defense Index", value: defenseIndex },
                   { label: "Athletic Index", value: athleticIndex },
                   { label: "Technical Index", value: technicalIndex },
                   { label: "Pace", value: stats.pace },
-                ].map((item) => (
-                  <div
-                    key={item.label}
-                    className='rounded-2xl border border-white/10 bg-slate-900/50 px-4 py-4'
-                  >
-                    <div className='flex items-center justify-between text-sm text-slate-300'>
-                      <span>{item.label}</span>
-                      <span className='font-semibold text-white'>
-                        {item.value}
-                      </span>
-                    </div>
-                    <div className='mt-3 h-2 w-full rounded-full bg-slate-800'>
-                      <div
-                        className='h-2 rounded-full bg-gradient-to-r from-slate-500/80 to-slate-400/80'
-                        style={{ width: `${item.value}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+                ]}
+              />
+            )}
+
+            {awards && awards.length > 0 && <PlayerAwards awards={awards} />}
 
             <div className='rounded-3xl border border-white/10 bg-slate-950/60 p-6 shadow-[0_18px_40px_rgba(2,6,23,0.35)]'>
               <h4 className='text-lg font-semibold text-white mb-6'>
