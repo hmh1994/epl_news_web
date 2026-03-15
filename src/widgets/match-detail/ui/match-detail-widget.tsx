@@ -1,9 +1,11 @@
 "use client";
 
 import { MatchDetail } from "@/entities/match/model/match-detail";
+import { MatchLineup } from "@/entities/match/model/match-lineup";
 import { MatchDetailHero } from "@/widgets/match-detail/hero/ui/match-detail-hero";
 import { MatchDetailInsights } from "@/widgets/match-detail/insights/ui/match-detail-insights";
 import { MatchTimeline } from "@/widgets/match-detail/timeline/ui/match-timeline";
+import { MatchFormation } from "@/widgets/match-detail/formation/ui/match-formation";
 import { MatchStatsPanel } from "@/widgets/match-detail/stats/ui/match-stats";
 import { MatchKeyPlayers } from "@/widgets/match-detail/key-players/ui/match-key-players";
 import { MatchHeadToHeadPanel } from "@/widgets/match-detail/head-to-head/ui/match-head-to-head";
@@ -11,14 +13,15 @@ import { useTeams } from "@/shared/providers/teams-provider";
 
 interface MatchDetailWidgetProps {
   detail: MatchDetail;
+  lineup: MatchLineup | null;
 }
 
-export const MatchDetailWidget = ({ detail }: MatchDetailWidgetProps) => {
+export const MatchDetailWidget = ({ detail, lineup }: MatchDetailWidgetProps) => {
   const teamsById = useTeams();
   const homeTeam = teamsById[detail.fixture.home.teamId];
   const awayTeam = teamsById[detail.fixture.away.teamId];
-  const homeShort = homeTeam?.shortName ?? detail.fixture.home.teamId.toUpperCase();
-  const awayShort = awayTeam?.shortName ?? detail.fixture.away.teamId.toUpperCase();
+  const homeShort = homeTeam?.shortName ?? detail.fixture.home.teamName ?? detail.fixture.home.teamId;
+  const awayShort = awayTeam?.shortName ?? detail.fixture.away.teamName ?? detail.fixture.away.teamId;
   const momentumScores = calculateMomentum(detail);
   const momentumTrend =
     momentumScores.home === momentumScores.away
@@ -52,10 +55,18 @@ export const MatchDetailWidget = ({ detail }: MatchDetailWidgetProps) => {
               events={detail.timeline}
             />
 
+            {lineup && (
+              <MatchFormation
+                lineup={lineup}
+                homeLabel={homeTeam?.name ?? detail.fixture.home.teamName ?? detail.fixture.home.teamId}
+                awayLabel={awayTeam?.name ?? detail.fixture.away.teamName ?? detail.fixture.away.teamId}
+              />
+            )}
+
             <MatchHeadToHeadPanel
               records={detail.headToHead}
-              homeLabel={homeTeam?.name ?? detail.fixture.home.teamId.toUpperCase()}
-              awayLabel={awayTeam?.name ?? detail.fixture.away.teamId.toUpperCase()}
+              homeLabel={homeTeam?.name ?? detail.fixture.home.teamName ?? detail.fixture.home.teamId}
+              awayLabel={awayTeam?.name ?? detail.fixture.away.teamName ?? detail.fixture.away.teamId}
             />
 
             <MatchKeyPlayers keyPlayers={detail.keyPlayers} />
@@ -65,8 +76,8 @@ export const MatchDetailWidget = ({ detail }: MatchDetailWidgetProps) => {
             <MatchStatsPanel
               stats={detail.stats}
               formGuide={detail.formGuide}
-              homeLabel={homeTeam?.name ?? detail.fixture.home.teamId.toUpperCase()}
-              awayLabel={awayTeam?.name ?? detail.fixture.away.teamId.toUpperCase()}
+              homeLabel={homeTeam?.name ?? detail.fixture.home.teamName ?? detail.fixture.home.teamId}
+              awayLabel={awayTeam?.name ?? detail.fixture.away.teamName ?? detail.fixture.away.teamId}
               timeframeNote={timeframeNote}
             />
           </div>

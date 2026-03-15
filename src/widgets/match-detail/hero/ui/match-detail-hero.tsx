@@ -80,8 +80,8 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
     : undefined;
   const homeTeam = teamsById[fixture.home.teamId];
   const awayTeam = teamsById[fixture.away.teamId];
-  const homeShort = homeTeam?.shortName ?? fixture.home.teamId.toUpperCase();
-  const awayShort = awayTeam?.shortName ?? fixture.away.teamId.toUpperCase();
+  const homeShort = homeTeam?.shortName ?? fixture.home.teamName ?? fixture.home.teamId;
+  const awayShort = awayTeam?.shortName ?? fixture.away.teamName ?? fixture.away.teamId;
   const homeMomentum = calculateMomentum(detail.formGuide.home.map((entry) => entry.result));
   const awayMomentum = calculateMomentum(detail.formGuide.away.map((entry) => entry.result));
   const momentumLabel = `${homeShort} ${homeMomentum} vs ${awayShort} ${awayMomentum}`;
@@ -112,8 +112,8 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
 
           <div className='grid grid-cols-1 md:grid-cols-5 gap-4 sm:gap-8 items-start'>
             <TeamColumn
-              teamName={homeTeam?.name ?? fixture.home.teamId.toUpperCase()}
-              short={homeTeam?.shortName ?? fixture.home.teamId.toUpperCase()}
+              teamName={homeTeam?.name ?? fixture.home.teamName ?? fixture.home.teamId}
+              short={homeTeam?.shortName ?? fixture.home.teamName ?? fixture.home.teamId}
               crest={homeTeam?.crest ?? "⚽"}
               score={fixture.home.score}
               alignment='right'
@@ -125,8 +125,8 @@ export const MatchDetailHero = ({ detail }: MatchDetailHeroProps) => {
             />
 
             <TeamColumn
-              teamName={awayTeam?.name ?? fixture.away.teamId.toUpperCase()}
-              short={awayTeam?.shortName ?? fixture.away.teamId.toUpperCase()}
+              teamName={awayTeam?.name ?? fixture.away.teamName ?? fixture.away.teamId}
+              short={awayTeam?.shortName ?? fixture.away.teamName ?? fixture.away.teamId}
               crest={awayTeam?.crest ?? "⚽"}
               score={fixture.away.score}
               alignment='left'

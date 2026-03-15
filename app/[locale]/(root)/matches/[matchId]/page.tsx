@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import type { MatchLineup } from "@/entities/match/model/match-lineup";
 import { MatchDetailPage } from "@/processes/match-detail-page";
 import { fetchMatchDetail } from "@/shared/api/epl/lib/match-detail";
+import { fetchMatchLineup } from "@/shared/api/epl/lib/match-lineup";
 import { fetchMatchSchedule } from "@/shared/api/epl/lib/match-schedule";
 import { fetchTeams } from "@/shared/api/epl/lib/teams";
 import { DEFAULT_LEAGUE_ID } from "@/shared/config/league";
+import { MOCK_MATCH_LINEUP } from "@/shared/mocks/match-lineup-mock";
 
 interface PageProps {
   params: Promise<{ locale: string; matchId: string }>;
@@ -33,10 +36,10 @@ export async function generateMetadata({
     const { fixture, heroTagline } = detail;
     const homeTeam =
       teamsById[fixture.home.teamId]?.name ??
-      fixture.home.teamId.toUpperCase();
+      fixture.home.teamName ?? fixture.home.teamId;
     const awayTeam =
       teamsById[fixture.away.teamId]?.name ??
-      fixture.away.teamId.toUpperCase();
+      fixture.away.teamName ?? fixture.away.teamId;
     const matchup = `${homeTeam} vs ${awayTeam}`;
 
     return {
@@ -66,19 +69,23 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   const { locale, matchId } = await params;
   try {
-    const [detailResponse, teamsResponse] = await Promise.all([
+    const [detailResponse, teamsResponse, lineupResult] = await Promise.all([
       fetchMatchDetail(DEFAULT_LEAGUE_ID, matchId, { locale }),
       fetchTeams(DEFAULT_LEAGUE_ID, { locale }),
+      fetchMatchLineup(DEFAULT_LEAGUE_ID, matchId, { locale }).catch(
+        () => null
+      ),
     ]);
     const detail = detailResponse.data;
     const teamsById = teamsResponse.data;
+    const lineup: MatchLineup | null = lineupResult?.data ?? MOCK_MATCH_LINEUP;
     const { fixture } = detail;
     const homeTeam =
       teamsById[fixture.home.teamId]?.name ??
-      fixture.home.teamId.toUpperCase();
+      fixture.home.teamName ?? fixture.home.teamId;
     const awayTeam =
       teamsById[fixture.away.teamId]?.name ??
-      fixture.away.teamId.toUpperCase();
+      fixture.away.teamName ?? fixture.away.teamId;
 
     const sportsEventJsonLd = {
       "@context": "https://schema.org",
@@ -105,7 +112,7 @@ export default async function Page({ params }: PageProps) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsEventJsonLd) }}
         />
-        <MatchDetailPage detail={detail} />
+        <MatchDetailPage detail={detail} lineup={lineup} />
       </>
     );
   } catch {

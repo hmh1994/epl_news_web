@@ -166,8 +166,8 @@ const ClubColumn = ({
   alignment: "left" | "right";
 }) => {
   const t = useTranslations("match.fixtureCard");
-  const shortName = display?.shortName ?? club.teamId.toUpperCase();
-  const fullName = display?.name ?? club.teamId.toUpperCase();
+  const shortName = display?.shortName ?? club.teamName ?? club.teamId;
+  const fullName = display?.name ?? club.teamName ?? club.teamId;
   const isHome = alignment === "right";
   const justifyText = isHome ? "items-end text-right" : "items-start text-left";
 

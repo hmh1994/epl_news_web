@@ -1,4 +1,5 @@
 import type { MatchDetail } from "@/entities/match/model/match-detail";
+import type { MatchLineup } from "@/entities/match/model/match-lineup";
 import type { MatchDaySchedule } from "@/entities/match/model/match-schedule";
 import type { PlayerRanking } from "@/entities/player/model/player-ranking";
 import type {
@@ -204,6 +205,14 @@ export interface MatchDetailResponse extends ApiResourceResponse<MatchDetail> {
     matchId: string;
     season: string;
     lastUpdated: number;
+  };
+}
+
+export interface MatchLineupResponse extends ApiResourceResponse<MatchLineup> {
+  meta: ApiResponseMeta & {
+    matchId: string;
+    season: string;
+    locale: string;
   };
 }
 
